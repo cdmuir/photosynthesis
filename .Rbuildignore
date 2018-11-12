@@ -1,0 +1,5 @@
+^LICENSE\.md$
+^.*\.Rproj$
+^\.Rproj\.user$
+^R/issues\.R$
+CONDUCT.md
