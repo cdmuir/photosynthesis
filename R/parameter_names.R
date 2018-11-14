@@ -7,7 +7,7 @@ parameter_names <- function(which) {
   which %>% 
     match.arg(c("leaf", "enviro", "constants")) %>%
     switch(
-         leaf = c("g_ic", "g_sw", "g_uw", "g_xc", "gamma_star",  "J_max", "K_c", 
+         leaf = c("g_ic", "g_sc", "g_uc", "g_xc", "gamma_star",  "J_max", "K_c", 
                   "K_o", "k_sc", "k_xc", "phi", "R_d", "logit_sr", "theta_J", 
                   "V_cmax", "V_tpu"),
          enviro = c("C_air", "O", "P", "PPFD", "T_leaf"),

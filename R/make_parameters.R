@@ -22,8 +22,8 @@ NULL
 #'
 #' \tabular{lllll}{
 #' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
-#' \eqn{g_\text{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 5\cr
-#' \eqn{logit(sr)} \tab \code{logit_sr} \tab stomatal ratio (logit-scale) \tab none \tab 0 = logit(0.5)\cr
+#' \eqn{g_\text{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 4 \cr
+#' \eqn{logit(sr)} \tab \code{logit_sr} \tab stomatal ratio (logit-scale) \tab none \tab 0 = logit(0.5) \cr
 #' \eqn{g_\text{xc}}{g_xc} \tab \code{g_xc} \tab intercellular conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 10 \cr
 #' \eqn{g_\text{ic}}{g_ic} \tab \code{g_ic} \tab intracellular conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 10 \cr
 #' \eqn{k\mathrm{xc}{k_xc} \tab \code{k_xc} \tab partition of \eqn{g_\text{xc}}{g_xc} to spongy mesophyll \tab none \tab 1\cr
@@ -68,12 +68,13 @@ make_leafpar <- function(replace = NULL) {
 
   # Defaults -----
   obj <- list(
-    g_xc = set_units(10, "umol / (m^2 * s * Pa)"), # CHECK DEFAULT in Pa^-1
     g_ic = set_units(10, "umol / (m^2 * s * Pa)"), # CHECK DEFAULT in Pa^-1
-    g_uw = set_units(0.1, "umol / (m^2 * s * Pa)"), # CHECK DEFAULT in Pa^-1
+    g_sc = set_units(4, "umol / (m^2 * s * Pa)"), # CHECK DEFAULT in Pa^-1
+    g_uc = set_units(0.1, "umol / (m^2 * s * Pa)"), # CHECK DEFAULT in Pa^-1
+    g_xc = set_units(10, "umol / (m^2 * s * Pa)"), # CHECK DEFAULT in Pa^-1
     k_xc = set_units(1),
     V_cmax = set_units(50, "umol / (m^2 * s)"),
-    V_tpu = set_units(10 ^ 10, "umol / (m^2 * s)"),
+    V_tpu = set_units(200, "umol / (m^2 * s)"),
     J_max = set_units(100, "umol / (m^2 * s)"),
     theta_J = set_units(0.825),
     phi = set_units(0.331),
@@ -81,7 +82,6 @@ make_leafpar <- function(replace = NULL) {
     K_c = set_units(27.238, "Pa"), # From Sharkey et al. 2007. Newer source? Check bayCi
     K_o = set_units(16.582, "kPa"), # From Sharkey et al. 2007. Newer source? Check bayCi
     gamma_star = set_units(3.743, "Pa"), # From Sharkey et al. 2007. Newer source? Check bayCi
-    g_sw = set_units(5, "umol / (m^2 * s * Pa)"),
     logit_sr = set_units(0)
   )
   

@@ -1,7 +1,6 @@
 #' Farquhar-von Caemmerer-Berry (FvCB) C3 photosynthesis model
 #' 
-#' @inheritParams photosynthesis
-#' @inheritParams .get_gtc
+#' @inheritParams A_supply
 #' 
 #' @return A list of four values with units umol CO2 / (m^2 s) of class \code{units}:
 #' \cr
@@ -49,7 +48,12 @@ FvCB <- function(C_chl, pars) {
     W_tpu = W_tpu(C_chl, pars)
   )
   
-  ret$A <- min(ret$W_carbox, ret$W_regen, ret$W_tpu)
+  # Ignore W_tpu if C_chl < gamma_star
+  if (C_chl > pars$gamma_star) {
+    ret$A <- min(ret$W_carbox, ret$W_regen, ret$W_tpu)
+  } else {
+    ret$A <- min(ret$W_carbox, ret$W_regen)
+  }
   
   ret
   
@@ -88,11 +92,11 @@ W_regen <- function(C_chl, pars) {
 
 W_tpu <- function(C_chl, pars) {
   
-  3 * pars$V_tpu * C_chl / (C_chl - pars$gamma_star)
+  set_units(3 * pars$V_tpu * C_chl / (C_chl - pars$gamma_star), "umol/m^2/s")
   
 }
 
-#' J: Rate of electron transport (mol/m^2/s")
+#' J: Rate of electron transport (mol/m^2/s)
 #' 
 #' @inheritParams .get_gtc
 #' 

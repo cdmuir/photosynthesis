@@ -10,7 +10,7 @@
 photosynthesis(leaf_par, enviro_par, constants, progress = TRUE,
   quiet = FALSE)
 
-photo(leaf_par, enviro_par, constants, progress = TRUE, quiet = FALSE)
+photo(leaf_par, enviro_par, constants, quiet = FALSE)
 }
 \arguments{
 \item{leaf_par}{A list of leaf parameters. This can be generated using the \code{make_leafpar} function.}
@@ -41,7 +41,6 @@ See the README on
 leaf_par <- make_leafpar()
 enviro_par <- make_enviropar()
 constants <- make_constants()
-ph <- photo(leaf_par, enviro_par, constants)
-# ph
+photo(leaf_par, enviro_par, constants)
 
 }

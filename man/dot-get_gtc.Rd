@@ -15,3 +15,30 @@ Value in umol / (m^2 s Pa) of class \code{units}
 \description{
 Total conductance to CO2 (umol / (m^2 s Pa))
 }
+\details{
+Total conductance to CO2 is the sum of parallel conductances on the lower (\eqn{gc_\mathrm{lower}}{gc_lower}) and upper (\eqn{gc_\mathrm{upper}}{gc_upper}) leaf surfaces that are in series with intercellular conductance (\eqn{g_\mathrm{ic}}{g_ic}):
+
+\deqn{g_\mathrm{tc} = 1 / ((1 / g_\mathrm{ic}) + (1 / (gc_\mathrm{upper} + gc_\mathrm{lower})))}{g_tc = 1 / ((1 / g_ic) + (1 / (gc_upper + gc_lower)))}
+
+The upper and lower conductances are determined by the intercellular (\eqn{g_\mathrm{xc}}{g_xc}) and stomatal (\eqn{g_\mathrm{sc}}{g_sc}) conductances in series. For a naming convenction, I assume that the lower surface is abaxial and conists of spongy mesophyll; the upper surface is adaxial and consists of palisade mesophyll:
+
+\deqn{gc_\mathrm{lower} = 1 / ((1 / gsc_\mathrm{abaxial}) + (1 / gxc_\mathrm{spongy}))}{gc_lower = 1 / ((1 / gsc_abaxial) + (1 / gxc_spongy))}
+\deqn{gc_\mathrm{upper} = 1 / ((1 / gsc_\mathrm{adaxial}) + (1 / gxc_\mathrm{palisade}))}{gc_upper = 1 / ((1 / gsc_adaxial) + (1 / gxc_palisade))}
+
+The total stomatal and intercellular conductances are partitioned between abaxial/adaxial and spongy/palisade, respectively, according to two partitioning facotrs \eqn{k_\mathrm{sc}}{k_sc} and \eqn{k_\mathrm{xc}}{k_xc}:
+
+\deqn{gsc_\mathrm{abaxial} = g_\mathrm{sc} (1 / (1 + k_\mathrm{sc}))}{gsc_abaxial = g_sc (1 / (1 + k_sc))}
+\deqn{gsc_\mathrm{adaxial} = g_\mathrm{sc} (k_\mathrm{sc} / (1 + k_\mathrm{sc}))}{gsc_adaxial = g_sc (k_sc / (1 + k_sc))}
+\deqn{gxc_\mathrm{spongy} = g_\mathrm{xc} (1 / (1 + k_\mathrm{xc}))}{gxc_\mathrm{spongy} = g_\mathrm{xc} (1 / (1 + k_\mathrm{xc}))}
+\deqn{gxc_\mathrm{palisade} = g_\mathrm{xc} (k_\mathrm{xc} / (1 + k_\mathrm{xc}))}{gxc_palisade = g_xc (k_xc / (1 + k_xc))}
+
+
+\tabular{lllll}{
+\emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
+\eqn{g_\text{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 5\cr
+\eqn{g_\text{xc}}{g_xc} \tab \code{g_xc} \tab intercellular conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 10 \cr
+\eqn{g_\text{ic}}{g_ic} \tab \code{g_ic} \tab intracellular conductance to CO2 \tab (mol CO2) / (m\eqn{^2} s) \tab 10 \cr
+\eqn{k\mathrm{xs}}{k_sc} \tab \code{k_sc} \tab partition of \eqn{g_\text{sc}}{g_sc} to abaxial (lower) surface \tab none \tab 1 \cr
+\eqn{k\mathrm{xc}}{k_xc} \tab \code{k_xc} \tab partition of \eqn{g_\text{xc}}{g_xc} to spongy mesophyll \tab none \tab 1
+}
+}

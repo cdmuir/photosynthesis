@@ -30,3 +30,47 @@ make_enviropar
 
 make_constants
 }
+\details{
+\bold{Leaf parameters:}
+
+\tabular{lllll}{
+\emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
+\eqn{g_\text{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 4 \cr
+\eqn{logit(sr)} \tab \code{logit_sr} \tab stomatal ratio (logit-scale) \tab none \tab 0 = logit(0.5) \cr
+\eqn{g_\text{xc}}{g_xc} \tab \code{g_xc} \tab intercellular conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 10 \cr
+\eqn{g_\text{ic}}{g_ic} \tab \code{g_ic} \tab intracellular conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 10 \cr
+\eqn{k\mathrm{xc}{k_xc} \tab \code{k_xc} \tab partition of \eqn{g_\text{xc}}{g_xc} to spongy mesophyll \tab none \tab 1\cr
+\eqn{V_\text{c,max}}{V_c,max} \tab \code{V_cmax} \tab maximum rate of carboxylation \tab (mol CO2) / (m\eqn{^2} s) \tab 50\cr
+\eqn{V_\text{tpu}}{V_tpu} \tab \code{V_tpu} \tab rate of triose phosphate utilisation \tab (mol CO2) / (m\eqn{^2} s) \tab ??? \cr
+\eqn{J_\text{max}}{J_max} \tab \code{J_max} \tab potential electron transport \tab (mol CO2) / (m\eqn{^2} s) \tab 100\cr
+\eqn{R_\text{d}}{R_d} \tab \code{R_d} \tab Nonphotorespiratory CO2 release \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 2\cr
+\eqn{K_\text{C}}{K_C} \tab \code{K_c} \tab Michaelis constant for carboxylation \tab \eqn{\mu}mol / mol \tab 268.3\cr
+\eqn{K_\text{O}}{K_O} \tab \code{K_o} \tab Michaelis constant for oxygenation \tab \eqn{\mu}mol / mol \tab 165084.2\cr
+\eqn{\Gamma*} \tab \code{gamma_star} \tab Chloroplastic CO2 compensation point \tab Pa \tab 3.743
+}
+
+\bold{Environment parameters:}
+
+\tabular{lllll}{
+\emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
+\eqn{T_\text{leaf}}{T_leaf} \tab \code{T_leaf} \tab leaf temperature \tab K \tab 298.15 \cr
+\eqn{C_\text{air}}{C_air} \tab \code{C_air} \tab atmospheric CO2 concentration \tab Pa \tab 41 \cr
+\eqn{P} \tab \code{P} \tab atmospheric pressure \tab kPa \tab 101.3246 \cr
+\eqn{O} \tab \code{O} \tab atmospheric O2 concentration \tab kPa \tab 21.27565 \cr
+}
+
+\bold{Constants:}
+\tabular{lllll}{
+\emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
+\eqn{\{phi}} \tab \code{phi} \tab initial slope of the response of J to PPFD \tab none \tab 0.331 \cr
+\eqn{\theta_J} \tab \code{theta_J} \tab curvature factor for light-response curve \tab none \tab 0.825 \cr
+\eqn{\sigma} \tab \code{s} \tab Stephan-Boltzmann constant \tab W / (m\eqn{^2} K\eqn{^4}) \tab 5.67e-08\cr
+\eqn{R} \tab \code{R} \tab ideal gas constant \tab J / (mol K) \tab 8.3144598\cr
+\eqn{D_{w,0}}{D_w0} \tab \code{D_w0} \tab diffusion coefficient for water vapour in air at 0 C \tab m\eqn{^2} / s \tab 21.2\cr
+}
+
+* see manual for further detail on calculation
+}
+\references{
+Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic rate into contributions from different variables. Plant, Cell & Environment 38: 1200-11.
+}
