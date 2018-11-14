@@ -166,7 +166,7 @@ photo <- function(leaf_par, enviro_par, constants, progress = TRUE,
 #' 
 #' \bold{Demand function:}
 #' \cr
-#' \deqn{? = A (1 - \Gamma* / C_\mathrm{chl}) - R_\mathrm{d}}{? = A (1 - \Gamma* / C_chl) - R_d}
+#' \deqn{A = (1 - \Gamma* / C_\mathrm{chl}) \mathrm{min}(W_\mathrm{carbox}, W_\mathrm{regen}, W_\mathrm{tpu}) - R_\mathrm{d}}{A = (1 - \Gamma* / C_chl) min(W_carbox, W_regen, W_tpu) - R_d}
 #' 
 #' \tabular{lllll}{
 #' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
@@ -174,13 +174,15 @@ photo <- function(leaf_par, enviro_par, constants, progress = TRUE,
 #' \eqn{g_\mathrm{tc}}{g_tc} \tab \code{g_tc} \tab total conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab \link[=.get_gtc]{calculated} \cr
 #' \eqn{C_\text{air}}{C_air} \tab \code{C_air} \tab atmospheric CO2 concentration \tab Pa \tab 41 \cr
 #' \eqn{C_\text{chl}}{C_chl} \tab \code{C_chl} \tab chloroplastic CO2 concentration \tab Pa \tab calculated\cr
-#' \eqn{R_\text{d}}{R_d} \tab \code{R_d} \tab Mitochondrial respiration \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 2 \cr
-#' \eqn{\Gamma*} \tab \code{gamma_star} \tab Chloroplastic CO2 compensation point \tab Pa \tab 3.743
+#' \eqn{R_\text{d}}{R_d} \tab \code{R_d} \tab nonphotorespiratory CO2 release \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 2 \cr
+#' \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point \tab Pa \tab 3.743
 #' }
 
-As <- function(C_air, C_chl, g_tc, gamma_star, R_d) {
+As <- function(C_chl, pars) {
   
-  set_units(g_tc * (C_air - C_chl), "umol/m^2/s")
+  g_tc <- .get_gtc(pars)
+  As <- set_units(g_tc * (pars$C_air - C_chl), "umol/m^2/s")
+  As
   
 }
 
@@ -238,9 +240,9 @@ As <- function(C_air, C_chl, g_tc, gamma_star, R_d) {
 #' @rdname As
 #' @export
 
-Ad <- function(gamma_star, R_d) {
+Ad <- function(C_chl, pars) {
   
-  NULL
+  (1 - pars$gamma_star / C_chl) * FvCB(C_chl, pars)$A - pars$R_d
   
 }
 

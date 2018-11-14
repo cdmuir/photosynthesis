@@ -22,7 +22,8 @@ constants <- function(.x) {
   .x %<>% magrittr::extract(nms)
   
   # Check values ------
-  stopifnot(.x$thetaJ >= set_units(0) & .x$thetaJ <= set_units(1))
+  stopifnot(.x$phi >= set_units(0))
+  stopifnot(.x$theta_J >= set_units(0) & .x$theta_J <= set_units(1))
   stopifnot(.x$s >= set_units(0, "W / (m ^ 2 * K ^ 4)"))
   stopifnot(.x$R >= set_units(0, "J / (mol * K)"))
   stopifnot(.x$D_w0 >= set_units(0, "m ^ 2 / s"))

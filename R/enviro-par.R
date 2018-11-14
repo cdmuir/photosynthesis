@@ -22,6 +22,7 @@ enviro_par <- function(.x) {
   .x %<>% magrittr::extract(nms)
   
   # Check values ------
+  stopifnot(.x$PPFD >= set_units(0, "umol/m^2/s"))
   stopifnot(.x$T_leaf >= set_units(0, "K"))
   stopifnot(.x$P >= set_units(0, "kPa"))
   stopifnot(.x$C_air >= set_units(0, "Pa") & .x$C_air <= .x$P)
