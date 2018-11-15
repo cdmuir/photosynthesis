@@ -35,10 +35,10 @@ The total stomatal and intercellular conductances are partitioned between abaxia
 
 \tabular{lllll}{
 \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
-\eqn{g_\text{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 5\cr
-\eqn{g_\text{xc}}{g_xc} \tab \code{g_xc} \tab intercellular conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 10 \cr
-\eqn{g_\text{ic}}{g_ic} \tab \code{g_ic} \tab intracellular conductance to CO2 \tab (mol CO2) / (m\eqn{^2} s) \tab 10 \cr
-\eqn{k\mathrm{xs}}{k_sc} \tab \code{k_sc} \tab partition of \eqn{g_\text{sc}}{g_sc} to abaxial (lower) surface \tab none \tab 1 \cr
-\eqn{k\mathrm{xc}}{k_xc} \tab \code{k_xc} \tab partition of \eqn{g_\text{xc}}{g_xc} to spongy mesophyll \tab none \tab 1
+\eqn{g_\mathrm{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 5\cr
+\eqn{g_\mathrm{xc}}{g_xc} \tab \code{g_xc} \tab intercellular conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 10 \cr
+\eqn{g_\mathrm{ic}}{g_ic} \tab \code{g_ic} \tab intracellular conductance to CO2 \tab (mol CO2) / (m\eqn{^2} s) \tab 10 \cr
+\eqn{k\mathrm{xs}}{k_sc} \tab \code{k_sc} \tab partition of \eqn{g_\mathrm{sc}}{g_sc} to abaxial (lower) surface \tab none \tab 1 \cr
+\eqn{k\mathrm{xc}}{k_xc} \tab \code{k_xc} \tab partition of \eqn{g_\mathrm{xc}}{g_xc} to spongy mesophyll \tab none \tab 1
 }
 }

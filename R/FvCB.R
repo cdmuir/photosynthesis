@@ -65,7 +65,7 @@ FvCB <- function(C_chl, pars) {
 
 W_carbox <- function(C_chl, pars) {
   
-  set_units(pars$V_cmax * C_chl / (C_chl + pars$K_c * (set_units(1) + pars$O / pars$K_o)),
+  set_units(pars$V_cmax * C_chl / (C_chl + pars$K_C * (set_units(1) + pars$O / pars$K_O)),
             "umol/m^2/s")
   
 }

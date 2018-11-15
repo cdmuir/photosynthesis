@@ -1,10 +1,12 @@
 #' \code{photosynthesis}: model C3 photosynthesis
 #' 
-#' @param leaf_par A list of leaf parameters. This can be generated using the \code{make_leafpar} function.
+#' @param leaf_par A list of leaf parameters inheriting class \code{leaf_par}. This can be generated using the \code{make_leafpar} function.
 #' 
-#' @param enviro_par A list of environmental parameters. This can be generated using the \code{make_enviropar} function.
+#' @param enviro_par A list of environmental parameters inheriting class \code{enviro_par}. This can be generated using the \code{make_enviropar} function.
 #' 
-#' @param constants A list of physical constants. This can be generated using the \code{make_constants} function.
+#' @param temp_par A list of temperature response parameters inheriting class \code{temp_par}. This can be generated using the \code{make_temppar} function.
+#' 
+#' @param constants A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.
 #' 
 #' @param progress Logical. Should a progress bar be displayed?
 #' 
@@ -21,14 +23,19 @@
 #' 
 #' leaf_par <- make_leafpar()
 #' enviro_par <- make_enviropar()
+#' temp_par <- make_temppar()
 #' constants <- make_constants()
-#' photo(leaf_par, enviro_par, constants)
+#' photo(leaf_par, enviro_par, temp_par, constants)
 #' 
 #' @export
 #' 
 
-photosynthesis <- function(leaf_par, enviro_par, constants, progress = TRUE, 
-                           quiet = FALSE) {
+photosynthesis <- function(leaf_par, enviro_par, temp_par, constants, 
+                           progress = TRUE, quiet = FALSE) {
+  
+  temp_par %<>% temp_par()
+  constants %<>% constants()
+  leaf_par %<>% temper(temp_par, constants)
   
   pars <- c(leaf_par, enviro_par)
   par_units <- purrr::map(pars, units) %>%
@@ -63,7 +70,7 @@ photosynthesis <- function(leaf_par, enviro_par, constants, progress = TRUE,
   soln <- suppressWarnings(pars %>%
     purrr::map_dfr(~{
       
-      ret <- photo(leaf_par(.x), enviro_par(.x), constants, quiet = TRUE)
+      ret <- photo(leaf_par(.x), enviro_par(.x), temp_par, constants, quiet = TRUE)
       if (progress) pb$tick()$print()
       ret
       
@@ -89,12 +96,14 @@ photosynthesis <- function(leaf_par, enviro_par, constants, progress = TRUE,
 #' @rdname photosynthesis
 #' @export
 
-photo <- function(leaf_par, enviro_par, constants, quiet = FALSE) {
+photo <- function(leaf_par, enviro_par, temp_par, constants, quiet = FALSE) {
   
   # Find intersection between photosynthetic supply and demand curves -----
-  leaf_par %<>% leaf_par()
-  enviro_par %<>% enviro_par()
+  temp_par %<>% temp_par()
   constants %<>% constants()
+  leaf_par %<>% temper(temp_par, constants)
+  enviro_par %<>% enviro_par()
+  
   pars <- c(leaf_par, enviro_par, constants)
   
   .f <- function(C_chl, pars) {
@@ -114,9 +123,9 @@ photo <- function(leaf_par, enviro_par, constants, quiet = FALSE) {
   
   fit <- tryCatch({
 
-    lower <- 0.1 # drop_units(set_units(pars$gamma_star, "Pa"))
+    lower <- 0.1
     upper <- drop_units(set_units(max(c(set_units(10, "Pa"), pars$C_air)), "Pa"))
-    stats::uniroot(.f, pars = pars,lower = lower, upper = upper, check.conv = TRUE)
+    stats::uniroot(.f, pars = pars, lower = lower, upper = upper, check.conv = TRUE)
 
   }, finally = {
     fit <- list(root = NA, f.root = NA, convergence = 1)
@@ -168,9 +177,9 @@ photo <- function(leaf_par, enviro_par, constants, quiet = FALSE) {
 #' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
 #' \eqn{A} \tab \code{A} \tab photosynthetic rate \tab \eqn{\mu}mol CO2 / (m^2 s) \tab calculated \cr
 #' \eqn{g_\mathrm{tc}}{g_tc} \tab \code{g_tc} \tab total conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab \link[=.get_gtc]{calculated} \cr
-#' \eqn{C_\text{air}}{C_air} \tab \code{C_air} \tab atmospheric CO2 concentration \tab Pa \tab 41 \cr
-#' \eqn{C_\text{chl}}{C_chl} \tab \code{C_chl} \tab chloroplastic CO2 concentration \tab Pa \tab calculated\cr
-#' \eqn{R_\text{d}}{R_d} \tab \code{R_d} \tab nonphotorespiratory CO2 release \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 2 \cr
+#' \eqn{C_\mathrm{air}}{C_air} \tab \code{C_air} \tab atmospheric CO2 concentration \tab Pa \tab 41 \cr
+#' \eqn{C_\mathrm{chl}}{C_chl} \tab \code{C_chl} \tab chloroplastic CO2 concentration \tab Pa \tab calculated\cr
+#' \eqn{R_\mathrm{d}}{R_d} \tab \code{R_d} \tab nonphotorespiratory CO2 release \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 2 \cr
 #' \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point \tab Pa \tab 3.743
 #' }
 #' 
@@ -222,11 +231,11 @@ A_supply <- function(C_chl, pars) {
 #' 
 #' \tabular{lllll}{
 #' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
-#' \eqn{g_\text{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 5\cr
-#' \eqn{g_\text{xc}}{g_xc} \tab \code{g_xc} \tab intercellular conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 10 \cr
-#' \eqn{g_\text{ic}}{g_ic} \tab \code{g_ic} \tab intracellular conductance to CO2 \tab (mol CO2) / (m\eqn{^2} s) \tab 10 \cr
-#' \eqn{k\mathrm{xs}}{k_sc} \tab \code{k_sc} \tab partition of \eqn{g_\text{sc}}{g_sc} to abaxial (lower) surface \tab none \tab 1 \cr
-#' \eqn{k\mathrm{xc}}{k_xc} \tab \code{k_xc} \tab partition of \eqn{g_\text{xc}}{g_xc} to spongy mesophyll \tab none \tab 1
+#' \eqn{g_\mathrm{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 5\cr
+#' \eqn{g_\mathrm{xc}}{g_xc} \tab \code{g_xc} \tab intercellular conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 10 \cr
+#' \eqn{g_\mathrm{ic}}{g_ic} \tab \code{g_ic} \tab intracellular conductance to CO2 \tab (mol CO2) / (m\eqn{^2} s) \tab 10 \cr
+#' \eqn{k\mathrm{xs}}{k_sc} \tab \code{k_sc} \tab partition of \eqn{g_\mathrm{sc}}{g_sc} to abaxial (lower) surface \tab none \tab 1 \cr
+#' \eqn{k\mathrm{xc}}{k_xc} \tab \code{k_xc} \tab partition of \eqn{g_\mathrm{xc}}{g_xc} to spongy mesophyll \tab none \tab 1
 #' }
 #' 
 

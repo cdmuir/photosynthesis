@@ -7,17 +7,19 @@
 \alias{photo}
 \title{\code{photosynthesis} package}
 \usage{
-photosynthesis(leaf_par, enviro_par, constants, progress = TRUE,
-  quiet = FALSE)
+photosynthesis(leaf_par, enviro_par, temp_par, constants,
+  progress = TRUE, quiet = FALSE)
 
-photo(leaf_par, enviro_par, constants, quiet = FALSE)
+photo(leaf_par, enviro_par, temp_par, constants, quiet = FALSE)
 }
 \arguments{
-\item{leaf_par}{A list of leaf parameters. This can be generated using the \code{make_leafpar} function.}
+\item{leaf_par}{A list of leaf parameters inheriting class \code{leaf_par}. This can be generated using the \code{make_leafpar} function.}
 
-\item{enviro_par}{A list of environmental parameters. This can be generated using the \code{make_enviropar} function.}
+\item{enviro_par}{A list of environmental parameters inheriting class \code{enviro_par}. This can be generated using the \code{make_enviropar} function.}
 
-\item{constants}{A list of physical constants. This can be generated using the \code{make_constants} function.}
+\item{temp_par}{A list of temperature response parameters inheriting class \code{temp_par}. This can be generated using the \code{make_temppar} function.}
+
+\item{constants}{A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.}
 
 \item{progress}{Logical. Should a progress bar be displayed?}
 
@@ -40,7 +42,8 @@ See the README on
 
 leaf_par <- make_leafpar()
 enviro_par <- make_enviropar()
+temp_par <- make_temppar()
 constants <- make_constants()
-photo(leaf_par, enviro_par, constants)
+photo(leaf_par, enviro_par, temp_par, constants)
 
 }
