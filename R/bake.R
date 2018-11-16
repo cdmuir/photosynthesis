@@ -1,14 +1,14 @@
-#' S3 class tempered
-#' @exportClass tempered
+#' S3 class baked
+#' @exportClass baked
 #
 
-#' 'temper' leaf parameters using temperature response functions
+#' 'bake' leaf parameters using temperature response functions
 #' 
 #' @inheritParams photosynthesis
 #
 #' @description 
 #' 
-#' Constructor function for \code{tempered} class. This will also inherit class \code{\link{leaf_par}}. This function ensures that leaf parameter are "tuned" to \code{T_leaf} using temperature response functions detailed below. 
+#' Constructor function for \code{baked} class. This will also inherit class \code{\link{leaf_par}}. This function ensures that temperature is "baked in" to leaf parameter calculations \code{T_leaf} using temperature response functions detailed below. 
 #' 
 #' @details 
 #' 
@@ -33,24 +33,26 @@
 #' 
 #' @examples 
 #' leaf_par <- make_leafpar(replace = list(T_leaf = set_units(293.15, "K")))
-#' temp_par <- make_temppar()
+#' bake_par <- make_bakepar()
 #' constants <- make_constants()
-#' tempered_leafpar <- temper(leaf_par, temp_par, constants)
+#' baked_leafpar <- bake(leaf_par, bake_par, constants)
 #' 
-#' tempered_leafpar$V_cmax25
-#' tempered_leafpar$V_cmax
+#' baked_leafpar$V_cmax25
+#' baked_leafpar$V_cmax
 #' 
 #' @export
 
-temper <- function(leaf_par, temp_par, constants) {
+bake <- function(leaf_par, bake_par, constants) {
   
   leaf_par %<>% leaf_par()
-  temp_par %<>% temp_par()
+  bake_par %<>% bake_par()
   constants %<>% constants()
   
-  pars <- c(leaf_par, temp_par, constants)
+  pars <- c(leaf_par, bake_par, constants)
   T_ref <- set_units(298.15, "K")
   
+  leaf_par$g_mc <- temp_resp2(pars$g_mc25, pars$Ds_gmc, pars$Ea_gmc, 
+                              pars$Ed_gmc, pars$R, pars$T_leaf, T_ref)
   leaf_par$gamma_star <- temp_resp1(pars$gamma_star, pars$Ea_gammastar, pars$R, 
                                     pars$T_leaf, T_ref)
   leaf_par$J_max <- temp_resp2(pars$J_max25, pars$Ds_Jmax, pars$Ea_Jmax, 
@@ -64,6 +66,7 @@ temper <- function(leaf_par, temp_par, constants) {
                                T_ref)
 
   # Set units ----
+  leaf_par$g_mc %<>% set_units("umol/m^2/s/Pa")
   leaf_par$gamma_star %<>% set_units("Pa")
   leaf_par$J_max %<>% set_units("umol / (m^2 * s)")
   leaf_par$K_C %<>% set_units("Pa")
@@ -73,6 +76,7 @@ temper <- function(leaf_par, temp_par, constants) {
   leaf_par$V_tpu %<>% set_units("umol / (m^2 * s)")
 
   # Check values ----
+  stopifnot(leaf_par$g_mc >= set_units(0, "umol/m^2/s/Pa"))
   stopifnot(leaf_par$gamma_star >= set_units(0, "Pa"))
   stopifnot(leaf_par$J_max >= set_units(0, "umol / (m^2 * s)"))
   stopifnot(leaf_par$K_C >= set_units(0, "Pa"))
@@ -81,7 +85,7 @@ temper <- function(leaf_par, temp_par, constants) {
   stopifnot(leaf_par$V_cmax >= set_units(0, "umol / (m^2 * s)"))
   stopifnot(leaf_par$V_tpu >= set_units(0, "umol / (m^2 * s)"))
   
-  leaf_par %<>% structure(class = c("tempered", "leaf_par", "list"))
+  leaf_par %<>% structure(class = c("baked", "leaf_par", "list"))
   
   leaf_par
   

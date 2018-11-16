@@ -22,18 +22,24 @@ constants <- function(.x) {
   .x %<>% magrittr::extract(nms)
   
   # Set units ----
-  .x$phi %<>% set_units()
-  .x$theta_J %<>% set_units()
-  .x$s %<>% set_units("W / (m ^ 2 * K ^ 4)")
+  .x$D_c0 %<>% set_units("m ^ 2 / s")
+  .x$D_h0 %<>% set_units("m ^ 2 / s")
+  .x$D_m0 %<>% set_units("m ^ 2 / s")
+  .x$epsilon %<>% set_units()
+  .x$eT %<>% set_units()
+  .x$G %<>% set_units("m / s ^ 2")
   .x$R %<>% set_units("J / (mol * K)")
-  .x$D_w0 %<>% set_units("m ^ 2 / s")
-
+  .x$s %<>% set_units("W / (m ^ 2 * K ^ 4)")
+  
   # Check values ----
-  stopifnot(.x$phi >= set_units(0))
-  stopifnot(.x$theta_J >= set_units(0) & .x$theta_J <= set_units(1))
-  stopifnot(.x$s >= set_units(0, "W / (m ^ 2 * K ^ 4)"))
+  stopifnot(.x$D_c0 >= set_units(0, "m ^ 2 / s"))
+  stopifnot(.x$D_h0 >= set_units(0, "m ^ 2 / s"))
+  stopifnot(.x$D_m0 >= set_units(0, "m ^ 2 / s"))
+  stopifnot(.x$epsilon >= set_units(0))
+  stopifnot(.x$eT >= set_units(0))
+  stopifnot(.x$G >= set_units(0, "m / s ^ 2"))
   stopifnot(.x$R >= set_units(0, "J / (mol * K)"))
-  stopifnot(.x$D_w0 >= set_units(0, "m ^ 2 / s"))
+  stopifnot(.x$s >= set_units(0, "W / (m ^ 2 * K ^ 4)"))
 
   structure(.x, class = c(which, "list"))
   

@@ -1,18 +1,18 @@
-#' S3 class temp_par
-#' @exportClass temp_par
+#' S3 class bake_par
+#' @exportClass bake_par
 #
 
-#' @param .x A list to be constructed into \strong{temp_par}.
+#' @param .x A list to be constructed into \strong{bake_par}.
 #' 
 #' @description 
 #' 
-#' Constructor function for temp_par class. This function ensures that leaf temperature parameter inputs are properly formatted.
+#' Constructor function for bake_par class. This function ensures that leaf temperature gets properly "baked" into leaf parameters.
 #' 
 #' @export
 
-temp_par <- function(.x) {
+bake_par <- function(.x) {
   
-  which <- "temp"
+  which <- "bake"
   nms <- parameter_names(which)
   
   stopifnot(is.list(.x))

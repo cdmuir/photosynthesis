@@ -44,7 +44,12 @@ A_demand
 \examples{
 leaf_par <- make_leafpar()
 enviro_par <- make_enviropar()
+bake_par <- make_bakepar()
 constants <- make_constants()
+leaf_par <- bake(leaf_par, bake_par, constants)
+# Or bake with piping (need library(magrittr))
+# leaf_par \%<>\% bake(bake_par, constants)
+
 pars <- c(leaf_par, enviro_par, constants)
 C_chl <- set_units(35, "Pa")
 
