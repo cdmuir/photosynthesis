@@ -18,7 +18,7 @@ Description
 -----------
 
 `photosynthesis` is a lightweight R package to model C3 photosynthesis
-using the Farquhar-Berry-von Caemmerer model. It uses the R package
+using the Farquhar-von Caemmerer-Berry model. It uses the R package
 [units](https://cran.r-project.org/web/packages/units/index.html) to
 ensure that parameters are properly specified and transformed before
 calculations.
