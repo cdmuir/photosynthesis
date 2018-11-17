@@ -39,11 +39,24 @@ See the README on
 \href{https://github.com/cdmuir/photosynthesis}{GitHub}
 }
 \examples{
+# Single parameter set with 'photo'
 
 leaf_par <- make_leafpar()
 enviro_par <- make_enviropar()
 bake_par <- make_bakepar()
 constants <- make_constants()
 photo(leaf_par, enviro_par, bake_par, constants)
+
+# Multiple parameter sets with 'photosynthesis'
+
+leaf_par <- make_leafpar(
+  replace = list(
+    T_leaf = set_units(c(293.14, 298.15), "K")
+    )
+  )
+enviro_par <- make_enviropar()
+bake_par <- make_bakepar()
+constants <- make_constants()
+photosynthesis(leaf_par, enviro_par, bake_par, constants)
 
 }

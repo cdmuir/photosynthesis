@@ -20,6 +20,7 @@
 #' \cr
 #' 
 #' @examples 
+#' # Single parameter set with 'photo'
 #' 
 #' leaf_par <- make_leafpar()
 #' enviro_par <- make_enviropar()
@@ -27,15 +28,28 @@
 #' constants <- make_constants()
 #' photo(leaf_par, enviro_par, bake_par, constants)
 #' 
+#' # Multiple parameter sets with 'photosynthesis'
+#' 
+#' leaf_par <- make_leafpar(
+#'   replace = list(
+#'     T_leaf = set_units(c(293.14, 298.15), "K")
+#'     )
+#'   )
+#' enviro_par <- make_enviropar()
+#' bake_par <- make_bakepar()
+#' constants <- make_constants()
+#' photosynthesis(leaf_par, enviro_par, bake_par, constants)
+#' 
 #' @export
 #' 
 
 photosynthesis <- function(leaf_par, enviro_par, bake_par, constants, 
                            progress = TRUE, quiet = FALSE) {
   
+  leaf_par %<>% leaf_par()
+  enviro_par %<>% enviro_par()
   bake_par %<>% bake_par()
   constants %<>% constants()
-  leaf_par %<>% bake(bake_par, constants)
   
   pars <- c(leaf_par, enviro_par)
   par_units <- purrr::map(pars, units) %>%
@@ -85,6 +99,14 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
   
   pars %<>% dplyr::bind_cols(soln)
   
+  pars %>%
+    dplyr::select(tidyselect::ends_with("25")) %>%
+    colnames() %>%
+    stringr::str_remove("25$") %>%
+    glue::glue("units(pars${x}) <<- par_units${x}25", x = .) %>%
+    parse(text = .) %>%
+    eval()
+
   units(pars$C_chl) <- "Pa"
   units(pars$A) <- "umol/m^2/s"
 
@@ -151,6 +173,15 @@ photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE) {
                          A_demand(soln$C_chl, pars)) == soln$value)
   
   # Return -----
+  soln %<>% 
+    dplyr::bind_cols(leaf_par %>%
+                       as.data.frame() %>%
+                       dplyr::select(tidyselect::ends_with("25")) %>%
+                       colnames() %>%
+                       stringr::str_remove("25$") %>%
+                       magrittr::extract(leaf_par, .) %>%
+                       as.data.frame())
+  
   soln$A <- set_units(A_supply(soln$C_chl, pars), "umol/m^2/s")
   soln  
   
