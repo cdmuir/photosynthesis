@@ -1,12 +1,12 @@
 #' \code{photosynthesis} package
-#'
+#' 
 #' Model C3 Photosynthesis
 #'
 #' See the README on
 #' \href{https://github.com/cdmuir/photosynthesis}{GitHub}
 #'
 #' @docType package
-#' @name photosynthesis
+#' @name photosynthesis-package
 #' @importFrom magrittr %>% %<>%
 #' @importFrom methods is
 #' @importFrom rlang .data

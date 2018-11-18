@@ -3,7 +3,7 @@
 \encoding{UTF-8}
 \name{bake}
 \alias{bake}
-\title{S3 class baked}
+\title{Leaf parameter temperature responses}
 \usage{
 bake(leaf_par, bake_par, constants)
 }
@@ -15,9 +15,13 @@ bake(leaf_par, bake_par, constants)
 \item{constants}{A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.}
 }
 \description{
+'bake' leaf parameters using temperature response functions
+
 Constructor function for \code{baked} class. This will also inherit class \code{\link{leaf_par}}. This function ensures that temperature is "baked in" to leaf parameter calculations \code{T_leaf} using temperature response functions detailed below.
 }
 \details{
+Several leaf parameters (\code{\link{leaf_par}}) are temperature sensitive. Temperature-sensitive parameters are input at a reference temperature of 25 °C. These parameters are provided as \code{par_name25} and then "baked" using the appropriate temperature response function and parameters in \code{\link{bake_par}}. The "baked" parameter will have the name without "25" apprended (\code{par_name}). E.g. \code{V_cmax25} becomes \code{V_cmax}. \cr
+\cr
 Temperature response functions following Bernacchi et al. 2002. \cr
 \cr
 Temperature response function 1 (\code{temp_response1}): \cr
@@ -30,6 +34,8 @@ Temperature response function 1 (\code{temp_response1}): \cr
 Temperature response function 2 (\code{temp_response2}) is the above equation multiplied by: \cr
 
 \deqn{(1 + exp((D_\mathrm{s} / R - E_\mathrm{d} / (R T_\mathrm{ref})))) / (1 + exp((D_\mathrm{s} / R) - (E_\mathrm{d} / (R (T_\mathrm{leaf} + 273.15)))))}{(1 + exp((D_s / R - E_d / (R T_ref)))) / (1 + exp((D_s / R) - (E_d / (R (T_leaf + 273.15)))))}
+
+Function 1 increases exponentially with temperature; Function 2 peaks a particular temperature.
 }
 \examples{
 leaf_par <- make_leafpar(replace = list(T_leaf = set_units(293.15, "K")))

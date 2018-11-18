@@ -2,6 +2,7 @@ inst/doc
 *.DS_Store
 hex-sticker/photosynthesis.png
 hex-sticker/hex-sticker.ai
+R/scratch.R
 
 # History files
 .Rhistory

@@ -1,8 +1,15 @@
 #' S3 class baked
 #' @exportClass baked
-#
+#' @name baked-class
+#' @description See \code{\link{bake}}
 
-#' 'bake' leaf parameters using temperature response functions
+NULL
+
+#' Leaf parameter temperature responses
+#' 
+#' @description 'bake' leaf parameters using temperature response functions
+#' 
+#' @name bake
 #' 
 #' @inheritParams photosynthesis
 #
@@ -12,6 +19,8 @@
 #' 
 #' @details 
 #' 
+#' Several leaf parameters (\code{\link{leaf_par}}) are temperature sensitive. Temperature-sensitive parameters are input at a reference temperature of 25 °C. These parameters are provided as \code{par_name25} and then "baked" using the appropriate temperature response function and parameters in \code{\link{bake_par}}. The "baked" parameter will have the name without "25" apprended (\code{par_name}). E.g. \code{V_cmax25} becomes \code{V_cmax}. \cr
+#' \cr
 #' Temperature response functions following Bernacchi et al. 2002. \cr
 #' \cr
 #' Temperature response function 1 (\code{temp_response1}): \cr
@@ -24,6 +33,8 @@
 #' Temperature response function 2 (\code{temp_response2}) is the above equation multiplied by: \cr
 #' 
 #' \deqn{(1 + exp((D_\mathrm{s} / R - E_\mathrm{d} / (R T_\mathrm{ref})))) / (1 + exp((D_\mathrm{s} / R) - (E_\mathrm{d} / (R (T_\mathrm{leaf} + 273.15)))))}{(1 + exp((D_s / R - E_d / (R T_ref)))) / (1 + exp((D_s / R) - (E_d / (R (T_leaf + 273.15)))))}
+#' 
+#' Function 1 increases exponentially with temperature; Function 2 peaks a particular temperature.
 #' 
 #' @encoding UTF-8
 #' 
@@ -39,6 +50,8 @@
 #' 
 #' baked_leafpar$V_cmax25
 #' baked_leafpar$V_cmax
+#' 
+#' @encoding UTF-8
 #' 
 #' @export
 

@@ -1,4 +1,6 @@
-#' \code{photosynthesis}: model C3 photosynthesis
+#' Simulate C3 photosynthesis
+#' 
+#' \code{photosynthesis}: simulate C3 photosynthesis over multiple parameter sets
 #' 
 #' @param leaf_par A list of leaf parameters inheriting class \code{leaf_par}. This can be generated using the \code{make_leafpar} function.
 #' 
@@ -13,11 +15,62 @@
 #' @param quiet Logical. Should messages be displayed?
 #' 
 #' @return 
+#' A data.frame with the following \code{units} columns \cr
 #' 
-#' \code{photosynthesis}: \cr
+#' \tabular{ll}{
+#' 
+#' \bold{Input:} \tab \cr
 #' \cr
-#' A data.frame (more information coming soon!)
+#' \code{C_air} \tab atmospheric CO2 concentration (Pa) \cr
+#' \code{g_mc25} \tab mesophyll conductance to CO2 at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s Pa)) \cr
+#' \code{g_sc} \tab stomatal conductance to CO2 (\eqn{\mu}mol CO2 / (m\eqn{^2} s Pa)) \cr
+#' \code{g_uc} \tab cuticular conductance to CO2 (\eqn{\mu}mol CO2 / (m\eqn{^2} s Pa)) \cr
+#' \code{gamma_star25} \tab chloroplastic CO2 compensation point at 25 °C (Pa) \cr
+#' \code{J_max25} \tab potential electron transport at 25 °C (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \cr
+#' \code{K_C25} \tab Michaelis constant for carboxylation at 25 °C (\eqn{\mu}mol / mol) \cr
+#' \code{K_O25} \tab Michaelis constant for oxygenation at 25 °C (\eqn{\mu}mol / mol) \cr
+#' \code{k_mc} \tab partition of \eqn{g_\mathrm{mc}}{g_mc} to lower mesophyll (unitless) \cr
+#' \code{k_sc} \tab partition of \eqn{g_\mathrm{sc}}{g_sc} to lower surface (unitless) \cr
+#' \code{k_uc} \tab partition of \eqn{g_\mathrm{uc}}{g_uc} to lower surface (unitless) \cr
+#' \code{leafsize} \tab leaf characteristic dimension (m) \cr
+#' \code{O} \tab atmospheric O2 concentration (kPa) \cr
+#' \code{P} \tab atmospheric pressure (kPa) \cr
+#' \code{phi} \tab initial slope of the response of J to PPFD (unitless) \cr
+#' \code{PPFD} \tab photosynthetic photon flux density (umol quanta / (m\eqn{^2} s)) \cr
+#' \code{R_d25} \tab nonphotorespiratory CO2 release  at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
+#' \code{RH} \tab relative humidity (unitless) \cr
+#' \code{theta_J} \tab curvature factor for light-response curve (unitless) \cr
+#' \code{T_air} \tab air temperature (K) \cr
+#' \code{T_leaf} \tab leaf tempearture (K) \cr
+#' \code{V_cmax25} \tab maximum rate of carboxylation at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
+#' \code{V_tpu25} \tab rate of triose phosphate utilisation at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
+#' \code{wind} \tab wind speed (m / s) \cr
 #' \cr
+#' \bold{Baked Input:} \tab \cr
+#' \cr
+#' \code{g_mc} \tab mesophyll conductance to CO2 at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s Pa)) \cr
+#' \code{gamma_star} \tab chloroplastic CO2 compensation point at \code{T_leaf} (Pa) \cr
+#' \code{J_max} \tab potential electron transport at \code{T_leaf} (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \cr
+#' \code{K_C} \tab Michaelis constant for carboxylation at \code{T_leaf} (\eqn{\mu}mol / mol) \cr
+#' \code{K_O} \tab Michaelis constant for oxygenation at \code{T_leaf}(\eqn{\mu}mol / mol) \cr
+#' \code{R_d} \tab nonphotorespiratory CO2 release  at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
+#' \code{V_cmax} \tab maximum rate of carboxylation at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
+#' \code{V_tpu} \tab rate of triose phosphate utilisation at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
+#' \cr
+#' \bold{Output:} \tab \cr
+#' \cr
+#' \code{A} \tab photosynthetic rate at \code{C_chl} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
+#' \code{C_chl} \tab chloroplastic CO2 concentration where \code{A_supply} intersects \code{A_demand} (Pa) \cr
+#' \code{g_tc} \tab total conductance to CO2 at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s Pa)) \cr
+#' \code{value} \tab \code{A_supply} - \code{A_demand} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) at \code{C_chl} \cr
+#' \code{convergence} \tab convergence code (0 = converged)
+#' }
+#' 
+#' @details 
+#' 
+#' \code{photo}: This function takes simulates photosynthetic rate using the Farquhar-von Caemmerer-Berry (\code{\link{FvCB}}) model of C3 photosynthesis for single combined set of leaf parameters (\code{\link{leaf_par}}), environmental parameters (\code{\link{enviro_par}}), and physical constants (\code{\link{constants}}). Leaf parameters are provided at reference temperature (25 °C) and then "baked" to the appropriate leaf temperature using temperature response functions (see \code{\link{bake}}). \cr
+#' \cr
+#' \code{photosynthesis}: This function uses \code{photo} to simulate photosynthesis over multiple parameter sets that are generated using \code{\link[tidyr]{crossing}}. \cr
 #' 
 #' @examples 
 #' # Single parameter set with 'photo'
@@ -40,21 +93,26 @@
 #' constants <- make_constants()
 #' photosynthesis(leaf_par, enviro_par, bake_par, constants)
 #' 
+#' @encoding UTF-8
+#' 
 #' @export
 #' 
 
 photosynthesis <- function(leaf_par, enviro_par, bake_par, constants, 
                            progress = TRUE, quiet = FALSE) {
   
+  # Check inputs ----
   leaf_par %<>% leaf_par()
   enviro_par %<>% enviro_par()
   bake_par %<>% bake_par()
   constants %<>% constants()
   
+  # Capture units ----
   pars <- c(leaf_par, enviro_par)
   par_units <- purrr::map(pars, units) %>%
     magrittr::set_names(names(pars))
   
+  # Make parameter sets ----
   pars %<>%
     names() %>%
     glue::glue("{x} = pars${x}", x = .) %>%
@@ -72,6 +130,7 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
     parse(text = .) %>%
     eval()
   
+  # Simulate ----
   if (!quiet) {
     glue::glue("\nSolving for photosynthetic rate from {n} parameter set{s} ...", 
                n = length(pars), s = dplyr::if_else(length(pars) > 1, "s", "")) %>%
@@ -90,44 +149,43 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
       
     }))
   
-  pars %<>% purrr::map_dfr(purrr::flatten_dfr)
-  
-  colnames(pars) %>%
-    glue::glue("units(pars${x}) <<- par_units${x}", x = .) %>%
+  # Reassign units ----
+  colnames(soln) %>%
+    glue::glue("units(soln${x}) <<- par_units${x}", x = .) %>%
     parse(text = .) %>%
     eval()
-  
-  pars %<>% dplyr::bind_cols(soln)
-  
-  pars %>%
+
+  soln %>%
     dplyr::select(tidyselect::ends_with("25")) %>%
     colnames() %>%
     stringr::str_remove("25$") %>%
-    glue::glue("units(pars${x}) <<- par_units${x}25", x = .) %>%
+    glue::glue("units(soln${x}) <<- par_units${x}25", x = .) %>%
     parse(text = .) %>%
     eval()
 
-  units(pars$C_chl) <- "Pa"
-  units(pars$A) <- "umol/m^2/s"
+  units(soln$C_chl) <- "Pa"
+  units(soln$g_tc) <- "umol/m^2/s/Pa"
+  units(soln$A) <- "umol/m^2/s"
 
-  pars
+  # Return ----
+  soln
   
 }
 
-#' \code{photo}: find leaf temperatures for a single parameter set
+#' Simulate C3 photosynthesis
+#' @description \code{photo}: simulate C3 photosynthesis over a single parameter set
 #' @rdname photosynthesis
 #' @export
 
 photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE) {
   
-  # Find intersection between photosynthetic supply and demand curves -----
-  bake_par %<>% bake_par()
-  constants %<>% constants()
+  # Check inputs and bake ----
   leaf_par %<>% bake(bake_par, constants)
   enviro_par %<>% enviro_par()
   
   pars <- c(leaf_par, enviro_par, constants)
   
+  # Find intersection between photosynthetic supply and demand curves -----
   .f <- function(C_chl, pars) {
     
     C_chl %<>% set_units("Pa")
@@ -174,14 +232,10 @@ photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE) {
   
   # Return -----
   soln %<>% 
-    dplyr::bind_cols(leaf_par %>%
-                       as.data.frame() %>%
-                       dplyr::select(tidyselect::ends_with("25")) %>%
-                       colnames() %>%
-                       stringr::str_remove("25$") %>%
-                       magrittr::extract(leaf_par, .) %>%
-                       as.data.frame())
-  
+    dplyr::bind_cols(as.data.frame(leaf_par)) %>%
+    dplyr::bind_cols(as.data.frame(enviro_par))
+
+  soln$g_tc <- set_units(.get_gtc(pars), "umol/m^2/s/Pa")
   soln$A <- set_units(A_supply(soln$C_chl, pars), "umol/m^2/s")
   soln  
   

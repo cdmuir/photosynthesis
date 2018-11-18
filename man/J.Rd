@@ -13,10 +13,18 @@ J(pars)
 Value in mol/ (m^2 s) of class \code{units}
 }
 \description{
-J: Rate of electron transport (mol/m^2/s)
+Calculate the rate of electron transport as a function of photosynthetic photon flux density (PPFD).
 }
 \details{
 \eqn{J} as a function of PPFD is the solution to the quadratic expression:
 
 \deqn{0 = \theta_J J ^ 2 - J (J_\mathrm{max} + \phi PPFD) + J_\mathrm{max} \phi PPFD}{0 = \theta_J J ^ 2 - J (J_max + \phi PPFD) + J_max \phi PPFD}
+
+\tabular{lllll}{
+\emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
+\eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab (mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
+\eqn{\phi} \tab \code{phi} \tab initial slope of the response of J to PPFD \tab none \tab 0.331 \cr
+PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab umol quanta / (m^2 s) \tab 1500 \cr
+\eqn{\theta_J} \tab \code{theta_J} \tab curvature factor for light-response curve \tab none \tab 0.825
+}
 }

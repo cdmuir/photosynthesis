@@ -23,10 +23,10 @@ W_tpu(C_chl, pars)
 \value{
 A list of four values with units umol CO2 / (m^2 s) of class \code{units}:
 \cr
-- \code{W_carbox}: Rubisco-limited assimilation rate
-- \code{W_regen}: RuBP regeneration-limited assimilation rate
-- \code{W_tpu}: TPU-limited assimilation rate
-- \code{A}: hyperbolic average of W_carbox, W_regen, and W_tpu
+- \code{W_carbox}: Rubisco-limited assimilation rate \cr
+- \code{W_regen}: RuBP regeneration-limited assimilation rate \cr
+- \code{W_tpu}: TPU-limited assimilation rate \cr
+- \code{A}: minimum of W_carbox, W_regen, and W_tpu
 }
 \description{
 Farquhar-von Caemmerer-Berry (FvCB) C3 photosynthesis model
@@ -50,13 +50,41 @@ where:
 \cr
 \deqn{W_\mathrm{regen} = J (C_\mathrm{chl} - \Gamma*) / (4 C_\mathrm{chl} + 8 \Gamma)}{W_regen = J C_chl / (4 C_chl + 8 \Gamma*)}
 
-where:
+where \eqn{J} is a function of PPFD, obtained by solving the equation:
 
-\deqn{J = \theta_J PAR ^ 2 - PAR J_\mathrm{max} + PPFD \phi) + J_\mathrm{max} PPFD \phi}{J = \theta_J PAR ^ 2 - PAR J_max + PPFD \phi) + J_max PPFD \phi}
+\deqn{0 = \theta_J J ^ 2 - J (J_\mathrm{max} + \phi PPFD) + J_\mathrm{max} \phi PPFD}{0 = \theta_J J ^ 2 - J (J_max + \phi PPFD) + J_max \phi PPFD}
 
 \bold{TPU-limited assimilation rate:} \cr
-\cr
+
 \deqn{W_\mathrm{tpu} = 3 V_\mathrm{tpu} C_\mathrm{chl} / (C_\mathrm{chl} - \Gamma*)}{W_tpu = 3 V_tpu C_chl / (C_chl - \Gamma*)}
+\cr
+\tabular{lllll}{
+\emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
+\eqn{C_\mathrm{chl}}{C_chl} \tab \code{C_chl} \tab chloroplastic CO2 concentration \tab Pa \tab input \cr
+\eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point (T_leaf) \tab Pa \tab \link[=bake]{calculated} \cr
+\eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
+\eqn{K_\mathrm{C}}{K_C} \tab \code{K_C} \tab Michaelis constant for carboxylation (T_leaf) \tab \eqn{\mu}mol / mol \tab \link[=bake]{calculated} \cr
+\eqn{K_\mathrm{O}}{K_O} \tab \code{K_O} \tab Michaelis constant for oxygenation (T_leaf) \tab \eqn{\mu}mol / mol \tab \link[=bake]{calculated} \cr
+\eqn{O} \tab \code{O} \tab atmospheric O2 concentration \tab kPa \tab 21.27565 \cr
+\eqn{\phi} \tab \code{phi} \tab initial slope of the response of J to PPFD \tab none \tab 0.331 \cr
+PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab umol quanta / (m^2 s) \tab 1500 \cr
+\eqn{R_\mathrm{d}}{R_d} \tab \code{R_d} \tab nonphotorespiratory CO2 release (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
+\eqn{\theta_J} \tab \code{theta_J} \tab curvature factor for light-response curve \tab none \tab 0.825 \cr
+\eqn{V_\mathrm{c,max}}{V_c,max} \tab \code{V_cmax} \tab maximum rate of carboxylation (T_leaf) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
+\eqn{V_\mathrm{tpu}}{V_tpu} \tab \code{V_tpu} \tab rate of triose phosphate utilisation (T_leaf) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated}
+}
+}
+\examples{
+leaf_par <- make_leafpar()
+enviro_par <- make_enviropar()
+bake_par <- make_bakepar()
+constants <- make_constants()
+leaf_par <- bake(leaf_par, bake_par, constants)
+
+pars <- c(leaf_par, enviro_par, constants)
+C_chl <- set_units(24.28, "Pa")
+FvCB(C_chl, pars)
+
 }
 \references{
 Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic rate into contributions from different variables. Plant, Cell & Environment 38: 1200-11.
