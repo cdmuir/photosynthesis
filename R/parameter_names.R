@@ -1,6 +1,10 @@
 #' Get vector of parameter names
 #' 
 #' @param which A character string indicating which parameter names to retreive: "leaf", "enviro", "bake", or "constants". Partial matching allowed.
+#' 
+#' @example parameter_names("leaf")
+#' 
+#' @export
 
 parameter_names <- function(which) {
   

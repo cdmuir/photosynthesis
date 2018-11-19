@@ -38,6 +38,8 @@ RuBP regeneration-limited assimilation rate
 TPU-limited assimilation rate
 }
 \details{
+Equations following Buckley and Diaz-Espejo (2015): \cr
+\cr
 \bold{Rubisco-limited assimilation rate:} \cr
 \cr
 \deqn{W_\mathrm{carbox} = V_\mathrm{c,max} C_\mathrm{chl} / (C_\mathrm{chl} + K_\mathrm{m})}{W_carbox = V_cmax C_chl / (C_chl + K_m)}
@@ -48,7 +50,7 @@ where:
 
 \bold{RuBP regeneration-limited assimilation rate:} \cr
 \cr
-\deqn{W_\mathrm{regen} = J (C_\mathrm{chl} - \Gamma*) / (4 C_\mathrm{chl} + 8 \Gamma)}{W_regen = J C_chl / (4 C_chl + 8 \Gamma*)}
+\deqn{W_\mathrm{regen} = J C_\mathrm{chl} / (4 C_\mathrm{chl} + 8 \Gamma*)}{W_regen = J C_chl / (4 C_chl + 8 \Gamma*)}
 
 where \eqn{J} is a function of PPFD, obtained by solving the equation:
 
@@ -62,7 +64,7 @@ where \eqn{J} is a function of PPFD, obtained by solving the equation:
 \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
 \eqn{C_\mathrm{chl}}{C_chl} \tab \code{C_chl} \tab chloroplastic CO2 concentration \tab Pa \tab input \cr
 \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point (T_leaf) \tab Pa \tab \link[=bake]{calculated} \cr
-\eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
+\eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
 \eqn{K_\mathrm{C}}{K_C} \tab \code{K_C} \tab Michaelis constant for carboxylation (T_leaf) \tab \eqn{\mu}mol / mol \tab \link[=bake]{calculated} \cr
 \eqn{K_\mathrm{O}}{K_O} \tab \code{K_O} \tab Michaelis constant for oxygenation (T_leaf) \tab \eqn{\mu}mol / mol \tab \link[=bake]{calculated} \cr
 \eqn{O} \tab \code{O} \tab atmospheric O2 concentration \tab kPa \tab 21.27565 \cr
@@ -70,8 +72,8 @@ where \eqn{J} is a function of PPFD, obtained by solving the equation:
 PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab umol quanta / (m^2 s) \tab 1500 \cr
 \eqn{R_\mathrm{d}}{R_d} \tab \code{R_d} \tab nonphotorespiratory CO2 release (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
 \eqn{\theta_J} \tab \code{theta_J} \tab curvature factor for light-response curve \tab none \tab 0.825 \cr
-\eqn{V_\mathrm{c,max}}{V_c,max} \tab \code{V_cmax} \tab maximum rate of carboxylation (T_leaf) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
-\eqn{V_\mathrm{tpu}}{V_tpu} \tab \code{V_tpu} \tab rate of triose phosphate utilisation (T_leaf) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated}
+\eqn{V_\mathrm{c,max}}{V_c,max} \tab \code{V_cmax} \tab maximum rate of carboxylation (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
+\eqn{V_\mathrm{tpu}}{V_tpu} \tab \code{V_tpu} \tab rate of triose phosphate utilisation (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated}
 }
 }
 \examples{

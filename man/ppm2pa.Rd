@@ -18,8 +18,8 @@ Value in Pa of class \code{units}
 Convert pressure from PPM to Pascals
 }
 \details{
-\deqn{Press(kPa) = Press(ppm) P(kPa)}
-\deqn{Press(Pa) = 1000 Press(kPa)}
+\deqn{\mathrm{Press}(kPa) = \mathrm{Press}(ppm) P(kPa)}{Press(kPa) = Press(ppm) P(kPa)}
+\deqn{\mathrm{Press}(Pa) = 1000 \mathrm{Press}(kPa)}{Press(Pa) = 1000 Press(kPa)}
 }
 \examples{
 

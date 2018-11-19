@@ -26,16 +26,16 @@ NULL
 #' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
 #' \eqn{d} \tab \code{leafsize} \tab leaf characteristic dimension \tab m \tab 0.1 \cr
 #' \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point (T_leaf) \tab Pa \tab \link[=bake]{calculated} \cr
-#' \eqn{\Gamma_25*} \tab \code{gamma_star25} \tab chloroplastic CO2 compensation point (25 °C) \tab Pa \tab 3.743 \cr
-#' \eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc} \tab mesophyll conductance to CO2 (T_leaf) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab \link[=bake]{calculated} \cr
-#' \eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc25} \tab mesophyll conductance to CO2 (25 °C) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 4 \cr
-#' \eqn{g_\mathrm{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 4 \cr
-#' \eqn{g_\mathrm{uc}}{g_uc} \tab \code{g_uc} \tab cuticular conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 0.1 \cr
-#' \eqn{J_\mathrm{max25}}{J_max25} \tab \code{J_max25} \tab potential electron transport (25 °C) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab 200 \cr
-#' \eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
-#' \eqn{k\mathrm{mc}}{k_mc} \tab \code{k_mc} \tab partition of \eqn{g_\mathrm{mc}}{g_mc} to lower mesophyll \tab none \tab 1 \cr
-#' \eqn{k\mathrm{sc}}{k_sc} \tab \code{k_sc} \tab partition of \eqn{g_\mathrm{sc}}{g_sc} to lower surface \tab none \tab 1 \cr
-#' \eqn{k\mathrm{uc}}{k_uc} \tab \code{k_uc} \tab partition of \eqn{g_\mathrm{uc}}{g_uc} to lower surface \tab none \tab 1 \cr
+#' \eqn{\Gamma*_{25}}{\Gamma_25*} \tab \code{gamma_star25} \tab chloroplastic CO2 compensation point (25 °C) \tab Pa \tab 3.743 \cr
+#' \eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc} \tab mesophyll conductance to CO2 (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab \link[=bake]{calculated} \cr
+#' \eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc25} \tab mesophyll conductance to CO2 (25 °C) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab 4 \cr
+#' \eqn{g_\mathrm{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab 4 \cr
+#' \eqn{g_\mathrm{uc}}{g_uc} \tab \code{g_uc} \tab cuticular conductance to CO2 \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab 0.1 \cr
+#' \eqn{J_\mathrm{max25}}{J_max25} \tab \code{J_max25} \tab potential electron transport (25 °C) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 200 \cr
+#' \eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
+#' \eqn{k_\mathrm{mc}}{k_mc} \tab \code{k_mc} \tab partition of \eqn{g_\mathrm{mc}}{g_mc} to lower mesophyll \tab none \tab 1 \cr
+#' \eqn{k_\mathrm{sc}}{k_sc} \tab \code{k_sc} \tab partition of \eqn{g_\mathrm{sc}}{g_sc} to lower surface \tab none \tab 1 \cr
+#' \eqn{k_\mathrm{uc}}{k_uc} \tab \code{k_uc} \tab partition of \eqn{g_\mathrm{uc}}{g_uc} to lower surface \tab none \tab 1 \cr
 #' \eqn{K_\mathrm{C25}}{K_C25} \tab \code{K_C25} \tab Michaelis constant for carboxylation (25 °C) \tab \eqn{\mu}mol / mol \tab 268.3 \cr
 #' \eqn{K_\mathrm{C}}{K_C} \tab \code{K_C} \tab Michaelis constant for carboxylation (T_leaf) \tab \eqn{\mu}mol / mol \tab \link[=bake]{calculated} \cr
 #' \eqn{K_\mathrm{O25}}{K_O25} \tab \code{K_O25} \tab Michaelis constant for oxygenation (25 °C) \tab \eqn{\mu}mol / mol \tab 165084.2\cr
@@ -45,10 +45,10 @@ NULL
 #' \eqn{R_\mathrm{d}}{R_d} \tab \code{R_d} \tab nonphotorespiratory CO2 release (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
 #' \eqn{\theta_J} \tab \code{theta_J} \tab curvature factor for light-response curve \tab none \tab 0.825 \cr
 #' \eqn{T_\mathrm{leaf}}{T_leaf} \tab \code{T_leaf} \tab leaf temperature \tab K \tab 298.15 \cr
-#' \eqn{V_\mathrm{c,max25}}{V_c,max25} \tab \code{V_cmax25} \tab maximum rate of carboxylation (25 °C) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab 150 \cr
-#' \eqn{V_\mathrm{c,max}}{V_c,max} \tab \code{V_cmax} \tab maximum rate of carboxylation (T_leaf) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
-#' \eqn{V_\mathrm{tpu25}}{V_tpu25} \tab \code{V_tpu25} \tab rate of triose phosphate utilisation (25 °C) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab 200 \cr
-#' \eqn{V_\mathrm{tpu}}{V_tpu} \tab \code{V_tpu} \tab rate of triose phosphate utilisation (T_leaf) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated}
+#' \eqn{V_\mathrm{c,max25}}{V_c,max25} \tab \code{V_cmax25} \tab maximum rate of carboxylation (25 °C) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 150 \cr
+#' \eqn{V_\mathrm{c,max}}{V_c,max} \tab \code{V_cmax} \tab maximum rate of carboxylation (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
+#' \eqn{V_\mathrm{tpu25}}{V_tpu25} \tab \code{V_tpu25} \tab rate of triose phosphate utilisation (25 °C) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 200 \cr
+#' \eqn{V_\mathrm{tpu}}{V_tpu} \tab \code{V_tpu} \tab rate of triose phosphate utilisation (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated}
 #' }
 #'
 #' \bold{Environment parameters:}
@@ -84,9 +84,9 @@ NULL
 #' \bold{Constants:}
 #' \tabular{lllll}{
 #' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
-#' \eqn{D_{c,0}}{D_c0} \tab \code{D_c0} \tab diffusion coefficient for CO2 in air at 0 C \tab m\eqn{^2} / s \tab 12.9 \cr
-#' \eqn{D_{h,0}}{D_h0} \tab \code{D_h0} \tab diffusion coefficient for heat in air at 0 C \tab m\eqn{^2} / s \tab 1.9e-5 \cr
-#' \eqn{D_{m,0}}{D_m0} \tab \code{D_m0} \tab diffusion coefficient for momentum in air at 0 C \tab m\eqn{^2} / s \tab 13.3e-06 \cr
+#' \eqn{D_{c,0}}{D_c0} \tab \code{D_c0} \tab diffusion coefficient for CO2 in air at 0 °C \tab m\eqn{^2} / s \tab 12.9 \cr
+#' \eqn{D_{h,0}}{D_h0} \tab \code{D_h0} \tab diffusion coefficient for heat in air at 0 °C \tab m\eqn{^2} / s \tab 1.9e-5 \cr
+#' \eqn{D_{m,0}}{D_m0} \tab \code{D_m0} \tab diffusion coefficient for momentum in air at 0 °C \tab m\eqn{^2} / s \tab 13.3e-06 \cr
 #' \eqn{\epsilon} \tab \code{epsilon} \tab ratio of water to air molar masses \tab none \tab 0.622 \cr
 #' \eqn{G} \tab \code{G} \tab gravitational acceleration \tab m / s\eqn{^2} \tab 9.8 \cr
 #' \eqn{eT} \tab \code{eT} \tab exponent for temperature dependence of diffusion \tab none \tab 1.75 \cr
