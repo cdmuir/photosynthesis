@@ -5,13 +5,13 @@ photosynthesis <img src="hex-sticker/hex-sticker.png" align="right" height="200"
 has not yet been a stable, usable release suitable for the
 public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
 [![Build
-Status](https://travis-ci.com/cdmuir/photosynthesis.svg?branch=master)](https://travis-ci.com/cdmuir/photosynthesis)
-
+Status](https://travis-ci.com/cdmuir/photosynthesis.svg?token=yprDUtRtPBa2Ma9G4sFP&branch=master)](https://travis-ci.com/cdmuir/photosynthesis)
 <!---
 [![codecov](https://codecov.io/gh/cdmuir/photosynthesis/branch/master/graph/badge.svg)](https://codecov.io/gh/cdmuir/photosynthesis)
 [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/photosynthesis)](https://github.com/metacran/cranlogs.app)
 [![cran version](http://www.r-pkg.org/badges/version/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 -->
+
 Model C3 Photosynthesis
 -----------------------
 
@@ -75,8 +75,8 @@ rate in a single leaf using the `make_*()` functions and `photo()`.
     constants  <- make_constants() # physical constants
 
     photo(leaf_par, enviro_par, bake_par, constants, quiet = TRUE)
-    #>           C_chl        value convergence            g_mc25
-    #> 1 24.27775 [Pa] -9.36924e-07           0 4 [umol/m^2/Pa/s]
+    #>           C_chl         value convergence            g_mc25
+    #> 1 25.56715 [Pa] -1.193432e-06           0 4 [umol/m^2/Pa/s]
     #>                g_sc                g_uc gamma_star25          J_max25
     #> 1 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]   3.743 [Pa] 200 [umol/m^2/s]
     #>         K_C25        K_O25  k_mc  k_sc  k_uc leafsize       phi
@@ -90,7 +90,7 @@ rate in a single leaf using the `make_*()` functions and `photo()`.
     #>                P              PPFD      RH      T_air    wind
     #> 1 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 298.15 [K] 2 [m/s]
     #>                       g_tc                     A
-    #> 1 1.813404 [umol/m^2/Pa/s] 30.32419 [umol/m^2/s]
+    #> 1 1.813404 [umol/m^2/Pa/s] 27.98599 [umol/m^2/s]
 
 Replace default parameters
 --------------------------
@@ -132,7 +132,7 @@ which to solve for leaf temperature.
 
     photo
     #>           C_chl         value convergence            g_mc25
-    #> 1 22.64015 [Pa] -3.307735e-07           0 4 [umol/m^2/Pa/s]
+    #> 1 24.96474 [Pa] -1.250944e-06           0 4 [umol/m^2/Pa/s]
     #>                g_sc                g_uc gamma_star25          J_max25
     #> 1 3 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]   3.743 [Pa] 200 [umol/m^2/s]
     #>         K_C25        K_O25  k_mc  k_sc  k_uc leafsize       phi
@@ -146,7 +146,7 @@ which to solve for leaf temperature.
     #>                P              PPFD      RH      T_air    wind
     #> 1 101.3246 [kPa] 1000 [umol/m^2/s] 0.5 [1] 298.15 [K] 2 [m/s]
     #>                       g_tc                     A
-    #> 1 1.599325 [umol/m^2/Pa/s] 29.36337 [umol/m^2/s]
+    #> 1 1.599325 [umol/m^2/Pa/s] 25.64559 [umol/m^2/s]
 
 Environmental gradients
 -----------------------
@@ -186,10 +186,10 @@ the `tidyr::crossing` function to fit all combinations[1].
 
     ph %>% dplyr::select(g_sc, PPFD, A)
     #>                g_sc              PPFD                     A
-    #> 1 2 [umol/m^2/Pa/s] 1000 [umol/m^2/s] 27.46956 [umol/m^2/s]
-    #> 2 2 [umol/m^2/Pa/s] 1500 [umol/m^2/s] 27.46956 [umol/m^2/s]
-    #> 3 4 [umol/m^2/Pa/s] 1000 [umol/m^2/s] 30.32419 [umol/m^2/s]
-    #> 4 4 [umol/m^2/Pa/s] 1500 [umol/m^2/s] 30.32419 [umol/m^2/s]
+    #> 1 2 [umol/m^2/Pa/s] 1000 [umol/m^2/s] 24.32671 [umol/m^2/s]
+    #> 2 2 [umol/m^2/Pa/s] 1500 [umol/m^2/s] 25.66757 [umol/m^2/s]
+    #> 3 4 [umol/m^2/Pa/s] 1000 [umol/m^2/s] 26.30417 [umol/m^2/s]
+    #> 4 4 [umol/m^2/Pa/s] 1500 [umol/m^2/s] 27.98599 [umol/m^2/s]
 
 Contributors
 ------------
