@@ -20,7 +20,7 @@ Sh: Sherwood number
 \details{
 The Sherwood number depends on a combination how much free or forced convection predominates. For mixed convection: \cr 
 \cr
-\deqn{Sh = (a Re ^ b) ^ {3.5} + (c Gr ^ d) ^ {3.5}) ^ {1 / 3.5}}{Sh = (a Re ^ b) ^ 3.5 + (c Gr ^ d) ^ 3.5) ^ (1 / 3.5)}
+\deqn{Sh^{3.5} = (a Re ^ b) ^ {3.5} + (c Gr ^ d) ^ {3.5})}{Sh ^ 3.5 = (a Re ^ b) ^ 3.5 + (c Gr ^ d) ^ 3.5}
 \cr
 \tabular{lllll}{
 \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr

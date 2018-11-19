@@ -11,6 +11,8 @@
 #' 
 #' @details 
 #' 
+#' Equations following Buckley and Diaz-Espejo (2015): \cr
+#' \cr
 #' \bold{Rubisco-limited assimilation rate:} \cr
 #' \cr
 #' \deqn{W_\mathrm{carbox} = V_\mathrm{c,max} C_\mathrm{chl} / (C_\mathrm{chl} + K_\mathrm{m})}{W_carbox = V_cmax C_chl / (C_chl + K_m)}
@@ -21,7 +23,7 @@
 #' 
 #' \bold{RuBP regeneration-limited assimilation rate:} \cr
 #' \cr
-#' \deqn{W_\mathrm{regen} = J (C_\mathrm{chl} - \Gamma*) / (4 C_\mathrm{chl} + 8 \Gamma)}{W_regen = J C_chl / (4 C_chl + 8 \Gamma*)}
+#' \deqn{W_\mathrm{regen} = J C_\mathrm{chl} / (4 C_\mathrm{chl} + 8 \Gamma*)}{W_regen = J C_chl / (4 C_chl + 8 \Gamma*)}
 #' 
 #' where \eqn{J} is a function of PPFD, obtained by solving the equation:
 #' 
@@ -35,7 +37,7 @@
 #' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
 #' \eqn{C_\mathrm{chl}}{C_chl} \tab \code{C_chl} \tab chloroplastic CO2 concentration \tab Pa \tab input \cr
 #' \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point (T_leaf) \tab Pa \tab \link[=bake]{calculated} \cr
-#' \eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
+#' \eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
 #' \eqn{K_\mathrm{C}}{K_C} \tab \code{K_C} \tab Michaelis constant for carboxylation (T_leaf) \tab \eqn{\mu}mol / mol \tab \link[=bake]{calculated} \cr
 #' \eqn{K_\mathrm{O}}{K_O} \tab \code{K_O} \tab Michaelis constant for oxygenation (T_leaf) \tab \eqn{\mu}mol / mol \tab \link[=bake]{calculated} \cr
 #' \eqn{O} \tab \code{O} \tab atmospheric O2 concentration \tab kPa \tab 21.27565 \cr
@@ -43,8 +45,8 @@
 #' PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab umol quanta / (m^2 s) \tab 1500 \cr
 #' \eqn{R_\mathrm{d}}{R_d} \tab \code{R_d} \tab nonphotorespiratory CO2 release (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
 #' \eqn{\theta_J} \tab \code{theta_J} \tab curvature factor for light-response curve \tab none \tab 0.825 \cr
-#' \eqn{V_\mathrm{c,max}}{V_c,max} \tab \code{V_cmax} \tab maximum rate of carboxylation (T_leaf) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
-#' \eqn{V_\mathrm{tpu}}{V_tpu} \tab \code{V_tpu} \tab rate of triose phosphate utilisation (T_leaf) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated}
+#' \eqn{V_\mathrm{c,max}}{V_c,max} \tab \code{V_cmax} \tab maximum rate of carboxylation (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
+#' \eqn{V_\mathrm{tpu}}{V_tpu} \tab \code{V_tpu} \tab rate of triose phosphate utilisation (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated}
 #' }
 #' 
 #' @references 
@@ -123,13 +125,13 @@ W_tpu <- function(C_chl, pars) {
   
 }
 
-#' J: Rate of electron transport (mol/m^2/s)
+#' J: Rate of electron transport (umol/m^2/s)
 #' 
 #' @description Calculate the rate of electron transport as a function of photosynthetic photon flux density (PPFD).
 #' 
 #' @inheritParams .get_gtc
 #' 
-#' @return Value in mol/ (m^2 s) of class \code{units}
+#' @return Value in \eqn{\mu}mol/ (m^2 s) of class \code{units}
 #' 
 #' @details 
 #' 
@@ -139,9 +141,9 @@ W_tpu <- function(C_chl, pars) {
 #' 
 #' \tabular{lllll}{
 #' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
-#' \eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab (mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
+#' \eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
 #' \eqn{\phi} \tab \code{phi} \tab initial slope of the response of J to PPFD \tab none \tab 0.331 \cr
-#' PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab umol quanta / (m^2 s) \tab 1500 \cr
+#' PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab \eqn{\mu}mol quanta / (m^2 s) \tab 1500 \cr
 #' \eqn{\theta_J} \tab \code{theta_J} \tab curvature factor for light-response curve \tab none \tab 0.825
 #' }
 #' 
@@ -150,8 +152,8 @@ W_tpu <- function(C_chl, pars) {
 J <- function(pars) {
   
   # drop units for root finding
-  PPFD <- pars$PPFD %<>% set_units("mol/m^2/s") %>% drop_units()
-  J_max <- pars$J_max %<>% set_units("mol/m^2/s") %>% drop_units()
+  PPFD <- pars$PPFD %<>% set_units("umol/m^2/s") %>% drop_units()
+  J_max <- pars$J_max %<>% set_units("umol/m^2/s") %>% drop_units()
   phi <- pars$phi %<>% drop_units()
   theta_J <- pars$theta_J %<>% drop_units()
   
@@ -166,7 +168,7 @@ J <- function(pars) {
   
   J_I %<>% 
     magrittr::use_series("root") %>%
-    set_units("mol/m^2/s")
+    set_units("umol/m^2/s")
   
   J_I
   

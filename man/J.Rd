@@ -2,7 +2,7 @@
 % Please edit documentation in R/FvCB.R
 \name{J}
 \alias{J}
-\title{J: Rate of electron transport (mol/m^2/s)}
+\title{J: Rate of electron transport (umol/m^2/s)}
 \usage{
 J(pars)
 }
@@ -10,7 +10,7 @@ J(pars)
 \item{pars}{Concatenated parameters (\code{leaf_par}, \code{enviro_par}, and \code{constants})}
 }
 \value{
-Value in mol/ (m^2 s) of class \code{units}
+Value in \eqn{\mu}mol/ (m^2 s) of class \code{units}
 }
 \description{
 Calculate the rate of electron transport as a function of photosynthetic photon flux density (PPFD).
@@ -22,9 +22,9 @@ Calculate the rate of electron transport as a function of photosynthetic photon 
 
 \tabular{lllll}{
 \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
-\eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab (mol CO2) / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
+\eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
 \eqn{\phi} \tab \code{phi} \tab initial slope of the response of J to PPFD \tab none \tab 0.331 \cr
-PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab umol quanta / (m^2 s) \tab 1500 \cr
+PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab \eqn{\mu}mol quanta / (m^2 s) \tab 1500 \cr
 \eqn{\theta_J} \tab \code{theta_J} \tab curvature factor for light-response curve \tab none \tab 0.825
 }
 }

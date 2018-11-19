@@ -21,18 +21,18 @@ Convert conductance units
 }
 \examples{
 
-g_sw <- set_units(10, "m/s")
-convert_conductance(g_sw, 
+g_sc <- set_units(10, "m/s")
+convert_conductance(g_sc, 
                     Temp = set_units(298.15, "K"), 
                     P = set_units(101.3246, "kPa"))
 
-g_sw <- set_units(4, "umol/m^2/s/Pa")
-convert_conductance(g_sw, 
+g_sc <- set_units(4, "umol/m^2/s/Pa")
+convert_conductance(g_sc, 
                     Temp = set_units(298.15, "K"), 
                     P = set_units(101.3246, "kPa"))
 
-g_sw <- set_units(0.4, "mol/m^2/s")
-convert_conductance(g_sw, 
+g_sc <- set_units(0.4, "mol/m^2/s")
+convert_conductance(g_sc, 
                     Temp = set_units(298.15, "K"), 
                     P = set_units(101.3246, "kPa"))
 

@@ -26,14 +26,14 @@ Temperature response functions following Bernacchi et al. 2002. \cr
 \cr
 Temperature response function 1 (\code{temp_response1}): \cr
 
-\deqn{par(T_\mathrm{leaf}) = par25 exp(E_\mathrm{a} / (R T_\mathrm{ref}) (T_\mathrm{leaf} - 25) / (T_\mathrm{leaf} + 273.15))}{par(T_leaf) = par25 exp(E_a / (R T_ref) (T_leaf - 25) / (T_leaf + 273.15))}
+\deqn{\mathrm{par}(T_\mathrm{leaf}) = \mathrm{par25}~\mathrm{exp}(E_\mathrm{a} / (R T_\mathrm{ref}) (T_\mathrm{leaf} - 25) / (T_\mathrm{leaf} + 273.15))}{par(T_leaf) = par25 exp(E_a / (R T_ref) (T_leaf - 25) / (T_leaf + 273.15))}
 
 \eqn{T_\mathrm{ref}}{T_ref} is the reference temperature in K \cr
 \eqn{T_\mathrm{leaf}}{T_leaf} is the leaf temperature in °C \cr
 \cr
 Temperature response function 2 (\code{temp_response2}) is the above equation multiplied by: \cr
 
-\deqn{(1 + exp((D_\mathrm{s} / R - E_\mathrm{d} / (R T_\mathrm{ref})))) / (1 + exp((D_\mathrm{s} / R) - (E_\mathrm{d} / (R (T_\mathrm{leaf} + 273.15)))))}{(1 + exp((D_s / R - E_d / (R T_ref)))) / (1 + exp((D_s / R) - (E_d / (R (T_leaf + 273.15)))))}
+\deqn{(1 + \mathrm{exp}((D_\mathrm{s} / R - E_\mathrm{d} / (R T_\mathrm{ref})))) / (1 + \mathrm{exp}((D_\mathrm{s} / R) - (E_\mathrm{d} / (R (T_\mathrm{leaf} + 273.15)))))}{(1 + exp((D_s / R - E_d / (R T_ref)))) / (1 + exp((D_s / R) - (E_d / (R (T_leaf + 273.15)))))}
 
 Function 1 increases exponentially with temperature; Function 2 peaks a particular temperature.
 }

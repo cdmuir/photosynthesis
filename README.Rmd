@@ -11,16 +11,16 @@ knitr::opts_chunk$set(
 )
 ```
 
-photosynthesis
+photosynthesis <img src="hex-sticker/hex-sticker.png" align="right" height="200" width="200"/>
 =======
 
 [![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
+[![Build Status](https://travis-ci.com/cdmuir/photosynthesis.svg?branch=master)](https://travis-ci.com/cdmuir/photosynthesis)
 
 <!---
-[![Build Status](https://travis-ci.com/cdmuir/tealeaves.svg?branch=master)](https://travis-ci.com/cdmuir/tealeaves)
-[![codecov](https://codecov.io/gh/cdmuir/tealeaves/branch/master/graph/badge.svg)](https://codecov.io/gh/cdmuir/tealeaves)
-[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/tealeaves)](https://github.com/metacran/cranlogs.app)
-[![cran version](http://www.r-pkg.org/badges/version/tealeaves)](https://cran.r-project.org/package=tealeaves)
+[![codecov](https://codecov.io/gh/cdmuir/photosynthesis/branch/master/graph/badge.svg)](https://codecov.io/gh/cdmuir/photosynthesis)
+[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/photosynthesis)](https://github.com/metacran/cranlogs.app)
+[![cran version](http://www.r-pkg.org/badges/version/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 -->
 
 ## Model C3 Photosynthesis

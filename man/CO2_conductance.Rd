@@ -47,10 +47,10 @@ Each partial conductance consists of two parallel conductances, the cuticular co
 
 \deqn{g_{\mathrm{c},i} = g_{\mathrm{u},i} + (1 / (r_{\mathrm{m},i} + r_{\mathrm{s},i} + r_{\mathrm{b},i}))}{g_ci = g_ui + (1 / (r_mi + r_si + r_bi))}
 
-The cuticular, stomatal, and mesophyll conductances can the same or different for upper and lower. The partitioning factors (\eqn{k_x}) divide the conductance between surfaces while keeping the total conductance constant:
+The cuticular, stomatal, and mesophyll conductances can be the same or different for upper and lower. The partitioning factors (\eqn{k_x}) divide the conductance between surfaces while keeping the total conductance constant:
 
-\deqn{g_{x,\mathrm{lower}} = g_x (1 / (1 + k_x)}{gx_lower = g_x (1 / (1 + k_x)}
-\deqn{g_{x,\mathrm{upper}} = g_x (k_x / (1 + k_x)}{gx_upper = g_x (k_x / (1 + k_x)}
+\deqn{g_{x,\mathrm{lower}} = g_x (1 / (1 + k_x))}{gx_lower = g_x (1 / (1 + k_x))}
+\deqn{g_{x,\mathrm{upper}} = g_x (k_x / (1 + k_x))}{gx_upper = g_x (k_x / (1 + k_x))}
 \deqn{g_x = g_{x,\mathrm{lower}} + g_{x,\mathrm{upper}}}{g_x = gx_lower + gx_upper}
 
 How the partitioning factors work: \cr
@@ -67,11 +67,11 @@ The boundary layer conductances for each are calculated on the basis of mass and
 
 \tabular{lllll}{
 \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
-\eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc} \tab mesophyll conductance to CO2 (T_leaf) \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab \link[=bake]{calculated} \cr
-\eqn{g_\mathrm{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 4 \cr
-\eqn{g_\mathrm{uc}}{g_uc} \tab \code{g_uc} \tab cuticular conductance to CO2 \tab (\eqn{\mu}mol CO2) / (m\eqn{^2} s Pa) \tab 0.1 \cr
-\eqn{k\mathrm{mc}}{k_mc} \tab \code{k_mc} \tab partition of \eqn{g_\mathrm{mc}}{g_mc} to lower mesophyll \tab none \tab 1 \cr
-\eqn{k\mathrm{sc}}{k_sc} \tab \code{k_sc} \tab partition of \eqn{g_\mathrm{sc}}{g_sc} to lower surface \tab none \tab 1 \cr
-\eqn{k\mathrm{uc}}{k_uc} \tab \code{k_uc} \tab partition of \eqn{g_\mathrm{uc}}{g_uc} to lower surface \tab none \tab 1 \cr
+\eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc} \tab mesophyll conductance to CO2 (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab \link[=bake]{calculated} \cr
+\eqn{g_\mathrm{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab 4 \cr
+\eqn{g_\mathrm{uc}}{g_uc} \tab \code{g_uc} \tab cuticular conductance to CO2 \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab 0.1 \cr
+\eqn{k_\mathrm{mc}}{k_mc} \tab \code{k_mc} \tab partition of \eqn{g_\mathrm{mc}}{g_mc} to lower mesophyll \tab none \tab 1 \cr
+\eqn{k_\mathrm{sc}}{k_sc} \tab \code{k_sc} \tab partition of \eqn{g_\mathrm{sc}}{g_sc} to lower surface \tab none \tab 1 \cr
+\eqn{k_\mathrm{uc}}{k_uc} \tab \code{k_uc} \tab partition of \eqn{g_\mathrm{uc}}{g_uc} to lower surface \tab none \tab 1 \cr
 }
 }
