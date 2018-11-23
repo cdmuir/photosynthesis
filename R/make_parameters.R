@@ -218,7 +218,7 @@ make_constants <- function(replace = NULL) {
 
   # Defaults -----
   obj <- list(
-    D_c0 = set_units(21.2e-6, "m ^ 2 / s"),
+    D_c0 = set_units(12.9e-6, "m ^ 2 / s"),
     D_h0 = set_units(1.9e-5, "m ^ 2 / s"),
     D_m0 = set_units(13.3e-06, "m ^ 2 / s"),
     epsilon = set_units(0.622),
