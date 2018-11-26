@@ -40,7 +40,7 @@ NULL
 #' \eqn{K_\mathrm{C}}{K_C} \tab \code{K_C} \tab Michaelis constant for carboxylation (T_leaf) \tab \eqn{\mu}mol / mol \tab \link[=bake]{calculated} \cr
 #' \eqn{K_\mathrm{O25}}{K_O25} \tab \code{K_O25} \tab Michaelis constant for oxygenation (25 °C) \tab \eqn{\mu}mol / mol \tab 165084.2\cr
 #' \eqn{K_\mathrm{O}}{K_O} \tab \code{K_O} \tab Michaelis constant for oxygenation (T_leaf) \tab \eqn{\mu}mol / mol \tab \link[=bake]{calculated} \cr
-#' \eqn{\phi} \tab \code{phi} \tab initial slope of the response of J to PPFD \tab none \tab 0.331 \cr
+#' \eqn{\phi_J} \tab \code{phi_J} \tab initial slope of the response of J to PPFD \tab none \tab 0.331 \cr
 #' \eqn{R_\mathrm{d25}}{R_d25} \tab \code{R_d25} \tab nonphotorespiratory CO2 release (25 °C) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 2 \cr
 #' \eqn{R_\mathrm{d}}{R_d} \tab \code{R_d} \tab nonphotorespiratory CO2 release (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
 #' \eqn{\theta_J} \tab \code{theta_J} \tab curvature factor for light-response curve \tab none \tab 0.825 \cr
@@ -131,7 +131,7 @@ make_leafpar <- function(replace = NULL) {
     K_C25 = set_units(27.238, "Pa"), # From Sharkey et al. 2007. Newer source? Check bayCi
     K_O25 = set_units(16.582, "kPa"), # From Sharkey et al. 2007. Newer source? Check bayCi
     leafsize = set_units(0.1, "m"),
-    phi = set_units(0.331),
+    phi_J = set_units(0.331),
     theta_J = set_units(0.825),
     R_d25 = set_units(2, "umol / (m^2 * s)"),
     T_leaf = set_units(298.15, "K"),

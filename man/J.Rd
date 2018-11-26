@@ -18,12 +18,12 @@ Calculate the rate of electron transport as a function of photosynthetic photon 
 \details{
 \eqn{J} as a function of PPFD is the solution to the quadratic expression:
 
-\deqn{0 = \theta_J J ^ 2 - J (J_\mathrm{max} + \phi PPFD) + J_\mathrm{max} \phi PPFD}{0 = \theta_J J ^ 2 - J (J_max + \phi PPFD) + J_max \phi PPFD}
+\deqn{0 = \theta_J J ^ 2 - J (J_\mathrm{max} + \phi_J PPFD) + J_\mathrm{max} \phi_J PPFD}{0 = \theta_J J ^ 2 - J (J_max + \phi_J PPFD) + J_max \phi_J PPFD}
 
 \tabular{lllll}{
 \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
 \eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
-\eqn{\phi} \tab \code{phi} \tab initial slope of the response of J to PPFD \tab none \tab 0.331 \cr
+\eqn{\phi_J} \tab \code{phi_J} \tab initial slope of the response of J to PPFD \tab none \tab 0.331 \cr
 PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab \eqn{\mu}mol quanta / (m^2 s) \tab 1500 \cr
 \eqn{\theta_J} \tab \code{theta_J} \tab curvature factor for light-response curve \tab none \tab 0.825
 }

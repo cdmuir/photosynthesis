@@ -35,7 +35,7 @@
 #' \code{leafsize} \tab leaf characteristic dimension (m) \cr
 #' \code{O} \tab atmospheric O2 concentration (kPa) \cr
 #' \code{P} \tab atmospheric pressure (kPa) \cr
-#' \code{phi} \tab initial slope of the response of J to PPFD (unitless) \cr
+#' \code{phi_J} \tab initial slope of the response of J to PPFD (unitless) \cr
 #' \code{PPFD} \tab photosynthetic photon flux density (umol quanta / (m\eqn{^2} s)) \cr
 #' \code{R_d25} \tab nonphotorespiratory CO2 release  at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
 #' \code{RH} \tab relative humidity (unitless) \cr

@@ -12,3 +12,7 @@ parameter_names(which)
 \description{
 Get vector of parameter names
 }
+\examples{
+parameter_names("leaf")
+
+}
