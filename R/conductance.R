@@ -116,7 +116,7 @@ NULL
   Sh <- .get_sh(pars, surface)
   
   # Conductance in m / s  
-  ret <- D_c * Sh / pars$leafsize
+  ret <- set_units(D_c * Sh / pars$leafsize, "m/s")
     
   ret %<>% 
     convert_conductance(Temp = (pars$T_air + pars$T_leaf) / 2, P = pars$P) %>%
