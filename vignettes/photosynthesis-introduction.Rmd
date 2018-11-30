@@ -36,6 +36,7 @@ You can use the default parameter settings and simulate photosynthetic rate in a
 
 ```{r, Minimum worked example}
 
+library(dplyr)
 library(magrittr)
 library(photosynthesis)
 
@@ -83,7 +84,9 @@ constants  <- make_constants()
 
 photo <- photo(leaf_par, enviro_par, bake_par, constants, quiet = TRUE)
 
-photo
+photo %>%
+  select(PPFD, C_chl, A) %>%
+  knitr::kable()
 
 ```
 
@@ -117,6 +120,8 @@ constants  <- make_constants()
 ph <- photosynthesis(leaf_par, enviro_par, bake_par, constants, 
                            progress = FALSE, quiet = TRUE)
 
-ph %>% dplyr::select(g_sc, PPFD, A)
+ph %>% 
+  select(g_sc, PPFD, A) %>%
+  knitr::kable()
 
 ```
