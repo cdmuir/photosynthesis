@@ -4,7 +4,7 @@
 \alias{.get_Tv}
 \title{Calculate virtual temperature}
 \usage{
-.get_Tv(Temp, p, P, epsilon)
+.get_Tv(Temp, p, P, epsilon, unitless)
 }
 \arguments{
 \item{Temp}{Temperature in Kelvin}
@@ -14,6 +14,8 @@
 \item{P}{Atmospheric pressure in kPa}
 
 \item{epsilon}{ratio of water to air molar masses (unitless)}
+
+\item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 }
 \value{
 Value in K of class \code{units}

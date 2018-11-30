@@ -3,9 +3,16 @@
 \encoding{UTF-8}
 \name{bake}
 \alias{bake}
+\alias{temp_resp1}
+\alias{temp_resp2}
 \title{Leaf parameter temperature responses}
 \usage{
-bake(leaf_par, bake_par, constants)
+bake(leaf_par, bake_par, constants, unitless = FALSE,
+  check = !unitless)
+
+temp_resp1(par25, E_a, R, T_leaf, T_ref, unitless)
+
+temp_resp2(par25, D_s, E_a, E_d, R, T_leaf, T_ref, unitless)
 }
 \arguments{
 \item{leaf_par}{A list of leaf parameters inheriting class \code{leaf_par}. This can be generated using the \code{make_leafpar} function.}
@@ -13,6 +20,24 @@ bake(leaf_par, bake_par, constants)
 \item{bake_par}{A list of temperature response parameters inheriting class \code{bake_par}. This can be generated using the \code{make_bakepar} function.}
 
 \item{constants}{A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.}
+
+\item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
+
+\item{check}{Logical. Should all parameter sets be checked? TRUE is safer, but FALSE is faster.}
+
+\item{par25}{Parameter value at 25 °C of class \code{units}.}
+
+\item{E_a}{Empirical temperature response value in J/mol of class \code{units}.}
+
+\item{R}{Ideal gas constant in J / (mol K) of class \code{units}. See \code{\link{make_constants}}.}
+
+\item{T_leaf}{Leaf temperature in K of class \code{units}. Will be converted to °C.}
+
+\item{T_ref}{Reference temperature in K of class \code{units}.}
+
+\item{D_s}{Empirical temperature response value in J / (mol K) of class \code{units}.}
+
+\item{E_d}{Empirical temperature response value in J/mol of class \code{units}.}
 }
 \description{
 'bake' leaf parameters using temperature response functions

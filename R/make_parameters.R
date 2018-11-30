@@ -121,8 +121,6 @@ make_leafpar <- function(replace = NULL) {
     g_mc25 = set_units(4, "umol / (m^2 * s * Pa)"),
     g_sc = set_units(4, "umol / (m^2 * s * Pa)"),
     g_uc = set_units(0.1, "umol / (m^2 * s * Pa)"),
-    # g_xc = set_units(10, "umol / (m^2 * s * Pa)"),
-    # k_xc = set_units(1),
     gamma_star25 = set_units(3.743, "Pa"), # From Sharkey et al. 2007. Newer source? Check bayCi
     J_max25 = set_units(200, "umol / (m^2 * s)"),
     k_mc = set_units(1),
@@ -152,7 +150,6 @@ make_leafpar <- function(replace = NULL) {
 #' make_enviropar
 #' @rdname make_parameters
 #' @export
-
 
 make_enviropar <- function(replace = NULL) {
 
@@ -224,18 +221,25 @@ make_constants <- function(replace = NULL) {
     epsilon = set_units(0.622),
     eT = set_units(1.75),
     G = set_units(9.8, "m / s ^ 2"),
-    nu_constant = function(Re, type, T_air, T_leaf, surface) {
+    nu_constant = function(Re, type, T_air, T_leaf, surface, unitless) {
       
-      stopifnot(units(T_air)$numerator == "K" & 
-                  length(units(T_air)$denominator) == 0L)
-      stopifnot(units(T_leaf)$numerator == "K" & 
-                  length(units(T_leaf)$denominator) == 0L)
+      if (!unitless) {
+        stopifnot(units(T_air)$numerator == "K" & 
+                    length(units(T_air)$denominator) == 0L)
+        stopifnot(units(T_leaf)$numerator == "K" & 
+                    length(units(T_leaf)$denominator) == 0L)
+      }
       
       type %<>% match.arg(c("free", "forced"))
       
       if (identical(type, "forced")) {
-        if (Re <= set_units(4000)) ret <- list(a = 0.6, b = 0.5)
-        if (Re > set_units(4000)) ret <- list(a = 0.032, b = 0.8)
+        if (unitless) {
+          if (Re <= 4000) ret <- list(a = 0.6, b = 0.5)
+          if (Re > 4000) ret <- list(a = 0.032, b = 0.8)
+        } else {
+          if (Re <= set_units(4000)) ret <- list(a = 0.6, b = 0.5)
+          if (Re > set_units(4000)) ret <- list(a = 0.032, b = 0.8)
+        }
         return(ret)
       }
       
@@ -253,12 +257,11 @@ make_constants <- function(replace = NULL) {
     },
     R = set_units(8.3144598, "J / (mol * K)"),
     s = set_units(5.67e-08, "W / (m ^ 2 * K ^ 4)"),
-    sh_constant = function(type) {
+    sh_constant = function(type, unitless) {
       
       type %>%
         match.arg(c("free", "forced")) %>%
-        switch(forced = 0.33, free = 0.25) %>%
-        set_units()
+        switch(forced = 0.33, free = 0.25)
       
     }
   )

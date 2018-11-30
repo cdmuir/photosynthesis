@@ -4,7 +4,7 @@
 \alias{.get_Dx}
 \title{D_x: Calculate diffusion coefficient for a given temperature and pressure}
 \usage{
-.get_Dx(D_0, Temp, eT, P)
+.get_Dx(D_0, Temp, eT, P, unitless)
 }
 \arguments{
 \item{D_0}{Diffusion coefficient at 273.15 K (0 degree C) and 101.3246 kPa}
@@ -14,6 +14,8 @@
 \item{eT}{Exponent for temperature dependence of diffusion}
 
 \item{P}{Atmospheric pressure in kPa}
+
+\item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 }
 \value{
 Value in m\eqn{^2}/s of class \code{units}

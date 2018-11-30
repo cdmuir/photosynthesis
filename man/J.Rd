@@ -4,10 +4,12 @@
 \alias{J}
 \title{J: Rate of electron transport (umol/m^2/s)}
 \usage{
-J(pars)
+J(pars, unitless = FALSE)
 }
 \arguments{
 \item{pars}{Concatenated parameters (\code{leaf_par}, \code{enviro_par}, and \code{constants})}
+
+\item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 }
 \value{
 Value in \eqn{\mu}mol/ (m^2 s) of class \code{units}

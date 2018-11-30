@@ -1,6 +1,6 @@
 Package: photosynthesis
-Version: 0.0.1
-Date: 2018-11-26
+Version: 0.0.2
+Date: 2018-11-30
 Title: Model C3 Photosynthesis
 Authors@R: person("Chris", "Muir", role = c("aut", "cre"), email = "cdmuir@hawaii.edu")
 Depends: R (>= 3.5.0), units (>= 0.6.0)
@@ -15,7 +15,7 @@ Imports: crayon (>= 1.3.0),
          tidyr (>= 0.8.2),
          tidyselect (>= 0.2.5)
 Suggests: 
-    testthat (> 2.0.0),
+    testthat,
     knitr,
     rmarkdown
 Description: photosynthesis is a lightweight R package to simulate C3 photosynthesis using the Farquhar-von Caemmerer-Berry model. It uses the R package units to ensure that parameters are properly specified and transformed before calculations. Temperate response functions get automatically “baked” into all parameters based on leaf temperature. The package includes boundary layer, cuticular, stomatal, and mesophyll conductances to CO2, which each can vary on the upper and lower portions of the leaf. Use straightforward functions to simulate photosynthesis over environmental gradients such as PPFD and leaf temperature, or over trait gradients such as CO2 conductance or photochemistry. 

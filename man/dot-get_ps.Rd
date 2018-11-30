@@ -4,12 +4,14 @@
 \alias{.get_ps}
 \title{Saturation water vapour pressure (kPa)}
 \usage{
-.get_ps(Temp, P)
+.get_ps(Temp, P, unitless)
 }
 \arguments{
 \item{Temp}{Temperature in Kelvin}
 
 \item{P}{Atmospheric pressure in kPa}
+
+\item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 }
 \value{
 Value in kPa of class \code{units}

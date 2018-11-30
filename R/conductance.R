@@ -53,17 +53,17 @@ NULL
 #' 
 #' 
 
-.get_gtc <- function(pars) {
+.get_gtc <- function(pars, unitless) {
   
-  gbc_lower <- .get_gbc(pars, "lower")
-  gmc_lower <- .get_gmc(pars, "lower")
-  gsc_lower <- .get_gsc(pars, "lower")
-  guc_lower <- .get_guc(pars, "lower")
+  gbc_lower <- .get_gbc(pars, "lower", unitless)
+  gmc_lower <- .get_gmc(pars, "lower", unitless)
+  gsc_lower <- .get_gsc(pars, "lower", unitless)
+  guc_lower <- .get_guc(pars, "lower", unitless)
   
-  gbc_upper <- .get_gbc(pars, "upper")
-  gmc_upper <- .get_gmc(pars, "upper")
-  gsc_upper <- .get_gsc(pars, "upper")
-  guc_upper <- .get_guc(pars, "upper")
+  gbc_upper <- .get_gbc(pars, "upper", unitless)
+  gmc_upper <- .get_gmc(pars, "upper", unitless)
+  gsc_upper <- .get_gsc(pars, "upper", unitless)
+  guc_upper <- .get_guc(pars, "upper", unitless)
   
   rc_lower <- 1 / gmc_lower + 1 / gsc_lower + 1 / gbc_lower
   gc_lower <- 1 / rc_lower
@@ -75,7 +75,7 @@ NULL
   
   g_tc <- gc_lower + gc_upper
   
-  g_tc %<>% set_units("umol/m^2/s/Pa")
+  if (!unitless) g_tc %<>% set_units("umol/m^2/s/Pa")
   
   g_tc
   
@@ -87,15 +87,24 @@ NULL
 #' 
 #' @rdname CO2_conductance
 
-.get_guc <- function(pars, surface) {
+.get_guc <- function(pars, surface, unitless) {
   
   surface %<>% match.arg(c("lower", "upper"))
   
-  g_uc <- switch(surface,
-    lower = pars$g_uc * (set_units(1) / (set_units(1) + pars$k_uc)),
-    upper = pars$g_uc * (pars$k_uc / (set_units(1) + pars$k_uc))
-  )
-
+  if (unitless) {
+    g_uc <- switch(
+      surface,
+      lower = pars$g_uc * (1 / (1 + pars$k_uc)),
+      upper = pars$g_uc * (pars$k_uc / (1 + pars$k_uc))
+    )
+  } else {
+    g_uc <- switch(
+      surface,
+      lower = pars$g_uc * (set_units(1) / (set_units(1) + pars$k_uc)),
+      upper = pars$g_uc * (pars$k_uc / (set_units(1) + pars$k_uc))
+    )
+  }
+  
   g_uc
   
 }
@@ -106,14 +115,15 @@ NULL
 #' 
 #' @rdname CO2_conductance
 
-.get_gbc <- function(pars, surface) {
+.get_gbc <- function(pars, surface, unitless) {
   
   surface %<>% match.arg(c("lower", "upper"))
   
-  D_c <- .get_Dx(pars$D_c0, (pars$T_air + pars$T_leaf) / 2, pars$eT, pars$P)
+  D_c <- .get_Dx(pars$D_c0, (pars$T_air + pars$T_leaf) / 2, pars$eT, pars$P,
+                 unitless)
     
   # Calculate Sherwood numbers
-  Sh <- .get_sh(pars, surface)
+  Sh <- .get_sh(pars, surface, unitless)
   
   # Conductance in m / s  
   ret <- set_units(D_c * Sh / pars$leafsize, "m/s")
@@ -122,12 +132,15 @@ NULL
     convert_conductance(Temp = (pars$T_air + pars$T_leaf) / 2, P = pars$P) %>%
     magrittr::use_series("umol/m^2/s/Pa")
   
+  if (unitless) ret %<>% drop_units()
+  
   ret
   
 }
 
 #' D_x: Calculate diffusion coefficient for a given temperature and pressure
 #'
+#' @inheritParams A_supply
 #' @param D_0 Diffusion coefficient at 273.15 K (0 degree C) and 101.3246 kPa
 #' @param Temp Temperature in Kelvin
 #' @param eT Exponent for temperature dependence of diffusion
@@ -146,12 +159,22 @@ NULL
 #' Monteith JL, Unsworth MH. 2013. Principles of Environmental Physics. 4th edition. Academic Press, London.
 #' 
 
-.get_Dx <- function(D_0, Temp, eT, P) {
+.get_Dx <- function(D_0, Temp, eT, P, unitless) {
   
   # See Eq. 3.10 in Monteith & Unger ed. 4
-  D_0 * 
-    drop_units((set_units(Temp, "K") / set_units(273.15, "K"))) ^ drop_units(eT) * 
-    drop_units((set_units(101.3246, "kPa") / set_units(P, "kPa")))
+  if (unitless) {
+    
+    Dx <- D_0 * (Temp / 273.15) ^ eT * (101.3246 / P)
+    
+  } else {
+    
+    Dx <- D_0 * 
+      drop_units((set_units(Temp, "K") / set_units(273.15, "K"))) ^ drop_units(eT) * 
+      drop_units((set_units(101.3246, "kPa") / set_units(P, "kPa")))
+    
+  }
+  
+  Dx
   
 }
 
@@ -175,26 +198,38 @@ NULL
 #' }
 #' 
 
-.get_sh <- function(pars, surface) {
+.get_sh <- function(pars, surface, unitless) {
   
   surface %<>% match.arg(c("lower", "upper"))
   
-  Gr <- .get_gr(pars)
-  Re <- .get_re(pars)
+  Gr <- .get_gr(pars, unitless)
+  Re <- .get_re(pars, unitless)
   
-  D_h <- .get_Dx(pars$D_h0, (pars$T_air + pars$T_leaf) / 2, pars$eT, pars$P)
-  D_c <- .get_Dx(pars$D_c0, (pars$T_air + pars$T_leaf) / 2, pars$eT, pars$P)
+  D_h <- .get_Dx(pars$D_h0, (pars$T_air + pars$T_leaf) / 2, pars$eT, pars$P, 
+                 unitless)
+  D_c <- .get_Dx(pars$D_c0, (pars$T_air + pars$T_leaf) / 2, pars$eT, pars$P, 
+                 unitless)
   
-  cons <- pars$nu_constant(Re, "forced", pars$T_air, pars$T_leaf, surface)
-  Nu_forced <- cons$a * drop_units(Re) ^ cons$b
-  Sh_forced <- Nu_forced * drop_units(D_h / D_c) ^ drop_units(pars$sh_constant("forced"))
+  cons <- pars$nu_constant(Re, "forced", pars$T_air, pars$T_leaf, surface, unitless)
+  if (unitless) {
+    Nu_forced <- cons$a * Re ^ cons$b
+    Sh_forced <- Nu_forced * (D_h / D_c) ^ pars$sh_constant("forced")
+  } else {
+    Nu_forced <- cons$a * drop_units(Re) ^ cons$b
+    Sh_forced <- Nu_forced * drop_units(D_h / D_c) ^ pars$sh_constant("forced")
+  }
   
-  cons <- pars$nu_constant(Re, "free", pars$T_air, pars$T_leaf, surface)
-  Nu_free <- cons$a * drop_units(Gr) ^ cons$b
-  Sh_free <- Nu_free * drop_units(D_h / D_c) ^ drop_units(pars$sh_constant("free"))
+  cons <- pars$nu_constant(Re, "free", pars$T_air, pars$T_leaf, surface, unitless)
+  if (unitless) {
+    Nu_free <- cons$a * Gr ^ cons$b
+    Sh_free <- Nu_free * (D_h / D_c) ^ pars$sh_constant("free")
+  } else {
+    Nu_free <- cons$a * drop_units(Gr) ^ cons$b
+    Sh_free <- Nu_free * drop_units(D_h / D_c) ^ pars$sh_constant("free")
+  }
   
   Sh <- (Sh_forced ^ 3.5 + Sh_free ^ 3.5) ^ (1 / 3.5)
-  Sh %<>% set_units()
+  if (!unitless) Sh %<>% set_units()
   
   Sh
   
@@ -218,9 +253,10 @@ NULL
 #' }
 #' 
 
-.get_re <- function(pars) {
+.get_re <- function(pars, unitless) {
   
-  D_m <- .get_Dx(pars$D_m0, (pars$T_air + pars$T_leaf) / 2, pars$eT, pars$P)
+  D_m <- .get_Dx(pars$D_m0, (pars$T_air + pars$T_leaf) / 2, pars$eT, pars$P,
+                 unitless)
   Re <- pars$wind * pars$leafsize / D_m
   
   Re
@@ -248,16 +284,27 @@ NULL
 #' }
 #' 
 
-.get_gr <- function(pars) {
+.get_gr <- function(pars, unitless) {
   
   # Calculate virtual temperature
   # Assumes inside of leaf is 100% RH
-  Tv_leaf <- .get_Tv(pars$T_leaf, .get_ps(pars$T_leaf, pars$P), pars$P, pars$epsilon)
-  Tv_air <-	.get_Tv(pars$T_air, pars$RH * .get_ps(pars$T_air, pars$P), pars$P,
-                    pars$epsilon)
-  D_m <- .get_Dx(pars$D_m0, (pars$T_air + pars$T_leaf) / 2, pars$eT, pars$P)
-  Gr <- (set_units(1) / pars$T_air) * pars$G * pars$leafsize ^ 3 * 
-    abs(Tv_leaf - Tv_air) / D_m ^ 2
+  Tv_leaf <- .get_Tv(pars$T_leaf, .get_ps(pars$T_leaf, pars$P, unitless), pars$P, 
+                     pars$epsilon, unitless)
+  Tv_air <-	.get_Tv(pars$T_air, pars$RH * .get_ps(pars$T_air, pars$P, unitless), 
+                    pars$P, pars$epsilon, unitless)
+  D_m <- .get_Dx(pars$D_m0, (pars$T_air + pars$T_leaf) / 2, pars$eT, pars$P,
+                 unitless)
+  if (unitless) {
+    
+    Gr <- (1 / pars$T_air) * pars$G * pars$leafsize ^ 3 * 
+      abs(Tv_leaf - Tv_air) / D_m ^ 2
+    
+  } else {
+    
+    Gr <- (set_units(1) / pars$T_air) * pars$G * pars$leafsize ^ 3 * 
+      abs(Tv_leaf - Tv_air) / D_m ^ 2
+    
+  }
   
   Gr
   
@@ -289,10 +336,21 @@ NULL
 #' Monteith JL, Unsworth MH. 2013. Principles of Environmental Physics. 4th edition. Academic Press, London.
 #' 
 
-.get_Tv <- function(Temp, p, P, epsilon) {
+.get_Tv <- function(Temp, p, P, epsilon, unitless) {
   
-  set_units(Temp, "K") / 
-    (set_units(1) - (set_units(1) - epsilon) * (set_units(p, "kPa") / set_units(P, "kPa")))
+  if (unitless) {
+    
+    Tv <- Temp / (1 - (1 - epsilon) * (p / P))
+    
+  } else {
+    
+    Tv <- set_units(Temp, "K") / 
+      (set_units(1) - (set_units(1) - epsilon) * 
+         (set_units(p, "kPa") / set_units(P, "kPa")))
+    
+  }
+  
+  Tv
   
 }
 
@@ -311,13 +369,18 @@ NULL
 #' @references \url{http://cires1.colorado.edu/~voemel/vp.html}
 #' 
 
-.get_ps <- function(Temp, P) {
+.get_ps <- function(Temp, P, unitless) {
   
   # Goff-Gratch equation (see http://cires1.colorado.edu/~voemel/vp.html)
   # This assumes P = 1 atm = 101.3246 kPa, otherwise boiling temperature needs to change
   # This returns p_s in hPa
-  Temp %<>% set_units("K") %>% drop_units()
-  P %<>% set_units("hPa") %>% drop_units()
+  if (unitless) {
+    P %<>% magrittr::multiply_by(10)
+  } else {
+    Temp %<>% set_units("K") %>% drop_units()
+    P %<>% set_units("hPa") %>% drop_units()
+  }
+  
   p_s <- 10 ^ (-7.90298 * (373.16 / Temp - 1) +
                  5.02808 * log10(373.16 / Temp) -
                  1.3816e-7 * (10 ^ (11.344 * (1 - Temp / 373.16) - 1)) +
@@ -325,9 +388,14 @@ NULL
                  log10(P))
   
   # Convert to kPa
-  p_s %<>% 
-    set_units("hPa") %>%
-    set_units("kPa")
+  if (unitless) {
+    p_s %<>% magrittr::multiply_by(0.1)
+  } else {
+    p_s %<>% 
+      set_units("hPa") %>%
+      set_units("kPa")
+  }
+  
   p_s
   
 }
@@ -338,14 +406,23 @@ NULL
 #' 
 #' @rdname CO2_conductance
 
-.get_gmc <- function(pars, surface) {
+.get_gmc <- function(pars, surface, unitless) {
   
   surface %<>% match.arg(c("lower", "upper"))
   
-  g_mc <- switch(surface,
-                 lower = pars$g_mc * (set_units(1) / (set_units(1) + pars$k_mc)),
-                 upper = pars$g_mc * (pars$k_mc / (set_units(1) + pars$k_mc))
-  )
+  if (unitless) {
+    g_mc <- switch(
+      surface,
+      lower = pars$g_mc * (1 / (1 + pars$k_mc)),
+      upper = pars$g_mc * (pars$k_mc / (1 + pars$k_mc))
+    )
+  } else {
+    g_mc <- switch(
+      surface,
+      lower = pars$g_mc * (set_units(1) / (set_units(1) + pars$k_mc)),
+      upper = pars$g_mc * (pars$k_mc / (set_units(1) + pars$k_mc))
+    )
+  }
   
   g_mc
   
@@ -357,13 +434,22 @@ NULL
 #' 
 #' @rdname CO2_conductance
 
-.get_gsc <- function(pars, surface) {
+.get_gsc <- function(pars, surface, unitless) {
   
   surface %<>% match.arg(c("lower", "upper"))
-  g_sc <- switch(surface,
-                 lower = pars$g_sc * (set_units(1) / (set_units(1) + pars$k_sc)),
-                 upper = pars$g_sc * (pars$k_sc / (set_units(1) + pars$k_sc))
-  )
+  if (unitless) {
+    g_sc <- switch(
+      surface,
+      lower = pars$g_sc * (1 / (1 + pars$k_sc)),
+      upper = pars$g_sc * (pars$k_sc / (1 + pars$k_sc))
+    )
+  } else {
+    g_sc <- switch(
+      surface,
+      lower = pars$g_sc * (set_units(1) / (set_units(1) + pars$k_sc)),
+      upper = pars$g_sc * (pars$k_sc / (set_units(1) + pars$k_sc))
+    )
+  }
   
   g_sc
   

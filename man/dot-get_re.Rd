@@ -4,10 +4,12 @@
 \alias{.get_re}
 \title{Re: Reynolds number}
 \usage{
-.get_re(pars)
+.get_re(pars, unitless)
 }
 \arguments{
 \item{pars}{Concatenated parameters (\code{leaf_par}, \code{enviro_par}, and \code{constants})}
+
+\item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 }
 \value{
 A unitless number of class \code{units}

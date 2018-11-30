@@ -14,6 +14,8 @@
 #' 
 #' @param quiet Logical. Should messages be displayed?
 #' 
+#' @param unitless Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.
+#' 
 #' @return 
 #' A data.frame with the following \code{units} columns \cr
 #' 
@@ -99,7 +101,7 @@
 #' 
 
 photosynthesis <- function(leaf_par, enviro_par, bake_par, constants, 
-                           progress = TRUE, quiet = FALSE) {
+                           progress = TRUE, quiet = FALSE, unitless = FALSE) {
   
   # Check inputs ----
   leaf_par %<>% leaf_par()
@@ -143,7 +145,8 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
   soln <- suppressWarnings(pars %>%
     purrr::map_dfr(~{
       
-      ret <- photo(leaf_par(.x), enviro_par(.x), bake_par, constants, quiet = TRUE)
+      ret <- photo(leaf_par(.x), enviro_par(.x), bake_par, constants, 
+                   quiet = TRUE, unitless = unitless)
       if (progress) pb$tick()$print()
       ret
       
@@ -177,21 +180,23 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
 #' @rdname photosynthesis
 #' @export
 
-photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE) {
+photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE,
+                  unitless = FALSE) {
   
   # Check inputs and bake ----
   leaf_par %<>% bake(bake_par, constants)
   enviro_par %<>% enviro_par()
   
   pars <- c(leaf_par, enviro_par, constants)
-  
+  if (unitless) pars %<>% purrr::map_if(function(x) is(x, "units"), drop_units)
+
   # Find intersection between photosynthetic supply and demand curves -----
-  .f <- function(C_chl, pars) {
+  .f <- function(C_chl, pars, unitless) {
     
-    C_chl %<>% set_units("Pa")
-    (A_supply(C_chl, pars) - A_demand(C_chl, pars)) %>%
-      set_units("umol/m^2/s") %>%
-      drop_units()
+    if (!unitless) C_chl %<>% set_units("Pa")
+    ret <- A_supply(C_chl, pars, unitless) - A_demand(C_chl, pars, unitless)
+    if (!unitless) ret %<>% set_units("umol/m^2/s") %>% drop_units()
+    ret
     
   }
   
@@ -204,8 +209,14 @@ photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE) {
   fit <- tryCatch({
 
     lower <- 0.1
-    upper <- drop_units(set_units(max(c(set_units(10, "Pa"), pars$C_air)), "Pa"))
-    stats::uniroot(.f, pars = pars, lower = lower, upper = upper, check.conv = TRUE)
+    upper <- if (unitless) {
+      max(c(10, pars$C_air))
+    } else {
+      drop_units(set_units(max(c(set_units(10, "Pa"), pars$C_air)), "Pa")) 
+    }
+    
+    stats::uniroot(.f, pars = pars, unitless = unitless, 
+                   lower = lower, upper = upper, check.conv = TRUE)
 
   }, finally = {
     fit <- list(root = NA, f.root = NA, convergence = 1)
@@ -227,22 +238,24 @@ photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE) {
       message()
   }
   
-  stopifnot(drop_units(A_supply(soln$C_chl, pars) - 
-                         A_demand(soln$C_chl, pars)) == soln$value)
-  
   # Return -----
   soln %<>% 
     dplyr::bind_cols(as.data.frame(leaf_par)) %>%
     dplyr::bind_cols(as.data.frame(enviro_par))
 
-  soln$g_tc <- set_units(.get_gtc(pars), "umol/m^2/s/Pa")
-  soln$A <- set_units(A_supply(soln$C_chl, pars), "umol/m^2/s")
+  soln$g_tc <- set_units(.get_gtc(pars, unitless), "umol/m^2/s/Pa")
+  soln$A <- if (unitless) {
+    set_units(A_supply(drop_units(soln$C_chl), pars, unitless), "umol/m^2/s")
+  } else {
+    set_units(A_supply(soln$C_chl, pars, unitless), "umol/m^2/s")
+  }
   soln  
   
 }
 
 #' CO2 supply and demand function (mol / m^2 s)
 #' 
+#' @inheritParams photosynthesis
 #' @param C_chl Chloroplastic CO2 concentration in Pa of class \code{units}
 #' @param pars Concatenated parameters (\code{leaf_par}, \code{enviro_par}, and \code{constants})
 #' 
@@ -286,10 +299,15 @@ photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE) {
 #' 
 #' @export
 
-A_supply <- function(C_chl, pars) {
+A_supply <- function(C_chl, pars, unitless = FALSE) {
   
-  g_tc <- .get_gtc(pars)
-  As <- set_units(g_tc * (pars$C_air - C_chl), "umol/m^2/s")
+  g_tc <- .get_gtc(pars, unitless)
+  
+  if (unitless) {
+    As <- g_tc * (pars$C_air - C_chl)
+  } else {
+    As <- set_units(g_tc * (pars$C_air - C_chl), "umol/m^2/s")
+  }
   As
   
 }
@@ -298,10 +316,16 @@ A_supply <- function(C_chl, pars) {
 #' @rdname A_supply
 #' @export
 
-A_demand <- function(C_chl, pars) {
+A_demand <- function(C_chl, pars, unitless = FALSE) {
   
-  set_units((set_units(1) - pars$gamma_star / C_chl) * FvCB(C_chl, pars)$A - 
-              pars$R_d, "umol/m^2/s")
+  if (unitless) {
+    Ad <- (1 - pars$gamma_star / C_chl) * FvCB(C_chl, pars, unitless)$A - pars$R_d
+  } else {
+    Ad <- set_units((set_units(1) - pars$gamma_star / C_chl) * 
+                      FvCB(C_chl, pars, unitless)$A - pars$R_d, "umol/m^2/s")
+  }
+  
+  Ad
   
 }
 

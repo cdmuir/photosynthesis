@@ -7,18 +7,20 @@
 \alias{W_tpu}
 \title{Farquhar-von Caemmerer-Berry (FvCB) C3 photosynthesis model}
 \usage{
-FvCB(C_chl, pars)
+FvCB(C_chl, pars, unitless = FALSE)
 
-W_carbox(C_chl, pars)
+W_carbox(C_chl, pars, unitless = FALSE)
 
-W_regen(C_chl, pars)
+W_regen(C_chl, pars, unitless = FALSE)
 
-W_tpu(C_chl, pars)
+W_tpu(C_chl, pars, unitless = FALSE)
 }
 \arguments{
 \item{C_chl}{Chloroplastic CO2 concentration in Pa of class \code{units}}
 
 \item{pars}{Concatenated parameters (\code{leaf_par}, \code{enviro_par}, and \code{constants})}
+
+\item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 }
 \value{
 A list of four values with units umol CO2 / (m^2 s) of class \code{units}:

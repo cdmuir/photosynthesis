@@ -5,14 +5,16 @@
 \alias{A_demand}
 \title{CO2 supply and demand function (mol / m^2 s)}
 \usage{
-A_supply(C_chl, pars)
+A_supply(C_chl, pars, unitless = FALSE)
 
-A_demand(C_chl, pars)
+A_demand(C_chl, pars, unitless = FALSE)
 }
 \arguments{
 \item{C_chl}{Chloroplastic CO2 concentration in Pa of class \code{units}}
 
 \item{pars}{Concatenated parameters (\code{leaf_par}, \code{enviro_par}, and \code{constants})}
+
+\item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 }
 \value{
 Value in mol / (m^2 s) of class \code{units}

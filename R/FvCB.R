@@ -69,12 +69,12 @@
 #' @export
 #' 
 
-FvCB <- function(C_chl, pars) {
+FvCB <- function(C_chl, pars, unitless = FALSE) {
   
   ret <- list(
-    W_carbox = W_carbox(C_chl, pars),
-    W_regen = W_regen(C_chl, pars),
-    W_tpu = W_tpu(C_chl, pars)
+    W_carbox = W_carbox(C_chl, pars, unitless),
+    W_regen = W_regen(C_chl, pars, unitless),
+    W_tpu = W_tpu(C_chl, pars, unitless)
   )
   
   # Ignore W_tpu if C_chl < gamma_star
@@ -92,10 +92,17 @@ FvCB <- function(C_chl, pars) {
 #' @rdname FvCB
 #' @export
 
-W_carbox <- function(C_chl, pars) {
+W_carbox <- function(C_chl, pars, unitless = FALSE) {
   
-  set_units(pars$V_cmax * C_chl / (C_chl + pars$K_C * (set_units(1) + pars$O / pars$K_O)),
-            "umol/m^2/s")
+  if (unitless) {
+    A <- pars$V_cmax * C_chl / (C_chl + pars$K_C * (1 + pars$O / pars$K_O))
+  } else {
+    A <- set_units(pars$V_cmax * C_chl / 
+                     (C_chl + pars$K_C * (set_units(1) + pars$O / pars$K_O)),
+                   "umol/m^2/s")
+  }
+  
+  A
   
 }
 
@@ -103,13 +110,13 @@ W_carbox <- function(C_chl, pars) {
 #' @rdname FvCB
 #' @export
 
-W_regen <- function(C_chl, pars) {
+W_regen <- function(C_chl, pars, unitless = FALSE) {
   
-  J <- J(pars)
+  J <- J(pars, unitless)
   
   A <- J * C_chl / (4 * C_chl + 8 * pars$gamma_star)
   
-  A %<>% set_units("umol/m^2/s")
+  if (!unitless) A %<>% set_units("umol/m^2/s")
   
   A
   
@@ -119,9 +126,13 @@ W_regen <- function(C_chl, pars) {
 #' @rdname FvCB
 #' @export
 
-W_tpu <- function(C_chl, pars) {
+W_tpu <- function(C_chl, pars, unitless = FALSE) {
   
-  set_units(3 * pars$V_tpu * C_chl / (C_chl - pars$gamma_star), "umol/m^2/s")
+  A <- 3 * pars$V_tpu * C_chl / (C_chl - pars$gamma_star)
+
+  if (!unitless) A %<>% set_units("umol/m^2/s")
+  
+  A
   
 }
 
@@ -149,13 +160,15 @@ W_tpu <- function(C_chl, pars) {
 #' 
 #' @export
 #' 
-J <- function(pars) {
+J <- function(pars, unitless = FALSE) {
   
-  # drop units for root finding
-  PPFD <- pars$PPFD %<>% set_units("umol/m^2/s") %>% drop_units()
-  J_max <- pars$J_max %<>% set_units("umol/m^2/s") %>% drop_units()
-  phi_J <- pars$phi_J %<>% drop_units()
-  theta_J <- pars$theta_J %<>% drop_units()
+  if (!unitless) {
+    # drop units for root finding
+    pars$PPFD %<>% set_units("umol/m^2/s") %>% drop_units()
+    pars$J_max %<>% set_units("umol/m^2/s") %>% drop_units()
+    pars$phi_J %<>% drop_units()
+    pars$theta_J %<>% drop_units()
+  }
   
   .f <- function(J, PPFD, J_max, phi_J, theta_J) {
     
@@ -163,12 +176,12 @@ J <- function(pars) {
 
   }
   
-  J_I <- stats::uniroot(.f, c(0, J_max), PPFD = PPFD, J_max = J_max, 
-                        phi_J = phi_J, theta_J = theta_J)
+  J_I <- stats::uniroot(.f, c(0, pars$J_max), PPFD = pars$PPFD, J_max = pars$J_max, 
+                        phi_J = pars$phi_J, theta_J = pars$theta_J)
   
-  J_I %<>% 
-    magrittr::use_series("root") %>%
-    set_units("umol/m^2/s")
+  J_I %<>% magrittr::use_series("root")
+  
+  if (!unitless) J_I %<>% set_units("umol/m^2/s")
   
   J_I
   
