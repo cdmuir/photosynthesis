@@ -14,8 +14,6 @@
 #' 
 #' @param quiet Logical. Should messages be displayed?
 #' 
-#' @param unitless Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.
-#' 
 #' @return 
 #' A data.frame with the following \code{units} columns \cr
 #' 
@@ -101,7 +99,7 @@
 #' 
 
 photosynthesis <- function(leaf_par, enviro_par, bake_par, constants, 
-                           progress = TRUE, quiet = FALSE, unitless = FALSE) {
+                           progress = TRUE, quiet = FALSE) {
   
   # Check inputs ----
   leaf_par %<>% leaf_par()
@@ -115,49 +113,45 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
     magrittr::set_names(names(pars))
   
   # Make parameter sets ----
-  pars %<>%
-    names() %>%
-    glue::glue("{x} = pars${x}", x = .) %>%
-    stringr::str_c(collapse = ", ") %>%
-    glue::glue("tidyr::crossing({x})", x = .) %>%
-    parse(text = .) %>%
-    eval() %>%
-    purrr::transpose()
-  
-  tidyr::crossing(i = seq_len(length(pars)),
-                  par = names(pars[[1]])) %>%
-    dplyr::transmute(ex = glue::glue("units(pars[[{i}]]${par}) <<- par_units${par}", 
-                                     i = .data$i, par = .data$par)) %>%
-    dplyr::pull("ex") %>%
-    parse(text = .) %>%
-    eval()
+  pars %<>% make_parameter_sets(par_units)
   
   # Simulate ----
+  soln <- find_As(pars, bake_par, constants, par_units, progress, quiet)
+  
+  # Return ----
+  soln
+  
+}
+
+find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet) {
+  
   if (!quiet) {
     glue::glue("\nSolving for photosynthetic rate from {n} parameter set{s} ...", 
-               n = length(pars), s = dplyr::if_else(length(pars) > 1, "s", "")) %>%
+               n = length(par_sets), s = dplyr::if_else(length(par_sets) > 1, "s", "")) %>%
       crayon::green() %>%
       message(appendLF = FALSE)
   }
   
-  if (progress) pb <- dplyr::progress_estimated(length(pars))
+  if (progress) pb <- dplyr::progress_estimated(length(par_sets))
   
-  soln <- suppressWarnings(pars %>%
-    purrr::map_dfr(~{
-      
-      ret <- photo(leaf_par(.x), enviro_par(.x), bake_par, constants, 
-                   quiet = TRUE, unitless = unitless)
-      if (progress) pb$tick()$print()
-      ret
-      
-    }))
+  soln <- suppressWarnings(
+    par_sets %>%
+      purrr::map_dfr(~{
+        
+        ret <- photo(leaf_par(.x), enviro_par(.x), bake_par, constants, 
+                     quiet = TRUE)
+        if (progress) pb$tick()$print()
+        ret
+        
+      })
+  )
   
   # Reassign units ----
   colnames(soln) %>%
     glue::glue("units(soln${x}) <<- par_units${x}", x = .) %>%
     parse(text = .) %>%
     eval()
-
+  
   soln %>%
     dplyr::select(tidyselect::ends_with("25")) %>%
     colnames() %>%
@@ -165,12 +159,7 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
     glue::glue("units(soln${x}) <<- par_units${x}25", x = .) %>%
     parse(text = .) %>%
     eval()
-
-  units(soln$C_chl) <- "Pa"
-  units(soln$g_tc) <- "umol/m^2/s/Pa"
-  units(soln$A) <- "umol/m^2/s"
-
-  # Return ----
+  
   soln
   
 }
@@ -180,56 +169,16 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
 #' @rdname photosynthesis
 #' @export
 
-photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE,
-                  unitless = FALSE) {
+photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE) {
   
   # Check inputs and bake ----
   leaf_par %<>% bake(bake_par, constants)
   enviro_par %<>% enviro_par()
   
   pars <- c(leaf_par, enviro_par, constants)
-  if (unitless) pars %<>% purrr::map_if(function(x) is(x, "units"), drop_units)
 
   # Find intersection between photosynthetic supply and demand curves -----
-  .f <- function(C_chl, pars, unitless) {
-    
-    if (!unitless) C_chl %<>% set_units("Pa")
-    ret <- A_supply(C_chl, pars, unitless) - A_demand(C_chl, pars, unitless)
-    if (!unitless) ret %<>% set_units("umol/m^2/s") %>% drop_units()
-    ret
-    
-  }
-  
-  if (!quiet) {
-    "\nSolving for C_chl ..." %>%
-      crayon::green() %>%
-      message(appendLF = FALSE)
-  }
-  
-  fit <- tryCatch({
-
-    lower <- 0.1
-    upper <- if (unitless) {
-      max(c(10, pars$C_air))
-    } else {
-      drop_units(set_units(max(c(set_units(10, "Pa"), pars$C_air)), "Pa")) 
-    }
-    
-    stats::uniroot(.f, pars = pars, unitless = unitless, 
-                   lower = lower, upper = upper, check.conv = TRUE)
-
-  }, finally = {
-    fit <- list(root = NA, f.root = NA, convergence = 1)
-  })
-  
-  soln <- data.frame(C_chl = set_units(fit$root, "Pa"), value = fit$f.root, 
-                     convergence = dplyr::if_else(is.null(fit$convergence), 0, 1))
-  
-  if (!quiet) {
-    " done" %>%
-      crayon::green() %>%
-      message()
-  }
+  soln <- find_A(pars, quiet)
   
   # Check results -----
   if (soln$convergence == 1) {
@@ -243,13 +192,48 @@ photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE,
     dplyr::bind_cols(as.data.frame(leaf_par)) %>%
     dplyr::bind_cols(as.data.frame(enviro_par))
 
-  soln$g_tc <- set_units(.get_gtc(pars, unitless), "umol/m^2/s/Pa")
-  soln$A <- if (unitless) {
-    set_units(A_supply(drop_units(soln$C_chl), pars, unitless), "umol/m^2/s")
-  } else {
-    set_units(A_supply(soln$C_chl, pars, unitless), "umol/m^2/s")
-  }
+  soln$C_chl %<>% set_units("Pa")
+  soln$g_tc %<>% set_units("umol/m^2/s/Pa")
+  soln$A %<>% set_units("umol/m^2/s")
+
   soln  
+  
+}
+
+find_A <- function(pars, quiet) {
+  
+  pars %<>% purrr::map_if(function(x) is(x, "units"), drop_units)
+  
+  .f <- function(C_chl, pars) {
+    A_supply(C_chl, pars, unitless = TRUE) - A_demand(C_chl, pars, unitless = TRUE)
+  }
+  
+  if (!quiet) {
+    "\nSolving for C_chl ..." %>%
+      crayon::green() %>%
+      message(appendLF = FALSE)
+  }
+  
+  fit <- tryCatch({
+    stats::uniroot(.f, pars = pars, lower = 0.1, upper = max(c(10, pars$C_air)), 
+                   check.conv = TRUE)
+  }, finally = {
+    fit <- list(root = NA, f.root = NA, convergence = 1)
+  })
+  
+  soln <- data.frame(C_chl = fit$root, value = fit$f.root, 
+                     convergence = dplyr::if_else(is.null(fit$convergence), 0, 1))
+  
+  if (!quiet) {
+    " done" %>%
+      crayon::green() %>%
+      message()
+  }
+  
+  soln$g_tc <- .get_gtc(pars, unitless = TRUE)
+  soln$A <- A_supply(soln$C_chl, pars, unitless = TRUE)
+
+  soln
   
 }
 
@@ -258,6 +242,7 @@ photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE,
 #' @inheritParams photosynthesis
 #' @param C_chl Chloroplastic CO2 concentration in Pa of class \code{units}
 #' @param pars Concatenated parameters (\code{leaf_par}, \code{enviro_par}, and \code{constants})
+#' @param unitless Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.
 #' 
 #' @return Value in mol / (m^2 s) of class \code{units}
 #' 
@@ -329,3 +314,25 @@ A_demand <- function(C_chl, pars, unitless = FALSE) {
   
 }
 
+make_parameter_sets <- function(pars, par_units) {
+  
+  pars %<>%
+    names() %>%
+    glue::glue("{x} = pars${x}", x = .) %>%
+    stringr::str_c(collapse = ", ") %>%
+    glue::glue("tidyr::crossing({x})", x = .) %>%
+    parse(text = .) %>%
+    eval() %>%
+    purrr::transpose()
+  
+  tidyr::crossing(i = seq_len(length(pars)),
+                  par = names(pars[[1]])) %>%
+    dplyr::transmute(ex = glue::glue("units(pars[[{i}]]${par}) <<- par_units${par}", 
+                                     i = .data$i, par = .data$par)) %>%
+    dplyr::pull("ex") %>%
+    parse(text = .) %>%
+    eval()
+ 
+  pars
+  
+}

@@ -115,10 +115,6 @@ test_that("unitless values match unit-ed values", {
   J2 <- J(pars2, unitless = TRUE)
   expect_equal(J1, J2)
   
-  ph1 <- photo(lp1, ep, bp1, cs1)
-  ph2 <- photo(lp1, ep, bp1, cs1, unitless = TRUE)
-  expect_equal(ph1, ph2)
-  
   ps1 <- drop_units(.get_ps(pars1$T_leaf, pars1$P, unitless = FALSE))
   ps2 <- .get_ps(pars2$T_leaf, pars2$P, unitless = TRUE)
   expect_equal(ps1, ps2)

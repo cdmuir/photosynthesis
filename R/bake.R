@@ -12,6 +12,7 @@ NULL
 #' @name bake
 #' 
 #' @inheritParams photosynthesis
+#' @inheritParams A_supply
 #' @param check Logical. Should all parameter sets be checked? TRUE is safer, but FALSE is faster.
 #' 
 #' @description 

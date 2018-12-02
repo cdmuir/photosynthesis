@@ -7,10 +7,9 @@
 \title{Simulate C3 photosynthesis}
 \usage{
 photosynthesis(leaf_par, enviro_par, bake_par, constants,
-  progress = TRUE, quiet = FALSE, unitless = FALSE)
+  progress = TRUE, quiet = FALSE)
 
-photo(leaf_par, enviro_par, bake_par, constants, quiet = FALSE,
-  unitless = FALSE)
+photo(leaf_par, enviro_par, bake_par, constants, quiet = FALSE)
 }
 \arguments{
 \item{leaf_par}{A list of leaf parameters inheriting class \code{leaf_par}. This can be generated using the \code{make_leafpar} function.}
@@ -24,8 +23,6 @@ photo(leaf_par, enviro_par, bake_par, constants, quiet = FALSE,
 \item{progress}{Logical. Should a progress bar be displayed?}
 
 \item{quiet}{Logical. Should messages be displayed?}
-
-\item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 }
 \value{
 A data.frame with the following \code{units} columns \cr
