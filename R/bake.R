@@ -73,7 +73,7 @@ bake <- function(leaf_par, bake_par, constants, unitless = FALSE,
   leaf_par$g_mc <- temp_resp2(pars$g_mc25, pars$Ds_gmc, pars$Ea_gmc, 
                               pars$Ed_gmc, pars$R, pars$T_leaf, T_ref, 
                               unitless)
-  leaf_par$gamma_star <- temp_resp1(pars$gamma_star, pars$Ea_gammastar, pars$R, 
+  leaf_par$gamma_star <- temp_resp1(pars$gamma_star25, pars$Ea_gammastar, pars$R, 
                                     pars$T_leaf, T_ref, unitless)
   leaf_par$J_max <- temp_resp2(pars$J_max25, pars$Ds_Jmax, pars$Ea_Jmax, 
                                pars$Ed_Jmax, pars$R, pars$T_leaf, T_ref, 
