@@ -7,7 +7,7 @@
 \title{Simulate C3 photosynthesis}
 \usage{
 photosynthesis(leaf_par, enviro_par, bake_par, constants,
-  progress = TRUE, quiet = FALSE)
+  progress = TRUE, quiet = FALSE, parallel = FALSE)
 
 photo(leaf_par, enviro_par, bake_par, constants, quiet = FALSE)
 }
@@ -23,6 +23,8 @@ photo(leaf_par, enviro_par, bake_par, constants, quiet = FALSE)
 \item{progress}{Logical. Should a progress bar be displayed?}
 
 \item{quiet}{Logical. Should messages be displayed?}
+
+\item{parallel}{Logical. Should parallel processing be used via \code{\link[furrr]{future_map}}?}
 }
 \value{
 A data.frame with the following \code{units} columns \cr

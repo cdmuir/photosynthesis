@@ -14,6 +14,8 @@
 #' 
 #' @param quiet Logical. Should messages be displayed?
 #' 
+#' @param parallel Logical. Should parallel processing be used via \code{\link[furrr]{future_map}}?
+#' 
 #' @return 
 #' A data.frame with the following \code{units} columns \cr
 #' 
@@ -99,7 +101,7 @@
 #' 
 
 photosynthesis <- function(leaf_par, enviro_par, bake_par, constants, 
-                           progress = TRUE, quiet = FALSE) {
+                           progress = TRUE, quiet = FALSE, parallel = FALSE) {
   
   # Check inputs ----
   leaf_par %<>% leaf_par()
@@ -116,14 +118,14 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
   pars %<>% make_parameter_sets(par_units)
   
   # Simulate ----
-  soln <- find_As(pars, bake_par, constants, par_units, progress, quiet)
+  soln <- find_As(pars, bake_par, constants, par_units, progress, quiet, parallel)
   
   # Return ----
   soln
   
 }
 
-find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet) {
+find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet, parallel) {
   
   if (!quiet) {
     glue::glue("\nSolving for photosynthetic rate from {n} parameter set{s} ...", 
@@ -132,18 +134,20 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet) {
       message(appendLF = FALSE)
   }
   
-  if (progress) pb <- dplyr::progress_estimated(length(par_sets))
+  if (parallel) future::plan("multiprocess")
+  
+  if (progress & !parallel) pb <- dplyr::progress_estimated(length(par_sets))
   
   soln <- suppressWarnings(
     par_sets %>%
-      purrr::map_dfr(~{
+      furrr::future_map_dfr(~{
         
         ret <- photo(leaf_par(.x), enviro_par(.x), bake_par, constants, 
                      quiet = TRUE)
-        if (progress) pb$tick()$print()
+        if (progress & !parallel) pb$tick()$print()
         ret
         
-      })
+      }, .progress = progress)
   )
   
   # Reassign units ----
