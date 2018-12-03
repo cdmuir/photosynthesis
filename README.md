@@ -71,22 +71,22 @@ rate in a single leaf using the `make_*()` functions and `photo()`.
     constants  <- make_constants() # physical constants
 
     photo(leaf_par, enviro_par, bake_par, constants, quiet = TRUE)
-    #>          C_chl         value convergence            g_mc25
-    #> 1 24.9227 [Pa] -1.161979e-06           0 4 [umol/m^2/Pa/s]
-    #>                g_sc                g_uc gamma_star25          J_max25
-    #> 1 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]   3.743 [Pa] 200 [umol/m^2/s]
-    #>         K_C25        K_O25  k_mc  k_sc  k_uc leafsize     phi_J
-    #> 1 27.238 [Pa] 16.582 [kPa] 1 [1] 1 [1] 1 [1]  0.1 [m] 0.331 [1]
-    #>            R_d25     T_leaf   theta_J         V_cmax25          V_tpu25
-    #> 1 2 [umol/m^2/s] 298.15 [K] 0.825 [1] 150 [umol/m^2/s] 200 [umol/m^2/s]
-    #>                g_mc gamma_star            J_max         K_C          K_O
-    #> 1 4 [umol/m^2/Pa/s] 3.743 [Pa] 200 [umol/m^2/s] 27.238 [Pa] 16.582 [kPa]
-    #>              R_d           V_cmax            V_tpu   C_air              O
-    #> 1 2 [umol/m^2/s] 150 [umol/m^2/s] 200 [umol/m^2/s] 41 [Pa] 21.27565 [kPa]
-    #>                P              PPFD      RH      T_air    wind
-    #> 1 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 298.15 [K] 2 [m/s]
-    #>                       g_tc                     A
-    #> 1 1.721631 [umol/m^2/Pa/s] 27.67919 [umol/m^2/s]
+    #>          C_chl         value convergence                     g_tc
+    #> 1 24.9227 [Pa] -1.161979e-06           0 1.721631 [umol/m^2/Pa/s]
+    #>                       A            g_mc25              g_sc
+    #> 1 27.67919 [umol/m^2/s] 4 [umol/m^2/Pa/s] 4 [umol/m^2/Pa/s]
+    #>                  g_uc gamma_star25          J_max25       K_C25
+    #> 1 0.1 [umol/m^2/Pa/s]   3.743 [Pa] 200 [umol/m^2/s] 27.238 [Pa]
+    #>          K_O25  k_mc  k_sc  k_uc leafsize     phi_J          R_d25
+    #> 1 16.582 [kPa] 1 [1] 1 [1] 1 [1]  0.1 [m] 0.331 [1] 2 [umol/m^2/s]
+    #>       T_leaf   theta_J         V_cmax25          V_tpu25              g_mc
+    #> 1 298.15 [K] 0.825 [1] 150 [umol/m^2/s] 200 [umol/m^2/s] 4 [umol/m^2/Pa/s]
+    #>   gamma_star            J_max         K_C          K_O            R_d
+    #> 1 3.743 [Pa] 200 [umol/m^2/s] 27.238 [Pa] 16.582 [kPa] 2 [umol/m^2/s]
+    #>             V_cmax            V_tpu   C_air              O              P
+    #> 1 150 [umol/m^2/s] 200 [umol/m^2/s] 41 [Pa] 21.27565 [kPa] 101.3246 [kPa]
+    #>                PPFD      RH      T_air    wind
+    #> 1 1500 [umol/m^2/s] 0.5 [1] 298.15 [K] 2 [m/s]
 
 Replace default parameters
 --------------------------
@@ -199,22 +199,22 @@ the `tidyr::crossing` function to fit all combinations[1].
 <tr class="odd">
 <td align="right">2 [umol/m^2/Pa/s]</td>
 <td align="right">1000 [umol/m^2/s]</td>
-<td align="right">24.06763 [umol/m^2/s]</td>
+<td align="right">24.06763</td>
 </tr>
 <tr class="even">
 <td align="right">2 [umol/m^2/Pa/s]</td>
 <td align="right">1500 [umol/m^2/s]</td>
-<td align="right">25.36622 [umol/m^2/s]</td>
+<td align="right">25.36622</td>
 </tr>
 <tr class="odd">
 <td align="right">4 [umol/m^2/Pa/s]</td>
 <td align="right">1000 [umol/m^2/s]</td>
-<td align="right">26.04372 [umol/m^2/s]</td>
+<td align="right">26.04372</td>
 </tr>
 <tr class="even">
 <td align="right">4 [umol/m^2/Pa/s]</td>
 <td align="right">1500 [umol/m^2/s]</td>
-<td align="right">27.67919 [umol/m^2/s]</td>
+<td align="right">27.67919</td>
 </tr>
 </tbody>
 </table>
