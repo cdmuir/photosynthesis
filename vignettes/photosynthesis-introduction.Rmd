@@ -116,12 +116,43 @@ enviro_par <- make_enviropar(
 bake_par <- make_bakepar()
 constants  <- make_constants()
 
-# Now there should be 4 combinations (high and low g_swccrossed with high and low PPFD)
+# Now there should be 4 combinations (high and low g_sc crossed with high and low PPFD)
 ph <- photosynthesis(leaf_par, enviro_par, bake_par, constants, 
                            progress = FALSE, quiet = TRUE)
 
 ph %>% 
   select(g_sc, PPFD, A) %>%
   knitr::kable()
+
+```
+
+## Parallel processing
+
+It can take a little while to simulate many different parameter sets. If you have multiple processors available, you can speed things up by running simulations in parallel. In the `photosynthesis` function, simply use the `parallel = TRUE` argument to simulate in parallel. Here I'll provide an example simulating an A-Cc curve.
+
+```{r, Parallel example}
+
+# We'll use the `replace` argument to enter multiple atmospheric CO2 concentrations
+
+leaf_par  <- make_leafpar()
+
+enviro_par <- make_enviropar(
+  replace = list(
+    C_air = set_units(seq(1, 200, length.out = 20), "Pa")
+    )
+  )
+
+bake_par <- make_bakepar()
+constants  <- make_constants()
+
+ph <- photosynthesis(leaf_par, enviro_par, bake_par, constants, 
+                           progress = FALSE, quiet = TRUE, parallel = TRUE)
+
+# Plot C_c versus A
+library(ggplot2)
+ggplot(ph, aes(C_chl, A)) +
+  geom_line() +
+  theme_minimal() +
+  NULL
 
 ```
