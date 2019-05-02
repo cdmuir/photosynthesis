@@ -21,7 +21,7 @@
 
 ppm2pa <- function(ppm, P) {
 
-  set_units(ppm * P, "Pa")
+  set_units(ppm * P, Pa)
   
 }
 
@@ -57,8 +57,8 @@ ppm2pa <- function(ppm, P) {
 convert_conductance <- function(.g, Temp = NULL, P = NULL) {
   
   stopifnot(inherits(.g, "units"))
-  if (!is.null(Temp)) Temp %<>% set_units("K")
-  if (!is.null(P)) P %<>% set_units("kPa")
+  if (!is.null(Temp)) Temp %<>% set_units(K)
+  if (!is.null(P)) P %<>% set_units(kPa)
   
   R <- make_constants()$R # ideal gas constant
   g_unit <- units(.g)
@@ -72,8 +72,8 @@ convert_conductance <- function(.g, Temp = NULL, P = NULL) {
     .g %<>% set_units("m/s")
     ret <- list(
       `m/s` = .g,
-      `umol/m^2/s/Pa` = set_units(.g / (R * Temp), "umol/m^2/s/Pa"),
-      `mol/m^2/s` = set_units(.g * P / (R * Temp), "mol/m^2/s")
+      `umol/m^2/s/Pa` = set_units(.g / (R * Temp), umol/m^2/s/Pa),
+      `mol/m^2/s` = set_units(.g * P / (R * Temp), mol/m^2/s)
     )
     
   }
@@ -88,9 +88,9 @@ convert_conductance <- function(.g, Temp = NULL, P = NULL) {
     
     .g %<>% set_units("umol/m^2/s/Pa")
     ret <- list(
-      `m/s` = set_units(.g * (R * Temp), "m/s"),
+      `m/s` = set_units(.g * (R * Temp), m/s),
       `umol/m^2/s/Pa` = .g,
-      `mol/m^2/s` = set_units(.g * P, "mol/m^2/s")
+      `mol/m^2/s` = set_units(.g * P, mol/m^2/s)
     )
     
   }
@@ -103,10 +103,10 @@ convert_conductance <- function(.g, Temp = NULL, P = NULL) {
       !any(stringr::str_detect(g_unit$denominator, "Pa$")) &
       length(which(g_unit$denominator %in% c("s", "min", "hr"))) == 1L) {
     
-    .g %<>% set_units("mol/m^2/s")
+    .g %<>% set_units(mol/m^2/s)
     ret <- list(
-      `m/s` = set_units(.g * R * Temp / P, "m/s"),
-      `umol/m^2/s/Pa` = set_units(.g / P, "umol/m^2/s/Pa"),
+      `m/s` = set_units(.g * R * Temp / P, m/s),
+      `umol/m^2/s/Pa` = set_units(.g / P, umol/m^2/s/Pa),
       `mol/m^2/s` = .g
     )
     

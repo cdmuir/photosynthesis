@@ -99,7 +99,7 @@ W_carbox <- function(C_chl, pars, unitless = FALSE) {
   } else {
     A <- set_units(pars$V_cmax * C_chl / 
                      (C_chl + pars$K_C * (set_units(1) + pars$O / pars$K_O)),
-                   "umol/m^2/s")
+                   umol/m^2/s)
   }
   
   A
@@ -116,7 +116,7 @@ W_regen <- function(C_chl, pars, unitless = FALSE) {
   
   A <- J * C_chl / (4 * C_chl + 8 * pars$gamma_star)
   
-  if (!unitless) A %<>% set_units("umol/m^2/s")
+  if (!unitless) A %<>% set_units(umol/m^2/s)
   
   A
   
@@ -130,7 +130,7 @@ W_tpu <- function(C_chl, pars, unitless = FALSE) {
   
   A <- 3 * pars$V_tpu * C_chl / (C_chl - pars$gamma_star)
 
-  if (!unitless) A %<>% set_units("umol/m^2/s")
+  if (!unitless) A %<>% set_units(umol/m^2/s)
   
   A
   
@@ -164,8 +164,8 @@ J <- function(pars, unitless = FALSE) {
   
   if (!unitless) {
     # drop units for root finding
-    pars$PPFD %<>% set_units("umol/m^2/s") %>% drop_units()
-    pars$J_max %<>% set_units("umol/m^2/s") %>% drop_units()
+    pars$PPFD %<>% set_units(umol/m^2/s) %>% drop_units()
+    pars$J_max %<>% set_units(umol/m^2/s) %>% drop_units()
     pars$phi_J %<>% drop_units()
     pars$theta_J %<>% drop_units()
   }
@@ -181,7 +181,7 @@ J <- function(pars, unitless = FALSE) {
   
   J_I %<>% magrittr::use_series("root")
   
-  if (!unitless) J_I %<>% set_units("umol/m^2/s")
+  if (!unitless) J_I %<>% set_units(umol/m^2/s)
   
   J_I
   

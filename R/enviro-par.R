@@ -28,22 +28,22 @@ enviro_par <- function(.x) {
   .x %<>% magrittr::extract(nms)
   
   # Set units ----
-  .x$C_air %<>% set_units("Pa")
-  .x$O %<>% set_units("kPa")
-  .x$P %<>% set_units("kPa")
-  .x$PPFD %<>% set_units("umol/m^2/s")
+  .x$C_air %<>% set_units(Pa)
+  .x$O %<>% set_units(kPa)
+  .x$P %<>% set_units(kPa)
+  .x$PPFD %<>% set_units(umol/m^2/s)
   .x$RH %<>% set_units()
-  .x$T_air %<>% set_units("K")
-  .x$wind %<>% set_units("m/s")
+  .x$T_air %<>% set_units(K)
+  .x$wind %<>% set_units(m/s)
   
   # Check values ----
-  stopifnot(.x$C_air >= set_units(0, "Pa") & .x$C_air <= .x$P)
-  stopifnot(.x$O >= set_units(0, "kPa") & .x$O <= .x$P)
-  stopifnot(.x$P >= set_units(0, "kPa"))
-  stopifnot(.x$PPFD >= set_units(0, "umol/m^2/s"))
+  stopifnot(.x$C_air >= set_units(0, Pa) & .x$C_air <= .x$P)
+  stopifnot(.x$O >= set_units(0, kPa) & .x$O <= .x$P)
+  stopifnot(.x$P >= set_units(0, kPa))
+  stopifnot(.x$PPFD >= set_units(0, umol/m^2/s))
   stopifnot(.x$RH >= set_units(0) & .x$RH <= set_units(1))
-  stopifnot(.x$T_air >= set_units(0, "K"))
-  stopifnot(.x$wind >= set_units(0, "m/s"))
+  stopifnot(.x$T_air >= set_units(0, K))
+  stopifnot(.x$wind >= set_units(0, m/s))
   
   structure(.x, class = c(stringr::str_c(which, "_par"), "list"))
   

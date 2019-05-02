@@ -75,7 +75,7 @@ NULL
   
   g_tc <- gc_lower + gc_upper
   
-  if (!unitless) g_tc %<>% set_units("umol/m^2/s/Pa")
+  if (!unitless) g_tc %<>% set_units(umol/m^2/s/Pa)
   
   g_tc
   
@@ -126,7 +126,7 @@ NULL
   Sh <- .get_sh(pars, surface, unitless)
   
   # Conductance in m / s  
-  ret <- set_units(D_c * Sh / pars$leafsize, "m/s")
+  ret <- set_units(D_c * Sh / pars$leafsize, m/s)
     
   ret %<>% 
     convert_conductance(Temp = (pars$T_air + pars$T_leaf) / 2, P = pars$P) %>%
@@ -169,8 +169,8 @@ NULL
   } else {
     
     Dx <- D_0 * 
-      drop_units((set_units(Temp, "K") / set_units(273.15, "K"))) ^ drop_units(eT) * 
-      drop_units((set_units(101.3246, "kPa") / set_units(P, "kPa")))
+      drop_units((set_units(Temp, K) / set_units(273.15, K))) ^ drop_units(eT) * 
+      drop_units((set_units(101.3246, kPa) / set_units(P, kPa)))
     
   }
   
@@ -344,9 +344,9 @@ NULL
     
   } else {
     
-    Tv <- set_units(Temp, "K") / 
+    Tv <- set_units(Temp, K) / 
       (set_units(1) - (set_units(1) - epsilon) * 
-         (set_units(p, "kPa") / set_units(P, "kPa")))
+         (set_units(p, kPa) / set_units(P, kPa)))
     
   }
   
@@ -377,8 +377,8 @@ NULL
   if (unitless) {
     P %<>% magrittr::multiply_by(10)
   } else {
-    Temp %<>% set_units("K") %>% drop_units()
-    P %<>% set_units("hPa") %>% drop_units()
+    Temp %<>% set_units(K) %>% drop_units()
+    P %<>% set_units(hPa) %>% drop_units()
   }
   
   p_s <- 10 ^ (-7.90298 * (373.16 / Temp - 1) +
@@ -392,8 +392,8 @@ NULL
     p_s %<>% magrittr::multiply_by(0.1)
   } else {
     p_s %<>% 
-      set_units("hPa") %>%
-      set_units("kPa")
+      set_units(hPa) %>%
+      set_units(kPa)
   }
   
   p_s

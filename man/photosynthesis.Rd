@@ -7,9 +7,11 @@
 \title{Simulate C3 photosynthesis}
 \usage{
 photosynthesis(leaf_par, enviro_par, bake_par, constants,
-  progress = TRUE, quiet = FALSE, parallel = FALSE)
+  progress = TRUE, quiet = FALSE, set_units = TRUE,
+  parallel = FALSE)
 
-photo(leaf_par, enviro_par, bake_par, constants, quiet = FALSE)
+photo(leaf_par, enviro_par, bake_par, constants, quiet = FALSE,
+  set_units = TRUE)
 }
 \arguments{
 \item{leaf_par}{A list of leaf parameters inheriting class \code{leaf_par}. This can be generated using the \code{make_leafpar} function.}
@@ -23,6 +25,8 @@ photo(leaf_par, enviro_par, bake_par, constants, quiet = FALSE)
 \item{progress}{Logical. Should a progress bar be displayed?}
 
 \item{quiet}{Logical. Should messages be displayed?}
+
+\item{set_units}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 
 \item{parallel}{Logical. Should parallel processing be used via \code{\link[furrr]{future_map}}?}
 }

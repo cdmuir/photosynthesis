@@ -7,8 +7,7 @@
 \alias{temp_resp2}
 \title{Leaf parameter temperature responses}
 \usage{
-bake(leaf_par, bake_par, constants, unitless = FALSE,
-  check = !unitless)
+bake(leaf_par, bake_par, constants, set_units = TRUE)
 
 temp_resp1(par25, E_a, R, T_leaf, T_ref, unitless)
 
@@ -21,9 +20,7 @@ temp_resp2(par25, D_s, E_a, E_d, R, T_leaf, T_ref, unitless)
 
 \item{constants}{A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.}
 
-\item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
-
-\item{check}{Logical. Should all parameter sets be checked? TRUE is safer, but FALSE is faster.}
+\item{set_units}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 
 \item{par25}{Parameter value at 25 °C of class \code{units}.}
 
@@ -34,6 +31,8 @@ temp_resp2(par25, D_s, E_a, E_d, R, T_leaf, T_ref, unitless)
 \item{T_leaf}{Leaf temperature in K of class \code{units}. Will be converted to °C.}
 
 \item{T_ref}{Reference temperature in K of class \code{units}.}
+
+\item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 
 \item{D_s}{Empirical temperature response value in J / (mol K) of class \code{units}.}
 

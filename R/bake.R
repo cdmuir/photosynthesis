@@ -13,7 +13,6 @@ NULL
 #' 
 #' @inheritParams photosynthesis
 #' @inheritParams A_supply
-#' @param check Logical. Should all parameter sets be checked? TRUE is safer, but FALSE is faster.
 #' 
 #' @description 
 #' 
@@ -57,52 +56,60 @@ NULL
 #' 
 #' @export
 
-bake <- function(leaf_par, bake_par, constants, unitless = FALSE,
-                 check = !unitless) {
+bake <- function(leaf_par, bake_par, constants, set_units = TRUE) {
   
-  if (check) {
+  if (set_units) {
     leaf_par %<>% leaf_par()
     bake_par %<>% bake_par()
     constants %<>% constants()
   }
   
-  pars <- c(leaf_par, bake_par, constants)
+  pars <- c(leaf_par, bake_par, constants) %>%
+    purrr::map_if(~ inherits(.x, "units"), drop_units)
   T_ref <- 298.15
-  if (!unitless) T_ref %<>% set_units("K")
 
   leaf_par$g_mc <- temp_resp2(pars$g_mc25, pars$Ds_gmc, pars$Ea_gmc, 
                               pars$Ed_gmc, pars$R, pars$T_leaf, T_ref, 
-                              unitless)
-  leaf_par$gamma_star <- temp_resp1(pars$gamma_star25, pars$Ea_gammastar, pars$R, 
-                                    pars$T_leaf, T_ref, unitless)
+                              unitless = TRUE)
+  leaf_par$gamma_star <- temp_resp1(pars$gamma_star25, pars$Ea_gammastar, 
+                                    pars$R, pars$T_leaf, T_ref, unitless = TRUE)
   leaf_par$J_max <- temp_resp2(pars$J_max25, pars$Ds_Jmax, pars$Ea_Jmax, 
                                pars$Ed_Jmax, pars$R, pars$T_leaf, T_ref, 
-                               unitless)
-  leaf_par$K_C <- temp_resp1(pars$K_C25, pars$Ea_KC, pars$R, pars$T_leaf, T_ref, 
-                             unitless)
-  leaf_par$K_O <- temp_resp1(pars$K_O25, pars$Ea_KO, pars$R, pars$T_leaf, T_ref, 
-                             unitless)
-  leaf_par$R_d <- temp_resp1(pars$R_d25, pars$Ea_Rd, pars$R, pars$T_leaf, T_ref, 
-                             unitless)
+                               unitless = TRUE)
+  leaf_par$K_C <- temp_resp1(pars$K_C25, pars$Ea_KC, pars$R, pars$T_leaf, 
+                             T_ref, unitless = TRUE)
+  leaf_par$K_O <- temp_resp1(pars$K_O25, pars$Ea_KO, pars$R, pars$T_leaf, 
+                             T_ref, unitless = TRUE)
+  leaf_par$R_d <- temp_resp1(pars$R_d25, pars$Ea_Rd, pars$R, pars$T_leaf, 
+                             T_ref, unitless = TRUE)
   leaf_par$V_cmax <- temp_resp1(pars$V_cmax25, pars$Ea_Vcmax, pars$R, 
-                                pars$T_leaf, T_ref, unitless)
+                                pars$T_leaf, T_ref, unitless = TRUE)
   leaf_par$V_tpu <- temp_resp1(pars$V_tpu25, pars$Ea_Vtpu, pars$R, pars$T_leaf, 
-                               T_ref, unitless)
+                               T_ref, unitless = TRUE)
 
   # Set units ----
-  if (!unitless) {
-    leaf_par$g_mc %<>% set_units("umol/m^2/s/Pa")
-    leaf_par$gamma_star %<>% set_units("Pa")
-    leaf_par$J_max %<>% set_units("umol / (m^2 * s)")
-    leaf_par$K_C %<>% set_units("Pa")
-    leaf_par$K_O %<>% set_units("kPa")
-    leaf_par$R_d %<>% set_units("umol / (m^2 * s)")
-    leaf_par$V_cmax %<>% set_units("umol / (m^2 * s)")
-    leaf_par$V_tpu %<>% set_units("umol / (m^2 * s)")
+  if (set_units) {
+    leaf_par$g_mc %<>% set_units(umol/m^2/s/Pa)
+    leaf_par$gamma_star %<>% set_units(Pa)
+    leaf_par$J_max %<>% set_units(umol / (m^2 * s))
+    leaf_par$K_C %<>% set_units(Pa)
+    leaf_par$K_O %<>% set_units(kPa)
+    leaf_par$R_d %<>% set_units(umol / (m^2 * s))
+    leaf_par$V_cmax %<>% set_units(umol / (m^2 * s))
+    leaf_par$V_tpu %<>% set_units(umol / (m^2 * s))
   }
   
   # Check values ----
-  if (unitless) {
+  if (set_units) {
+    stopifnot(leaf_par$g_mc >= set_units(0, umol/m^2/s/Pa))
+    stopifnot(leaf_par$gamma_star >= set_units(0, Pa))
+    stopifnot(leaf_par$J_max >= set_units(0, umol / (m^2 * s)))
+    stopifnot(leaf_par$K_C >= set_units(0, Pa))
+    stopifnot(leaf_par$K_O >= set_units(0, kPa))
+    stopifnot(leaf_par$R_d >= set_units(0, umol / (m^2 * s)))
+    stopifnot(leaf_par$V_cmax >= set_units(0, umol / (m^2 * s)))
+    stopifnot(leaf_par$V_tpu >= set_units(0, umol / (m^2 * s)))
+  } else {
     stopifnot(leaf_par$g_mc >= 0)
     stopifnot(leaf_par$gamma_star >= 0)
     stopifnot(leaf_par$J_max >= 0)
@@ -111,15 +118,6 @@ bake <- function(leaf_par, bake_par, constants, unitless = FALSE,
     stopifnot(leaf_par$R_d >= 0)
     stopifnot(leaf_par$V_cmax >= 0)
     stopifnot(leaf_par$V_tpu >= 0)
-  } else {
-    stopifnot(leaf_par$g_mc >= set_units(0, "umol/m^2/s/Pa"))
-    stopifnot(leaf_par$gamma_star >= set_units(0, "Pa"))
-    stopifnot(leaf_par$J_max >= set_units(0, "umol / (m^2 * s)"))
-    stopifnot(leaf_par$K_C >= set_units(0, "Pa"))
-    stopifnot(leaf_par$K_O >= set_units(0, "kPa"))
-    stopifnot(leaf_par$R_d >= set_units(0, "umol / (m^2 * s)"))
-    stopifnot(leaf_par$V_cmax >= set_units(0, "umol / (m^2 * s)"))
-    stopifnot(leaf_par$V_tpu >= set_units(0, "umol / (m^2 * s)"))
   }
   
   leaf_par %<>% structure(class = c("baked", "leaf_par", "list"))
@@ -148,10 +146,10 @@ temp_resp1 <- function(par25, E_a, R, T_leaf, T_ref, unitless) {
     pars_unit <- units(par25)
     par25 %<>% drop_units()
     
-    E_a %<>% set_units("J/mol") %>% drop_units()
-    R %<>% set_units("J/K/mol") %>% drop_units()
-    T_leaf %<>% set_units("degreeC") %>% drop_units()
-    T_ref %<>% set_units("K") %>% drop_units()
+    E_a %<>% set_units(J/mol) %>% drop_units()
+    R %<>% set_units(J/K/mol) %>% drop_units()
+    T_leaf %<>% set_units(degreeC) %>% drop_units()
+    T_ref %<>% set_units(K) %>% drop_units()
   }
   
   a1 <- exp(E_a / (R * T_ref) * ((T_leaf - 25) / (T_leaf + 273.15)))
@@ -184,12 +182,12 @@ temp_resp2 <- function(par25, D_s, E_a, E_d, R, T_leaf, T_ref, unitless) {
     par25 %<>% drop_units()
     a1 %<>% drop_units()
     
-    D_s %<>% set_units("J/mol/K") %>% drop_units()
-    E_a %<>% set_units("J/mol") %>% drop_units()
-    E_d %<>% set_units("J/mol") %>% drop_units()
-    R %<>% set_units("J/K/mol") %>% drop_units()
-    T_leaf %<>% set_units("degreeC") %>% drop_units()
-    T_ref %<>% set_units("K") %>% drop_units()
+    D_s %<>% set_units(J/mol/K) %>% drop_units()
+    E_a %<>% set_units(J/mol) %>% drop_units()
+    E_d %<>% set_units(J/mol) %>% drop_units()
+    R %<>% set_units(J/K/mol) %>% drop_units()
+    T_leaf %<>% set_units(degreeC) %>% drop_units()
+    T_ref %<>% set_units(K) %>% drop_units()
     
   }
   

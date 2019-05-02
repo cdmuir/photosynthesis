@@ -12,7 +12,7 @@ test_that("benchmarks haven't changed", {
   ph <- photo(lp, ep, bp, cs)
   expect_equal(round(ph$A, 5), set_units(27.67919, umol/m^2/s))
   
-  # # Several parameters vary; others are fixed to current defaults
+  # Several parameters vary; others are fixed to current defaults
   # p <- tidyr::crossing(
   #   
   #   # constants
@@ -66,10 +66,8 @@ test_that("benchmarks haven't changed", {
   #   RH = set_units(0.5),
   #   wind = set_units(c(0.01, 0.1, 1, 10), m/s)
   #   
-  # )
-  # 
-  # p$A <- numeric(nrow(p))
-  # p$row <- 1:nrow(p)
+  # ) %>%
+  #   mutate(A = NA, row = 1:nrow(.))
   # 
   # # Create benchmarks (last updated: 2019-04-30)
   # safely_photo <- purrr::safely(photo)
@@ -92,12 +90,13 @@ test_that("benchmarks haven't changed", {
   #   
   #   ph <- safely_photo(lp, ep, bp, cs, quiet = TRUE)
   #   if (is.null(ph$result)) {
-  #     p <- p[-i, ]
+  #     p$A[i] <- NA
   #   } else {
   #     p$A[i] <- ph$result$A
   #   }
   # }
   # 
+  # p %<>% dplyr::filter(!is.na(A))
   # readr::write_csv(p, "tests/testthat/benchmarks.csv")
   
   p <- read.csv("benchmarks.csv")
@@ -117,6 +116,7 @@ test_that("benchmarks haven't changed", {
     
     ph <- photo(lp, ep, bp, cs, quiet = TRUE)
     expect_equal(round(ph$A, 3), set_units(round(p$A[i], 3), umol/m^2/s))
+
   }
   
 })

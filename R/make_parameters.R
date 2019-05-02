@@ -118,23 +118,23 @@ make_leafpar <- function(replace = NULL) {
 
   # Defaults -----
   obj <- list(
-    g_mc25 = set_units(4, "umol / (m^2 * s * Pa)"),
-    g_sc = set_units(4, "umol / (m^2 * s * Pa)"),
-    g_uc = set_units(0.1, "umol / (m^2 * s * Pa)"),
-    gamma_star25 = set_units(3.743, "Pa"), # From Sharkey et al. 2007. Newer source? Check bayCi
-    J_max25 = set_units(200, "umol / (m^2 * s)"),
+    g_mc25 = set_units(4, umol / (m^2 * s * Pa)),
+    g_sc = set_units(4, umol / (m^2 * s * Pa)),
+    g_uc = set_units(0.1, umol / (m^2 * s * Pa)),
+    gamma_star25 = set_units(3.743, Pa), # From Sharkey et al. 2007. Newer source? Check bayCi
+    J_max25 = set_units(200, umol / (m^2 * s)),
     k_mc = set_units(1),
     k_sc = set_units(1),
     k_uc = set_units(1),
-    K_C25 = set_units(27.238, "Pa"), # From Sharkey et al. 2007. Newer source? Check bayCi
-    K_O25 = set_units(16.582, "kPa"), # From Sharkey et al. 2007. Newer source? Check bayCi
-    leafsize = set_units(0.1, "m"),
+    K_C25 = set_units(27.238, Pa), # From Sharkey et al. 2007. Newer source? Check bayCi
+    K_O25 = set_units(16.582, kPa), # From Sharkey et al. 2007. Newer source? Check bayCi
+    leafsize = set_units(0.1, m),
     phi_J = set_units(0.331),
     theta_J = set_units(0.825),
-    R_d25 = set_units(2, "umol / (m^2 * s)"),
-    T_leaf = set_units(298.15, "K"),
-    V_cmax25 = set_units(150, "umol / (m^2 * s)"),
-    V_tpu25 = set_units(200, "umol / (m^2 * s)")
+    R_d25 = set_units(2, umol / (m^2 * s)),
+    T_leaf = set_units(298.15, K),
+    V_cmax25 = set_units(150, umol / (m^2 * s)),
+    V_tpu25 = set_units(200, umol / (m^2 * s))
   )
   
   # Replace defaults -----
@@ -155,13 +155,13 @@ make_enviropar <- function(replace = NULL) {
 
   # Defaults -----
   obj <- list(
-    C_air = set_units(41, "Pa"),
-    O = set_units(21.27565, "kPa"),
-    P = set_units(101.3246, "kPa"),
-    PPFD = set_units(1500, "umol/m^2/s"),
+    C_air = set_units(41, Pa),
+    O = set_units(21.27565, kPa),
+    P = set_units(101.3246, kPa),
+    PPFD = set_units(1500, umol/m^2/s),
     RH = set_units(0.5),
-    T_air = set_units(298.15, "K"),
-    wind = set_units(2, "m/s")
+    T_air = set_units(298.15, K),
+    wind = set_units(2, m/s)
   ) 
   
   # Replace defaults -----
@@ -183,18 +183,18 @@ make_bakepar <- function(replace = NULL) {
   
   # Defaults -----
   obj <- list(
-    Ds_gmc = set_units(487.29, "J/mol/K"),
-    Ds_Jmax = set_units(388.04, "J/mol/K"),
-    Ea_gammastar = set_units(24459.97, "J/mol"),
-    Ea_gmc = set_units(68901.56, "J/mol"),
-    Ea_Jmax = set_units(56095.18, "J/mol"),
-    Ea_KC = set_units(80989.78, "J/mol"),
-    Ea_KO = set_units(23719.97, "J/mol"),
-    Ea_Rd = set_units(40446.75, "J/mol"), 
-    Ea_Vcmax = set_units(52245.78, "J/mol"),
-    Ea_Vtpu = set_units(52245.78, "J/mol"),
-    Ed_gmc = set_units(148788.56, "J/mol"),
-    Ed_Jmax = set_units(121244.79, "J/mol")
+    Ds_gmc = set_units(487.29, J/mol/K),
+    Ds_Jmax = set_units(388.04, J/mol/K),
+    Ea_gammastar = set_units(24459.97, J/mol),
+    Ea_gmc = set_units(68901.56, J/mol),
+    Ea_Jmax = set_units(56095.18, J/mol),
+    Ea_KC = set_units(80989.78, J/mol),
+    Ea_KO = set_units(23719.97, J/mol),
+    Ea_Rd = set_units(40446.75, J/mol), 
+    Ea_Vcmax = set_units(52245.78, J/mol),
+    Ea_Vtpu = set_units(52245.78, J/mol),
+    Ed_gmc = set_units(148788.56, J/mol),
+    Ed_Jmax = set_units(121244.79, J/mol)
   ) 
   
   # Replace defaults -----
@@ -215,12 +215,12 @@ make_constants <- function(replace = NULL) {
 
   # Defaults -----
   obj <- list(
-    D_c0 = set_units(12.9e-6, "m ^ 2 / s"),
-    D_h0 = set_units(1.9e-5, "m ^ 2 / s"),
-    D_m0 = set_units(13.3e-06, "m ^ 2 / s"),
+    D_c0 = set_units(12.9e-6, m ^ 2 / s),
+    D_h0 = set_units(1.9e-5, m ^ 2 / s),
+    D_m0 = set_units(13.3e-06, m ^ 2 / s),
     epsilon = set_units(0.622),
     eT = set_units(1.75),
-    G = set_units(9.8, "m / s ^ 2"),
+    G = set_units(9.8, m / s ^ 2),
     nu_constant = function(Re, type, T_air, T_leaf, surface, unitless) {
       
       if (!unitless) {
@@ -255,8 +255,8 @@ make_constants <- function(replace = NULL) {
       }
       
     },
-    R = set_units(8.3144598, "J / (mol * K)"),
-    s = set_units(5.67e-08, "W / (m ^ 2 * K ^ 4)"),
+    R = set_units(8.3144598, J / (mol * K)),
+    s = set_units(5.67e-08, W / (m ^ 2 * K ^ 4)),
     sh_constant = function(type, unitless) {
       
       type %>%

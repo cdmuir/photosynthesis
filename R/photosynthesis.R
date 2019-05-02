@@ -14,6 +14,8 @@
 #' 
 #' @param quiet Logical. Should messages be displayed?
 #' 
+#' @param set_units Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.
+#' 
 #' @param parallel Logical. Should parallel processing be used via \code{\link[furrr]{future_map}}?
 #' 
 #' @return 
@@ -101,13 +103,16 @@
 #' 
 
 photosynthesis <- function(leaf_par, enviro_par, bake_par, constants, 
-                           progress = TRUE, quiet = FALSE, parallel = FALSE) {
+                           progress = TRUE, quiet = FALSE, set_units = TRUE,
+                           parallel = FALSE) {
   
   # Check inputs ----
-  leaf_par %<>% leaf_par()
-  enviro_par %<>% enviro_par()
-  bake_par %<>% bake_par()
-  constants %<>% constants()
+  if (set_units) {
+    leaf_par %<>% leaf_par()
+    enviro_par %<>% enviro_par()
+    bake_par %<>% bake_par()
+    constants %<>% constants()
+  }
   
   # Capture units ----
   pars <- c(leaf_par, enviro_par)
@@ -118,14 +123,16 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
   pars %<>% make_parameter_sets(par_units)
   
   # Simulate ----
-  soln <- find_As(pars, bake_par, constants, par_units, progress, quiet, parallel)
+  soln <- find_As(pars, bake_par, constants, par_units, progress, quiet,
+                  parallel)
   
   # Return ----
   soln
   
 }
 
-find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet, parallel) {
+find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
+                    parallel) {
   
   if (!quiet) {
     glue::glue("\nSolving for photosynthetic rate from {n} parameter set{s} ...", 
@@ -142,8 +149,8 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet, p
     par_sets %>%
       furrr::future_map_dfr(~{
         
-        ret <- photo(leaf_par(.x), enviro_par(.x), bake_par, constants, 
-                     quiet = TRUE)
+        ret <- photo(.x, .x, bake_par, constants, quiet = TRUE, 
+                     set_units = FALSE)
         if (progress & !parallel) pb$tick()$print()
         ret
         
@@ -173,13 +180,21 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet, p
 #' @rdname photosynthesis
 #' @export
 
-photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE) {
+photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE,
+                  set_units = TRUE) {
   
   # Check inputs and bake ----
-  leaf_par %<>% bake(bake_par, constants)
-  enviro_par %<>% enviro_par()
+  if (set_units) {
+    leaf_par %<>% leaf_par()
+    enviro_par %<>% enviro_par()
+    bake_par %<>% bake_par()
+    constants %<>% constants()
+  }
+
+  leaf_par %<>% bake(bake_par, constants, set_units = FALSE)
   
-  pars <- c(leaf_par, enviro_par, constants)
+  pars <- c(leaf_par, enviro_par, constants) %>%
+    purrr::map_if(~ inherits(.x, "units"), drop_units)
 
   # Find intersection between photosynthetic supply and demand curves -----
   soln <- find_A(pars, quiet)
@@ -196,17 +211,15 @@ photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE) {
     dplyr::bind_cols(as.data.frame(leaf_par)) %>%
     dplyr::bind_cols(as.data.frame(enviro_par))
 
-  soln$C_chl %<>% set_units("Pa")
-  soln$g_tc %<>% set_units("umol/m^2/s/Pa")
-  soln$A %<>% set_units("umol/m^2/s")
+  soln$C_chl %<>% set_units(Pa)
+  soln$g_tc %<>% set_units(umol/m^2/s/Pa)
+  soln$A %<>% set_units(umol/m^2/s)
 
   soln  
   
 }
 
-find_A <- function(pars, quiet) {
-  
-  pars %<>% purrr::map_if(function(x) is(x, "units"), drop_units)
+find_A <- function(unitless_pars, quiet) {
   
   .f <- function(C_chl, pars) {
     A_supply(C_chl, pars, unitless = TRUE) - A_demand(C_chl, pars, unitless = TRUE)
@@ -219,8 +232,8 @@ find_A <- function(pars, quiet) {
   }
   
   fit <- tryCatch({
-    stats::uniroot(.f, pars = pars, lower = 0.1, upper = max(c(10, pars$C_air)), 
-                   check.conv = TRUE)
+    stats::uniroot(.f, pars = unitless_pars, lower = 0.1, 
+                   upper = max(c(10, unitless_pars$C_air)), check.conv = TRUE)
   }, finally = {
     fit <- list(root = NA, f.root = NA, convergence = 1)
   })
@@ -234,8 +247,8 @@ find_A <- function(pars, quiet) {
       message()
   }
   
-  soln$g_tc <- .get_gtc(pars, unitless = TRUE)
-  soln$A <- A_supply(soln$C_chl, pars, unitless = TRUE)
+  soln$g_tc <- .get_gtc(unitless_pars, unitless = TRUE)
+  soln$A <- A_supply(soln$C_chl, unitless_pars, unitless = TRUE)
 
   soln
   
@@ -295,7 +308,7 @@ A_supply <- function(C_chl, pars, unitless = FALSE) {
   if (unitless) {
     As <- g_tc * (pars$C_air - C_chl)
   } else {
-    As <- set_units(g_tc * (pars$C_air - C_chl), "umol/m^2/s")
+    As <- set_units(g_tc * (pars$C_air - C_chl), umol/m^2/s)
   }
   As
   
@@ -311,7 +324,7 @@ A_demand <- function(C_chl, pars, unitless = FALSE) {
     Ad <- (1 - pars$gamma_star / C_chl) * FvCB(C_chl, pars, unitless)$A - pars$R_d
   } else {
     Ad <- set_units((set_units(1) - pars$gamma_star / C_chl) * 
-                      FvCB(C_chl, pars, unitless)$A - pars$R_d, "umol/m^2/s")
+                      FvCB(C_chl, pars, unitless)$A - pars$R_d, umol/m^2/s)
   }
   
   Ad
