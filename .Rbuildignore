@@ -11,3 +11,4 @@ README_files/*
 hex-sticker/*
 R/scratch.R
 ^cran-comments\.md$
+^CRAN-RELEASE$
