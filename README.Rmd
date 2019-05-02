@@ -1,27 +1,33 @@
 ---
-output: md_document
+output: github_document
+pagetitle: README
 ---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r echo=FALSE}
 knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE,
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
 )
 ```
+# photosynthesis <img src="man/figures/logo.png" align="right" height="200" width="200"/>
 
-photosynthesis <img src="hex-sticker/hex-sticker.png" align="right" height="200" width="200"/>
-=======
-
-[![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
+<!-- badges: start -->
 [![Build Status](https://travis-ci.com/cdmuir/photosynthesis.svg?token=yprDUtRtPBa2Ma9G4sFP&branch=master)](https://travis-ci.com/cdmuir/photosynthesis)
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![CRAN status](https://www.r-pkg.org/badges/version/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
+<!-- badges: end -->
 
 ## Model C3 Photosynthesis
 
 ## Description
 
-`photosynthesis` is a lightweight R package to model C3 photosynthesis using the Farquhar-von Caemmerer-Berry model. It uses the R package [units](https://cran.r-project.org/web/packages/units/index.html) to ensure that parameters are properly specified and transformed before calculations. 
+`photosynthesis` is a lightweight R package to model C3 photosynthesis using the Farquhar-von Caemmerer-Berry model. It uses the R package [units](https://CRAN.R-project.org/package=units) to ensure that parameters are properly specified and transformed before calculations. 
 
 ## Get `photosynthesis`
 

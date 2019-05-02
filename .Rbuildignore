@@ -10,3 +10,4 @@ README_files/*
 .travis.yml
 hex-sticker/*
 R/scratch.R
+^cran-comments\.md$

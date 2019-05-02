@@ -34,7 +34,7 @@ In this vignette, I'll show you how to:
 
 You can use the default parameter settings and simulate photosynthetic rate in a single leaf using the `make_*()` functions and `photo()`.
 
-```{r, Minimum worked example}
+```{r, mwe}
 
 library(dplyr)
 library(magrittr)
@@ -55,7 +55,7 @@ photo(leaf_par, enviro_par, bake_par, constants, quiet = TRUE)
 
 You can look at default parameters settings in the manual (run `?make_parameters`). These defaults are reasonable, but of course you will probably want to use different choices and allow some parameters to vary. Here, I'll demonstrate how to replace a default. In the next section, I'll show you how to set up a gradient of parameter values over which to solve for leaf temperature.
 
-```{r, Replace default parameters}
+```{r, replace-defaults}
 
 # Use the `replace` argument to replace defaults. This must be a named list, and
 # each named element must have the proper units specified. See `?make_parameters`
@@ -94,7 +94,7 @@ photo %>%
 
 In the previous two examples, I used the `photo` function to solve for a single parameter set. In most cases, you'll want to solve for many parameter sets. The function `photosynthesis` generalizes `photo` and makes it easy to solve for multiple parameter sets using the same argument structure. All you need to do is specify multiple values for one or more leaf or environmental parameters and `photosynthesis` uses the `tidyr::crossing` function to fit all combinations^[Since optimization is somewhat time-consuming, be careful about crossing too many combinations. Use `progress = TRUE` to show progress bar with estimated time remaining.].
 
-```{r, Environmental gradients}
+```{r, environmental-gradients}
 
 # As before, use the `replace` argument to replace defaults, but this time we
 # enter multiple values
@@ -130,7 +130,7 @@ ph %>%
 
 It can take a little while to simulate many different parameter sets. If you have multiple processors available, you can speed things up by running simulations in parallel. In the `photosynthesis` function, simply use the `parallel = TRUE` argument to simulate in parallel. Here I'll provide an example simulating an A-Cc curve.
 
-```{r, Parallel example}
+```{r, parallel-example}
 
 # We'll use the `replace` argument to enter multiple atmospheric CO2 concentrations
 
