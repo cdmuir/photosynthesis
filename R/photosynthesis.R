@@ -10,6 +10,8 @@
 #' 
 #' @param constants A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.
 #' 
+#' @param use_tealaves Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used.
+#' 
 #' @param progress Logical. Should a progress bar be displayed?
 #' 
 #' @param quiet Logical. Should messages be displayed?
@@ -102,16 +104,24 @@
 #' @export
 #' 
 
-photosynthesis <- function(leaf_par, enviro_par, bake_par, constants, 
-                           progress = TRUE, quiet = FALSE, set_units = TRUE,
+photosynthesis <- function(leaf_par, enviro_par, bake_par,
+                           constants, use_tealaves = TRUE,
+                           progress = TRUE, 
+                           quiet = FALSE, set_units = TRUE,
                            parallel = FALSE) {
   
   # Check inputs ----
   if (set_units) {
-    leaf_par %<>% leaf_par()
+    leaf_par %<>% leaf_par(use_tealaves)
     enviro_par %<>% enviro_par()
     bake_par %<>% bake_par()
     constants %<>% constants()
+  }
+  
+  # Calculate leaf temperature (if needed) ----
+  if (use_tealaves) {
+    # Convert conductance
+    # Convert sunlight
   }
   
   # Capture units ----

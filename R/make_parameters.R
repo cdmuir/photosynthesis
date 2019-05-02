@@ -10,7 +10,9 @@ NULL
 
 #' make_leafpar
 #' @rdname make_parameters
-#'
+#' 
+#' @inheritParams photosynthesis
+#' 
 #' @return 
 #' 
 #' \code{make_leafpar}: An object inheriting from class \code{\link{leaf_par}}\cr
@@ -114,7 +116,7 @@ NULL
 #' 
 #' @export
 
-make_leafpar <- function(replace = NULL) {
+make_leafpar <- function(replace = NULL, use_tealeaves) {
 
   # Defaults -----
   obj <- list(
@@ -137,6 +139,14 @@ make_leafpar <- function(replace = NULL) {
     V_tpu25 = set_units(200, umol / (m^2 * s))
   )
   
+  if (use_tealeaves) {
+    obj <- c(obj, list(
+      abs_l = set_units(),
+      abs_s = set_units(),
+      g_sw = convert_conductance()
+    ))
+    obj$
+  }
   # Replace defaults -----
   obj %<>% replace_defaults(replace)
 

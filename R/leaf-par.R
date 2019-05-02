@@ -2,6 +2,7 @@
 #' @exportClass leaf_par
 #
 
+#' @inheritParams photosynthesis
 #' @param .x A list to be constructed into \strong{leaf_par}.
 #' 
 #' @description 
@@ -10,7 +11,7 @@
 #' 
 #' @export
 
-leaf_par <- function(.x) {
+leaf_par <- function(.x, use_tealeaves) {
   
   which <- "leaf"
   nms <- parameter_names(which)
@@ -41,7 +42,7 @@ leaf_par <- function(.x) {
   .x$phi_J %<>% set_units()
   .x$R_d25 %<>% set_units(umol / (m^2 * s))
   .x$theta_J %<>% set_units()
-  .x$T_leaf %<>% set_units(K)
+  if (!use_tealeaves) .x$T_leaf %<>% set_units(K)
   .x$V_cmax25 %<>% set_units(umol / (m^2 * s))
   .x$V_tpu25 %<>% set_units(umol / (m^2 * s))
   
@@ -59,7 +60,7 @@ leaf_par <- function(.x) {
   stopifnot(.x$phi_J > set_units(0))
   stopifnot(.x$theta_J > set_units(0) & .x$theta_J < set_units(1))
   stopifnot(.x$R_d25 >= set_units(0, umol / (m^2 * s)))
-  stopifnot(.x$T_leaf >= set_units(0, K))
+  if (!use_tealeaves) stopifnot(.x$T_leaf >= set_units(0, K))
   stopifnot(.x$V_cmax25 >= set_units(0, umol / (m^2 * s)))
   stopifnot(.x$V_tpu25 >= set_units(0, umol / (m^2 * s)))
   
