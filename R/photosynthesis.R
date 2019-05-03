@@ -10,7 +10,7 @@
 #' 
 #' @param constants A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.
 #' 
-#' @param use_tealaves Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used.
+#' @param use_tealaves Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.
 #' 
 #' @param progress Logical. Should a progress bar be displayed?
 #' 

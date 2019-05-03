@@ -2,6 +2,7 @@
 #' @exportClass constants
 #
 
+#' @inheritParams photosynthesis
 #' @param .x A list to be constructed into \strong{constants}.
 #' 
 #' @description 
@@ -10,10 +11,10 @@
 #' 
 #' @export
 
-constants <- function(.x) {
+constants <- function(.x, use_tealeaves) {
   
   which <- "constants"
-  nms <- parameter_names(which)
+  nms <- parameter_names(which, use_tealeaves)
   
   stopifnot(is.list(.x))
   

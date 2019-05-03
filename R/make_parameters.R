@@ -22,7 +22,50 @@ NULL
 #'
 #' @details
 #'
-#' \bold{Leaf parameters:}
+#' \bold{Constants:}
+#' \tabular{lllll}{
+#' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
+#' \eqn{D_{c,0}}{D_c0} \tab \code{D_c0} \tab diffusion coefficient for CO2 in air at 0 °C \tab m\eqn{^2} / s \tab 12.9 \cr
+#' \eqn{D_{h,0}}{D_h0} \tab \code{D_h0} \tab diffusion coefficient for heat in air at 0 °C \tab m\eqn{^2} / s \tab 1.9e-5 \cr
+#' \eqn{D_{m,0}}{D_m0} \tab \code{D_m0} \tab diffusion coefficient for momentum in air at 0 °C \tab m\eqn{^2} / s \tab 13.3e-06 \cr
+#' \eqn{\epsilon} \tab \code{epsilon} \tab ratio of water to air molar masses \tab none \tab 0.622 \cr
+#' \eqn{G} \tab \code{G} \tab gravitational acceleration \tab m / s\eqn{^2} \tab 9.8 \cr
+#' \eqn{eT} \tab \code{eT} \tab exponent for temperature dependence of diffusion \tab none \tab 1.75 \cr
+#' \eqn{R} \tab \code{R} \tab ideal gas constant \tab J / (mol K) \tab 8.3144598 \cr
+#' \eqn{\sigma} \tab \code{s} \tab Stephan-Boltzmann constant \tab W / (m\eqn{^2} K\eqn{^4}) \tab 5.67e-08 \cr
+#' \eqn{Sh} \tab \code{Sh} \tab Sherwood number \tab none \tab \link[=.get_sh]{calculated}
+#' 
+#' \bold{Baking (i.e. temperature response) parameters:}
+#'
+#' \tabular{lllll}{
+#' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
+#' \eqn{D_\mathrm{s,gmc}}{Ds_gmc} \tab \code{Ds_gmc} \tab empirical temperature response parameter \tab J / (mol K) \tab 487.29 \cr
+#' \eqn{D_\mathrm{s,Jmax}}{Ds_Jmax} \tab \code{Ds_Jmax} \tab empirical temperature response parameter \tab J / (mol K) \tab 388.04 \cr
+#' \eqn{E_\mathrm{a,\Gamma *}}{Ea_gammastar} \tab \code{Ea_gammastar} \tab empirical temperature response parameter \tab J / mol \tab 24459.97 \cr
+#' \eqn{E_\mathrm{a,gmc}}{Ea_gmc} \tab \code{Ea_gmc} \tab empirical temperature response parameter \tab J / mol \tab 68901.56 \cr
+#' \eqn{E_\mathrm{a,Jmax}}{Ea_Jmax} \tab \code{Ea_Jmax} \tab empirical temperature response parameter \tab J / mol \tab 56095.18 \cr
+#' \eqn{E_\mathrm{a,KC}}{Ea_KC} \tab \code{Ea_KC} \tab empirical temperature response parameter \tab J / mol \tab 80989.78 \cr
+#' \eqn{E_\mathrm{a,KO}}{Ea_KO} \tab \code{Ea_KO} \tab empirical temperature response parameter \tab J / mol \tab 23719.97 \cr
+#' \eqn{E_\mathrm{a,Rd}}{Ea_Rd} \tab \code{Ea_Rd} \tab empirical temperature response parameter \tab J / mol \tab 40446.75 \cr
+#' \eqn{E_\mathrm{a,Vcmax}}{Ea_Vcmax} \tab \code{Ea_Vcmax} \tab empirical temperature response parameter \tab J / mol \tab 52245.78 \cr
+#' \eqn{E_\mathrm{d,gmc}}{Ed_gmc} \tab \code{Ed_gmc} \tab empirical temperature response parameter \tab J / mol \tab 148788.56 \cr
+#' \eqn{E_\mathrm{d,Jmax}}{Ed_Jmax} \tab \code{Ed_Jmax} \tab empirical temperature response parameter \tab J / mol \tab 121244.79
+#' }
+#' 
+#' \bold{Environment parameters:}
+#'
+#' \tabular{lllll}{
+#' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
+#' \eqn{C_\mathrm{air}}{C_air} \tab \code{C_air} \tab atmospheric CO2 concentration \tab Pa \tab 41 \cr
+#' \eqn{O} \tab \code{O} \tab atmospheric O2 concentration \tab kPa \tab 21.27565 \cr
+#' \eqn{P} \tab \code{P} \tab atmospheric pressure \tab kPa \tab 101.3246 \cr
+#' PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab umol quanta / (m^2 s) \tab 1500 \cr
+#' \eqn{\mathrm{RH}}{RH} \tab \code{RH} \tab relative humidity \tab none \tab 0.50 \cr
+#' \eqn{T_\mathrm{air}}{T_air} \tab \code{T_air} \tab air temperature \tab K \tab 298.15 \cr
+#' \eqn{u} \tab \code{wind} \tab windspeed \tab m / s \tab 2
+#' }
+#' 
+#' }#' \bold{Leaf parameters:}
 #'
 #' \tabular{lllll}{
 #' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
@@ -52,51 +95,15 @@ NULL
 #' \eqn{V_\mathrm{tpu25}}{V_tpu25} \tab \code{V_tpu25} \tab rate of triose phosphate utilisation (25 °C) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 200 \cr
 #' \eqn{V_\mathrm{tpu}}{V_tpu} \tab \code{V_tpu} \tab rate of triose phosphate utilisation (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated}
 #' }
-#'
-#' \bold{Environment parameters:}
-#'
-#' \tabular{lllll}{
-#' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
-#' \eqn{C_\mathrm{air}}{C_air} \tab \code{C_air} \tab atmospheric CO2 concentration \tab Pa \tab 41 \cr
-#' \eqn{O} \tab \code{O} \tab atmospheric O2 concentration \tab kPa \tab 21.27565 \cr
-#' \eqn{P} \tab \code{P} \tab atmospheric pressure \tab kPa \tab 101.3246 \cr
-#' PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab umol quanta / (m^2 s) \tab 1500 \cr
-#' \eqn{\mathrm{RH}}{RH} \tab \code{RH} \tab relative humidity \tab none \tab 0.50 \cr
-#' \eqn{T_\mathrm{air}}{T_air} \tab \code{T_air} \tab air temperature \tab K \tab 298.15 \cr
-#' \eqn{u} \tab \code{wind} \tab windspeed \tab m / s \tab 2
-#' }
-#'
-#' \bold{Baking (i.e. temperature response) parameters:}
-#'
-#' \tabular{lllll}{
-#' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
-#' \eqn{D_\mathrm{s,gmc}}{Ds_gmc} \tab \code{Ds_gmc} \tab empirical temperature response parameter \tab J / (mol K) \tab 487.29 \cr
-#' \eqn{D_\mathrm{s,Jmax}}{Ds_Jmax} \tab \code{Ds_Jmax} \tab empirical temperature response parameter \tab J / (mol K) \tab 388.04 \cr
-#' \eqn{E_\mathrm{a,\Gamma *}}{Ea_gammastar} \tab \code{Ea_gammastar} \tab empirical temperature response parameter \tab J / mol \tab 24459.97 \cr
-#' \eqn{E_\mathrm{a,gmc}}{Ea_gmc} \tab \code{Ea_gmc} \tab empirical temperature response parameter \tab J / mol \tab 68901.56 \cr
-#' \eqn{E_\mathrm{a,Jmax}}{Ea_Jmax} \tab \code{Ea_Jmax} \tab empirical temperature response parameter \tab J / mol \tab 56095.18 \cr
-#' \eqn{E_\mathrm{a,KC}}{Ea_KC} \tab \code{Ea_KC} \tab empirical temperature response parameter \tab J / mol \tab 80989.78 \cr
-#' \eqn{E_\mathrm{a,KO}}{Ea_KO} \tab \code{Ea_KO} \tab empirical temperature response parameter \tab J / mol \tab 23719.97 \cr
-#' \eqn{E_\mathrm{a,Rd}}{Ea_Rd} \tab \code{Ea_Rd} \tab empirical temperature response parameter \tab J / mol \tab 40446.75 \cr
-#' \eqn{E_\mathrm{a,Vcmax}}{Ea_Vcmax} \tab \code{Ea_Vcmax} \tab empirical temperature response parameter \tab J / mol \tab 52245.78 \cr
-#' \eqn{E_\mathrm{d,gmc}}{Ed_gmc} \tab \code{Ed_gmc} \tab empirical temperature response parameter \tab J / mol \tab 148788.56 \cr
-#' \eqn{E_\mathrm{d,Jmax}}{Ed_Jmax} \tab \code{Ed_Jmax} \tab empirical temperature response parameter \tab J / mol \tab 121244.79
-#' }
 #' 
-#' \bold{Constants:}
+#' If \code{use_tealeaves = TRUE}, additional parameters are:
+#' 
+#' \bold{Environmental parameters:}
 #' \tabular{lllll}{
 #' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
-#' \eqn{D_{c,0}}{D_c0} \tab \code{D_c0} \tab diffusion coefficient for CO2 in air at 0 °C \tab m\eqn{^2} / s \tab 12.9 \cr
-#' \eqn{D_{h,0}}{D_h0} \tab \code{D_h0} \tab diffusion coefficient for heat in air at 0 °C \tab m\eqn{^2} / s \tab 1.9e-5 \cr
-#' \eqn{D_{m,0}}{D_m0} \tab \code{D_m0} \tab diffusion coefficient for momentum in air at 0 °C \tab m\eqn{^2} / s \tab 13.3e-06 \cr
-#' \eqn{\epsilon} \tab \code{epsilon} \tab ratio of water to air molar masses \tab none \tab 0.622 \cr
-#' \eqn{G} \tab \code{G} \tab gravitational acceleration \tab m / s\eqn{^2} \tab 9.8 \cr
-#' \eqn{eT} \tab \code{eT} \tab exponent for temperature dependence of diffusion \tab none \tab 1.75 \cr
-#' \eqn{R} \tab \code{R} \tab ideal gas constant \tab J / (mol K) \tab 8.3144598 \cr
-#' \eqn{\sigma} \tab \code{s} \tab Stephan-Boltzmann constant \tab W / (m\eqn{^2} K\eqn{^4}) \tab 5.67e-08 \cr
-#' \eqn{Sh} \tab \code{Sh} \tab Sherwood number \tab none \tab \link[=.get_sh]{calculated}
-#' }
-#'
+#' \eqn{E_q} \tab \code{E_q} \tab energy per mole quanta \tab kJ / mol\eqn{^2} \tab 220 \cr
+#' \eqn{f_\mathrm{PAR}}{f_PAR} \tab \code{f_par} \tab fraction of incoming shortwave radiation that is photosynthetically active radiation (PAR) \tab none \tab 0.5 \cr
+#' 
 #' @references 
 #' 
 #' Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic rate into contributions from different variables. Plant, Cell & Environment 38: 1200-11.
@@ -142,10 +149,10 @@ make_leafpar <- function(replace = NULL, use_tealeaves) {
   if (use_tealeaves) {
     obj <- c(obj, list(
       abs_l = set_units(),
-      abs_s = set_units(),
-      g_sw = convert_conductance()
+      abs_s = set_units()#,
+      #g_sw = convert_conductance()
     ))
-    obj$
+    #obj$
   }
   # Replace defaults -----
   obj %<>% replace_defaults(replace)
@@ -161,9 +168,9 @@ make_leafpar <- function(replace = NULL, use_tealeaves) {
 #' @rdname make_parameters
 #' @export
 
-make_enviropar <- function(replace = NULL) {
+make_enviropar <- function(replace = NULL, use_tealeaves) {
 
-  # Defaults -----
+  # Defaults ----
   obj <- list(
     C_air = set_units(41, Pa),
     O = set_units(21.27565, kPa),
@@ -174,11 +181,26 @@ make_enviropar <- function(replace = NULL) {
     wind = set_units(2, m/s)
   ) 
   
-  # Replace defaults -----
+  # Add parameters for tealeaves ----
+  if (use_tealeaves) {
+    
+    obj %<>% c(
+      E_q = set_units(220, kJ/mol),
+      f_par = set_units(0.5)
+    )
+
+  }
+  
+  # Replace defaults ----
   obj %<>% replace_defaults(replace)
 
-  # Assign class and return -----
-  obj %<>% enviro_par()
+  # Calculations for tealeaves ----
+  if (use_tealeaves) {
+    obj$S_sw <- set_units(obj$E_q * obj$PPFD / obj$f_par, W/m^2)
+  }
+  
+  # Assign class and return ----
+  obj %<>% enviro_par(use_tealeaves)
   
   obj
 

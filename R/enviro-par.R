@@ -2,6 +2,7 @@
 #' @exportClass enviro_par
 #
 
+#' @inheritParams photosynthesis
 #' @param .x A list to be constructed into \strong{enviro_par}.
 #' 
 #' @description 
@@ -10,10 +11,10 @@
 #' 
 #' @export
 
-enviro_par <- function(.x) {
+enviro_par <- function(.x, use_tealeaves) {
   
   which <- "enviro"
-  nms <- parameter_names(which)
+  nms <- parameter_names(which, use_tealeaves)
   
   stopifnot(is.list(.x))
   
@@ -44,6 +45,18 @@ enviro_par <- function(.x) {
   stopifnot(.x$RH >= set_units(0) & .x$RH <= set_units(1))
   stopifnot(.x$T_air >= set_units(0, K))
   stopifnot(.x$wind >= set_units(0, m/s))
+  
+  # Additional parameters for using tealeaves ----
+  if (use_tealeaves) {
+    
+    .x$E_q %<>% set_units(kJ/mol)
+    .x$f_par %<>% set_units()
+    
+    stopifnot(.x$E_q >= set_units(0, kJ/mol))
+    stopifnot(.x$f_par >= set_units(0) & .x$f_par <= set_units(1))
+    stopifnot(.x$S_sw == set_units(.x$E_q * .x$PPFD / .x$f_par, W/m^2))
+    
+  }
   
   structure(.x, class = c(stringr::str_c(which, "_par"), "list"))
   
