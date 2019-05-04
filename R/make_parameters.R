@@ -124,7 +124,8 @@ NULL
 #' 
 #' @export
 
-make_leafpar <- function(replace = NULL, use_tealeaves) {
+make_leafpar <- function(replace = NULL, use_tealeaves, 
+                         constants = NULL, enviro_par = NULL) {
 
   # Defaults -----
   obj <- list(
@@ -148,13 +149,22 @@ make_leafpar <- function(replace = NULL, use_tealeaves) {
   )
   
   if (use_tealeaves) {
+    constants %<>% constants(use_tealeaves)
+    enviro_par %<>% enviro_par(use_tealeaves)
+    D_c <- tealeaves:::.get_Dx(constants$D_c0, enviro_par$T_air, 
+                               constants$eT, enviro_par$P, unitless = FALSE)
+    D_w <- tealeaves:::.get_Dx(constants$D_w0, enviro_par$T_air, 
+                               constants$eT, enviro_par$P, unitless = FALSE)
+    
     obj <- c(obj, list(
-      abs_l = set_units(),
-      abs_s = set_units()#,
-      #g_sw = convert_conductance()
+      abs_l = set_units(0.97),
+      abs_s = set_units(0.5),
+      g_sw = gc2gw(obj$g_sc, D_c, D_w, unitless = FALSE),
+      g_uw = gc2gw(obj$g_uc, D_c, D_w, unitless = FALSE)
     ))
-    #obj$
+
   }
+  
   # Replace defaults -----
   obj %<>% replace_defaults(replace)
 
@@ -185,10 +195,10 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
   # Add parameters for tealeaves ----
   if (use_tealeaves) {
     
-    obj %<>% c(
+    obj %<>% c(list(
       E_q = set_units(220, kJ/mol),
       f_par = set_units(0.5)
-    )
+    ))
 
   }
   

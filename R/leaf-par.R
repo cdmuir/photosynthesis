@@ -49,6 +49,10 @@ leaf_par <- function(.x, use_tealeaves) {
   # If using tealeaves, convert conductance values ----
   if (use_tealeaves) {
     # message about assuming g_sc at T_leaf = 25 degree for conversion to m/s  
+    .x$abs_l %<>% set_units()
+    .x$abs_s %<>% set_units()
+    .x$g_sw %<>% set_units(umol / (m^2 * s * Pa))
+    .x$g_uw %<>% set_units(umol / (m^2 * s * Pa))
   }
   
   # Check values ----
@@ -68,6 +72,15 @@ leaf_par <- function(.x, use_tealeaves) {
   if (!use_tealeaves) stopifnot(.x$T_leaf >= set_units(0, K))
   stopifnot(.x$V_cmax25 >= set_units(0, umol / (m^2 * s)))
   stopifnot(.x$V_tpu25 >= set_units(0, umol / (m^2 * s)))
+  
+  if (use_tealeaves) {
+    
+    stopifnot(.x$abs_l > set_units(0) & .x$abs_l < set_units(1))
+    stopifnot(.x$abs_s > set_units(0) & .x$abs_s < set_units(1))
+    stopifnot(.x$g_sw > set_units(0, umol / (m^2 * s * Pa)))
+    stopifnot(.x$g_uw > set_units(0, umol / (m^2 * s * Pa)))
+    
+  }
   
   structure(.x, class = c(stringr::str_c(which, "_par"), "list"))
   
