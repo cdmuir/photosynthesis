@@ -14,7 +14,7 @@ parameter_names <- function(which, use_tealeaves) {
                      "Ea_KC", "Ea_KO", "Ea_Rd", "Ea_Vcmax", "Ea_Vtpu", "Ed_gmc", 
                      "Ed_Jmax")
   
-  constants_names <- c("D_c0", "D_h0", "D_m0", "epsilon", "eT", "G",
+  constants_names <- c("D_c0", "D_h0", "D_m0", "D_w0", "epsilon", "eT", "G",
                        "nu_constant", "R", "s", "sh_constant")
   
   enviropar_names <- c("C_air", "O", "P", "PPFD", "RH", "T_air", "wind")

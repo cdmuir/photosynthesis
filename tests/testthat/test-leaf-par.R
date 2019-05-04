@@ -2,20 +2,20 @@ context("leaf_par class")
 library(photosynthesis)
 
 test_that("constants returns class leaf_par and list", {
-  lp <- make_leafpar()
+  lp <- make_leafpar(use_tealeaves = FALSE)
   expect_s3_class(lp, "leaf_par")
   expect_s3_class(lp, "list")
 })
 
 test_that("fails when a parameter is left out", {
-  lp <- make_leafpar()
+  lp <- make_leafpar(use_tealeaves = FALSE)
   lp$g_mc25 <- NULL
-  expect_error(leaf_par(lp))
+  expect_error(leaf_par(lp), use_tealeaves = FALSE)
 })
 
 test_that("removes an improper parameter", {
-  lp <- make_leafpar()
+  lp <- make_leafpar(use_tealeaves = FALSE)
   lp$foo <- set_units(1)
-  lp %<>% leaf_par()
+  lp %<>% leaf_par(use_tealeaves = FALSE)
   expect_true(is.null(lp$foo))
 })

@@ -19,6 +19,9 @@ A list of three values of clas \code{units} with units "m/s", "umol/m^2/s/Pa", a
 \description{
 Convert conductance units
 }
+\note{
+This function will soon be moving to the standalone gunit package.
+}
 \examples{
 
 g_sc <- set_units(10, "m/s")

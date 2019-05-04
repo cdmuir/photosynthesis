@@ -4,7 +4,7 @@
 \alias{leaf_par}
 \title{S3 class leaf_par}
 \usage{
-leaf_par(.x)
+leaf_par(.x, use_tealeaves)
 }
 \arguments{
 \item{.x}{A list to be constructed into \strong{leaf_par}.}

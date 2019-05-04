@@ -3,13 +3,13 @@ library(photosynthesis)
 
 test_that("baked parameters do not equal unbaked unless Temp = 25", {
   
-  cs <- make_constants()
-  lp <- make_leafpar()
+  cs <- make_constants(use_tealeaves = FALSE)
   bp <- make_bakepar()
-  ep <- make_enviropar()
+  ep <- make_enviropar(use_tealeaves = FALSE)
+  lp <- make_leafpar(use_tealeaves = FALSE)
   
   lp$T_leaf <- set_units(298.15, "K")
-  blp <- bake(lp, bp, cs)
+  blp <- bake(lp, bp, cs, use_tealeaves = FALSE)
   
   blp %>%
     as.data.frame() %>%
@@ -22,7 +22,7 @@ test_that("baked parameters do not equal unbaked unless Temp = 25", {
     expect_true()
   
   lp$T_leaf <- set_units(305, "K")
-  blp <- bake(lp, bp, cs)
+  blp <- bake(lp, bp, cs, use_tealeaves = FALSE)
   
   blp %>%
     as.data.frame() %>%

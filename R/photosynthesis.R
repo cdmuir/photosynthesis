@@ -190,18 +190,19 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
 #' @rdname photosynthesis
 #' @export
 
-photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE,
-                  set_units = TRUE) {
+photo <- function(leaf_par, enviro_par, bake_par, constants, 
+                  use_tealeaves = TRUE, quiet = FALSE, set_units = TRUE) {
   
   # Check inputs and bake ----
   if (set_units) {
-    leaf_par %<>% leaf_par()
-    enviro_par %<>% enviro_par()
+    leaf_par %<>% leaf_par(use_tealeaves)
+    enviro_par %<>% enviro_par(use_tealeaves)
     bake_par %<>% bake_par()
-    constants %<>% constants()
+    constants %<>% constants(use_tealeaves)
   }
 
-  leaf_par %<>% bake(bake_par, constants, set_units = FALSE)
+  leaf_par %<>% bake(bake_par, constants, set_units = FALSE, 
+                     use_tealeaves = use_tealeaves)
   
   pars <- c(leaf_par, enviro_par, constants) %>%
     purrr::map_if(~ inherits(.x, "units"), drop_units)
@@ -231,8 +232,9 @@ photo <- function(leaf_par, enviro_par, bake_par, constants, quiet = FALSE,
 
 find_A <- function(unitless_pars, quiet) {
   
-  .f <- function(C_chl, pars) {
-    A_supply(C_chl, pars, unitless = TRUE) - A_demand(C_chl, pars, unitless = TRUE)
+  .f <- function(C_chl, unitless_pars) {
+    A_supply(C_chl, unitless_pars, unitless = TRUE) - 
+      A_demand(C_chl, unitless_pars, unitless = TRUE)
   }
   
   if (!quiet) {
@@ -242,7 +244,7 @@ find_A <- function(unitless_pars, quiet) {
   }
   
   fit <- tryCatch({
-    stats::uniroot(.f, pars = unitless_pars, lower = 0.1, 
+    stats::uniroot(.f, unitless_pars = unitless_pars, lower = 0.1, 
                    upper = max(c(10, unitless_pars$C_air)), check.conv = TRUE)
   }, finally = {
     fit <- list(root = NA, f.root = NA, convergence = 1)

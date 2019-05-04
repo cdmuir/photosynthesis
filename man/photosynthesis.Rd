@@ -7,11 +7,11 @@
 \title{Simulate C3 photosynthesis}
 \usage{
 photosynthesis(leaf_par, enviro_par, bake_par, constants,
-  progress = TRUE, quiet = FALSE, set_units = TRUE,
-  parallel = FALSE)
+  use_tealaves = TRUE, progress = TRUE, quiet = FALSE,
+  set_units = TRUE, parallel = FALSE)
 
-photo(leaf_par, enviro_par, bake_par, constants, quiet = FALSE,
-  set_units = TRUE)
+photo(leaf_par, enviro_par, bake_par, constants, use_tealeaves = TRUE,
+  quiet = FALSE, set_units = TRUE)
 }
 \arguments{
 \item{leaf_par}{A list of leaf parameters inheriting class \code{leaf_par}. This can be generated using the \code{make_leafpar} function.}
@@ -21,6 +21,8 @@ photo(leaf_par, enviro_par, bake_par, constants, quiet = FALSE,
 \item{bake_par}{A list of temperature response parameters inheriting class \code{bake_par}. This can be generated using the \code{make_bakepar} function.}
 
 \item{constants}{A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.}
+
+\item{use_tealaves}{Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.}
 
 \item{progress}{Logical. Should a progress bar be displayed?}
 

@@ -25,9 +25,10 @@ NULL
 #' \bold{Constants:}
 #' \tabular{lllll}{
 #' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
-#' \eqn{D_{c,0}}{D_c0} \tab \code{D_c0} \tab diffusion coefficient for CO2 in air at 0 °C \tab m\eqn{^2} / s \tab 12.9 \cr
-#' \eqn{D_{h,0}}{D_h0} \tab \code{D_h0} \tab diffusion coefficient for heat in air at 0 °C \tab m\eqn{^2} / s \tab 1.9e-5 \cr
-#' \eqn{D_{m,0}}{D_m0} \tab \code{D_m0} \tab diffusion coefficient for momentum in air at 0 °C \tab m\eqn{^2} / s \tab 13.3e-06 \cr
+#' \eqn{D_{c,0}}{D_c0} \tab \code{D_c0} \tab diffusion coefficient for CO2 in air at 0 °C \tab m\eqn{^2} / s \tab 1.29e-5 \cr
+#' \eqn{D_{h,0}}{D_h0} \tab \code{D_h0} \tab diffusion coefficient for heat in air at 0 °C \tab m\eqn{^2} / s \tab 1.90e-5 \cr
+#' \eqn{D_{m,0}}{D_m0} \tab \code{D_m0} \tab diffusion coefficient for momentum in air at 0 °C \tab m\eqn{^2} / s \tab 1.33e-5 \cr
+#' \eqn{D_{w,0}}{D_w0} \tab \code{D_w0} \tab diffusion coefficient for water vapor in air at 0 °C \tab m\eqn{^2} / s \tab 2.12e-5 \cr
 #' \eqn{\epsilon} \tab \code{epsilon} \tab ratio of water to air molar masses \tab none \tab 0.622 \cr
 #' \eqn{G} \tab \code{G} \tab gravitational acceleration \tab m / s\eqn{^2} \tab 9.8 \cr
 #' \eqn{eT} \tab \code{eT} \tab exponent for temperature dependence of diffusion \tab none \tab 1.75 \cr
@@ -158,7 +159,7 @@ make_leafpar <- function(replace = NULL, use_tealeaves) {
   obj %<>% replace_defaults(replace)
 
   # Assign class and return -----
-  obj %<>% leaf_par()
+  obj %<>% leaf_par(use_tealeaves)
 
   obj
 
@@ -210,7 +211,6 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
 #' @rdname make_parameters
 #' @export
 
-
 make_bakepar <- function(replace = NULL) {
   
   # Defaults -----
@@ -243,13 +243,14 @@ make_bakepar <- function(replace = NULL) {
 #' @rdname make_parameters
 #' @export
 
-make_constants <- function(replace = NULL) {
+make_constants <- function(replace = NULL, use_tealeaves) {
 
   # Defaults -----
   obj <- list(
-    D_c0 = set_units(12.9e-6, m ^ 2 / s),
-    D_h0 = set_units(1.9e-5, m ^ 2 / s),
-    D_m0 = set_units(13.3e-06, m ^ 2 / s),
+    D_c0 = set_units(1.29e-5, m ^ 2 / s),
+    D_h0 = set_units(1.90e-5, m ^ 2 / s),
+    D_m0 = set_units(1.33e-5, m ^ 2 / s),
+    D_w0 = set_units(2.12e-5, m ^ 2 / s),
     epsilon = set_units(0.622),
     eT = set_units(1.75),
     G = set_units(9.8, m / s ^ 2),
@@ -314,7 +315,7 @@ make_constants <- function(replace = NULL) {
   obj %<>% replace_defaults(replace)
 
   # Assign class and return -----
-  obj %<>% constants()
+  obj %<>% constants(use_tealeaves)
   
   obj
 
@@ -324,7 +325,7 @@ make_constants <- function(replace = NULL) {
 #'
 #' @param obj List of default values
 #' @param replace List of replacement values
-#'
+#' @noRd
 
 replace_defaults <- function(obj, replace) {
 

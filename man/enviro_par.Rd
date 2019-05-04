@@ -4,7 +4,7 @@
 \alias{enviro_par}
 \title{S3 class enviro_par}
 \usage{
-enviro_par(.x)
+enviro_par(.x, use_tealeaves)
 }
 \arguments{
 \item{.x}{A list to be constructed into \strong{enviro_par}.}

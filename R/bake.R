@@ -56,12 +56,13 @@ NULL
 #' 
 #' @export
 
-bake <- function(leaf_par, bake_par, constants, set_units = TRUE) {
+bake <- function(leaf_par, bake_par, constants, use_tealeaves, 
+                 set_units = TRUE) {
   
   if (set_units) {
-    leaf_par %<>% leaf_par()
+    leaf_par %<>% leaf_par(use_tealeaves)
     bake_par %<>% bake_par()
-    constants %<>% constants()
+    constants %<>% constants(use_tealeaves)
   }
   
   pars <- c(leaf_par, bake_par, constants) %>%

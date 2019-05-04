@@ -11,10 +11,10 @@
 #' 
 #' @export
 
-bake_par <- function(.x, use_tealeaves) {
+bake_par <- function(.x) {
   
   which <- "bake"
-  nms <- parameter_names(which)
+  nms <- parameter_names(which, use_tealeaves = FALSE)
   
   stopifnot(is.list(.x))
   

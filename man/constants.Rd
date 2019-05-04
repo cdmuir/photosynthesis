@@ -4,7 +4,7 @@
 \alias{constants}
 \title{S3 class constants}
 \usage{
-constants(.x)
+constants(.x, use_tealeaves)
 }
 \arguments{
 \item{.x}{A list to be constructed into \strong{constants}.}

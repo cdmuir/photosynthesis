@@ -4,7 +4,7 @@
 \alias{parameter_names}
 \title{Get vector of parameter names}
 \usage{
-parameter_names(which)
+parameter_names(which, use_tealeaves)
 }
 \arguments{
 \item{which}{A character string indicating which parameter names to retreive: "leaf", "enviro", "bake", or "constants". Partial matching allowed.}

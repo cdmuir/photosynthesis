@@ -4,21 +4,22 @@ library(photosynthesis)
 
 test_that("benchmarks haven't changed", {
   
-  cs <- make_constants()
-  lp <- make_leafpar()
-  ep <- make_enviropar()
+  cs <- make_constants(use_tealeaves = FALSE)
   bp <- make_bakepar()
+  ep <- make_enviropar(use_tealeaves = FALSE)
+  lp <- make_leafpar(use_tealeaves = FALSE)
   
-  ph <- photo(lp, ep, bp, cs)
-  expect_equal(round(ph$A, 5), set_units(27.67919, umol/m^2/s))
+  ph <- photo(lp, ep, bp, cs, use_tealeaves = FALSE)
+  expect_equal(round(ph$A, 5), set_units(27.48581, umol/m^2/s))
   
   # Several parameters vary; others are fixed to current defaults
   # p <- tidyr::crossing(
   #   
   #   # constants
   #   D_c0 = set_units(1.29e-05, m^2/s),
-  #   D_h0 = set_units(1.9e-05, m^2/s),
+  #   D_h0 = set_units(1.90e-05, m^2/s),
   #   D_m0 = set_units(1.33e-05, m^2/s),
+  #   D_w0 = set_units(2.12e-05, m^2/s),
   #   epsilon = set_units(0.622),
   #   eT = set_units(1.75),
   #   G = set_units(9.8, m/s^2),
@@ -67,7 +68,7 @@ test_that("benchmarks haven't changed", {
   #   wind = set_units(c(0.01, 0.1, 1, 10), m/s)
   #   
   # ) %>%
-  #   mutate(A = NA, row = 1:nrow(.))
+  #   dplyr::mutate(A = NA, row = 1:nrow(.))
   # 
   # # Create benchmarks (last updated: 2019-04-30)
   # safely_photo <- purrr::safely(photo)
@@ -88,7 +89,7 @@ test_that("benchmarks haven't changed", {
   #   ep$T_air <- lp$T_leaf
   #   ep$wind <- set_units(p$wind[i], m/s)
   #   
-  #   ph <- safely_photo(lp, ep, bp, cs, quiet = TRUE)
+  #   ph <- safely_photo(lp, ep, bp, cs, use_tealeaves = FALSE, quiet = TRUE)
   #   if (is.null(ph$result)) {
   #     p$A[i] <- NA
   #   } else {
@@ -114,7 +115,7 @@ test_that("benchmarks haven't changed", {
     ep$T_air <- lp$T_leaf
     ep$wind <- set_units(p$wind[i], m/s)
     
-    ph <- photo(lp, ep, bp, cs, quiet = TRUE)
+    ph <- photo(lp, ep, bp, cs, use_tealeaves = FALSE, quiet = TRUE)
     expect_equal(round(ph$A, 3), set_units(round(p$A[i], 3), umol/m^2/s))
 
   }
