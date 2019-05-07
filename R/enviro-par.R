@@ -34,7 +34,6 @@ enviro_par <- function(.x, use_tealeaves) {
   .x$P %<>% set_units(kPa)
   .x$PPFD %<>% set_units(umol/m^2/s)
   .x$RH %<>% set_units()
-  .x$T_air %<>% set_units(K)
   .x$wind %<>% set_units(m/s)
   
   # Check values ----
@@ -43,7 +42,6 @@ enviro_par <- function(.x, use_tealeaves) {
   stopifnot(.x$P >= set_units(0, kPa))
   stopifnot(.x$PPFD >= set_units(0, umol/m^2/s))
   stopifnot(.x$RH >= set_units(0) & .x$RH <= set_units(1))
-  stopifnot(.x$T_air >= set_units(0, K))
   stopifnot(.x$wind >= set_units(0, m/s))
   
   # Additional parameters for using tealeaves ----
@@ -51,10 +49,14 @@ enviro_par <- function(.x, use_tealeaves) {
     
     .x$E_q %<>% set_units(kJ/mol)
     .x$f_par %<>% set_units()
+    .x$r %<>% set_units()
+    .x$T_air %<>% set_units(K)
     
     stopifnot(.x$E_q >= set_units(0, kJ/mol))
     stopifnot(.x$f_par >= set_units(0) & .x$f_par <= set_units(1))
+    stopifnot(.x$r >= set_units(0) & .x$r <= set_units(1))
     stopifnot(.x$S_sw == set_units(.x$E_q * .x$PPFD / .x$f_par, W/m^2))
+    stopifnot(.x$T_air >= set_units(0, K))
     
   }
   

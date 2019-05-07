@@ -7,7 +7,7 @@
 \alias{temp_resp2}
 \title{Leaf parameter temperature responses}
 \usage{
-bake(leaf_par, bake_par, constants, use_tealeaves, set_units = TRUE)
+bake(leaf_par, bake_par, constants, set_units = TRUE)
 
 temp_resp1(par25, E_a, R, T_leaf, T_ref, unitless)
 

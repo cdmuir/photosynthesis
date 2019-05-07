@@ -34,15 +34,16 @@ test_that("unitless values match unit-ed values", {
     P = set_units(101.3246, "kPa"),
     RH = set_units(runif(1)),
     PPFD = set_units(runif(1, 0, 2000), "umol/m^2/s"),
-    T_air = set_units(runif(1, 273.15, 313.15), "K"),
     wind = set_units(runif(1, 0, 20), "m/s")
   ), use_tealeaves = FALSE)
+  
+  ep$T_air <- lp1$T_leaf
   
   bp1 <- make_bakepar()
   bp2 <- purrr::map_if(bp1, ~ is(.x, "units"), drop_units)
   
-  lp1 %<>% bake(bp1, cs1, use_tealeaves = FALSE, set_units = TRUE)
-  lp2 %<>% bake(bp2, cs2, use_tealeaves = FALSE, set_units = FALSE)
+  lp1 %<>% bake(bp1, cs1, set_units = TRUE)
+  lp2 %<>% bake(bp2, cs2, set_units = FALSE)
   
   purrr::map2(lp1, lp2, function(.x, .y) drop_units(.x) == .y) %>%
     purrr::map(expect_true)

@@ -50,6 +50,17 @@ constants <- function(.x, use_tealeaves) {
   stopifnot(.x$R >= set_units(0, J / (mol * K)))
   stopifnot(.x$s >= set_units(0, W / (m ^ 2 * K ^ 4)))
 
+  # Additional parameters for using tealeaves ----
+  if (use_tealeaves) {
+    
+    .x$c_p %<>% set_units(J/g/K)
+    .x$R_air %<>% set_units(J/K/kg)
+
+    stopifnot(.x$c_p >= set_units(0, J/g/K))
+    stopifnot(.x$R_air >= set_units(0, J/K/kg))
+
+  }
+  
   structure(.x, class = c(which, "list"))
   
 }

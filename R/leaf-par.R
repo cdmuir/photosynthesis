@@ -11,10 +11,14 @@
 #' 
 #' @export
 
-leaf_par <- function(.x, use_tealeaves) {
+leaf_par <- function(.x, use_tealeaves, constants = NULL) {
+  
+  if (use_tealeaves & is.null(constants)) {
+    stop("If use_tealeaves is TRUE, constants must be provided. Use photosynthesis::make_constants()")
+  }
   
   which <- "leaf"
-  nms <- parameter_names(which, use_tealeaves)
+  nms <- photosynthesis::parameter_names(which, use_tealeaves)
   
   stopifnot(is.list(.x))
   
@@ -53,6 +57,7 @@ leaf_par <- function(.x, use_tealeaves) {
     .x$abs_s %<>% set_units()
     .x$g_sw %<>% set_units(umol / (m^2 * s * Pa))
     .x$g_uw %<>% set_units(umol / (m^2 * s * Pa))
+    .x$logit_sr %<>% set_units()
   }
   
   # Check values ----
@@ -77,8 +82,15 @@ leaf_par <- function(.x, use_tealeaves) {
     
     stopifnot(.x$abs_l > set_units(0) & .x$abs_l < set_units(1))
     stopifnot(.x$abs_s > set_units(0) & .x$abs_s < set_units(1))
-    stopifnot(.x$g_sw > set_units(0, umol / (m^2 * s * Pa)))
-    stopifnot(.x$g_uw > set_units(0, umol / (m^2 * s * Pa)))
+    
+    stopifnot(.x$g_sw == gc2gw(.x$g_sc, constants$D_c0, constants$D_w0, 
+                               unitless = FALSE))
+    stopifnot(.x$g_uw == gc2gw(.x$g_uc, constants$D_c0, constants$D_w0,
+                               unitless = FALSE))
+    
+    stopifnot(stats::plogis(.x$logit_sr) / 
+                (set_units(1) - stats::plogis(.x$logit_sr)) == 
+                set_units(.x$k_sc))
     
   }
   

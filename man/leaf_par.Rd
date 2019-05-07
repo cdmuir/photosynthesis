@@ -4,10 +4,12 @@
 \alias{leaf_par}
 \title{S3 class leaf_par}
 \usage{
-leaf_par(.x, use_tealeaves)
+leaf_par(.x, use_tealeaves, constants = NULL)
 }
 \arguments{
 \item{.x}{A list to be constructed into \strong{leaf_par}.}
+
+\item{constants}{A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.}
 }
 \description{
 Constructor function for leaf_par class. This function ensures that leaf parameter inputs are properly formatted.

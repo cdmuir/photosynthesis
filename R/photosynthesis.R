@@ -105,23 +105,25 @@
 #' 
 
 photosynthesis <- function(leaf_par, enviro_par, bake_par,
-                           constants, use_tealaves = TRUE,
+                           constants, use_tealeaves = TRUE,
                            progress = TRUE, 
                            quiet = FALSE, set_units = TRUE,
                            parallel = FALSE) {
   
   # Check inputs ----
   if (set_units) {
-    leaf_par %<>% leaf_par(use_tealaves)
-    enviro_par %<>% enviro_par()
-    bake_par %<>% bake_par()
-    constants %<>% constants()
+    leaf_par %<>% photosynthesis::leaf_par(use_tealeaves, constants)
+    enviro_par %<>% photosynthesis::enviro_par(use_tealeaves)
+    bake_par %<>% photosynthesis::bake_par()
+    constants %<>% photosynthesis::constants(use_tealeaves)
   }
   
-  # Calculate leaf temperature (if needed) ----
-  if (use_tealaves) {
-    # Convert conductance
-    # Convert sunlight
+  # Calculate T_leaf using energy balance ----
+  if (use_tealeaves) {
+    tl <- tealeaves::tleaves(leaf_par = leaf_par, enviro_par = enviro_par, 
+                             constants = constants, quiet = TRUE, 
+                             set_units = TRUE, parallel = TRUE)
+    leaf_par$T_leaf <- tl$T_leaf
   }
   
   # Capture units ----
@@ -130,7 +132,11 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par,
     magrittr::set_names(names(pars))
   
   # Make parameter sets ----
-  pars %<>% make_parameter_sets(par_units)
+  pars %<>% photosynthesis:::make_parameter_sets(par_units)
+  if (!use_tealeaves) {
+    pars$T_air <- pars$T_leaf
+    par_units$T_air <- par_units$T_leaf
+  }
   
   # Simulate ----
   soln <- find_As(pars, bake_par, constants, par_units, progress, quiet,
@@ -159,8 +165,11 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
     par_sets %>%
       furrr::future_map_dfr(~{
         
-        ret <- photo(.x, .x, bake_par, constants, quiet = TRUE, 
-                     set_units = FALSE)
+        ret <- photosynthesis::photo(
+          leaf_par = .x, enviro_par = .x,  bake_par = bake_par,
+          constants = constants, use_tealeaves = FALSE, quiet = TRUE, 
+          set_units = FALSE
+        )
         if (progress & !parallel) pb$tick()$print()
         ret
         
@@ -193,20 +202,38 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
 photo <- function(leaf_par, enviro_par, bake_par, constants, 
                   use_tealeaves = TRUE, quiet = FALSE, set_units = TRUE) {
   
+  T_air <- NULL
+  if (!use_tealeaves & !is.null(enviro_par$T_air)) {
+    if (!quiet) {
+      message(glue::glue("Both air and leaf temperature are provided and fixed: T_air = {T_air}; T_leaf = {T_leaf}", T_air = enviro_par$T_air,
+                       T_leaf = leaf_par$T_leaf))
+    }
+    T_air <- enviro_par$T_air
+  }
+  
   # Check inputs and bake ----
   if (set_units) {
-    leaf_par %<>% leaf_par(use_tealeaves)
-    enviro_par %<>% enviro_par(use_tealeaves)
-    bake_par %<>% bake_par()
-    constants %<>% constants(use_tealeaves)
+    leaf_par %<>% photosynthesis::leaf_par(use_tealeaves, constants)
+    enviro_par %<>% photosynthesis::enviro_par(use_tealeaves)
+    bake_par %<>% photosynthesis::bake_par()
+    constants %<>% photosynthesis::constants(use_tealeaves)
+    if (!is.null(T_air)) enviro_par$T_air <- set_units(T_air, K)
   }
 
-  leaf_par %<>% bake(bake_par, constants, set_units = FALSE, 
-                     use_tealeaves = use_tealeaves)
+  # Calculate T_leaf using energy balance ----
+  if (use_tealeaves) {
+    tl <- tealeaves::tleaf(leaf_par = leaf_par, enviro_par = enviro_par, 
+                           constants = constants, quiet = TRUE, 
+                           set_units = TRUE)
+    leaf_par$T_leaf <- tl$T_leaf
+  }
+  
+  leaf_par %<>% bake(bake_par, constants, set_units = FALSE)
   
   pars <- c(leaf_par, enviro_par, constants) %>%
     purrr::map_if(~ inherits(.x, "units"), drop_units)
-
+  if (!use_tealeaves & is.null(pars$T_air)) pars$T_air <- pars$T_leaf
+  
   # Find intersection between photosynthetic supply and demand curves -----
   soln <- find_A(pars, quiet)
   

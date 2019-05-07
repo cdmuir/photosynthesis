@@ -189,9 +189,9 @@ gc2gw <- function(g_c, D_c, D_w, unitless) {
     g_w <- g_c * D_w / D_c
     return(g_w)
   } else {
-    g_c %<>% set_units("umol/m^2/s/Pa")
-    D_c %<>% set_units("m^2/s")
-    D_w %<>% set_units("m^2/s")
+    g_c %<>% set_units(umol/m^2/s/Pa)
+    D_c %<>% set_units(m^2/s)
+    D_w %<>% set_units(m^2/s)
     g_w <- g_c * D_w / D_c
     return(g_w)
   }

@@ -9,7 +9,7 @@ test_that("baked parameters do not equal unbaked unless Temp = 25", {
   lp <- make_leafpar(use_tealeaves = FALSE)
   
   lp$T_leaf <- set_units(298.15, "K")
-  blp <- bake(lp, bp, cs, use_tealeaves = FALSE)
+  blp <- bake(lp, bp, cs)
   
   blp %>%
     as.data.frame() %>%
@@ -22,7 +22,7 @@ test_that("baked parameters do not equal unbaked unless Temp = 25", {
     expect_true()
   
   lp$T_leaf <- set_units(305, "K")
-  blp <- bake(lp, bp, cs, use_tealeaves = FALSE)
+  blp <- bake(lp, bp, cs)
   
   blp %>%
     as.data.frame() %>%
