@@ -110,20 +110,23 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par,
                            quiet = FALSE, set_units = TRUE,
                            parallel = FALSE) {
   
-  # Check inputs ----
-  if (set_units) {
-    leaf_par %<>% photosynthesis::leaf_par(use_tealeaves, constants)
-    enviro_par %<>% photosynthesis::enviro_par(use_tealeaves)
-    bake_par %<>% photosynthesis::bake_par()
-    constants %<>% photosynthesis::constants(use_tealeaves)
+  T_air <- NULL
+  if (!use_tealeaves & !is.null(enviro_par$T_air)) {
+    if (!quiet) {
+      message(glue::glue("Both air and leaf temperature are provided and fixed: T_air = {T_air}; T_leaf = {T_leaf}", T_air = enviro_par$T_air,
+                         T_leaf = leaf_par$T_leaf))
+    }
+    T_air <- enviro_par$T_air
   }
   
-  # Calculate T_leaf using energy balance ----
-  if (use_tealeaves) {
-    tl <- tealeaves::tleaves(leaf_par = leaf_par, enviro_par = enviro_par, 
-                             constants = constants, quiet = TRUE, 
-                             set_units = TRUE, parallel = TRUE)
-    leaf_par$T_leaf <- tl$T_leaf
+  # Check inputs ----
+  if (set_units) {
+    bake_par %<>% photosynthesis::bake_par()
+    constants %<>% photosynthesis::constants(use_tealeaves)
+    enviro_par %<>% photosynthesis::enviro_par(use_tealeaves)
+    leaf_par %<>% photosynthesis::leaf_par(use_tealeaves, 
+                                           constants = constants)
+    if (!is.null(T_air)) enviro_par$T_air <- set_units(T_air, K)
   }
   
   # Capture units ----
@@ -132,9 +135,34 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par,
     magrittr::set_names(names(pars))
   
   # Make parameter sets ----
-  pars %<>% photosynthesis:::make_parameter_sets(par_units)
-  if (!use_tealeaves) {
-    pars$T_air <- pars$T_leaf
+  pars %<>% 
+    photosynthesis:::make_parameter_sets(par_units) %>%
+    unique()
+  
+  # Calculate T_leaf using energy balance or set to T_air ----
+  if (use_tealeaves) {
+    if (parallel) {
+      pars %<>% furrr::future_map(function(.x, cs) {
+        tl <- tealeaves::tleaf(leaf_par = .x, enviro_par = .x, 
+                               constants = cs, quiet = TRUE, 
+                               set_units = FALSE)
+        .x$T_leaf <- tl$T_leaf
+        .x
+      }, cs = constants)
+    } else {
+      pars %<>% purrr::map(function(.x, cs) {
+        tl <- tealeaves::tleaf(leaf_par = .x, enviro_par = .x, 
+                               constants = cs, quiet = TRUE, 
+                               set_units = FALSE)
+        .x$T_leaf <- tl$T_leaf
+        .x
+      }, cs = constants)
+      
+    }
+  } else {
+    if (is.null(T_air)) {
+      pars %<>% purrr::map(~ {.x$T_air <- .x$T_leaf; .x})
+    }
     par_units$T_air <- par_units$T_leaf
   }
   

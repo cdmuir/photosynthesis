@@ -62,12 +62,12 @@ You can look at default parameters settings in the manual (run `?make_parameters
 # each named element must have the proper units specified. See `?make_parameters`
 # for all parameter names and proper units.
 
+# Temperature response parameters can be updated (but we won't do that here)
+bake_par <- make_bakepar()
+
 # Physical constants probably do not need to be replaced in most cases,
 # that's why we call them 'constants'!
 constants  <- make_constants(use_tealeaves = FALSE)
-
-# Temperature response parameters can be updated (but we won't do that here)
-bake_par <- make_bakepar()
 
 # First, we'll change photosynthetic photon flux density to 1000 umol / (m^2 s)
 enviro_par <- make_enviropar(
@@ -136,19 +136,23 @@ It can take a little while to simulate many different parameter sets. If you hav
 
 # We'll use the `replace` argument to enter multiple atmospheric CO2 concentrations
 
-leaf_par  <- make_leafpar()
+bake_par <- make_bakepar()
+constants  <- make_constants(use_tealeaves = FALSE)
 
 enviro_par <- make_enviropar(
   replace = list(
     C_air = set_units(seq(1, 200, length.out = 20), "Pa")
-    )
+    ), use_tealeaves = FALSE
   )
 
-bake_par <- make_bakepar()
-constants  <- make_constants()
+leaf_par  <- make_leafpar(use_tealeaves = FALSE,
+                          constants = constants,
+                          enviro_par = enviro_par)
+
 
 ph <- photosynthesis(leaf_par, enviro_par, bake_par, constants, 
-                           progress = FALSE, quiet = TRUE, parallel = TRUE)
+                     use_tealeaves = FALSE, progress = FALSE, 
+                     quiet = TRUE, parallel = TRUE)
 
 # Plot C_c versus A
 library(ggplot2)
