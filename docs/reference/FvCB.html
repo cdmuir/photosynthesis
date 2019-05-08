@@ -217,10 +217,10 @@ $$W_\mathrm{regen} = J C_\mathrm{chl} / (4 C_\mathrm{chl} + 8 \Gamma*)$$</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>()
-<span class='no'>enviro_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>()
-<span class='no'>bake_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span>()
-<span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span>()
+    <pre class="examples"><div class='input'><span class='no'>bake_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span>()
+<span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>enviro_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bake.html'>bake</a></span>(<span class='no'>leaf_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>)
 
 <span class='no'>pars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>constants</span>)

@@ -119,7 +119,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>leaf_par</span>(<span class='no'>.x</span>)</pre>
+    <pre class="usage"><span class='fu'>leaf_par</span>(<span class='no'>.x</span>, <span class='no'>use_tealeaves</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -127,6 +127,10 @@
     <tr>
       <th>.x</th>
       <td><p>A list to be constructed into <strong>leaf_par</strong>.</p></td>
+    </tr>
+    <tr>
+      <th>use_tealeaves</th>
+      <td><p>Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, <code><a href='https://www.rdocumentation.org/packages/tealeaves/topics/tleaves'>tleaf</a></code> calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see <code><a href='make_parameters.html'>make_parameters</a></code>.</p></td>
     </tr>
     </table>
     

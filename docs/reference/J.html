@@ -158,6 +158,21 @@
 </table>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>magrittr</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>photosynthesis</span>)
+
+<span class='no'>bake_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span>()
+<span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>enviro_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>enviro_par</span>$<span class='no'>T_air</span> <span class='kw'>&lt;-</span> <span class='no'>leaf_par</span>$<span class='no'>T_leaf</span>
+<span class='no'>leaf_par</span> <span class='kw'>%&lt;&gt;%</span> <span class='fu'><a href='bake.html'>bake</a></span>(<span class='no'>bake_par</span>, <span class='no'>constants</span>)
+
+<span class='no'>pars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>constants</span>)
+<span class='fu'>J</span>(<span class='no'>pars</span>, <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; 181.6577 [umol/m^2/s]</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -167,7 +182,9 @@
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

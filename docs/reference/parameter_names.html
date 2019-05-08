@@ -119,7 +119,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>parameter_names</span>(<span class='no'>which</span>)</pre>
+    <pre class="usage"><span class='fu'>parameter_names</span>(<span class='no'>which</span>, <span class='no'>use_tealeaves</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -128,11 +128,15 @@
       <th>which</th>
       <td><p>A character string indicating which parameter names to retreive: "leaf", "enviro", "bake", or "constants". Partial matching allowed.</p></td>
     </tr>
+    <tr>
+      <th>use_tealeaves</th>
+      <td><p>Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, <code><a href='https://www.rdocumentation.org/packages/tealeaves/topics/tleaves'>tleaf</a></code> calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see <code><a href='make_parameters.html'>make_parameters</a></code>.</p></td>
+    </tr>
     </table>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>parameter_names</span>(<span class='st'>"leaf"</span>)</div><div class='output co'>#&gt;  [1] "g_mc25"       "g_sc"         "g_uc"         "gamma_star25" "J_max25"     
+    <pre class="examples"><div class='input'><span class='fu'>parameter_names</span>(<span class='st'>"leaf"</span>, <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;  [1] "g_mc25"       "g_sc"         "g_uc"         "gamma_star25" "J_max25"     
 #&gt;  [6] "K_C25"        "K_O25"        "k_mc"         "k_sc"         "k_uc"        
 #&gt; [11] "leafsize"     "phi_J"        "R_d25"        "T_leaf"       "theta_J"     
 #&gt; [16] "V_cmax25"     "V_tpu25"     </div><div class='input'>
