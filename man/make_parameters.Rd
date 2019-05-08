@@ -9,8 +9,7 @@
 \alias{make_constants}
 \title{Make lists of parameters for \code{photosynthesis}}
 \usage{
-make_leafpar(replace = NULL, use_tealeaves, enviro_par = NULL,
-  constants = NULL)
+make_leafpar(replace = NULL, use_tealeaves)
 
 make_enviropar(replace = NULL, use_tealeaves)
 
@@ -21,9 +20,7 @@ make_constants(replace = NULL, use_tealeaves)
 \arguments{
 \item{replace}{A named list of parameters to replace defaults. If \code{NULL}, defaults will be used.}
 
-\item{enviro_par}{A list of environmental parameters inheriting class \code{enviro_par}. This can be generated using the \code{make_enviropar} function.}
-
-\item{constants}{A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.}
+\item{use_tealeaves}{Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.}
 }
 \value{
 \code{make_leafpar}: An object inheriting from class \code{\link{leaf_par}}\cr
@@ -148,16 +145,16 @@ If \code{use_tealeaves = TRUE}, additional parameters are:
 }
 }
 \examples{
-leaf_par <- make_leafpar()
-enviro_par <- make_enviropar()
 bake_par <- make_bakepar()
-constants <- make_constants()
+constants <- make_constants(use_tealeaves = FALSE)
+enviro_par <- make_enviropar(use_tealeaves = FALSE)
+leaf_par <- make_leafpar(use_tealeaves = FALSE)
 
 leaf_par <- make_leafpar(
   replace = list(
     g_sc = set_units(3, "umol/m^2/s/Pa"),
     V_cmax25 = set_units(100, "umol/m^2/s")
-  )
+  ), use_tealeaves = FALSE
 )
 
 }

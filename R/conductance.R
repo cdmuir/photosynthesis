@@ -119,11 +119,6 @@ NULL
   
   surface %<>% match.arg(c("lower", "upper"))
   
-  D_c <- tealeaves:::.get_Dx(pars$D_c0, (pars$T_air + pars$T_leaf) / 2, 
-                             pars$eT, pars$P, unitless)
-  D_w <- tealeaves:::.get_Dx(pars$D_w0, (pars$T_air + pars$T_leaf) / 2, 
-                             pars$eT, pars$P, unitless)
-  
   ret <- tealeaves:::.get_gbw(pars$T_leaf, surface, pars, unitless) %>%
     set_units(m/s) %>%
     gunit::convert_conductance(
@@ -131,8 +126,8 @@ NULL
       R = set_units(pars$R, J/K/mol),
       Temp = set_units((pars$T_air + pars$T_leaf) / 2, K)
     ) %>%
-    dplyr::pull(`umol/m^2/s/Pa`) %>%
-    gw2gc(D_c = D_c, D_w = D_w, unitless = unitless)
+    dplyr::pull(.data$`umol/m^2/s/Pa`) %>%
+    gw2gc(D_c = pars$D_c0, D_w = pars$D_w0, unitless = unitless)
   
   ret
   

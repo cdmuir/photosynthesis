@@ -11,11 +11,7 @@
 #' 
 #' @export
 
-leaf_par <- function(.x, use_tealeaves, constants = NULL) {
-  
-  if (use_tealeaves & is.null(constants)) {
-    stop("If use_tealeaves is TRUE, constants must be provided. Use photosynthesis::make_constants()")
-  }
+leaf_par <- function(.x, use_tealeaves) {
   
   which <- "leaf"
   nms <- photosynthesis::parameter_names(which, use_tealeaves)
@@ -52,12 +48,8 @@ leaf_par <- function(.x, use_tealeaves, constants = NULL) {
   
   # If using tealeaves, convert conductance values ----
   if (use_tealeaves) {
-    # message about assuming g_sc at T_leaf = 25 degree for conversion to m/s  
     .x$abs_l %<>% set_units()
     .x$abs_s %<>% set_units()
-    .x$g_sw %<>% set_units(umol / (m^2 * s * Pa))
-    .x$g_uw %<>% set_units(umol / (m^2 * s * Pa))
-    .x$logit_sr %<>% set_units()
   }
   
   # Check values ----
@@ -79,19 +71,8 @@ leaf_par <- function(.x, use_tealeaves, constants = NULL) {
   stopifnot(.x$V_tpu25 >= set_units(0, umol / (m^2 * s)))
   
   if (use_tealeaves) {
-    
     stopifnot(.x$abs_l > set_units(0) & .x$abs_l < set_units(1))
     stopifnot(.x$abs_s > set_units(0) & .x$abs_s < set_units(1))
-    
-    stopifnot(.x$g_sw == gc2gw(.x$g_sc, constants$D_c0, constants$D_w0, 
-                               unitless = FALSE))
-    stopifnot(.x$g_uw == gc2gw(.x$g_uc, constants$D_c0, constants$D_w0,
-                               unitless = FALSE))
-    
-    stopifnot(stats::plogis(.x$logit_sr) / 
-                (set_units(1) - stats::plogis(.x$logit_sr)) == 
-                set_units(.x$k_sc))
-    
   }
   
   structure(.x, class = c(stringr::str_c(which, "_par"), "list"))

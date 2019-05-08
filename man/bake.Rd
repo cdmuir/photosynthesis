@@ -62,9 +62,10 @@ Temperature response function 2 (\code{temp_response2}) is the above equation mu
 Function 1 increases exponentially with temperature; Function 2 peaks a particular temperature.
 }
 \examples{
-leaf_par <- make_leafpar(replace = list(T_leaf = set_units(293.15, "K")))
 bake_par <- make_bakepar()
-constants <- make_constants()
+constants <- make_constants(use_tealeaves = FALSE)
+leaf_par <- make_leafpar(replace = list(T_leaf = set_units(293.15, "K")),
+                         use_tealeaves = FALSE)
 baked_leafpar <- bake(leaf_par, bake_par, constants)
 
 baked_leafpar$V_cmax25

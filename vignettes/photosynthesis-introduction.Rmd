@@ -94,7 +94,7 @@ photo %>%
 
 ## Environmental gradients
 
-In the previous two examples, I used the `photo` function to solve for a single parameter set. In most cases, you'll want to solve for many parameter sets. The function `photosynthesis` generalizes `photo` and makes it easy to solve for multiple parameter sets using the same argument structure. All you need to do is specify multiple values for one or more leaf or environmental parameters and `photosynthesis` uses the `tidyr::crossing` function to fit all combinations^[Since optimization is somewhat time-consuming, be careful about crossing too many combinations. Use `progress = TRUE` to show progress bar with estimated time remaining.].
+In the previous two examples, I used the `photo` function to solve for a single parameter set. In most cases, you'll want to solve for many parameter sets. The function `photosynthesis` generalizes `photo` and makes it easy to solve for multiple parameter sets using the same argument structure. All you need to do is specify multiple values for one or more leaf or environmental parameters and `photosynthesis` uses the `purrr::cross` function to fit all combinations^[Since optimization is somewhat time-consuming, be careful about crossing too many combinations. Use `progress = TRUE` to show progress bar with estimated time remaining.].
 
 ```{r, environmental-gradients}
 
@@ -145,10 +145,7 @@ enviro_par <- make_enviropar(
     ), use_tealeaves = FALSE
   )
 
-leaf_par  <- make_leafpar(use_tealeaves = FALSE,
-                          constants = constants,
-                          enviro_par = enviro_par)
-
+leaf_par  <- make_leafpar(use_tealeaves = FALSE)
 
 ph <- photosynthesis(leaf_par, enviro_par, bake_par, constants, 
                      use_tealeaves = FALSE, progress = FALSE, 
@@ -156,9 +153,65 @@ ph <- photosynthesis(leaf_par, enviro_par, bake_par, constants,
 
 # Plot C_c versus A
 library(ggplot2)
+
+## Drop units for plotting
+ph %<>% mutate_if(~ is(.x, "units"), drop_units)
 ggplot(ph, aes(C_chl, A)) +
-  geom_line() +
-  theme_minimal() +
+  geom_line(size = 2) +
+  xlab(expression(paste(C[chl], " [Pa]"))) +
+  ylab(expression(paste("A [", mu, "mol ", m^-2~s^-1, "]"))) +
+  theme_bw() +
+  NULL
+
+```
+
+## Incorporating leaf temperature using {tealeaves}
+
+In experiments, leaf temperature can be kept close to air temperature, but in nature, leaf temperature can be quite a bit different than air temperature in the shade depending on environmental and leaf parameters. If `use_tealeaves = TRUE`, `photo()` and `photosynthesis()` will call on the {tealeaves} package to calculate leaf temperature using an energy balance model. 
+
+```{r, use-tealeaves-example}
+
+# You will need to set use_tealeaves = TRUE when making parameters because additional parameters are needed for tealeaves.
+
+bake_par <- make_bakepar()
+constants  <- make_constants(use_tealeaves = TRUE)
+
+enviro_par <- make_enviropar(
+  replace = list(
+    T_air = set_units(seq(288.15, 313.15, 1), K)
+    ), use_tealeaves = TRUE
+  )
+
+leaf_par <- make_leafpar(replace = list(
+    g_sc = set_units(c(2, 4), umol/m^2/s/Pa)
+    ), use_tealeaves = TRUE
+  )
+
+ph <- photosynthesis(leaf_par, enviro_par, bake_par, constants, 
+                     use_tealeaves = TRUE, progress = FALSE, 
+                     quiet = TRUE, parallel = TRUE)
+
+# Plot temperature and photosynthesis
+library(ggplot2)
+
+## Drop units for plotting
+ph %<>% 
+  mutate_if(~ is(.x, "units"), drop_units) %>%
+  mutate(`g[s]` = ifelse(g_sc == 2, "low", "high"))
+
+ggplot(ph, aes(T_air, T_leaf, color = `g[s]`)) +
+  geom_line(size = 2, lineend = "round") +
+  geom_abline(slope = 1, intercept = 0, linetype = "dotted") +
+  xlab(expression(paste(T[air], " [K]"))) +
+  ylab(expression(paste(T[leaf], " [K]"))) +
+  theme_bw() +
+  NULL
+
+ggplot(ph, aes(T_air, A, color = `g[s]`)) +
+  geom_line(size = 2, lineend = "round") +
+  xlab(expression(paste(T[leaf], " [K]"))) +
+  ylab(expression(paste("A [", mu, "mol ", m^-2~s^-1, "]"))) +
+  theme_bw() +
   NULL
 
 ```

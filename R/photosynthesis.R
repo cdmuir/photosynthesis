@@ -10,7 +10,7 @@
 #' 
 #' @param constants A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.
 #' 
-#' @param use_tealaves Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.
+#' @param use_tealeaves Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.
 #' 
 #' @param progress Logical. Should a progress bar be displayed?
 #' 
@@ -81,34 +81,31 @@
 #' @examples 
 #' # Single parameter set with 'photo'
 #' 
-#' leaf_par <- make_leafpar()
-#' enviro_par <- make_enviropar()
 #' bake_par <- make_bakepar()
-#' constants <- make_constants()
-#' photo(leaf_par, enviro_par, bake_par, constants)
+#' constants <- make_constants(use_tealeaves = FALSE)
+#' enviro_par <- make_enviropar(use_tealeaves = FALSE)
+#' leaf_par <- make_leafpar(use_tealeaves = FALSE)
+#' photo(leaf_par, enviro_par, bake_par, constants,
+#'       use_tealeaves = FALSE)
 #' 
 #' # Multiple parameter sets with 'photosynthesis'
 #' 
 #' leaf_par <- make_leafpar(
 #'   replace = list(
 #'     T_leaf = set_units(c(293.14, 298.15), "K")
-#'     )
+#'     ), use_tealeaves = FALSE
 #'   )
-#' enviro_par <- make_enviropar()
-#' bake_par <- make_bakepar()
-#' constants <- make_constants()
-#' photosynthesis(leaf_par, enviro_par, bake_par, constants)
+#' photosynthesis(leaf_par, enviro_par, bake_par, constants,
+#'                use_tealeaves = FALSE)
 #' 
 #' @encoding UTF-8
 #' 
 #' @export
 #' 
 
-photosynthesis <- function(leaf_par, enviro_par, bake_par,
-                           constants, use_tealeaves = TRUE,
-                           progress = TRUE, 
-                           quiet = FALSE, set_units = TRUE,
-                           parallel = FALSE) {
+photosynthesis <- function(leaf_par, enviro_par, bake_par, constants, 
+                           use_tealeaves, progress = TRUE, quiet = FALSE,
+                           set_units = TRUE, parallel = FALSE) {
   
   T_air <- NULL
   if (!use_tealeaves & !is.null(enviro_par$T_air)) {
@@ -119,13 +116,12 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par,
     T_air <- enviro_par$T_air
   }
   
-  # Check inputs ----
+  # Set units ----
   if (set_units) {
     bake_par %<>% photosynthesis::bake_par()
     constants %<>% photosynthesis::constants(use_tealeaves)
     enviro_par %<>% photosynthesis::enviro_par(use_tealeaves)
-    leaf_par %<>% photosynthesis::leaf_par(use_tealeaves, 
-                                           constants = constants)
+    leaf_par %<>% photosynthesis::leaf_par(use_tealeaves)
     if (!is.null(T_air)) enviro_par$T_air <- set_units(T_air, K)
   }
   
@@ -133,37 +129,60 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par,
   pars <- c(leaf_par, enviro_par)
   par_units <- purrr::map(pars, units) %>%
     magrittr::set_names(names(pars))
+  if (!is.null(T_air)) {
+    par_units$T_air <- units(enviro_par$T_air) 
+  } else {
+    if (!use_tealeaves) par_units$T_air <- units(leaf_par$T_leaf) 
+  }
   
   # Make parameter sets ----
-  pars %<>% 
-    photosynthesis:::make_parameter_sets(par_units) %>%
-    unique()
+  ## cross_df() removes units. 
+  ## This code will cause errors if units are not properly set
+  pars %<>% purrr::cross_df()
   
   # Calculate T_leaf using energy balance or set to T_air ----
   if (use_tealeaves) {
-    if (parallel) {
-      pars %<>% furrr::future_map(function(.x, cs) {
-        tl <- tealeaves::tleaf(leaf_par = .x, enviro_par = .x, 
-                               constants = cs, quiet = TRUE, 
-                               set_units = FALSE)
-        .x$T_leaf <- tl$T_leaf
-        .x
-      }, cs = constants)
-    } else {
-      pars %<>% purrr::map(function(.x, cs) {
-        tl <- tealeaves::tleaf(leaf_par = .x, enviro_par = .x, 
-                               constants = cs, quiet = TRUE, 
-                               set_units = FALSE)
-        .x$T_leaf <- tl$T_leaf
-        .x
-      }, cs = constants)
-      
-    }
+    
+    pars %<>%
+      dplyr::mutate(
+        S_sw = .data$E_q * .data$PPFD / .data$f_par / 1000,
+        g_sw = drop_units(constants$D_w0 / constants$D_c0) * .data$g_sc,
+        g_uw = drop_units(constants$D_w0 / constants$D_c0) * .data$g_uc,
+        logit_sr = stats::qlogis(.data$k_sc / (1 + .data$k_sc))
+      )
+    
+    par_units$S_sw <- units(units::make_units(W/m^2))
+    par_units$g_sw <- par_units$g_sc
+    par_units$g_uw <- par_units$g_uc
+    par_units$logit_sr <- par_units$k_sc
+    
+    tlp <- pars %>%
+      as.list() %>%
+      purrr::map(unique) %>%
+      tealeaves::leaf_par()
+    
+    tep <- pars %>%
+      as.list() %>%
+      purrr::map(unique) %>%
+      tealeaves::enviro_par()
+    
+    tcs <- tealeaves::constants(constants)
+    
+    tl <- tealeaves::tleaves(tlp, tep, tcs, progress = FALSE, quiet = TRUE, 
+                             set_units = FALSE, parallel = parallel)
+    
+    par_units$T_leaf <- units(tl$T_leaf)
+    
+    ## Drop units and join
+    suppressMessages(
+      pars %<>% dplyr::full_join(dplyr::mutate_if(tl, ~ is(.x, "units"),
+                                                  drop_units))
+    )
+    
   } else {
-    if (is.null(T_air)) {
-      pars %<>% purrr::map(~ {.x$T_air <- .x$T_leaf; .x})
-    }
-    par_units$T_air <- par_units$T_leaf
+    
+    if (is.null(T_air)) pars$T_air <- pars$T_leaf
+
   }
   
   # Simulate ----
@@ -180,28 +199,33 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
   
   if (!quiet) {
     glue::glue("\nSolving for photosynthetic rate from {n} parameter set{s} ...", 
-               n = length(par_sets), s = dplyr::if_else(length(par_sets) > 1, "s", "")) %>%
+               n = nrow(par_sets), s = dplyr::if_else(length(par_sets) > 1, "s", "")) %>%
       crayon::green() %>%
       message(appendLF = FALSE)
   }
   
   if (parallel) future::plan("multiprocess")
   
-  if (progress & !parallel) pb <- dplyr::progress_estimated(length(par_sets))
+  if (progress & !parallel) pb <- dplyr::progress_estimated(nrow(par_sets))
   
   soln <- suppressWarnings(
     par_sets %>%
+      as.list() %>%
+      purrr::transpose() %>%
       furrr::future_map_dfr(~{
         
         ret <- photosynthesis::photo(
-          leaf_par = .x, enviro_par = .x,  bake_par = bake_par,
+          leaf_par = .x, enviro_par = .x, bake_par = bake_par,
           constants = constants, use_tealeaves = FALSE, quiet = TRUE, 
           set_units = FALSE
         )
         if (progress & !parallel) pb$tick()$print()
         ret
         
-      }, .progress = progress)
+      }, .progress = progress) %>%
+      dplyr::select_at(
+        dplyr::vars(-tidyselect::one_of(stringr::str_c(colnames(.), "1")))
+      )
   )
   
   # Reassign units ----
@@ -218,6 +242,10 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
     parse(text = .) %>%
     eval()
   
+  soln$C_chl %<>% set_units(Pa)
+  soln$g_tc %<>% set_units(umol/m^2/s/Pa)
+  soln$A %<>% set_units(umol/m^2/s)
+  
   soln
   
 }
@@ -228,7 +256,7 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
 #' @export
 
 photo <- function(leaf_par, enviro_par, bake_par, constants, 
-                  use_tealeaves = TRUE, quiet = FALSE, set_units = TRUE) {
+                  use_tealeaves, quiet = FALSE, set_units = TRUE) {
   
   T_air <- NULL
   if (!use_tealeaves & !is.null(enviro_par$T_air)) {
@@ -241,10 +269,10 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
   
   # Check inputs and bake ----
   if (set_units) {
-    leaf_par %<>% photosynthesis::leaf_par(use_tealeaves, constants)
-    enviro_par %<>% photosynthesis::enviro_par(use_tealeaves)
     bake_par %<>% photosynthesis::bake_par()
     constants %<>% photosynthesis::constants(use_tealeaves)
+    enviro_par %<>% photosynthesis::enviro_par(use_tealeaves)
+    leaf_par %<>% photosynthesis::leaf_par(use_tealeaves)
     if (!is.null(T_air)) enviro_par$T_air <- set_units(T_air, K)
   }
 
@@ -323,6 +351,8 @@ find_A <- function(unitless_pars, quiet) {
 
 #' CO2 supply and demand function (mol / m^2 s)
 #' 
+#' This function is not intended to be called by users directly.
+#' 
 #' @inheritParams photosynthesis
 #' @param C_chl Chloroplastic CO2 concentration in Pa of class \code{units}
 #' @param pars Concatenated parameters (\code{leaf_par}, \code{enviro_par}, and \code{constants})
@@ -351,13 +381,14 @@ find_A <- function(unitless_pars, quiet) {
 #' }
 #' 
 #' @examples 
-#' leaf_par <- make_leafpar()
-#' enviro_par <- make_enviropar()
 #' bake_par <- make_bakepar()
-#' constants <- make_constants()
+#' constants <- make_constants(use_tealeaves = FALSE)
+#' enviro_par <- make_enviropar(use_tealeaves = FALSE)
+#' leaf_par <- make_leafpar(use_tealeaves = FALSE)
 #' leaf_par <- bake(leaf_par, bake_par, constants)
 #' # Or bake with piping (need library(magrittr))
 #' # leaf_par %<>% bake(bake_par, constants)
+#' enviro_par$T_air <- leaf_par$T_leaf
 #' 
 #' pars <- c(leaf_par, enviro_par, constants)
 #' C_chl <- set_units(35, "Pa")
@@ -395,28 +426,5 @@ A_demand <- function(C_chl, pars, unitless = FALSE) {
   }
   
   Ad
-  
-}
-
-make_parameter_sets <- function(pars, par_units) {
-  
-  pars %<>%
-    names() %>%
-    glue::glue("{x} = pars${x}", x = .) %>%
-    stringr::str_c(collapse = ", ") %>%
-    glue::glue("tidyr::crossing({x})", x = .) %>%
-    parse(text = .) %>%
-    eval() %>%
-    purrr::transpose()
-  
-  tidyr::crossing(i = seq_len(length(pars)),
-                  par = names(pars[[1]])) %>%
-    dplyr::transmute(ex = glue::glue("units(pars[[{i}]]${par}) <<- par_units${par}", 
-                                     i = .data$i, par = .data$par)) %>%
-    dplyr::pull("ex") %>%
-    parse(text = .) %>%
-    eval()
- 
-  pars
   
 }

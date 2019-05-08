@@ -131,30 +131,22 @@ NULL
 #' Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic rate into contributions from different variables. Plant, Cell & Environment 38: 1200-11.
 #' 
 #' @examples 
-#' leaf_par <- make_leafpar()
-#' enviro_par <- make_enviropar()
 #' bake_par <- make_bakepar()
-#' constants <- make_constants()
+#' constants <- make_constants(use_tealeaves = FALSE)
+#' enviro_par <- make_enviropar(use_tealeaves = FALSE)
+#' leaf_par <- make_leafpar(use_tealeaves = FALSE)
 #' 
 #' leaf_par <- make_leafpar(
 #'   replace = list(
 #'     g_sc = set_units(3, "umol/m^2/s/Pa"),
 #'     V_cmax25 = set_units(100, "umol/m^2/s")
-#'   )
+#'   ), use_tealeaves = FALSE
 #' )
 #' 
 #' @export
 
-make_leafpar <- function(replace = NULL, use_tealeaves, enviro_par = NULL,
-                         constants = NULL) {
+make_leafpar <- function(replace = NULL, use_tealeaves) {
 
-  if (use_tealeaves & is.null(enviro_par)) {
-    stop("If use_tealeaves is TRUE, environmental parameters must be provided. Use photosynthesis::make_enviropar()")
-  }
-  if (use_tealeaves & is.null(constants)) {
-    stop("If use_tealeaves is TRUE, constants must be provided. Use photosynthesis::make_constants()")
-  }
-  
   # Defaults -----
   obj <- list(
     g_mc25 = set_units(4, umol / (m^2 * s * Pa)),
@@ -178,7 +170,6 @@ make_leafpar <- function(replace = NULL, use_tealeaves, enviro_par = NULL,
   
   if (use_tealeaves) {
     
-    constants %<>% photosynthesis::constants(use_tealeaves)
     obj <- c(obj, list(
       abs_l = set_units(0.97),
       abs_s = set_units(0.5)
@@ -192,33 +183,27 @@ make_leafpar <- function(replace = NULL, use_tealeaves, enviro_par = NULL,
     replace$T_leaf <- NULL
   }
 
-  par_equiv <- tibble::tibble(
+  par_equiv <- data.frame(
     tl = c("g_sw", "g_uw", "logit_sr"),
-    ph = c("g_sc", "g_uc", "k_sc")
+    ph = c("g_sc", "g_uc", "k_sc"),
+    stringsAsFactors = FALSE
   )
   
   if (any(purrr::map_lgl(replace[par_equiv$tl], ~ !is.null(.x)))) {
     
     par_equiv %>%
-      dplyr::filter(tl %in% names(replace)) %>%
-      dplyr::transmute(message = stringr::str_c("\nIn `replace = list(...)`, tealeaves parameter ", tl, " is not replacable. Use ", ph, " instead.")) %>%
-      dplyr::pull(message) %>%
+      dplyr::filter(.data$tl %in% names(replace)) %>%
+      dplyr::transmute(message = stringr::str_c("\nIn `replace = list(...)`, tealeaves parameter ", .data$tl, " is not replacable. Use ", .data$ph, " instead.")) %>%
+      dplyr::pull(.data$message) %>%
       stringr::str_c(collapse = "\n") %>%
       stop(call. = FALSE)
     
   }
   
-  obj %<>% photosynthesis:::replace_defaults(replace)
+  obj %<>% replace_defaults(replace)
 
-  # Calculations for tealeaves ----
-  if (use_tealeaves) {
-    obj$g_sw <- gc2gw(obj$g_sc, constants$D_c0, constants$D_w0, unitless = FALSE)
-    obj$g_uw <- gc2gw(obj$g_uc, constants$D_c0, constants$D_w0, unitless = FALSE)
-    obj$logit_sr <- stats::qlogis(obj$k_sc / (set_units(1) + obj$k_sc))
-  }
-  
   # Assign class and return ----
-  obj %<>% photosynthesis::leaf_par(use_tealeaves, constants)
+  obj %<>% photosynthesis::leaf_par(use_tealeaves)
 
   obj
 
@@ -253,29 +238,25 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
   }
   
   # Replace defaults ----
-  par_equiv <- tibble::tibble(
+  par_equiv <- data.frame(
     tl = c("S_sw"),
-    ph = c("PPFD")
+    ph = c("PPFD"),
+    stringsAsFactors = FALSE
   )
   
   if (any(purrr::map_lgl(replace[par_equiv$tl], ~ !is.null(.x)))) {
     
     par_equiv %>%
-      dplyr::filter(tl %in% names(replace)) %>%
-      dplyr::transmute(message = stringr::str_c("\nIn `replace = list(...)`, tealeaves parameter ", tl, " is not replacable. Use ", ph, " instead.")) %>%
-      dplyr::pull(message) %>%
+      dplyr::filter(.data$tl %in% names(replace)) %>%
+      dplyr::transmute(message = stringr::str_c("\nIn `replace = list(...)`, tealeaves parameter ", .data$tl, " is not replacable. Use ", .data$ph, " instead.")) %>%
+      dplyr::pull(.data$message) %>%
       stringr::str_c(collapse = "\n") %>%
       stop(call. = FALSE)
     
   }
   
-  obj %<>% photosynthesis:::replace_defaults(replace)
+  obj %<>% replace_defaults(replace)
 
-  # Calculations for tealeaves ----
-  if (use_tealeaves) {
-    obj$S_sw <- set_units(obj$E_q * obj$PPFD / obj$f_par, W/m^2)
-  }
-  
   # Assign class and return ----
   obj %<>% photosynthesis::enviro_par(use_tealeaves)
   
@@ -306,7 +287,7 @@ make_bakepar <- function(replace = NULL) {
   ) 
   
   # Replace defaults -----
-  obj %<>% photosynthesis:::replace_defaults(replace)
+  obj %<>% replace_defaults(replace)
   
   # Assign class and return -----
   obj %<>% photosynthesis::bake_par()
@@ -399,7 +380,7 @@ make_constants <- function(replace = NULL, use_tealeaves) {
   }
   
   # Replace defaults -----
-  obj %<>% photosynthesis:::replace_defaults(replace)
+  obj %<>% replace_defaults(replace)
   
   # Assign class and return -----
   obj %<>% photosynthesis::constants(use_tealeaves)

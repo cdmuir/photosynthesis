@@ -44,9 +44,10 @@ NULL
 #' Bernacchi CJ, Portis AR, Nakano H, von Caemmerer S, Long SP. 2002. Temperature response of mesophyll conductance. Implications for the determination of Rubisco enzyme kinetics and for limitations to photosynthesis in vivo. Plant Physiology 130: 1992-8.
 #' 
 #' @examples 
-#' leaf_par <- make_leafpar(replace = list(T_leaf = set_units(293.15, "K")))
 #' bake_par <- make_bakepar()
-#' constants <- make_constants()
+#' constants <- make_constants(use_tealeaves = FALSE)
+#' leaf_par <- make_leafpar(replace = list(T_leaf = set_units(293.15, "K")),
+#'                          use_tealeaves = FALSE)
 #' baked_leafpar <- bake(leaf_par, bake_par, constants)
 #' 
 #' baked_leafpar$V_cmax25

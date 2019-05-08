@@ -20,9 +20,7 @@ A_demand(C_chl, pars, unitless = FALSE)
 Value in mol / (m^2 s) of class \code{units}
 }
 \description{
-CO2 supply and demand function (mol / m^2 s)
-
-A_demand
+This function is not intended to be called by users directly.
 }
 \details{
 \bold{Supply function:}
@@ -44,13 +42,14 @@ A_demand
 }
 }
 \examples{
-leaf_par <- make_leafpar()
-enviro_par <- make_enviropar()
 bake_par <- make_bakepar()
-constants <- make_constants()
+constants <- make_constants(use_tealeaves = FALSE)
+enviro_par <- make_enviropar(use_tealeaves = FALSE)
+leaf_par <- make_leafpar(use_tealeaves = FALSE)
 leaf_par <- bake(leaf_par, bake_par, constants)
 # Or bake with piping (need library(magrittr))
 # leaf_par \%<>\% bake(bake_par, constants)
+enviro_par$T_air <- leaf_par$T_leaf
 
 pars <- c(leaf_par, enviro_par, constants)
 C_chl <- set_units(35, "Pa")

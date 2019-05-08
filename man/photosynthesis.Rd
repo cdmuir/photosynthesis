@@ -6,11 +6,11 @@
 \alias{photo}
 \title{Simulate C3 photosynthesis}
 \usage{
-photosynthesis(leaf_par, enviro_par, bake_par, constants,
-  use_tealeaves = TRUE, progress = TRUE, quiet = FALSE,
-  set_units = TRUE, parallel = FALSE)
+photosynthesis(leaf_par, enviro_par, bake_par, constants, use_tealeaves,
+  progress = TRUE, quiet = FALSE, set_units = TRUE,
+  parallel = FALSE)
 
-photo(leaf_par, enviro_par, bake_par, constants, use_tealeaves = TRUE,
+photo(leaf_par, enviro_par, bake_par, constants, use_tealeaves,
   quiet = FALSE, set_units = TRUE)
 }
 \arguments{
@@ -22,6 +22,8 @@ photo(leaf_par, enviro_par, bake_par, constants, use_tealeaves = TRUE,
 
 \item{constants}{A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.}
 
+\item{use_tealeaves}{Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.}
+
 \item{progress}{Logical. Should a progress bar be displayed?}
 
 \item{quiet}{Logical. Should messages be displayed?}
@@ -29,8 +31,6 @@ photo(leaf_par, enviro_par, bake_par, constants, use_tealeaves = TRUE,
 \item{set_units}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 
 \item{parallel}{Logical. Should parallel processing be used via \code{\link[furrr]{future_map}}?}
-
-\item{use_tealaves}{Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.}
 }
 \value{
 A data.frame with the following \code{units} columns \cr
@@ -97,22 +97,21 @@ A data.frame with the following \code{units} columns \cr
 \examples{
 # Single parameter set with 'photo'
 
-leaf_par <- make_leafpar()
-enviro_par <- make_enviropar()
 bake_par <- make_bakepar()
-constants <- make_constants()
-photo(leaf_par, enviro_par, bake_par, constants)
+constants <- make_constants(use_tealeaves = FALSE)
+enviro_par <- make_enviropar(use_tealeaves = FALSE)
+leaf_par <- make_leafpar(use_tealeaves = FALSE)
+photo(leaf_par, enviro_par, bake_par, constants,
+      use_tealeaves = FALSE)
 
 # Multiple parameter sets with 'photosynthesis'
 
 leaf_par <- make_leafpar(
   replace = list(
     T_leaf = set_units(c(293.14, 298.15), "K")
-    )
+    ), use_tealeaves = FALSE
   )
-enviro_par <- make_enviropar()
-bake_par <- make_bakepar()
-constants <- make_constants()
-photosynthesis(leaf_par, enviro_par, bake_par, constants)
+photosynthesis(leaf_par, enviro_par, bake_par, constants,
+               use_tealeaves = FALSE)
 
 }

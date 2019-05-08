@@ -79,10 +79,10 @@ PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab umol quanta /
 }
 }
 \examples{
-leaf_par <- make_leafpar()
-enviro_par <- make_enviropar()
 bake_par <- make_bakepar()
-constants <- make_constants()
+constants <- make_constants(use_tealeaves = FALSE)
+enviro_par <- make_enviropar(use_tealeaves = FALSE)
+leaf_par <- make_leafpar(use_tealeaves = FALSE)
 leaf_par <- bake(leaf_par, bake_par, constants)
 
 pars <- c(leaf_par, enviro_par, constants)
