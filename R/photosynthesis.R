@@ -156,15 +156,43 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
     par_units$g_uw <- par_units$g_uc
     par_units$logit_sr <- par_units$k_sc
     
+    # This section should be removed after tealeaves is patched {
     tlp <- pars %>%
       as.list() %>%
-      purrr::map(unique) %>%
-      tealeaves::leaf_par()
+      purrr::map(unique) 
+    
+    names(tlp) %>%
+      glue::glue("units(tlp${x}) <<- par_units${x}", x = .) %>%
+      parse(text = .) %>%
+      eval()
+    
+    tlp %<>% tealeaves::leaf_par()
     
     tep <- pars %>%
       as.list() %>%
-      purrr::map(unique) %>%
-      tealeaves::enviro_par()
+      purrr::map(unique)
+    
+    names(tep) %>%
+      glue::glue("units(tep${x}) <<- par_units${x}", x = .) %>%
+      parse(text = .) %>%
+      eval()
+    
+    tep %<>% tealeaves::enviro_par()
+    
+    # }
+    
+    # This section should be uncommented after tealeaves is patched {
+    # tlp <- pars %>%
+    #   as.list() %>%
+    #   purrr::map(unique) %>%
+    #   tealeaves::leaf_par()
+    # 
+    # tep <- pars %>%
+    #   as.list() %>%
+    #   purrr::map(unique) %>%
+    #   tealeaves::enviro_par()
+    # 
+    # }
     
     tcs <- tealeaves::constants(constants)
     
