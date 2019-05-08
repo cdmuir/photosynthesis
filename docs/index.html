@@ -7,7 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Model C3 Photosynthesis • photosynthesis</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Model C3 Photosynthesis">
 <meta property="og:description" content="Simulate C3 photosynthesis using the Farquhar, von Caemmerer, Berry (1980) &lt;doi:10.1007/BF00386231&gt; model as described in Buckley and Diaz-Espejo (2015) &lt;doi:10.1111/pce.12459&gt;. It uses units to ensure that parameters are properly specified and transformed before calculations. Temperature response functions get automatically “baked” into all parameters based on leaf temperature following Bernacchi et al. (2002) &lt;doi:10.1104/pp.008250&gt;. The package includes boundary layer, cuticular, stomatal, and mesophyll conductances to CO2, which each can vary on the upper and lower portions of the leaf. Use straightforward functions to simulate photosynthesis over environmental gradients such as Photosynthetic Photon Flux Density (PPFD) and leaf temperature, or over trait gradients such as CO2 conductance or photochemistry. ">
@@ -39,7 +40,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,10 +96,10 @@
 <a href="#get-photosynthesis" class="anchor"></a>Get <strong>photosynthesis</strong>
 </h2>
 <p>From GitHib</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
-<a class="sourceLine" id="cb1-2" title="2">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"cdmuir/photosynthesis"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
+<a class="sourceLine" id="cb1-2" title="2">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"cdmuir/photosynthesis"</span>)</a></code></pre></div>
 <p>And load <code>photosynthesis</code></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"photosynthesis"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"photosynthesis"</span>)</a></code></pre></div>
 </div>
 <div id="vignette" class="section level2">
 <h2 class="hasAnchor">
@@ -120,9 +121,9 @@
 <a href="#minimum-worked-example" class="anchor"></a>Minimum worked example</h2>
 <p>You can use the default parameter settings and simulate photosynthetic rate in a single leaf using the <code>make_*()</code> functions and <code><a href="reference/photosynthesis.html">photo()</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"></a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(magrittr)</a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(photosynthesis)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(magrittr)</a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(photosynthesis)</a>
 <a class="sourceLine" id="cb3-5" title="5"></a>
 <a class="sourceLine" id="cb3-6" title="6"><span class="co"># Leaving the make_* functions empty will automatically default to defaults</span></a>
 <a class="sourceLine" id="cb3-7" title="7"><span class="co"># parameters.</span></a>
@@ -166,14 +167,14 @@
 <a class="sourceLine" id="cb4-12" title="12"></a>
 <a class="sourceLine" id="cb4-13" title="13"><span class="co"># First, we'll change photosynthetic photon flux density to 1000 umol / (m^2 s)</span></a>
 <a class="sourceLine" id="cb4-14" title="14">enviro_par &lt;-<span class="st"> </span><span class="kw"><a href="reference/make_parameters.html">make_enviropar</a></span>(</a>
-<a class="sourceLine" id="cb4-15" title="15">  <span class="dt">replace =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
+<a class="sourceLine" id="cb4-15" title="15">  <span class="dt">replace =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
 <a class="sourceLine" id="cb4-16" title="16">    <span class="dt">PPFD =</span> <span class="kw">set_units</span>(<span class="dv">1000</span>, <span class="st">"umol/m^2/s"</span>)</a>
 <a class="sourceLine" id="cb4-17" title="17">    ), <span class="dt">use_tealeaves =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb4-18" title="18">  )</a>
 <a class="sourceLine" id="cb4-19" title="19"></a>
 <a class="sourceLine" id="cb4-20" title="20"><span class="co"># Next, we'll change stomatal conductance to 3 umol / (m^2 s Pa)</span></a>
 <a class="sourceLine" id="cb4-21" title="21">leaf_par &lt;-<span class="st"> </span><span class="kw"><a href="reference/make_parameters.html">make_leafpar</a></span>(</a>
-<a class="sourceLine" id="cb4-22" title="22">  <span class="dt">replace =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
+<a class="sourceLine" id="cb4-22" title="22">  <span class="dt">replace =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
 <a class="sourceLine" id="cb4-23" title="23">    <span class="dt">g_sc =</span> <span class="kw">set_units</span>(<span class="dv">3</span>, <span class="st">"umol/m^2/s/Pa"</span>)</a>
 <a class="sourceLine" id="cb4-24" title="24">    ), <span class="dt">use_tealeaves =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb4-25" title="25">  )</a>
@@ -183,7 +184,7 @@
 <a class="sourceLine" id="cb4-29" title="29"></a>
 <a class="sourceLine" id="cb4-30" title="30">photo <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb4-31" title="31"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(PPFD, C_chl, A) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-32" title="32"><span class="st">  </span>knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb4-32" title="32"><span class="st">  </span>knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()</a></code></pre></div>
 <table class="table table">
 <thead><tr class="header">
 <th align="right">PPFD</th>
@@ -210,15 +211,15 @@
 <a class="sourceLine" id="cb5-7" title="7"></a>
 <a class="sourceLine" id="cb5-8" title="8"><span class="co"># First, we'll change the PPFD to 1000 and 1500 umol / (m^2 s)</span></a>
 <a class="sourceLine" id="cb5-9" title="9">enviro_par &lt;-<span class="st"> </span><span class="kw"><a href="reference/make_parameters.html">make_enviropar</a></span>(</a>
-<a class="sourceLine" id="cb5-10" title="10">  <span class="dt">replace =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
-<a class="sourceLine" id="cb5-11" title="11">    <span class="dt">PPFD =</span> <span class="kw">set_units</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1000</span>, <span class="dv">1500</span>), <span class="st">"umol/m^2/s"</span>)</a>
+<a class="sourceLine" id="cb5-10" title="10">  <span class="dt">replace =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb5-11" title="11">    <span class="dt">PPFD =</span> <span class="kw">set_units</span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1000</span>, <span class="dv">1500</span>), <span class="st">"umol/m^2/s"</span>)</a>
 <a class="sourceLine" id="cb5-12" title="12">    ), <span class="dt">use_tealeaves =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb5-13" title="13">  )</a>
 <a class="sourceLine" id="cb5-14" title="14"></a>
 <a class="sourceLine" id="cb5-15" title="15"><span class="co"># Next, we'll change stomatal conductance to to 2 and 4 umol / (m^2 s Pa)</span></a>
 <a class="sourceLine" id="cb5-16" title="16">leaf_par  &lt;-<span class="st"> </span><span class="kw"><a href="reference/make_parameters.html">make_leafpar</a></span>(</a>
-<a class="sourceLine" id="cb5-17" title="17">  <span class="dt">replace =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
-<a class="sourceLine" id="cb5-18" title="18">    <span class="dt">g_sc =</span> <span class="kw">set_units</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="st">"umol/m^2/s/Pa"</span>)</a>
+<a class="sourceLine" id="cb5-17" title="17">  <span class="dt">replace =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb5-18" title="18">    <span class="dt">g_sc =</span> <span class="kw">set_units</span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="st">"umol/m^2/s/Pa"</span>)</a>
 <a class="sourceLine" id="cb5-19" title="19">    ), <span class="dt">use_tealeaves =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb5-20" title="20">  )</a>
 <a class="sourceLine" id="cb5-21" title="21"></a>
@@ -228,7 +229,7 @@
 <a class="sourceLine" id="cb5-25" title="25"></a>
 <a class="sourceLine" id="cb5-26" title="26">ph <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb5-27" title="27"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(g_sc, PPFD, A) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-28" title="28"><span class="st">  </span>knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb5-28" title="28"><span class="st">  </span>knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()</a></code></pre></div>
 <table class="table table">
 <thead><tr class="header">
 <th align="right">g_sc</th>
@@ -270,8 +271,8 @@
 <a class="sourceLine" id="cb6-5" title="5">constants  &lt;-<span class="st"> </span><span class="kw"><a href="reference/make_parameters.html">make_constants</a></span>(<span class="dt">use_tealeaves =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb6-6" title="6"></a>
 <a class="sourceLine" id="cb6-7" title="7">enviro_par &lt;-<span class="st"> </span><span class="kw"><a href="reference/make_parameters.html">make_enviropar</a></span>(</a>
-<a class="sourceLine" id="cb6-8" title="8">  <span class="dt">replace =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
-<a class="sourceLine" id="cb6-9" title="9">    <span class="dt">C_air =</span> <span class="kw">set_units</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="dv">1</span>, <span class="dv">200</span>, <span class="dt">length.out =</span> <span class="dv">20</span>), <span class="st">"Pa"</span>)</a>
+<a class="sourceLine" id="cb6-8" title="8">  <span class="dt">replace =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb6-9" title="9">    <span class="dt">C_air =</span> <span class="kw">set_units</span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">1</span>, <span class="dv">200</span>, <span class="dt">length.out =</span> <span class="dv">20</span>), <span class="st">"Pa"</span>)</a>
 <a class="sourceLine" id="cb6-10" title="10">    ), <span class="dt">use_tealeaves =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb6-11" title="11">  )</a>
 <a class="sourceLine" id="cb6-12" title="12"></a>
@@ -282,15 +283,15 @@
 <a class="sourceLine" id="cb6-17" title="17">                     <span class="dt">quiet =</span> <span class="ot">TRUE</span>, <span class="dt">parallel =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb6-18" title="18"></a>
 <a class="sourceLine" id="cb6-19" title="19"><span class="co"># Plot C_c versus A</span></a>
-<a class="sourceLine" id="cb6-20" title="20"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
+<a class="sourceLine" id="cb6-20" title="20"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb6-21" title="21"></a>
 <a class="sourceLine" id="cb6-22" title="22"><span class="co">## Drop units for plotting</span></a>
 <a class="sourceLine" id="cb6-23" title="23">ph <span class="op">%&lt;&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_if</a></span>(<span class="op">~</span><span class="st"> </span><span class="kw">is</span>(.x, <span class="st">"units"</span>), drop_units)</a>
-<a class="sourceLine" id="cb6-24" title="24"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(ph, <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(C_chl, A)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-25" title="25"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_path">geom_line</a></span>(<span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-26" title="26"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">xlab</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/expression">expression</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(C[chl], <span class="st">" [Pa]"</span>))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-27" title="27"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ylab</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/expression">expression</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"A ["</span>, mu, <span class="st">"mol "</span>, m<span class="op">^-</span><span class="dv">2</span><span class="op">~</span>s<span class="op">^-</span><span class="dv">1</span>, <span class="st">"]"</span>))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-28" title="28"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggtheme">theme_bw</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-24" title="24"><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span>(ph, <span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span>(C_chl, A)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-25" title="25"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/geom_path.html">geom_line</a></span>(<span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-26" title="26"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">xlab</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(C[chl], <span class="st">" [Pa]"</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-27" title="27"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">ylab</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"A ["</span>, mu, <span class="st">"mol "</span>, m<span class="op">^-</span><span class="dv">2</span><span class="op">~</span>s<span class="op">^-</span><span class="dv">1</span>, <span class="st">"]"</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-28" title="28"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/ggtheme.html">theme_bw</a></span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb6-29" title="29"><span class="st">  </span><span class="ot">NULL</span></a></code></pre></div>
 <p><img src="reference/figures/README-parallel-example-1.png" width="100%"></p>
 </div>
@@ -306,13 +307,13 @@
 <a class="sourceLine" id="cb7-5" title="5">constants  &lt;-<span class="st"> </span><span class="kw"><a href="reference/make_parameters.html">make_constants</a></span>(<span class="dt">use_tealeaves =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb7-6" title="6"></a>
 <a class="sourceLine" id="cb7-7" title="7">enviro_par &lt;-<span class="st"> </span><span class="kw"><a href="reference/make_parameters.html">make_enviropar</a></span>(</a>
-<a class="sourceLine" id="cb7-8" title="8">  <span class="dt">replace =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
-<a class="sourceLine" id="cb7-9" title="9">    <span class="dt">T_air =</span> <span class="kw">set_units</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="fl">288.15</span>, <span class="fl">313.15</span>, <span class="dv">1</span>), K)</a>
+<a class="sourceLine" id="cb7-8" title="8">  <span class="dt">replace =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb7-9" title="9">    <span class="dt">T_air =</span> <span class="kw">set_units</span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">288.15</span>, <span class="fl">313.15</span>, <span class="dv">1</span>), K)</a>
 <a class="sourceLine" id="cb7-10" title="10">    ), <span class="dt">use_tealeaves =</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb7-11" title="11">  )</a>
 <a class="sourceLine" id="cb7-12" title="12"></a>
-<a class="sourceLine" id="cb7-13" title="13">leaf_par &lt;-<span class="st"> </span><span class="kw"><a href="reference/make_parameters.html">make_leafpar</a></span>(<span class="dt">replace =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
-<a class="sourceLine" id="cb7-14" title="14">    <span class="dt">g_sc =</span> <span class="kw">set_units</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">2</span>, <span class="dv">4</span>), umol<span class="op">/</span>m<span class="op">^</span><span class="dv">2</span><span class="op">/</span>s<span class="op">/</span>Pa)</a>
+<a class="sourceLine" id="cb7-13" title="13">leaf_par &lt;-<span class="st"> </span><span class="kw"><a href="reference/make_parameters.html">make_leafpar</a></span>(<span class="dt">replace =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb7-14" title="14">    <span class="dt">g_sc =</span> <span class="kw">set_units</span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">4</span>), umol<span class="op">/</span>m<span class="op">^</span><span class="dv">2</span><span class="op">/</span>s<span class="op">/</span>Pa)</a>
 <a class="sourceLine" id="cb7-15" title="15">    ), <span class="dt">use_tealeaves =</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb7-16" title="16">  )</a>
 <a class="sourceLine" id="cb7-17" title="17"></a>
@@ -321,29 +322,29 @@
 <a class="sourceLine" id="cb7-20" title="20">                   <span class="dt">quiet =</span> <span class="ot">TRUE</span>, <span class="dt">parallel =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb7-21" title="21"></a>
 <a class="sourceLine" id="cb7-22" title="22"><span class="co"># Plot temperature and photosynthesis</span></a>
-<a class="sourceLine" id="cb7-23" title="23"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
+<a class="sourceLine" id="cb7-23" title="23"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb7-24" title="24"></a>
 <a class="sourceLine" id="cb7-25" title="25"><span class="co">## Drop units for plotting</span></a>
 <a class="sourceLine" id="cb7-26" title="26">ph <span class="op">%&lt;&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb7-27" title="27"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_if</a></span>(<span class="op">~</span><span class="st"> </span><span class="kw">is</span>(.x, <span class="st">"units"</span>), drop_units) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-28" title="28"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="st">`</span><span class="dt">g[s]</span><span class="st">`</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(g_sc <span class="op">==</span><span class="st"> </span><span class="dv">2</span>, <span class="st">"low"</span>, <span class="st">"high"</span>))</a>
+<a class="sourceLine" id="cb7-28" title="28"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="st">`</span><span class="dt">g[s]</span><span class="st">`</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(g_sc <span class="op">==</span><span class="st"> </span><span class="dv">2</span>, <span class="st">"low"</span>, <span class="st">"high"</span>))</a>
 <a class="sourceLine" id="cb7-29" title="29"></a>
-<a class="sourceLine" id="cb7-30" title="30"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(ph, <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(T_air, T_leaf, <span class="dt">color =</span> <span class="st">`</span><span class="dt">g[s]</span><span class="st">`</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-31" title="31"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_path">geom_line</a></span>(<span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">lineend =</span> <span class="st">"round"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-32" title="32"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_abline">geom_abline</a></span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="st">"dotted"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-33" title="33"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/scale_hue">scale_color_discrete</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/expression">expression</a></span>(g[s])) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-34" title="34"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">xlab</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/expression">expression</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(T[air], <span class="st">" [K]"</span>))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-35" title="35"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ylab</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/expression">expression</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(T[leaf], <span class="st">" [K]"</span>))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-36" title="36"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggtheme">theme_bw</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-30" title="30"><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span>(ph, <span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span>(T_air, T_leaf, <span class="dt">color =</span> <span class="st">`</span><span class="dt">g[s]</span><span class="st">`</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-31" title="31"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/geom_path.html">geom_line</a></span>(<span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">lineend =</span> <span class="st">"round"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-32" title="32"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/geom_abline.html">geom_abline</a></span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="st">"dotted"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-33" title="33"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/scale_hue.html">scale_color_discrete</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(g[s])) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-34" title="34"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">xlab</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(T[air], <span class="st">" [K]"</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-35" title="35"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">ylab</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(T[leaf], <span class="st">" [K]"</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-36" title="36"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/ggtheme.html">theme_bw</a></span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb7-37" title="37"><span class="st">  </span><span class="ot">NULL</span></a></code></pre></div>
 <p><img src="reference/figures/README-use-tealeaves-example-1.png" width="100%"></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"></a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(ph, <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(T_air, A, <span class="dt">color =</span> <span class="st">`</span><span class="dt">g[s]</span><span class="st">`</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_path">geom_line</a></span>(<span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">lineend =</span> <span class="st">"round"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/scale_hue">scale_color_discrete</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/expression">expression</a></span>(g[s])) <span class="op">+</span></a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">xlab</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/expression">expression</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(T[leaf], <span class="st">" [K]"</span>))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb8-6" title="6"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">ylab</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/expression">expression</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"A ["</span>, mu, <span class="st">"mol "</span>, m<span class="op">^-</span><span class="dv">2</span><span class="op">~</span>s<span class="op">^-</span><span class="dv">1</span>, <span class="st">"]"</span>))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb8-7" title="7"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggtheme">theme_bw</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span>(ph, <span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span>(T_air, A, <span class="dt">color =</span> <span class="st">`</span><span class="dt">g[s]</span><span class="st">`</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/geom_path.html">geom_line</a></span>(<span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">lineend =</span> <span class="st">"round"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/scale_hue.html">scale_color_discrete</a></span>(<span class="dt">name =</span> <span class="kw"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(g[s])) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">xlab</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(T[leaf], <span class="st">" [K]"</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">ylab</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"A ["</span>, mu, <span class="st">"mol "</span>, m<span class="op">^-</span><span class="dv">2</span><span class="op">~</span>s<span class="op">^-</span><span class="dv">1</span>, <span class="st">"]"</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggplot2/man/ggtheme.html">theme_bw</a></span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb8-8" title="8"><span class="st">  </span><span class="ot">NULL</span></a></code></pre></div>
 <p><img src="reference/figures/README-use-tealeaves-example-2.png" width="100%"></p>
 </div>
@@ -366,7 +367,7 @@
 <ul>
 <li>Please <a href="https://github.com/cdmuir/photosynthesis/issues">report any issues or bugs</a>.</li>
 <li>License: MIT</li>
-<li>Get citation information for <strong>photosynthesis</strong> in R doing <code><a href="https://www.rdocumentation.org/packages/utils/topics/citation">citation(package = 'photosynthesis')</a></code>
+<li>Get citation information for <strong>photosynthesis</strong> in R doing <code><a href="https://rdrr.io/r/utils/citation.html">citation(package = 'photosynthesis')</a></code>
 </li>
 <li>Please note that this project is released with a <a href="CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</li>
 </ul>
@@ -413,7 +414,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
 </div>
       </footer>
 </div>
