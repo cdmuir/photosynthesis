@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The `photosynthesis` package simulates photosynthetic rate given a set of leaf traits and environmental conditions by solving the Farquhar-von Caemmerer-Berry C3 biochemical model. There are two main steps to using `photosynthesis`:
+The **photosynthesis** package simulates photosynthetic rate given a set of leaf traits and environmental conditions by solving the Farquhar-von Caemmerer-Berry C3 biochemical model. There are two main steps to using **photosynthesis**:
 
 1. define leaf parameters, environmental parameters, temperature response parameters, and physical constants; and 
 2. solve for the chloroplastic CO2 concentration that balances CO2 supply and demand (`photo` and `photosynthesis` for single and multiple parameter sets, respectively).
@@ -28,7 +28,7 @@ In this vignette, I'll show you how to:
 
 - run a minimum worked example using default parameters
 - replace default parameters
-- simulate photosynthetic rate along a gradient of CO2 concentrations (A-Cc curve)
+- simulate photosynthetic rate along a gradient of CO$_2$ concentrations ($A-C_\mathrm{c}$ curve)
 
 ## Minimum worked example
 
@@ -165,9 +165,9 @@ ggplot(ph, aes(C_chl, A)) +
 
 ```
 
-## Incorporating leaf temperature using {tealeaves}
+## Incorporating leaf temperature using **tealeaves**
 
-In experiments, leaf temperature can be kept close to air temperature, but in nature, leaf temperature can be quite a bit different than air temperature in the shade depending on environmental and leaf parameters. If `use_tealeaves = TRUE`, `photo()` and `photosynthesis()` will call on the {tealeaves} package to calculate leaf temperature using an energy balance model. 
+In experiments, leaf temperature can be kept close to air temperature, but in nature, leaf temperature can be quite a bit different than air temperature in the shade depending on environmental and leaf parameters. If `use_tealeaves = TRUE`, `photo()` and `photosynthesis()` will call on the [**tealeaves**](https://CRAN.R-project.org/package=tealeaves) package to calculate leaf temperature using an energy balance model. 
 
 ```{r, use-tealeaves-example}
 
@@ -202,6 +202,7 @@ ph %<>%
 ggplot(ph, aes(T_air, T_leaf, color = `g[s]`)) +
   geom_line(size = 2, lineend = "round") +
   geom_abline(slope = 1, intercept = 0, linetype = "dotted") +
+  scale_color_discrete(name = expression(g[s])) +
   xlab(expression(paste(T[air], " [K]"))) +
   ylab(expression(paste(T[leaf], " [K]"))) +
   theme_bw() +
@@ -209,6 +210,7 @@ ggplot(ph, aes(T_air, T_leaf, color = `g[s]`)) +
 
 ggplot(ph, aes(T_air, A, color = `g[s]`)) +
   geom_line(size = 2, lineend = "round") +
+  scale_color_discrete(name = expression(g[s])) +
   xlab(expression(paste(T[leaf], " [K]"))) +
   ylab(expression(paste("A [", mu, "mol ", m^-2~s^-1, "]"))) +
   theme_bw() +

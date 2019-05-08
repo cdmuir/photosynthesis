@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 # photosynthesis <img src="man/figures/logo.png" align="right" height="200" width="200"/>
 
 <!-- badges: start -->
-[![Build Status](https://travis-ci.com/cdmuir/photosynthesis.svg?token=yprDUtRtPBa2Ma9G4sFP&branch=master)](https://travis-ci.com/cdmuir/photosynthesis)
+[![Build Status](https://travis-ci.org/cdmuir/photosynthesis.svg?branch=master)](https://travis-ci.org/cdmuir/photosynthesis)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN status](https://www.r-pkg.org/badges/version/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 <!-- badges: end -->
@@ -27,15 +27,15 @@ knitr::opts_chunk$set(
 
 ## Description
 
-`photosynthesis` is a lightweight R package to model C3 photosynthesis using the Farquhar-von Caemmerer-Berry model. It uses the R package [units](https://CRAN.R-project.org/package=units) to ensure that parameters are properly specified and transformed before calculations. 
+**photosynthesis** is a lightweight R package to model C3 photosynthesis using the Farquhar-von Caemmerer-Berry model. It uses the R package [**units**](https://CRAN.R-project.org/package=units) to ensure that parameters are properly specified and transformed before calculations. 
 
-## Get `photosynthesis`
+## Get **photosynthesis**
 
-or from GitHib
+From GitHib
 
 ```r
 install.packages("devtools")
-devtools::install_github("cdmuir/photosynthesis")
+remotes::install_github("cdmuir/photosynthesis")
 ```
 
 And load `photosynthesis`
@@ -65,5 +65,5 @@ https://github.com/cdmuir/photosynthesis/issues
 
 * Please [report any issues or bugs](https://github.com/cdmuir/photosynthesis/issues).
 * License: MIT
-<!--- * Get citation information for `photosynthesis` in R doing `citation(package = 'photosynthesis')` -->
+* Get citation information for **photosynthesis** in R doing `citation(package = 'photosynthesis')`
 * Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
