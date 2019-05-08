@@ -190,30 +190,30 @@ leaf_par <- make_leafpar(replace = list(
 ph <- photosynthesis(leaf_par, enviro_par, bake_par, constants, 
                      use_tealeaves = TRUE, progress = FALSE, 
                      quiet = TRUE, parallel = TRUE)
-
-# Plot temperature and photosynthesis
-library(ggplot2)
-
-## Drop units for plotting
-ph %<>% 
-  mutate_if(~ is(.x, "units"), drop_units) %>%
-  mutate(`g[s]` = ifelse(g_sc == 2, "low", "high"))
-
-ggplot(ph, aes(T_air, T_leaf, color = `g[s]`)) +
-  geom_line(size = 2, lineend = "round") +
-  geom_abline(slope = 1, intercept = 0, linetype = "dotted") +
-  scale_color_discrete(name = expression(g[s])) +
-  xlab(expression(paste(T[air], " [K]"))) +
-  ylab(expression(paste(T[leaf], " [K]"))) +
-  theme_bw() +
-  NULL
-
-ggplot(ph, aes(T_air, A, color = `g[s]`)) +
-  geom_line(size = 2, lineend = "round") +
-  scale_color_discrete(name = expression(g[s])) +
-  xlab(expression(paste(T[leaf], " [K]"))) +
-  ylab(expression(paste("A [", mu, "mol ", m^-2~s^-1, "]"))) +
-  theme_bw() +
-  NULL
+# 
+# # Plot temperature and photosynthesis
+# library(ggplot2)
+# 
+# ## Drop units for plotting
+# ph %<>% 
+#   mutate_if(~ is(.x, "units"), drop_units) %>%
+#   mutate(`g[s]` = ifelse(g_sc == 2, "low", "high"))
+# 
+# ggplot(ph, aes(T_air, T_leaf, color = `g[s]`)) +
+#   geom_line(size = 2, lineend = "round") +
+#   geom_abline(slope = 1, intercept = 0, linetype = "dotted") +
+#   scale_color_discrete(name = expression(g[s])) +
+#   xlab(expression(paste(T[air], " [K]"))) +
+#   ylab(expression(paste(T[leaf], " [K]"))) +
+#   theme_bw() +
+#   NULL
+# 
+# ggplot(ph, aes(T_air, A, color = `g[s]`)) +
+#   geom_line(size = 2, lineend = "round") +
+#   scale_color_discrete(name = expression(g[s])) +
+#   xlab(expression(paste(T[leaf], " [K]"))) +
+#   ylab(expression(paste("A [", mu, "mol ", m^-2~s^-1, "]"))) +
+#   theme_bw() +
+#   NULL
 
 ```
