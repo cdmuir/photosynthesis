@@ -16,7 +16,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -76,7 +77,7 @@ TPU-limited assimilation rate" />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -176,38 +177,19 @@ $$W_\mathrm{regen} = J C_\mathrm{chl} / (4 C_\mathrm{chl} + 8 \Gamma*)$$</p>
 <p><b>TPU-limited assimilation rate:</b> <br /></p>
 <p>$$W_\mathrm{tpu} = 3 V_\mathrm{tpu} C_\mathrm{chl} / (C_\mathrm{chl} - \Gamma*)$$
 <br /></p><table class='table'>
-<tr><td></td><td><em>Symbol</em></td><td></td><td></td><td><em>R</em></td></tr>
-<tr><td></td><td></td><td><em>Description</em></td><td></td><td></td></tr>
-<tr><td><em>Units</em></td><td></td><td></td><td><em>Default</em></td><td></td></tr>
-<tr><td></td><td>\(C_\mathrm{chl}\)</td><td></td><td></td><td><code>C_chl</code></td></tr>
-<tr><td></td><td>chloroplastic CO2 concentration</td><td>Pa</td><td>input</td><td></td></tr>
-<tr><td>\(\Gamma*\)</td><td></td><td></td><td><code>gamma_star</code></td><td></td></tr>
-<tr><td>chloroplastic CO2 compensation point (T_leaf)</td><td>Pa</td><td></td><td><a href='bake.html'>calculated</a></td><td></td></tr>
-<tr><td></td><td>\(J_\mathrm{max}\)</td><td></td><td></td><td><code>J_max</code></td></tr>
-<tr><td></td><td>potential electron transport (T_leaf)</td><td></td><td>\(\mu\)</td><td>mol CO2 / (m</td></tr>
-<tr><td>\(^2\)</td><td>s)</td><td></td><td><a href='bake.html'>calculated</a></td><td></td></tr>
-<tr><td></td><td>\(K_\mathrm{C}\)</td><td></td><td></td><td><code>K_C</code></td></tr>
-<tr><td></td><td>Michaelis constant for carboxylation (T_leaf)</td><td></td><td>\(\mu\)</td><td>mol / mol</td></tr>
-<tr><td></td><td><a href='bake.html'>calculated</a></td><td></td><td></td><td>\(K_\mathrm{O}\)</td></tr>
-<tr><td></td><td></td><td><code>K_O</code></td><td></td><td>Michaelis constant for oxygenation (T_leaf)</td></tr>
-<tr><td></td><td>\(\mu\)</td><td>mol / mol</td><td></td><td><a href='bake.html'>calculated</a></td></tr>
-<tr><td></td><td></td><td>\(O\)</td><td></td><td></td></tr>
-<tr><td><code>O</code></td><td></td><td>atmospheric O2 concentration</td><td>kPa</td><td>21.27565</td></tr>
-<tr><td></td><td>\(\phi_J\)</td><td></td><td></td><td><code>phi_J</code></td></tr>
-<tr><td></td><td>initial slope of the response of J to PPFD</td><td>none</td><td>0.331</td><td></td></tr>
-<tr><td>PPFD</td><td></td><td><code>PPFD</code></td><td></td><td>photosynthetic photon flux density</td></tr>
-<tr><td>umol quanta / (m^2 s)</td><td>1500</td><td></td><td>\(R_\mathrm{d}\)</td><td></td></tr>
-<tr><td></td><td><code>R_d</code></td><td></td><td>nonphotorespiratory CO2 release (T_leaf)</td><td></td></tr>
-<tr><td>\(\mu\)</td><td>mol CO2 / (m</td><td>\(^2\)</td><td>s)</td><td></td></tr>
-<tr><td><a href='bake.html'>calculated</a></td><td></td><td></td><td>\(\theta_J\)</td><td></td></tr>
-<tr><td></td><td><code>theta_J</code></td><td></td><td>curvature factor for light-response curve</td><td>none</td></tr>
-<tr><td>0.825</td><td></td><td>\(V_\mathrm{c,max}\)</td><td></td><td></td></tr>
-<tr><td><code>V_cmax</code></td><td></td><td>maximum rate of carboxylation (T_leaf)</td><td></td><td>\(\mu\)</td></tr>
-<tr><td>mol CO2 / (m</td><td>\(^2\)</td><td>s)</td><td></td><td><a href='bake.html'>calculated</a></td></tr>
-<tr><td></td><td></td><td>\(V_\mathrm{tpu}\)</td><td></td><td></td></tr>
-<tr><td><code>V_tpu</code></td><td></td><td>rate of triose phosphate utilisation (T_leaf)</td><td></td><td>\(\mu\)</td></tr>
-<tr><td>mol CO2 / (m</td><td>\(^2\)</td><td>s)</td><td></td><td><a href='bake.html'>calculated</a></td></tr>
-<tr><td></td><td></td><td><em>Symbol</em></td><td></td><td></td></tr>
+<tr><td><em>Symbol</em></td><td><em>R</em></td><td><em>Description</em></td><td><em>Units</em></td><td><em>Default</em></td></tr>
+<tr><td>\(C_\mathrm{chl}\)</td><td><code>C_chl</code></td><td>chloroplastic CO2 concentration</td><td>Pa</td><td>input</td></tr>
+<tr><td>\(\Gamma*\)</td><td><code>gamma_star</code></td><td>chloroplastic CO2 compensation point (T_leaf)</td><td>Pa</td><td><a href='bake.html'>calculated</a></td></tr>
+<tr><td>\(J_\mathrm{max}\)</td><td><code>J_max</code></td><td>potential electron transport (T_leaf)</td><td>\(\mu\)mol CO2 / (m\(^2\) s)</td><td><a href='bake.html'>calculated</a></td></tr>
+<tr><td>\(K_\mathrm{C}\)</td><td><code>K_C</code></td><td>Michaelis constant for carboxylation (T_leaf)</td><td>\(\mu\)mol / mol</td><td><a href='bake.html'>calculated</a></td></tr>
+<tr><td>\(K_\mathrm{O}\)</td><td><code>K_O</code></td><td>Michaelis constant for oxygenation (T_leaf)</td><td>\(\mu\)mol / mol</td><td><a href='bake.html'>calculated</a></td></tr>
+<tr><td>\(O\)</td><td><code>O</code></td><td>atmospheric O2 concentration</td><td>kPa</td><td>21.27565</td></tr>
+<tr><td>\(\phi_J\)</td><td><code>phi_J</code></td><td>initial slope of the response of J to PPFD</td><td>none</td><td>0.331</td></tr>
+<tr><td>PPFD</td><td><code>PPFD</code></td><td>photosynthetic photon flux density</td><td>umol quanta / (m^2 s)</td><td>1500</td></tr>
+<tr><td>\(R_\mathrm{d}\)</td><td><code>R_d</code></td><td>nonphotorespiratory CO2 release (T_leaf)</td><td>\(\mu\)mol CO2 / (m\(^2\) s)</td><td><a href='bake.html'>calculated</a></td></tr>
+<tr><td>\(\theta_J\)</td><td><code>theta_J</code></td><td>curvature factor for light-response curve</td><td>none</td><td>0.825</td></tr>
+<tr><td>\(V_\mathrm{c,max}\)</td><td><code>V_cmax</code></td><td>maximum rate of carboxylation (T_leaf)</td><td>\(\mu\)mol CO2 / (m\(^2\) s)</td><td><a href='bake.html'>calculated</a></td></tr>
+<tr><td>\(V_\mathrm{tpu}\)</td><td><code>V_tpu</code></td><td>rate of triose phosphate utilisation (T_leaf)</td><td>\(\mu\)mol CO2 / (m\(^2\) s)</td><td><a href='bake.html'>calculated</a></td></tr>
 </table>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -223,7 +205,7 @@ $$W_\mathrm{regen} = J C_\mathrm{chl} / (4 C_\mathrm{chl} + 8 \Gamma*)$$</p>
 <span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bake.html'>bake</a></span>(<span class='no'>leaf_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>)
 
-<span class='no'>pars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>constants</span>)
+<span class='no'>pars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>constants</span>)
 <span class='no'>C_chl</span> <span class='kw'>&lt;-</span> <span class='fu'>set_units</span>(<span class='fl'>24.28</span>, <span class='st'>"Pa"</span>)
 <span class='fu'>FvCB</span>(<span class='no'>C_chl</span>, <span class='no'>pars</span>)</div><div class='output co'>#&gt; $W_carbox
 #&gt; 42.12065 [umol/m^2/s]
@@ -262,7 +244,7 @@ $$W_\mathrm{regen} = J C_\mathrm{chl} / (4 C_\mathrm{chl} + 8 \Gamma*)$$</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
 </div>
       </footer>
    </div>
