@@ -127,13 +127,13 @@ make_constants" />
     
     </div>
 
-    <pre class="usage"><span class='fu'>make_leafpar</span>(<span class='kw'>replace</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>make_leafpar</span>(<span class='kw'>replace</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>use_tealeaves</span>)
 
-<span class='fu'>make_enviropar</span>(<span class='kw'>replace</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>make_enviropar</span>(<span class='kw'>replace</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>use_tealeaves</span>)
 
 <span class='fu'>make_bakepar</span>(<span class='kw'>replace</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>make_constants</span>(<span class='kw'>replace</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>make_constants</span>(<span class='kw'>replace</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>use_tealeaves</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -141,6 +141,10 @@ make_constants" />
     <tr>
       <th>replace</th>
       <td><p>A named list of parameters to replace defaults. If <code>NULL</code>, defaults will be used.</p></td>
+    </tr>
+    <tr>
+      <th>use_tealeaves</th>
+      <td><p>Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, <code><a href='https://www.rdocumentation.org/packages/tealeaves/topics/tleaves'>tleaf</a></code> calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see <code>make_parameters</code>.</p></td>
     </tr>
     </table>
     
@@ -153,6 +157,76 @@ make_constants" />
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p><b>Constants:</b></p><table class='table'>
+<tr><td></td><td><em>Symbol</em></td><td></td><td></td><td><em>R</em></td></tr>
+<tr><td></td><td></td><td><em>Description</em></td><td></td><td></td></tr>
+<tr><td><em>Units</em></td><td></td><td></td><td><em>Default</em></td><td></td></tr>
+<tr><td></td><td>\(D_{c,0}\)</td><td></td><td></td><td><code>D_c0</code></td></tr>
+<tr><td></td><td>diffusion coefficient for CO2 in air at 0 °C</td><td>m</td><td>\(^2\)</td><td>/ s</td></tr>
+<tr><td>1.29e-5</td><td></td><td>\(D_{h,0}\)</td><td></td><td></td></tr>
+<tr><td><code>D_h0</code></td><td></td><td>diffusion coefficient for heat in air at 0 °C</td><td>m</td><td>\(^2\)</td></tr>
+<tr><td>/ s</td><td>1.90e-5</td><td></td><td>\(D_{m,0}\)</td><td></td></tr>
+<tr><td></td><td><code>D_m0</code></td><td></td><td>diffusion coefficient for momentum in air at 0 °C</td><td>m</td></tr>
+<tr><td>\(^2\)</td><td>/ s</td><td>1.33e-5</td><td></td><td>\(D_{w,0}\)</td></tr>
+<tr><td></td><td></td><td><code>D_w0</code></td><td></td><td>diffusion coefficient for water vapor in air at 0 °C</td></tr>
+<tr><td>m</td><td>\(^2\)</td><td>/ s</td><td>2.12e-5</td><td></td></tr>
+<tr><td>\(\epsilon\)</td><td></td><td></td><td><code>epsilon</code></td><td></td></tr>
+<tr><td>ratio of water to air molar masses</td><td>none</td><td>0.622</td><td></td><td>\(G\)</td></tr>
+<tr><td></td><td></td><td><code>G</code></td><td></td><td>gravitational acceleration</td></tr>
+<tr><td>m / s</td><td>\(^2\)</td><td></td><td>9.8</td><td></td></tr>
+<tr><td>\(eT\)</td><td></td><td></td><td><code>eT</code></td><td></td></tr>
+<tr><td>exponent for temperature dependence of diffusion</td><td>none</td><td>1.75</td><td></td><td>\(R\)</td></tr>
+<tr><td></td><td></td><td><code>R</code></td><td></td><td>ideal gas constant</td></tr>
+<tr><td>J / (mol K)</td><td>8.3144598</td><td></td><td>\(\sigma\)</td><td></td></tr>
+<tr><td></td><td><code>s</code></td><td></td><td>Stephan-Boltzmann constant</td><td>W / (m</td></tr>
+<tr><td>\(^2\)</td><td>K</td><td>\(^4\)</td><td>)</td><td>5.67e-08</td></tr>
+<tr><td></td><td>\(Sh\)</td><td></td><td></td><td><code>Sh</code></td></tr>
+<tr><td></td><td>Sherwood number</td><td>none</td><td></td><td>calculated</td></tr>
+<tr><td></td><td></td><td><em>Symbol</em></td><td></td><td></td></tr>
+</table>
+    <p><b>Baking (i.e. temperature response) parameters:</b></p>
+<table class='table'>
+<tr><td></td><td><em>Symbol</em></td><td></td><td></td><td><em>R</em></td></tr>
+<tr><td></td><td></td><td><em>Description</em></td><td></td><td></td></tr>
+<tr><td><em>Units</em></td><td></td><td></td><td><em>Default</em></td><td></td></tr>
+<tr><td></td><td>\(D_\mathrm{s,gmc}\)</td><td></td><td></td><td><code>Ds_gmc</code></td></tr>
+<tr><td></td><td>empirical temperature response parameter</td><td>J / (mol K)</td><td>487.29</td><td></td></tr>
+<tr><td>\(D_\mathrm{s,Jmax}\)</td><td></td><td></td><td><code>Ds_Jmax</code></td><td></td></tr>
+<tr><td>empirical temperature response parameter</td><td>J / (mol K)</td><td>388.04</td><td></td><td>\(E_\mathrm{a,\Gamma *}\)</td></tr>
+<tr><td></td><td></td><td><code>Ea_gammastar</code></td><td></td><td>empirical temperature response parameter</td></tr>
+<tr><td>J / mol</td><td>24459.97</td><td></td><td>\(E_\mathrm{a,gmc}\)</td><td></td></tr>
+<tr><td></td><td><code>Ea_gmc</code></td><td></td><td>empirical temperature response parameter</td><td>J / mol</td></tr>
+<tr><td>68901.56</td><td></td><td>\(E_\mathrm{a,Jmax}\)</td><td></td><td></td></tr>
+<tr><td><code>Ea_Jmax</code></td><td></td><td>empirical temperature response parameter</td><td>J / mol</td><td>56095.18</td></tr>
+<tr><td></td><td>\(E_\mathrm{a,KC}\)</td><td></td><td></td><td><code>Ea_KC</code></td></tr>
+<tr><td></td><td>empirical temperature response parameter</td><td>J / mol</td><td>80989.78</td><td></td></tr>
+<tr><td>\(E_\mathrm{a,KO}\)</td><td></td><td></td><td><code>Ea_KO</code></td><td></td></tr>
+<tr><td>empirical temperature response parameter</td><td>J / mol</td><td>23719.97</td><td></td><td>\(E_\mathrm{a,Rd}\)</td></tr>
+<tr><td></td><td></td><td><code>Ea_Rd</code></td><td></td><td>empirical temperature response parameter</td></tr>
+<tr><td>J / mol</td><td>40446.75</td><td></td><td>\(E_\mathrm{a,Vcmax}\)</td><td></td></tr>
+<tr><td></td><td><code>Ea_Vcmax</code></td><td></td><td>empirical temperature response parameter</td><td>J / mol</td></tr>
+<tr><td>52245.78</td><td></td><td>\(E_\mathrm{d,gmc}\)</td><td></td><td></td></tr>
+<tr><td><code>Ed_gmc</code></td><td></td><td>empirical temperature response parameter</td><td>J / mol</td><td>148788.56</td></tr>
+<tr><td></td><td>\(E_\mathrm{d,Jmax}\)</td><td></td><td></td><td><code>Ed_Jmax</code></td></tr>
+<tr><td></td><td>empirical temperature response parameter</td><td>J / mol</td><td>121244.79</td><td></td></tr>
+</table>
+    <p><b>Environment parameters:</b></p>
+<table class='table'>
+<tr><td></td><td><em>Symbol</em></td><td></td><td></td><td><em>R</em></td></tr>
+<tr><td></td><td></td><td><em>Description</em></td><td></td><td></td></tr>
+<tr><td><em>Units</em></td><td></td><td></td><td><em>Default</em></td><td></td></tr>
+<tr><td></td><td>\(C_\mathrm{air}\)</td><td></td><td></td><td><code>C_air</code></td></tr>
+<tr><td></td><td>atmospheric CO2 concentration</td><td>Pa</td><td>41</td><td></td></tr>
+<tr><td>\(O\)</td><td></td><td></td><td><code>O</code></td><td></td></tr>
+<tr><td>atmospheric O2 concentration</td><td>kPa</td><td>21.27565</td><td></td><td>\(P\)</td></tr>
+<tr><td></td><td></td><td><code>P</code></td><td></td><td>atmospheric pressure</td></tr>
+<tr><td>kPa</td><td>101.3246</td><td></td><td>PPFD</td><td></td></tr>
+<tr><td><code>PPFD</code></td><td></td><td>photosynthetic photon flux density</td><td>umol quanta / (m^2 s)</td><td>1500</td></tr>
+<tr><td></td><td>\(\mathrm{RH}\)</td><td></td><td></td><td><code>RH</code></td></tr>
+<tr><td></td><td>relative humidity</td><td>none</td><td>0.50</td><td></td></tr>
+<tr><td>\(u\)</td><td></td><td></td><td><code>wind</code></td><td></td></tr>
+<tr><td>windspeed</td><td>m / s</td><td>2</td><td></td><td><em>Symbol</em></td></tr>
+</table>
     <p><b>Leaf parameters:</b></p>
 <table class='table'>
 <tr><td></td><td><em>Symbol</em></td><td></td><td></td><td><em>R</em></td></tr>
@@ -220,74 +294,46 @@ make_constants" />
 <tr><td></td><td>\(\mu\)</td><td>mol CO2 / (m</td><td>\(^2\)</td><td>s)</td></tr>
 <tr><td></td><td><a href='bake.html'>calculated</a></td><td></td><td></td><td><em>Symbol</em></td></tr>
 </table>
-    <p><b>Environment parameters:</b></p>
-<table class='table'>
+    <p>If <code>use_tealeaves = TRUE</code>, additional parameters are:</p>
+<p><b>Constants:</b></p><table class='table'>
 <tr><td></td><td><em>Symbol</em></td><td></td><td></td><td><em>R</em></td></tr>
 <tr><td></td><td></td><td><em>Description</em></td><td></td><td></td></tr>
 <tr><td><em>Units</em></td><td></td><td></td><td><em>Default</em></td><td></td></tr>
-<tr><td></td><td>\(C_\mathrm{air}\)</td><td></td><td></td><td><code>C_air</code></td></tr>
-<tr><td></td><td>atmospheric CO2 concentration</td><td>Pa</td><td>41</td><td></td></tr>
-<tr><td>\(O\)</td><td></td><td></td><td><code>O</code></td><td></td></tr>
-<tr><td>atmospheric O2 concentration</td><td>kPa</td><td>21.27565</td><td></td><td>\(P\)</td></tr>
-<tr><td></td><td></td><td><code>P</code></td><td></td><td>atmospheric pressure</td></tr>
-<tr><td>kPa</td><td>101.3246</td><td></td><td>PPFD</td><td></td></tr>
-<tr><td><code>PPFD</code></td><td></td><td>photosynthetic photon flux density</td><td>umol quanta / (m^2 s)</td><td>1500</td></tr>
-<tr><td></td><td>\(\mathrm{RH}\)</td><td></td><td></td><td><code>RH</code></td></tr>
-<tr><td></td><td>relative humidity</td><td>none</td><td>0.50</td><td></td></tr>
+<tr><td></td><td>\(c_p\)</td><td></td><td></td><td><code>c_p</code></td></tr>
+<tr><td></td><td>heat capacity of air</td><td>J / (g K)</td><td>1.01</td><td></td></tr>
+<tr><td>\(R_\mathrm{air}\)</td><td></td><td></td><td><code>R_air</code></td><td></td></tr>
+<tr><td>specific gas constant for dry air</td><td>J / (kg K)</td><td>287.058</td><td></td><td></td></tr>
+</table>
+    <p><b>Environmental parameters:</b></p><table class='table'>
+<tr><td></td><td><em>Symbol</em></td><td></td><td></td><td><em>R</em></td></tr>
+<tr><td></td><td></td><td><em>Description</em></td><td></td><td></td></tr>
+<tr><td><em>Units</em></td><td></td><td></td><td><em>Default</em></td><td></td></tr>
+<tr><td></td><td>\(E_q\)</td><td></td><td></td><td><code>E_q</code></td></tr>
+<tr><td></td><td>energy per mole quanta</td><td>kJ / mol</td><td>\(^2\)</td><td></td></tr>
+<tr><td>220</td><td></td><td>\(f_\mathrm{PAR}\)</td><td></td><td></td></tr>
+<tr><td><code>f_par</code></td><td></td><td>fraction of incoming shortwave radiation that is photosynthetically active radiation (PAR)</td><td>none</td><td>0.5</td></tr>
+<tr><td></td><td>\(r\)</td><td></td><td></td><td><code>r</code></td></tr>
+<tr><td></td><td>reflectance for shortwave irradiance (albedo)</td><td>none</td><td>0.2</td><td></td></tr>
 <tr><td>\(T_\mathrm{air}\)</td><td></td><td></td><td><code>T_air</code></td><td></td></tr>
-<tr><td>air temperature</td><td>K</td><td>298.15</td><td></td><td>\(u\)</td></tr>
-<tr><td></td><td></td><td><code>wind</code></td><td></td><td>windspeed</td></tr>
-<tr><td>m / s</td><td>2</td><td></td><td><em>Symbol</em></td><td></td></tr>
+<tr><td>air temperature</td><td>K</td><td>298.15</td><td></td><td></td></tr>
 </table>
-    <p><b>Baking (i.e. temperature response) parameters:</b></p>
+    <p><b>Leaf parameters:</b></p>
 <table class='table'>
 <tr><td></td><td><em>Symbol</em></td><td></td><td></td><td><em>R</em></td></tr>
 <tr><td></td><td></td><td><em>Description</em></td><td></td><td></td></tr>
 <tr><td><em>Units</em></td><td></td><td></td><td><em>Default</em></td><td></td></tr>
-<tr><td></td><td>\(D_\mathrm{s,gmc}\)</td><td></td><td></td><td><code>Ds_gmc</code></td></tr>
-<tr><td></td><td>empirical temperature response parameter</td><td>J / (mol K)</td><td>487.29</td><td></td></tr>
-<tr><td>\(D_\mathrm{s,Jmax}\)</td><td></td><td></td><td><code>Ds_Jmax</code></td><td></td></tr>
-<tr><td>empirical temperature response parameter</td><td>J / (mol K)</td><td>388.04</td><td></td><td>\(E_\mathrm{a,\Gamma *}\)</td></tr>
-<tr><td></td><td></td><td><code>Ea_gammastar</code></td><td></td><td>empirical temperature response parameter</td></tr>
-<tr><td>J / mol</td><td>24459.97</td><td></td><td>\(E_\mathrm{a,gmc}\)</td><td></td></tr>
-<tr><td></td><td><code>Ea_gmc</code></td><td></td><td>empirical temperature response parameter</td><td>J / mol</td></tr>
-<tr><td>68901.56</td><td></td><td>\(E_\mathrm{a,Jmax}\)</td><td></td><td></td></tr>
-<tr><td><code>Ea_Jmax</code></td><td></td><td>empirical temperature response parameter</td><td>J / mol</td><td>56095.18</td></tr>
-<tr><td></td><td>\(E_\mathrm{a,KC}\)</td><td></td><td></td><td><code>Ea_KC</code></td></tr>
-<tr><td></td><td>empirical temperature response parameter</td><td>J / mol</td><td>80989.78</td><td></td></tr>
-<tr><td>\(E_\mathrm{a,KO}\)</td><td></td><td></td><td><code>Ea_KO</code></td><td></td></tr>
-<tr><td>empirical temperature response parameter</td><td>J / mol</td><td>23719.97</td><td></td><td>\(E_\mathrm{a,Rd}\)</td></tr>
-<tr><td></td><td></td><td><code>Ea_Rd</code></td><td></td><td>empirical temperature response parameter</td></tr>
-<tr><td>J / mol</td><td>40446.75</td><td></td><td>\(E_\mathrm{a,Vcmax}\)</td><td></td></tr>
-<tr><td></td><td><code>Ea_Vcmax</code></td><td></td><td>empirical temperature response parameter</td><td>J / mol</td></tr>
-<tr><td>52245.78</td><td></td><td>\(E_\mathrm{d,gmc}\)</td><td></td><td></td></tr>
-<tr><td><code>Ed_gmc</code></td><td></td><td>empirical temperature response parameter</td><td>J / mol</td><td>148788.56</td></tr>
-<tr><td></td><td>\(E_\mathrm{d,Jmax}\)</td><td></td><td></td><td><code>Ed_Jmax</code></td></tr>
-<tr><td></td><td>empirical temperature response parameter</td><td>J / mol</td><td>121244.79</td><td></td></tr>
-</table>
-    <p><b>Constants:</b></p><table class='table'>
-<tr><td></td><td><em>Symbol</em></td><td></td><td></td><td><em>R</em></td></tr>
-<tr><td></td><td></td><td><em>Description</em></td><td></td><td></td></tr>
-<tr><td><em>Units</em></td><td></td><td></td><td><em>Default</em></td><td></td></tr>
-<tr><td></td><td>\(D_{c,0}\)</td><td></td><td></td><td><code>D_c0</code></td></tr>
-<tr><td></td><td>diffusion coefficient for CO2 in air at 0 °C</td><td>m</td><td>\(^2\)</td><td>/ s</td></tr>
-<tr><td>12.9</td><td></td><td>\(D_{h,0}\)</td><td></td><td></td></tr>
-<tr><td><code>D_h0</code></td><td></td><td>diffusion coefficient for heat in air at 0 °C</td><td>m</td><td>\(^2\)</td></tr>
-<tr><td>/ s</td><td>1.9e-5</td><td></td><td>\(D_{m,0}\)</td><td></td></tr>
-<tr><td></td><td><code>D_m0</code></td><td></td><td>diffusion coefficient for momentum in air at 0 °C</td><td>m</td></tr>
-<tr><td>\(^2\)</td><td>/ s</td><td>13.3e-06</td><td></td><td>\(\epsilon\)</td></tr>
-<tr><td></td><td></td><td><code>epsilon</code></td><td></td><td>ratio of water to air molar masses</td></tr>
-<tr><td>none</td><td>0.622</td><td></td><td>\(G\)</td><td></td></tr>
-<tr><td></td><td><code>G</code></td><td></td><td>gravitational acceleration</td><td>m / s</td></tr>
-<tr><td>\(^2\)</td><td></td><td>9.8</td><td></td><td>\(eT\)</td></tr>
-<tr><td></td><td></td><td><code>eT</code></td><td></td><td>exponent for temperature dependence of diffusion</td></tr>
-<tr><td>none</td><td>1.75</td><td></td><td>\(R\)</td><td></td></tr>
-<tr><td></td><td><code>R</code></td><td></td><td>ideal gas constant</td><td>J / (mol K)</td></tr>
-<tr><td>8.3144598</td><td></td><td>\(\sigma\)</td><td></td><td></td></tr>
-<tr><td><code>s</code></td><td></td><td>Stephan-Boltzmann constant</td><td>W / (m</td><td>\(^2\)</td></tr>
-<tr><td>K</td><td>\(^4\)</td><td>)</td><td>5.67e-08</td><td></td></tr>
-<tr><td>\(Sh\)</td><td></td><td></td><td><code>Sh</code></td><td></td></tr>
-<tr><td>Sherwood number</td><td>none</td><td></td><td><a href='dot-get_sh.html'>calculated</a></td><td></td></tr>
+<tr><td></td><td>\(\alpha_\mathrm{l}\)</td><td></td><td></td><td><code>abs_l</code></td></tr>
+<tr><td></td><td>absorbtivity of longwave radiation (4 - 80</td><td>\(\mu\)</td><td>m)</td><td>none</td></tr>
+<tr><td>0.97</td><td></td><td>\(\alpha_\mathrm{s}\)</td><td></td><td></td></tr>
+<tr><td><code>abs_s</code></td><td></td><td>absorbtivity of shortwave radiation (0.3 - 4</td><td>\(\mu\)</td><td>m)</td></tr>
+<tr><td>none</td><td>0.50</td><td></td><td>\(g_\mathrm{sw}\)</td><td></td></tr>
+<tr><td></td><td><code>g_sw</code></td><td></td><td>stomatal conductance to H2O</td><td>(</td></tr>
+<tr><td>\(\mu\)</td><td>mol H2O) / (m</td><td>\(^2\)</td><td>s Pa)</td><td>5</td></tr>
+<tr><td></td><td>\(g_\mathrm{uw}\)</td><td></td><td></td><td><code>g_uw</code></td></tr>
+<tr><td></td><td>cuticular conductance to H2O</td><td>(</td><td>\(\mu\)</td><td>mol H2O) / (m</td></tr>
+<tr><td>\(^2\)</td><td>s Pa)</td><td>0.1</td><td></td><td>\(\mathrm{logit}(sr)\)</td></tr>
+<tr><td></td><td></td><td><code>logit_sr</code></td><td></td><td>stomatal ratio (logit transformed)</td></tr>
+<tr><td>none</td><td>0 = logit(0.5)</td><td></td><td><em>Symbol</em></td><td></td></tr>
 </table>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -296,16 +342,16 @@ make_constants" />
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'>make_leafpar</span>()
-<span class='no'>enviro_par</span> <span class='kw'>&lt;-</span> <span class='fu'>make_enviropar</span>()
-<span class='no'>bake_par</span> <span class='kw'>&lt;-</span> <span class='fu'>make_bakepar</span>()
-<span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'>make_constants</span>()
+    <pre class="examples"><div class='input'><span class='no'>bake_par</span> <span class='kw'>&lt;-</span> <span class='fu'>make_bakepar</span>()
+<span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'>make_constants</span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>enviro_par</span> <span class='kw'>&lt;-</span> <span class='fu'>make_enviropar</span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'>make_leafpar</span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'>make_leafpar</span>(
   <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
     <span class='kw'>g_sc</span> <span class='kw'>=</span> <span class='fu'>set_units</span>(<span class='fl'>3</span>, <span class='st'>"umol/m^2/s/Pa"</span>),
     <span class='kw'>V_cmax25</span> <span class='kw'>=</span> <span class='fu'>set_units</span>(<span class='fl'>100</span>, <span class='st'>"umol/m^2/s"</span>)
-  )
+  ), <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

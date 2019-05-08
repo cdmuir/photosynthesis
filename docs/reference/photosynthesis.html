@@ -121,12 +121,12 @@ photo: simulate C3 photosynthesis over a single parameter set" />
     
     </div>
 
-    <pre class="usage"><span class='fu'>photosynthesis</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>,
+    <pre class="usage"><span class='fu'>photosynthesis</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>, <span class='no'>use_tealeaves</span>,
   <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>set_units</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>photo</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>set_units</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>photo</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>, <span class='no'>use_tealeaves</span>,
+  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>set_units</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,6 +146,10 @@ photo: simulate C3 photosynthesis over a single parameter set" />
     <tr>
       <th>constants</th>
       <td><p>A list of physical constants inheriting class <code>constants</code>. This can be generated using the <code>make_constants</code> function.</p></td>
+    </tr>
+    <tr>
+      <th>use_tealeaves</th>
+      <td><p>Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, <code><a href='https://www.rdocumentation.org/packages/tealeaves/topics/tleaves'>tleaf</a></code> calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see <code><a href='make_parameters.html'>make_parameters</a></code>.</p></td>
     </tr>
     <tr>
       <th>progress</th>
@@ -319,66 +323,61 @@ photo: simulate C3 photosynthesis over a single parameter set" />
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Single parameter set with 'photo'</span>
 
-<span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>()
-<span class='no'>enviro_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>()
 <span class='no'>bake_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span>()
-<span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span>()
-<span class='fu'>photo</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>)</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'></span>
-#&gt; <span class='message'>Solving for C_chl ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'> done</span><span></span></div><div class='output co'>#&gt;          C_chl         value convergence                     g_tc
-#&gt; 1 24.9227 [Pa] -1.161979e-06           0 1.721631 [umol/m^2/Pa/s]
+<span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>enviro_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>photo</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>,
+      <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'></span>
+#&gt; <span class='message'>Solving for C_chl ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'> done</span><span></span></div><div class='output co'>#&gt;           C_chl        value convergence                     g_tc
+#&gt; 1 24.52925 [Pa] -1.09648e-06           0 1.668765 [umol/m^2/Pa/s]
 #&gt;                       A            g_mc25              g_sc                g_uc
-#&gt; 1 27.67919 [umol/m^2/s] 4 [umol/m^2/Pa/s] 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]
+#&gt; 1 27.48581 [umol/m^2/s] 4 [umol/m^2/Pa/s] 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]
 #&gt;   gamma_star25          J_max25       K_C25        K_O25  k_mc  k_sc  k_uc
 #&gt; 1   3.743 [Pa] 200 [umol/m^2/s] 27.238 [Pa] 16.582 [kPa] 1 [1] 1 [1] 1 [1]
 #&gt;   leafsize     phi_J          R_d25     T_leaf   theta_J         V_cmax25
 #&gt; 1  0.1 [m] 0.331 [1] 2 [umol/m^2/s] 298.15 [K] 0.825 [1] 150 [umol/m^2/s]
 #&gt;            V_tpu25 g_mc gamma_star J_max    K_C    K_O R_d V_cmax V_tpu   C_air
 #&gt; 1 200 [umol/m^2/s]    4      3.743   200 27.238 16.582   2    150   200 41 [Pa]
-#&gt;                O              P              PPFD      RH      T_air    wind
-#&gt; 1 21.27565 [kPa] 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 298.15 [K] 2 [m/s]</div><div class='input'>
+#&gt;                O              P              PPFD      RH    wind
+#&gt; 1 21.27565 [kPa] 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 2 [m/s]</div><div class='input'>
 <span class='co'># Multiple parameter sets with 'photosynthesis'</span>
 
 <span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(
   <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
     <span class='kw'>T_leaf</span> <span class='kw'>=</span> <span class='fu'>set_units</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>293.14</span>, <span class='fl'>298.15</span>), <span class='st'>"K"</span>)
-    )
+    ), <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
   )
-<span class='no'>enviro_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>()
-<span class='no'>bake_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span>()
-<span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span>()
-<span class='fu'>photosynthesis</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>Solving for photosynthetic rate from 2 parameter sets ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘purrr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
+<span class='fu'>photosynthesis</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>,
+               <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>Solving for photosynthetic rate from 2 parameter sets ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘purrr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:magrittr’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    is_null</span></div><div class='output co'>#&gt;      C_chl         value convergence     g_tc        A            g_mc25
-#&gt; 1 26.05248 -3.271743e-06           0 1.493755 22.32793 4 [umol/m^2/Pa/s]
-#&gt; 2 24.92270 -1.161979e-06           0 1.721631 27.67919 4 [umol/m^2/Pa/s]
-#&gt;                g_sc                g_uc gamma_star25          J_max25
-#&gt; 1 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]   3.743 [Pa] 200 [umol/m^2/s]
-#&gt; 2 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]   3.743 [Pa] 200 [umol/m^2/s]
-#&gt;         K_C25        K_O25  k_mc  k_sc  k_uc leafsize     phi_J          R_d25
-#&gt; 1 27.238 [Pa] 16.582 [kPa] 1 [1] 1 [1] 1 [1]  0.1 [m] 0.331 [1] 2 [umol/m^2/s]
-#&gt; 2 27.238 [Pa] 16.582 [kPa] 1 [1] 1 [1] 1 [1]  0.1 [m] 0.331 [1] 2 [umol/m^2/s]
-#&gt;       T_leaf   theta_J         V_cmax25          V_tpu25   C_air              O
-#&gt; 1 293.14 [K] 0.825 [1] 150 [umol/m^2/s] 200 [umol/m^2/s] 41 [Pa] 21.27565 [kPa]
-#&gt; 2 298.15 [K] 0.825 [1] 150 [umol/m^2/s] 200 [umol/m^2/s] 41 [Pa] 21.27565 [kPa]
-#&gt;                P              PPFD      RH      T_air    wind
-#&gt; 1 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 298.15 [K] 2 [m/s]
-#&gt; 2 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 298.15 [K] 2 [m/s]
-#&gt;                       g_mc    gamma_star                 J_max           K_C
-#&gt; 1 2.844658 [umol/m^2/Pa/s] 3.162148 [Pa] 143.6921 [umol/m^2/s] 15.58393 [Pa]
-#&gt; 2 4.000000 [umol/m^2/Pa/s] 3.743000 [Pa] 200.0000 [umol/m^2/s] 27.23800 [Pa]
-#&gt;             K_O                 R_d                V_cmax                 V_tpu
-#&gt; 1 14.0804 [kPa] 1.5133 [umol/m^2/s] 104.6304 [umol/m^2/s] 139.5072 [umol/m^2/s]
-#&gt; 2 16.5820 [kPa] 2.0000 [umol/m^2/s] 150.0000 [umol/m^2/s] 200.0000 [umol/m^2/s]
-#&gt;   g_mc251 g_sc1 g_uc1 gamma_star251 J_max251 K_C251 K_O251 k_mc1 k_sc1 k_uc1
-#&gt; 1       4     4   0.1         3.743      200 27.238 16.582     1     1     1
-#&gt; 2       4     4   0.1         3.743      200 27.238 16.582     1     1     1
-#&gt;   leafsize1 phi_J1 R_d251 T_leaf1 theta_J1 V_cmax251 V_tpu251 C_air1       O1
-#&gt; 1       0.1  0.331      2  293.14    0.825       150      200     41 21.27565
-#&gt; 2       0.1  0.331      2  298.15    0.825       150      200     41 21.27565
-#&gt;         P1 PPFD1 RH1 T_air1 wind1
-#&gt; 1 101.3246  1500 0.5 298.15     2
-#&gt; 2 101.3246  1500 0.5 298.15     2</div><div class='input'>
+#&gt; <span class='message'>    set_names</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    is_null</span></div><div class='output co'>#&gt;           C_chl        value convergence                     g_tc
+#&gt; 1 25.73239 [Pa] -3.49677e-06           0 1.455976 [umol/m^2/Pa/s]
+#&gt; 2 24.52925 [Pa] -1.09648e-06           0 1.668765 [umol/m^2/Pa/s]
+#&gt;                       A            g_mc25              g_sc                g_uc
+#&gt; 1 22.22927 [umol/m^2/s] 4 [umol/m^2/Pa/s] 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]
+#&gt; 2 27.48581 [umol/m^2/s] 4 [umol/m^2/Pa/s] 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]
+#&gt;   gamma_star25          J_max25       K_C25        K_O25  k_mc  k_sc  k_uc
+#&gt; 1   3.743 [Pa] 200 [umol/m^2/s] 27.238 [Pa] 16.582 [kPa] 1 [1] 1 [1] 1 [1]
+#&gt; 2   3.743 [Pa] 200 [umol/m^2/s] 27.238 [Pa] 16.582 [kPa] 1 [1] 1 [1] 1 [1]
+#&gt;   leafsize     phi_J          R_d25     T_leaf   theta_J         V_cmax25
+#&gt; 1  0.1 [m] 0.331 [1] 2 [umol/m^2/s] 293.14 [K] 0.825 [1] 150 [umol/m^2/s]
+#&gt; 2  0.1 [m] 0.331 [1] 2 [umol/m^2/s] 298.15 [K] 0.825 [1] 150 [umol/m^2/s]
+#&gt;            V_tpu25   C_air              O              P              PPFD
+#&gt; 1 200 [umol/m^2/s] 41 [Pa] 21.27565 [kPa] 101.3246 [kPa] 1500 [umol/m^2/s]
+#&gt; 2 200 [umol/m^2/s] 41 [Pa] 21.27565 [kPa] 101.3246 [kPa] 1500 [umol/m^2/s]
+#&gt;        RH    wind      T_air                     g_mc    gamma_star
+#&gt; 1 0.5 [1] 2 [m/s] 293.14 [K] 2.844658 [umol/m^2/Pa/s] 3.162148 [Pa]
+#&gt; 2 0.5 [1] 2 [m/s] 298.15 [K] 4.000000 [umol/m^2/Pa/s] 3.743000 [Pa]
+#&gt;                   J_max           K_C           K_O                 R_d
+#&gt; 1 143.6921 [umol/m^2/s] 15.58393 [Pa] 14.0804 [kPa] 1.5133 [umol/m^2/s]
+#&gt; 2 200.0000 [umol/m^2/s] 27.23800 [Pa] 16.5820 [kPa] 2.0000 [umol/m^2/s]
+#&gt;                  V_cmax                 V_tpu
+#&gt; 1 104.6304 [umol/m^2/s] 139.5072 [umol/m^2/s]
+#&gt; 2 150.0000 [umol/m^2/s] 200.0000 [umol/m^2/s]</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
