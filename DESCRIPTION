@@ -1,10 +1,11 @@
 Package: photosynthesis
 Version: 1.0.0
-Date: 2019-05-07
+Date: 2019-05-08
 Title: Model C3 Photosynthesis
 Authors@R: person("Chris", "Muir", role = c("aut", "cre"), email = "cdmuir@hawaii.edu", comment = c(ORCID = "0000-0003-2555-3878"))
 Depends: R (>= 3.5.0), units (>= 0.6.0)
-Imports: crayon (>= 1.3.0),
+Imports: checkmate (>= 1.9.0),
+         crayon (>= 1.3.0),
          dplyr (>= 0.8.0),
          furrr (>= 0.1.0),
          future (>= 1.10.0),

@@ -245,7 +245,7 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
         ret <- photosynthesis::photo(
           leaf_par = .x, enviro_par = .x, bake_par = bake_par,
           constants = constants, use_tealeaves = FALSE, quiet = TRUE, 
-          set_units = FALSE
+          set_units = FALSE, check = FALSE, prepare_for_tleaf = FALSE
         )
         if (progress & !parallel) pb$tick()$print()
         ret
@@ -281,10 +281,29 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
 #' Simulate C3 photosynthesis
 #' @description \code{photo}: simulate C3 photosynthesis over a single parameter set
 #' @rdname photosynthesis
+#' 
+#' @param check Logical. Should arguments checkes be done? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}} Default is TRUE.
+#'
+#' @param prepare_for_tleaf Logical. Should arguments additional calculations for \code{\link[tealeaves]{tleaf}}? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}}. Default is TRUE.
+#' 
 #' @export
 
 photo <- function(leaf_par, enviro_par, bake_par, constants, 
-                  use_tealeaves, quiet = FALSE, set_units = TRUE) {
+                  use_tealeaves, quiet = FALSE, set_units = TRUE,
+                  check = TRUE, prepare_for_tleaf = TRUE) {
+  
+  checkmate::assert_flag(check)
+  checkmate::assert_flag(prepare_for_tleaf)
+  
+  if (check) {
+    checkmate::assert_class(bake_par, "bake_par")
+    checkmate::assert_class(constants, "constants")
+    checkmate::assert_class(enviro_par, "enviro_par")
+    checkmate::assert_class(leaf_par, "leaf_par")
+    checkmate::assert_flag(use_tealeaves)
+    checkmate::assert_flag(quiet)
+    checkmate::assert_flag(set_units)
+  }
   
   T_air <- NULL
   if (!use_tealeaves & !is.null(enviro_par$T_air)) {
@@ -295,7 +314,7 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
     T_air <- enviro_par$T_air
   }
   
-  # Check inputs and bake ----
+  # Set units and bake ----
   if (set_units) {
     bake_par %<>% photosynthesis::bake_par()
     constants %<>% photosynthesis::constants(use_tealeaves)
@@ -306,10 +325,23 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
 
   # Calculate T_leaf using energy balance ----
   if (use_tealeaves) {
+
+    if (prepare_for_tleaf) {
+      enviro_par$S_sw <- set_units(enviro_par$E_q * enviro_par$PPFD / 
+                                     enviro_par$f_par, W/m^2)
+      leaf_par$g_sw <- set_units(constants$D_w0 / constants$D_c0 * leaf_par$g_sc,
+                                 umol/m^2/Pa/s)
+      leaf_par$g_uw <- set_units(constants$D_w0 / constants$D_c0 * leaf_par$g_uc,
+                                 umol/m^2/Pa/s)
+      leaf_par$logit_sr <- stats::qlogis(leaf_par$k_sc / (set_units(1) + 
+                                                            leaf_par$k_sc))
+    }
+    
     tl <- tealeaves::tleaf(leaf_par = leaf_par, enviro_par = enviro_par, 
                            constants = constants, quiet = TRUE, 
                            set_units = TRUE)
     leaf_par$T_leaf <- tl$T_leaf
+    
   }
   
   leaf_par %<>% bake(bake_par, constants, set_units = FALSE)

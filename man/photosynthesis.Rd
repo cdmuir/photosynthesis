@@ -11,7 +11,8 @@ photosynthesis(leaf_par, enviro_par, bake_par, constants, use_tealeaves,
   parallel = FALSE)
 
 photo(leaf_par, enviro_par, bake_par, constants, use_tealeaves,
-  quiet = FALSE, set_units = TRUE)
+  quiet = FALSE, set_units = TRUE, check = TRUE,
+  prepare_for_tleaf = TRUE)
 }
 \arguments{
 \item{leaf_par}{A list of leaf parameters inheriting class \code{leaf_par}. This can be generated using the \code{make_leafpar} function.}
@@ -31,6 +32,10 @@ photo(leaf_par, enviro_par, bake_par, constants, use_tealeaves,
 \item{set_units}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 
 \item{parallel}{Logical. Should parallel processing be used via \code{\link[furrr]{future_map}}?}
+
+\item{check}{Logical. Should arguments checkes be done? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}} Default is TRUE.}
+
+\item{prepare_for_tleaf}{Logical. Should arguments additional calculations for \code{\link[tealeaves]{tleaf}}? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}}. Default is TRUE.}
 }
 \value{
 A data.frame with the following \code{units} columns \cr
