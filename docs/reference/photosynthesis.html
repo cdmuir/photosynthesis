@@ -67,7 +67,7 @@ photo: simulate C3 photosynthesis over a single parameter set" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
       </span>
     </div>
 
@@ -93,6 +93,9 @@ photo: simulate C3 photosynthesis over a single parameter set" />
       <a href="../articles/photosynthesis-introduction.html">Introduction to the photosynthesis package</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -127,7 +130,8 @@ photo: simulate C3 photosynthesis over a single parameter set" />
   <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>photo</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>, <span class='no'>use_tealeaves</span>,
-  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>set_units</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>set_units</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>prepare_for_tleaf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,6 +171,14 @@ photo: simulate C3 photosynthesis over a single parameter set" />
     <tr>
       <th>parallel</th>
       <td><p>Logical. Should parallel processing be used via <code><a href='https://rdrr.io/pkg/furrr/man/future_map.html'>future_map</a></code>?</p></td>
+    </tr>
+    <tr>
+      <th>check</th>
+      <td><p>Logical. Should arguments checkes be done? This is intended to be disabled when <code>photo</code> is called from <code>photosynthesis</code> Default is TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>prepare_for_tleaf</th>
+      <td><p>Logical. Should arguments additional calculations for <code><a href='https://rdrr.io/pkg/tealeaves/man/tleaves.html'>tleaf</a></code>? This is intended to be disabled when <code>photo</code> is called from <code>photosynthesis</code>. Default is TRUE.</p></td>
     </tr>
     </table>
     

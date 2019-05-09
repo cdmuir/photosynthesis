@@ -5,12 +5,12 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 [![Build
 Status](https://travis-ci.org/cdmuir/photosynthesis.svg?branch=master)](https://travis-ci.org/cdmuir/photosynthesis)
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 <!-- badges: end -->
 
 ## Model C3 Photosynthesis
@@ -24,7 +24,13 @@ parameters are properly specified and transformed before calculations.
 
 ## Get **photosynthesis**
 
-From GitHib
+From CRAN
+
+``` r
+install.packages("photosynthesis")
+```
+
+or from GitHub
 
 ``` r
 install.packages("devtools")
@@ -157,7 +163,7 @@ the `purrr::cross` function to fit all combinations\[1\].
 # enter multiple values
 
 bake_par <- make_bakepar()
-constants  <- make_constants(use_tealeaves = FALSE)
+constants <- make_constants(use_tealeaves = FALSE)
 
 # First, we'll change the PPFD to 1000 and 1500 umol / (m^2 s)
 enviro_par <- make_enviropar(
@@ -260,7 +266,7 @@ leaf_par <- make_leafpar(replace = list(
 
 ph <- photosynthesis(leaf_par, enviro_par, bake_par, constants, 
                      use_tealeaves = TRUE, progress = FALSE, 
-                     quiet = TRUE, parallel = TRUE)
+                   quiet = TRUE, parallel = TRUE)
 
 # Plot temperature and photosynthesis
 library(ggplot2)

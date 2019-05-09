@@ -18,9 +18,9 @@ knitr::opts_chunk$set(
 # photosynthesis <img src="man/figures/logo.png" align="right" height="200" width="200"/>
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 [![Build Status](https://travis-ci.org/cdmuir/photosynthesis.svg?branch=master)](https://travis-ci.org/cdmuir/photosynthesis)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![CRAN status](https://www.r-pkg.org/badges/version/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 <!-- badges: end -->
 
 ## Model C3 Photosynthesis
@@ -31,7 +31,13 @@ knitr::opts_chunk$set(
 
 ## Get **photosynthesis**
 
-From GitHib
+From CRAN
+
+```r
+install.packages("photosynthesis")
+```
+
+or from GitHub
 
 ```r
 install.packages("devtools")
