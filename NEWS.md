@@ -1,4 +1,6 @@
-# photosynthesis (development version)
+# photosynthesis 1.0.1
+
+Release to be archived with revision of "Is amphistomy an adaptation to high light? Optimality models of stomatal traits along light gradients."
 
 # photosynthesis 1.0.0
 
