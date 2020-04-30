@@ -4,11 +4,12 @@
 
 #' @inheritParams photosynthesis
 #' @param .x A list to be constructed into \strong{bake_par}.
-#' 
-#' @description 
-#' 
-#' Constructor function for bake_par class. This function ensures that leaf temperature gets properly "baked" into leaf parameters.
-#' 
+#'
+#' @description
+#'
+#' Constructor function for bake_par class. This function ensures that leaf
+#' temperature gets properly "baked" into leaf parameters.
+#'
 #' @export
 
 bake_par <- function(.x) {
@@ -59,4 +60,3 @@ bake_par <- function(.x) {
   structure(.x, class = c(stringr::str_c(which, "_par"), "list"))
   
 }
-

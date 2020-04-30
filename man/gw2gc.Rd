@@ -10,15 +10,19 @@ gw2gc(g_w, D_c, D_w, unitless)
 gc2gw(g_c, D_c, D_w, unitless)
 }
 \arguments{
-\item{g_w}{conductance to water vapor in units (\eqn{\mu}mol H2O / (m^2 s Pa)) of class \code{units}.}
+\item{g_w}{conductance to water vapor in units
+(\eqn{\mu}mol H2O / (m^2 s Pa)) of class \code{units}.}
 
-\item{D_c}{diffusion coefficient for CO2 in air in units of m^2/s of call \code{units}}
+\item{D_c}{diffusion coefficient for CO2 in air in units of m^2/s of call
+\code{units}}
 
-\item{D_w}{diffusion coefficient for H2O in air in units of m^2/s of call \code{units}}
+\item{D_w}{diffusion coefficient for H2O in air in units of m^2/s of call
+\code{units}}
 
 \item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 
-\item{g_c}{conductance to CO2 in units (\eqn{\mu}mol H2O / (m^2 s Pa)) of class \code{units}.}
+\item{g_c}{conductance to CO2 in units (\eqn{\mu}mol H2O / (m^2 s Pa)) of
+class \code{units}.}
 }
 \value{
 Value with units \eqn{\mu}mol / (m^2 s Pa) of class \code{units}.
@@ -29,7 +33,9 @@ Convert g_c (\eqn{\mu}mol CO2/m^2/s/Pa) to g_w (\eqn{\mu}mol H2O /m^2/s/Pa)
 Convert g_c (umol CO2/m^2/s/Pa) to g_w (umol H2O /m^2/s/Pa)
 }
 \details{
-Diffusive conductance to CO2 is generally about ~1.6x that of H2O because of the higher molecular weight. To convert, multiply conductance by the ratio of diffusion coefficients:
+Diffusive conductance to CO2 is generally about ~1.6x that of H2O because of
+the higher molecular weight. To convert, multiply conductance by the ratio
+of diffusion coefficients:
 
 \deqn{g_\mathrm{c} = g_\mathrm{w} D_\mathrm{c} / D_\mathrm{w}}{g_c = g_w D_c / D_w}
 \deqn{g_\mathrm{w} = g_\mathrm{c} D_\mathrm{w} / D_\mathrm{c}}{g_w = g_c D_w / D_c}

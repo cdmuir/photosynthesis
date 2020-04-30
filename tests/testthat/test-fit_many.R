@@ -2,9 +2,9 @@ library(testthat)
 library(photosynthesis)
 context("Fitting many pressure volume curves")
 
-df <- data.frame(psi = c(-0.14, -0.8, -1.2, -1.75, -2.15, 
+df <- data.frame(psi = c(-0.14, -0.8, -1.2, -1.75, -2.15,
                          -2.5, -3, -4,
-                         -0.14, -0.8, -1.2, -1.75, -2.15, 
+                         -0.14, -0.8, -1.2, -1.75, -2.15,
                          -2.5, -3, -4),
                  mass = c(3.47, 3.43, 3.39, 3.33, 3.22,
                           3.15, 3.07, 2.98,

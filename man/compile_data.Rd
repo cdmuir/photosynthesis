@@ -30,7 +30,7 @@ Compiling outputs from lists
 #Note that this data is coming from data supplied by the package
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
-data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
                              package = "plantecophystools"))
 
 #Define a grouping factor based on light intensity to split the ACi
@@ -45,11 +45,11 @@ fits <- fit_many(data = data,
                                  PPFD = "Qin"),
                  funct = fit_aci_response,
                  group = "Q_2")
-                 
+
 #Compile graphs into a list for plotting
 fits_graphs <- compile_data(fits,
                             list_element = 2)
-                            
+
 #Plot one graph from the compiled list
 plot(fits_graphs[[1]])
 }

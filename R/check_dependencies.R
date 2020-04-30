@@ -5,14 +5,14 @@
 #' packages. Does not take any arguments to run. It is
 #' useful for determining which functions need to be
 #' changed together.
-#' 
+#'
 #' @importFrom pkgnet CreatePackageReport
 #' @export
 #'
 #' @examples \dontrun{
 #' check_dependencies()
 #' }
-check_dependencies <- function(){
+check_dependencies <- function() {
   #This function from pkgnet creates an html report and
   #opens the page within a browser.
   CreatePackageReport(pkg_name = "photosynthesis")

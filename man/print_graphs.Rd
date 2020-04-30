@@ -6,16 +6,21 @@
 \usage{
 print_graphs(
   data,
+  path,
   output_type = "jpeg",
   height = 5,
   width = 5,
   res = 600,
   units = "in",
-  pdf_filename = "mygraphs.pdf"
+  pdf_filename,
+  ...
 )
 }
 \arguments{
 \item{data}{List of graphs}
+
+\item{path}{File path for printing our graphs. Use "./" to set to current
+working directory}
 
 \item{output_type}{Type of output file, jpeg or pdf}
 
@@ -28,6 +33,8 @@ print_graphs(
 \item{units}{Units of height and width}
 
 \item{pdf_filename}{Filename for pdf option}
+
+\item{...}{Further arguments for jpeg() and pdf()}
 }
 \value{
 print_graphs creates graph files in current working directory
@@ -92,7 +99,8 @@ fits_graphs <- compile_data(fits,
 
 #Print graphs to pdf
 print_graphs(data = fits_graphs,
-             output_type = "pdf")
+             output_type = "pdf",
+             path = tempdir(),
+             pdf_filename = "mygraphs.pdf")
 }
-
 }

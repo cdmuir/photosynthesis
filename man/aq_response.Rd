@@ -22,10 +22,11 @@ that if absorbed light is not used, then the meaning of phi_J becomes
 unclear. This function is designed to be used with fit_aq_response,
 however it could easily be fed into a different fitting approach (e.g.
 Bayesian approaches). Originally from Marshall et al. 1980.
-
-Marshall B, Biscoe P. 1980. A model for C3 leaves describing the
-dependence of net photosynthesis on irradiance. J Ex Bot 31:29-39
 }
 \description{
 Non-rectangular hyperbolic model of light responses
+}
+\references{
+Marshall B, Biscoe P. 1980. A model for C3 leaves describing the
+dependence of net photosynthesis on irradiance. J Ex Bot 31:29-39
 }

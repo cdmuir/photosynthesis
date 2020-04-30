@@ -27,15 +27,6 @@ Pandis, 1997). This function is useful in determining how much a given
 input (assumed or otherwise) can affect the model output and conclusions.
 Particularly useful if a given parameter is unknown during a fitting or
 modeling process.
-
-Bauerle WL, Daniels AB, Barnard DM. 2014. Carbon and water flux responses to
-physiology by environment interactions: a sensitivity analysis of variation
-in climate on photosynthetic and stomatal parameters. Climate Dynamics 42:
-2539-2554.
-
-Capaldo KP, Pandis SN 1997. Dimethylsulfide chemistry in the remote marine 
-atmosphere: evaluation and sensitivity analysis of available mechanisms. 
-J Geophys Res 102:23251-23267
 }
 \description{
 Computing measures of sensitivity
@@ -83,8 +74,18 @@ par2 <- compute_sensitivity(data = pars,
                             test2_ref = 1)
 #Plot control coefficients
 ggplot(par2, aes(y = CE_gamma_star25, x = CE_g_mc25, colour = V_cmax))+
-  geom_point() + 
-  theme_bw() 
+  geom_point() +
+  theme_bw()
 #Note that in this case a missing point appears due to an infinity
 }
+}
+\references{
+Bauerle WL, Daniels AB, Barnard DM. 2014. Carbon and water flux responses to
+physiology by environment interactions: a sensitivity analysis of variation
+in climate on photosynthetic and stomatal parameters. Climate Dynamics 42:
+2539-2554.
+
+Capaldo KP, Pandis SN 1997. Dimethylsulfide chemistry in the remote marine 
+atmosphere: evaluation and sensitivity analysis of available mechanisms. 
+J Geophys Res 102:23251-23267
 }

@@ -10,5 +10,6 @@ bake_par(.x)
 \item{.x}{A list to be constructed into \strong{bake_par}.}
 }
 \description{
-Constructor function for bake_par class. This function ensures that leaf temperature gets properly "baked" into leaf parameters.
+Constructor function for bake_par class. This function ensures that leaf
+temperature gets properly "baked" into leaf parameters.
 }

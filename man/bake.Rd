@@ -24,19 +24,24 @@ temp_resp2(par25, D_s, E_a, E_d, R, T_leaf, T_ref, unitless)
 
 \item{par25}{Parameter value at 25 °C of class \code{units}.}
 
-\item{E_a}{Empirical temperature response value in J/mol of class \code{units}.}
+\item{E_a}{Empirical temperature response value in J/mol of class
+\code{units}.}
 
-\item{R}{Ideal gas constant in J / (mol K) of class \code{units}. See \code{\link{make_constants}}.}
+\item{R}{Ideal gas constant in J / (mol K) of class \code{units}. See
+\code{\link{make_constants}}.}
 
-\item{T_leaf}{Leaf temperature in K of class \code{units}. Will be converted to °C.}
+\item{T_leaf}{Leaf temperature in K of class \code{units}. Will be converted
+to °C.}
 
 \item{T_ref}{Reference temperature in K of class \code{units}.}
 
 \item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 
-\item{D_s}{Empirical temperature response value in J / (mol K) of class \code{units}.}
+\item{D_s}{Empirical temperature response value in J / (mol K) of class
+\code{units}.}
 
-\item{E_d}{Empirical temperature response value in J/mol of class \code{units}.}
+\item{E_d}{Empirical temperature response value in J/mol of class
+\code{units}.}
 }
 \description{
 'bake' leaf parameters using temperature response functions
