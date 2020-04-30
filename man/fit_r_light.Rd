@@ -4,7 +4,7 @@
 \alias{fit_r_light_kok}
 \alias{fit_r_light_WalkerOrt}
 \alias{fit_r_light_yin}
-\title{Estimating light respiration with the Kok method}
+\title{Estimating light respiration}
 \usage{
 fit_r_light_kok(
   data,
@@ -32,14 +32,17 @@ fit_r_light_yin(
 
 \item{varnames}{List of variable names}
 
-\item{PPFD_lower}{Lower light intensity limit for estimating Rlight (Kok & Yin)}
+\item{PPFD_lower}{Lower light intensity limit for estimating Rlight 
+(Kok & Yin)}
 
-\item{PPFD_upper}{Upper light intensity limit for estimating Rlight (Kok & Yin)}
+\item{PPFD_upper}{Upper light intensity limit for estimating Rlight 
+(Kok & Yin)}
 
 \item{P}{Atmospheric pressure in kPa (Walker & Ort, 2015)}
 
 \item{C_i_threshold}{Threshold C_i (in umol mol-1) to cut data to
-linear region for fitting light respiration and GammaStar (Walker & Ort, 2015)}
+linear region for fitting light respiration and GammaStar 
+(Walker & Ort, 2015)}
 }
 \value{
 fit_r_light_kok estimates light respiration using the Kok method
@@ -58,48 +61,27 @@ this could indicate issues (i.e. leaks) in the gas exchange
 measurements. GammaStar is output in umol mol-1, and respiration
 is output in umol m-2 s-1 of respiratory flux. Output is a list
 containing the slope intercept regression model, a graph of the fit,
-and estimates of the coefficients. NOTE: if using C_i, the output value is technically C_istar. You
-need to use Cc to get GammaStar. Also note, however, that the
-convention in the field is to completely ignore this note.
+and estimates of the coefficients. NOTE: if using C_i, the output value
+is technically C_istar. You need to use Cc to get GammaStar. Also note,
+however, that the convention in the field is to completely ignore this note.
 
 fit_r_light_yin estimates light respiration according
 to the Yin et al. (2009, 2011) modifications of the Kok
 method. The modification uses fluorescence data to get a 
 better estimate of light respiration. Note that respiration
 output should be negative here to denote an efflux of CO2.
-
-REFERENCES
-Kok B. 1956. On the inhibition of photosynthesis by intense light.
-Biochimica et Biophysica Acta 21: 234–244
-
-Walker BJ, Ort DR. 2015. Improved method for measuring the apparent
-CO2 photocompensation point resolves the impact of multiple internal
-conductances to CO2 to net gas exchange. Plant Cell Environ 38:2462-
-2474
-
-Yin X, Struik PC, Romero P, Harbinson J, Evers JB, van der Putten 
-PEL, Vos J. 2009. Using combined measurements of gas exchange and
-chlorophyll fluorescence to estimate parameters of a biochemical C3
-photosynthesis model: a critical appraisal and a new integrated 
-approach applied to leaves in a wheat (Triticum aestivum) canopy. 
-Plant Cell Environ 32:448-464
-    
-Yin X, Sun Z, Struik PC, Gu J. 2011. Evaluating a new method to 
-estimate the rate of leaf respiration in the light by analysis of
-combined gas exchange and chlorophyll fluorescence measurements. 
-Journal of Experimental Botany 62: 3489–3499
 }
 \description{
-Estimating light respiration with the Kok method
+Estimating light respiration
 }
 \examples{
-\dontrun{
+\donttest{
 #FITTING KOK METHOD
 #Read in your data
 #Note that this data is coming from data supplied by the package
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
-data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
                              package = "plantecophystools"))
 
 #Fit light respiration with Kok method
@@ -116,7 +98,7 @@ r_light
 #Note that this data is coming from data supplied by the package
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
-data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
                              package = "plantecophystools"))
 
 #Fit the Walker-Ort method for GammaStar and light respiration
@@ -138,7 +120,7 @@ walker_ort[[3]]
 #Note that this data is coming from data supplied by the package
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
-data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
                              package = "plantecophystools"))
 
 #Fit light respiration with Yin method
@@ -150,4 +132,25 @@ r_light <- fit_r_light_yin(data = data,
                            PPFD_upper = 250)
 }
 
+}
+\references{
+Kok B. 1956. On the inhibition of photosynthesis by intense light.
+Biochimica et Biophysica Acta 21: 234–244
+
+Walker BJ, Ort DR. 2015. Improved method for measuring the apparent
+CO2 photocompensation point resolves the impact of multiple internal
+conductances to CO2 to net gas exchange. Plant Cell Environ 38:2462-
+2474
+
+Yin X, Struik PC, Romero P, Harbinson J, Evers JB, van der Putten 
+PEL, Vos J. 2009. Using combined measurements of gas exchange and
+chlorophyll fluorescence to estimate parameters of a biochemical C3
+photosynthesis model: a critical appraisal and a new integrated 
+approach applied to leaves in a wheat (Triticum aestivum) canopy. 
+Plant Cell Environ 32:448-464
+
+Yin X, Sun Z, Struik PC, Gu J. 2011. Evaluating a new method to 
+estimate the rate of leaf respiration in the light by analysis of
+combined gas exchange and chlorophyll fluorescence measurements. 
+Journal of Experimental Botany 62: 3489–3499
 }

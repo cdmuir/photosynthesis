@@ -63,7 +63,7 @@ incorrect without any warning.}
 \code{\link[furrr]{future_map}}?}
 
 \item{check}{Logical. Should arguments checkes be done? This is intended to
-be disabled when \code{\link{photo}} is called from 
+be disabled when \code{\link{photo}} is called from
 \code{\link{photosynthesis}} Default is TRUE.}
 
 \item{prepare_for_tleaf}{Logical. Should arguments additional calculations

@@ -33,19 +33,12 @@ P95, S50, Pe, Pmax, DSI). Px (25 to 95): water potential at which x% of
 conductivity is lost. S50: slope at 50% loss of conductivity. Pe: air
 entry point. Pmax: hydraulic failure threshold. DSI: drought stress interval.
 Element 5 is a graph showing the fit, P50, Pe, and Pmax.
-
-Ogle K, Barber JJ, Willson C, Thompson B. 2009. Hierarchical statistical 
-modeling of xylem vulnerability to cavitation. New Phytologist 182:541-554
-
-Pammenter NW, Van der Willigen CV. 1998. A mathematical and statistical 
-analysis of the curves illustrating vulnerability of xylem to cavitation. 
-Tree Physiology 18:589-593
 }
 \description{
 Fitting hydraulic vulnerability curves
 }
 \examples{
-\dontrun{
+\donttest{
 #Read in data
 data <- read.csv(system.file("extdata", "hydraulic_vulnerability.csv", 
                              package = "plantecophystools"))
@@ -101,4 +94,12 @@ graphs <- compile_data(data = fits,
                        output_type = "list",
                        list_element = 5)
 }
+}
+\references{
+Ogle K, Barber JJ, Willson C, Thompson B. 2009. Hierarchical statistical 
+modeling of xylem vulnerability to cavitation. New Phytologist 182:541-554
+
+Pammenter NW, Van der Willigen CV. 1998. A mathematical and statistical 
+analysis of the curves illustrating vulnerability of xylem to cavitation. 
+Tree Physiology 18:589-593
 }

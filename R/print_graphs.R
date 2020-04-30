@@ -87,7 +87,7 @@ print_graphs <- function(data,
                          res = 600,
                          units = "in",
                          pdf_filename,
-                         ...){
+                         ...) {
   #Is output_type compatible with options?
   if (!output_type %in% c("pdf", "jpeg")) {
     print("Error: Output type not found. Use pdf or jpeg")
@@ -96,8 +96,8 @@ print_graphs <- function(data,
   #Print out individual jpeg files
   if (output_type == "jpeg") {
   for (i in 1:length(data)) {
-    jpeg(paste(names(data[i])[1], ".jpeg"), 
-         height = height, width = width, 
+    jpeg(paste(names(data[i])[1], ".jpeg"),
+         height = height, width = width,
          res = res, units = units, ...)
     print(data[[i]])
     dev.off()

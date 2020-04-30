@@ -15,5 +15,6 @@ calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional
 parameters and constants are required, see \code{\link{make_parameters}}.}
 }
 \description{
-Constructor function for leaf_par class. This function ensures that leaf parameter inputs are properly formatted.
+Constructor function for leaf_par class. This function ensures that leaf
+parameter inputs are properly formatted.
 }

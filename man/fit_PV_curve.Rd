@@ -34,28 +34,14 @@ capacitance at TLP (MPa ^ -1), and C_FTStar: absolute capacitance per
 leaf area (g m ^ -2 MPa ^ -1). Element 1 of the output list contains
 the fitted parameters, element 2 contains the water-psi graph, and
 element 3 contains the 1/psi-100-RWC graph.
-
-References
-Koide RT, Robichaux RH, Morse SR, Smith CM. 2000. Plant water status, 
-hydraulic resistance and capacitance. In: Plant Physiological Ecology: 
-Field Methods and Instrumentation (eds RW Pearcy, JR Ehleringer, HA
-Mooney, PW Rundel), pp. 161-183. Kluwer, Dordrecht, the Netherlands
-
-Sack L, Cowan PD, Jaikumar N, Holbrook NM. 2003. The 'hydrology' of 
-leaves: co-ordination of structure and function in temperate woody 
-species. Plant, Cell and Environment, 26, 1343-1356
-
-Tyree MT, Hammel HT. 1972. Measurement of turgor pressure and water 
-relations of plants by pressure bomb technique. Journal of Experimental 
-Botany, 23, 267
 }
 \description{
 Fitting pressure-volume curves
 }
 \examples{
-\dontrun{
+\donttest{
 #Read in data
-data <- read.csv(system.file("extdata", "PV_curve.csv", 
+data <- read.csv(system.file("extdata", "PV_curve.csv",
                              package = "plantecophystools"))
 
 #Fit one PV curve
@@ -109,4 +95,18 @@ graphs2 <- compile_data(data = fits,
                         output_type = "list",
                         list_element = 3)
 }
+}
+\references{
+Koide RT, Robichaux RH, Morse SR, Smith CM. 2000. Plant water status, 
+hydraulic resistance and capacitance. In: Plant Physiological Ecology: 
+Field Methods and Instrumentation (eds RW Pearcy, JR Ehleringer, HA
+Mooney, PW Rundel), pp. 161-183. Kluwer, Dordrecht, the Netherlands
+
+Sack L, Cowan PD, Jaikumar N, Holbrook NM. 2003. The 'hydrology' of 
+leaves: co-ordination of structure and function in temperate woody 
+species. Plant, Cell and Environment, 26, 1343-1356
+
+Tyree MT, Hammel HT. 1972. Measurement of turgor pressure and water 
+relations of plants by pressure bomb technique. Journal of Experimental 
+Botany, 23, 267
 }

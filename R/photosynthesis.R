@@ -34,7 +34,7 @@
 #' @param parallel Logical. Should parallel processing be used via
 #' \code{\link[furrr]{future_map}}?
 #'
-#' @return 
+#' @return
 #' A data.frame with the following \code{units} columns \cr
 #'
 #' \tabular{ll}{
@@ -87,7 +87,7 @@
 #' \code{convergence} \tab convergence code (0 = converged)
 #' }
 #'
-#' @details 
+#' @details
 #'
 #' \code{photo}: This function takes simulates photosynthetic rate using the
 #' Farquhar-von Caemmerer-Berry (\code{\link{FvCB}}) model of C3 photosynthesis
@@ -101,7 +101,7 @@
 #' photosynthesis over multiple parameter sets that are generated using
 #' \code{\link[tidyr]{crossing}}. \cr
 #'
-#' @examples 
+#' @examples
 #' # Single parameter set with 'photo'
 #'
 #' bake_par <- make_bakepar()
@@ -125,14 +125,16 @@
 #'
 #' @export
 #'
-photosynthesis <- function(leaf_par, enviro_par, bake_par, constants, 
+photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
                            use_tealeaves, progress = TRUE, quiet = FALSE,
                            set_units = TRUE, parallel = FALSE) {
 
   T_air <- NULL
   if (!use_tealeaves & !is.null(enviro_par$T_air)) {
     if (!quiet) {
-      message(glue::glue("Both air and leaf temperature are provided and fixed: T_air = {T_air}; T_leaf = {T_leaf}", T_air = enviro_par$T_air,
+      message(glue::glue("Both air and leaf temperature are provided and fixed:
+                         T_air = {T_air}; T_leaf = {T_leaf}",
+                         T_air = enviro_par$T_air,
                          T_leaf = leaf_par$T_leaf))
     }
     T_air <- enviro_par$T_air
@@ -152,13 +154,13 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
   par_units <- purrr::map(pars, units) %>%
     magrittr::set_names(names(pars))
   if (!is.null(T_air)) {
-    par_units$T_air <- units(enviro_par$T_air) 
+    par_units$T_air <- units(enviro_par$T_air)
   } else {
-    if (!use_tealeaves) par_units$T_air <- units(leaf_par$T_leaf) 
+    if (!use_tealeaves) par_units$T_air <- units(leaf_par$T_leaf)
   }
 
   # Make parameter sets ----
-  ## cross_df() removes units. 
+  ## cross_df() removes units.
   ## This code will cause errors if units are not properly set
   pars %<>% purrr::cross_df()
 
@@ -181,7 +183,7 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
     # This section should be removed after tealeaves is patched {
     tlp <- pars %>%
       as.list() %>%
-      purrr::map(unique) 
+      purrr::map(unique)
 
     names(tlp) %>%
       glue::glue("units(tlp${x}) <<- par_units${x}", x = .) %>%
@@ -208,17 +210,17 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
     #   as.list() %>%
     #   purrr::map(unique) %>%
     #   tealeaves::leaf_par()
-    # 
+    #
     # tep <- pars %>%
     #   as.list() %>%
     #   purrr::map(unique) %>%
     #   tealeaves::enviro_par()
-    # 
+    #
     # }
 
     tcs <- tealeaves::constants(constants)
 
-    tl <- tealeaves::tleaves(tlp, tep, tcs, progress = FALSE, quiet = TRUE, 
+    tl <- tealeaves::tleaves(tlp, tep, tcs, progress = FALSE, quiet = TRUE,
                              set_units = FALSE, parallel = parallel)
 
     par_units$T_leaf <- units(tl$T_leaf)
@@ -246,8 +248,10 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
                     parallel) {
 
   if (!quiet) {
-    glue::glue("\nSolving for photosynthetic rate from {n} parameter set{s} ...", 
-               n = nrow(par_sets), s = dplyr::if_else(length(par_sets) > 1, "s", "")) %>%
+    glue::glue("\nSolving for photosynthetic rate from {n} parameter set{s}
+               ...", 
+               n = nrow(par_sets), s = dplyr::if_else(length(par_sets) > 1,
+                                                      "s", "")) %>%
       crayon::green() %>%
       message(appendLF = FALSE)
   }
@@ -264,7 +268,7 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
 
         ret <- photosynthesis::photo(
           leaf_par = .x, enviro_par = .x, bake_par = bake_par,
-          constants = constants, use_tealeaves = FALSE, quiet = TRUE, 
+          constants = constants, use_tealeaves = FALSE, quiet = TRUE,
           set_units = FALSE, check = FALSE, prepare_for_tleaf = FALSE
         )
         if (progress & !parallel) pb$tick()$print()
@@ -301,7 +305,7 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
 #' @rdname photosynthesis
 #'
 #' @param check Logical. Should arguments checkes be done? This is intended to
-#' be disabled when \code{\link{photo}} is called from 
+#' be disabled when \code{\link{photo}} is called from
 #' \code{\link{photosynthesis}} Default is TRUE.
 #'
 #' @param prepare_for_tleaf Logical. Should arguments additional calculations
@@ -310,7 +314,7 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
 #' is TRUE.
 #'
 #' @export
-photo <- function(leaf_par, enviro_par, bake_par, constants, 
+photo <- function(leaf_par, enviro_par, bake_par, constants,
                   use_tealeaves, quiet = FALSE, set_units = TRUE,
                   check = TRUE, prepare_for_tleaf = TRUE) {
 
@@ -330,7 +334,9 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
   T_air <- NULL
   if (!use_tealeaves & !is.null(enviro_par$T_air)) {
     if (!quiet) {
-      message(glue::glue("Both air and leaf temperature are provided and fixed: T_air = {T_air}; T_leaf = {T_leaf}", T_air = enviro_par$T_air,
+      message(glue::glue("Both air and leaf temperature are provided and
+                         fixed: T_air = {T_air}; T_leaf = {T_leaf}",
+                         T_air = enviro_par$T_air,
                        T_leaf = leaf_par$T_leaf))
     }
     T_air <- enviro_par$T_air
@@ -348,18 +354,20 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
   # Calculate T_leaf using energy balance ----
   if (use_tealeaves) {
     if (prepare_for_tleaf) {
-      enviro_par$S_sw <- set_units(enviro_par$E_q * enviro_par$PPFD / 
+      enviro_par$S_sw <- set_units(enviro_par$E_q * enviro_par$PPFD /
                                      enviro_par$f_par, W/m^2)
-      leaf_par$g_sw <- set_units(constants$D_w0 / constants$D_c0 * leaf_par$g_sc,
+      leaf_par$g_sw <- set_units(constants$D_w0 / constants$D_c0 *
+                                   leaf_par$g_sc,
                                  umol/m^2/Pa/s)
-      leaf_par$g_uw <- set_units(constants$D_w0 / constants$D_c0 * leaf_par$g_uc,
+      leaf_par$g_uw <- set_units(constants$D_w0 / constants$D_c0 *
+                                   leaf_par$g_uc,
                                  umol/m^2/Pa/s)
-      leaf_par$logit_sr <- stats::qlogis(leaf_par$k_sc / (set_units(1) + 
+      leaf_par$logit_sr <- stats::qlogis(leaf_par$k_sc / (set_units(1) +
                                                             leaf_par$k_sc))
     }
 
-    tl <- tealeaves::tleaf(leaf_par = leaf_par, enviro_par = enviro_par, 
-                           constants = constants, quiet = TRUE, 
+    tl <- tealeaves::tleaf(leaf_par = leaf_par, enviro_par = enviro_par,
+                           constants = constants, quiet = TRUE,
                            set_units = TRUE)
     leaf_par$T_leaf <- tl$T_leaf
   }
@@ -372,12 +380,13 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
   soln <- find_A(pars, quiet)
   # Check results -----
   if (soln$convergence == 1) {
-    "stats::uniroot did not converge, NA returned. Inspect parameters carefully." %>%
+    "stats::uniroot did not converge, NA returned. Inspect parameters
+    carefully." %>%
       crayon::red() %>%
       message()
   }
   # Return -----
-  soln %<>% 
+  soln %<>%
     dplyr::bind_cols(as.data.frame(leaf_par)) %>%
     dplyr::bind_cols(as.data.frame(enviro_par))
   soln$C_chl %<>% set_units(Pa)
@@ -389,7 +398,7 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
 
 find_A <- function(unitless_pars, quiet) {
   .f <- function(C_chl, unitless_pars) {
-    A_supply(C_chl, unitless_pars, unitless = TRUE) - 
+    A_supply(C_chl, unitless_pars, unitless = TRUE) -
       A_demand(C_chl, unitless_pars, unitless = TRUE)
   }
   if (!quiet) {
@@ -398,13 +407,14 @@ find_A <- function(unitless_pars, quiet) {
       message(appendLF = FALSE)
   }
   fit <- tryCatch({
-    stats::uniroot(.f, unitless_pars = unitless_pars, lower = 0.1, 
+    stats::uniroot(.f, unitless_pars = unitless_pars, lower = 0.1,
                    upper = max(c(10, unitless_pars$C_air)), check.conv = TRUE)
   }, finally = {
     fit <- list(root = NA, f.root = NA, convergence = 1)
   })
-  soln <- data.frame(C_chl = fit$root, value = fit$f.root, 
-                     convergence = dplyr::if_else(is.null(fit$convergence), 0, 1))
+  soln <- data.frame(C_chl = fit$root, value = fit$f.root,
+                     convergence = dplyr::if_else(is.null(fit$convergence),
+                                                  0, 1))
   if (!quiet) {
     " done" %>%
       crayon::green() %>%
@@ -438,14 +448,19 @@ find_A <- function(unitless_pars, quiet) {
 #' \tabular{lllll}{
 #' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
 #' \eqn{A} \tab \code{A} \tab photosynthetic rate \tab \eqn{\mu}mol CO2 / (m^2 s) \tab calculated \cr
-#' \eqn{g_\mathrm{tc}}{g_tc} \tab \code{g_tc} \tab total conductance to CO2 \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab \link[=.get_gtc]{calculated} \cr
-#' \eqn{C_\mathrm{air}}{C_air} \tab \code{C_air} \tab atmospheric CO2 concentration \tab Pa \tab 41 \cr
-#' \eqn{C_\mathrm{chl}}{C_chl} \tab \code{C_chl} \tab chloroplastic CO2 concentration \tab Pa \tab calculated\cr
-#' \eqn{R_\mathrm{d}}{R_d} \tab \code{R_d} \tab nonphotorespiratory CO2 release \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 2 \cr
-#' \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point \tab Pa \tab 3.743
+#' \eqn{g_\mathrm{tc}}{g_tc} \tab \code{g_tc} \tab total conductance to CO2
+#' \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab \link[=.get_gtc]{calculated} \cr
+#' \eqn{C_\mathrm{air}}{C_air} \tab \code{C_air} \tab atmospheric CO2
+#' concentration \tab Pa \tab 41 \cr
+#' \eqn{C_\mathrm{chl}}{C_chl} \tab \code{C_chl} \tab chloroplastic CO2
+#' concentration \tab Pa \tab calculated\cr
+#' \eqn{R_\mathrm{d}}{R_d} \tab \code{R_d} \tab nonphotorespiratory CO2 release
+#' \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 2 \cr
+#' \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation
+#' point \tab Pa \tab 3.743
 #' }
 #'
-#' @examples 
+#' @examples
 #' bake_par <- make_bakepar()
 #' constants <- make_constants(use_tealeaves = FALSE)
 #' enviro_par <- make_enviropar(use_tealeaves = FALSE)
@@ -482,9 +497,10 @@ A_supply <- function(C_chl, pars, unitless = FALSE) {
 A_demand <- function(C_chl, pars, unitless = FALSE) {
 
   if (unitless) {
-    Ad <- (1 - pars$gamma_star / C_chl) * FvCB(C_chl, pars, unitless)$A - pars$R_d
+    Ad <- (1 - pars$gamma_star / C_chl) * FvCB(C_chl, pars, unitless)$A -
+      pars$R_d
   } else {
-    Ad <- set_units((set_units(1) - pars$gamma_star / C_chl) * 
+    Ad <- set_units((set_units(1) - pars$gamma_star / C_chl) *
                       FvCB(C_chl, pars, unitless)$A - pars$R_d, umol/m^2/s)
   }
   Ad

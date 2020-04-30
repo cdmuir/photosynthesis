@@ -1,11 +1,11 @@
 #' Get vector of parameter names
-#' 
+#'
 #' @inheritParams photosynthesis
 #' @param which A character string indicating which parameter names to
 #' retreive: "leaf", "enviro", "bake", or "constants". Partial matching
 #' allowed.
 #'
-#' @examples 
+#' @examples
 #' parameter_names("leaf", use_tealeaves = FALSE)
 #'
 #' @export

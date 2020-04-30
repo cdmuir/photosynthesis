@@ -18,7 +18,8 @@ make_bakepar(replace = NULL)
 make_constants(replace = NULL, use_tealeaves)
 }
 \arguments{
-\item{replace}{A named list of parameters to replace defaults. If \code{NULL}, defaults will be used.}
+\item{replace}{A named list of parameters to replace defaults.
+If \code{NULL}, defaults will be used.}
 
 \item{use_tealeaves}{Logical. Should leaf energy balance be used to
 calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves]{tleaf}}
@@ -162,5 +163,7 @@ leaf_par <- make_leafpar(
 
 }
 \references{
-Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic rate into contributions from different variables. Plant, Cell & Environment 38: 1200-11.
+Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic
+rate into contributions from different variables. Plant, Cell & Environment
+38: 1200-11.
 }

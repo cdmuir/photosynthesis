@@ -70,7 +70,8 @@ fit_t_response_topt(
 
 \item{title}{Title for the graph}
 
-\item{setvar}{Set a variable to constant? One of "none", "Hd" or "dS" (for Medlyn Arrhenius)}
+\item{setvar}{Set a variable to constant? One of "none", "Hd" or "dS"
+(for Medlyn Arrhenius)}
 
 \item{Hd_set}{Value to set for Hd in J/mol (for Medlyn Arrhenius)}
 
@@ -80,60 +81,29 @@ fit_t_response_topt(
 fit_t_response_arrhenius fits an Arrhenius temperature response
 to data
 
-fit_t_response_heskel fits a polynomial to log-transformed temperature responses
-based on Heskel et al. 2016
+fit_t_response_heskel fits a polynomial to log-transformed temperature
+responses based on Heskel et al. 2016
 
-fit_t_response_kruse fits the Kruse et al. 2008 model of
-temperature responses
+fit_t_response_kruse fits the Kruse et al. 2008 model of temperature
+responses
 
 fit_t_response_medlyn fits the Medlyn et al. 2002 temperature
 response model to data.
 
-fit_t_response_mmrt fits the Macromolecular Rate Theory equation as redefined in
-Liang et al. 2018, and described in Hobbs et al. 2013.
+fit_t_response_mmrt fits the Macromolecular Rate Theory equation as
+redefined in Liang et al. 2018, and described in Hobbs et al. 2013.
 
 fit_t_response_quad is used to fit a 2nd order polynomial to
 temperature response data
 
 fit_t_response_topt fits the peaked Arrhenius model from
 Medlyn et al. 2002 with kopt and Topt.
-
-REFERENCES
-Arrhenius S. 1915. Quantitative laws in biological chemistry. Bell.
-
-Heskel MA, O'Sullivan OS, Reich PB, Tjoelker MG, Weerasinghe LK,
-Penillard A, Egerton JJG, Creek D, Bloomfield KJ, Xiang J, Sinca F,
-Stangl ZR, la Torre AM, Griffin KL, Huntingford C, Hurry V, Meir P,
-Turnbull MH, Atkin OK. 2016. Convergence in the temperature response
-of leaf respiration across biomes and plant functional types. PNAS
-113:3832-3837
-
-Hobbs JK, Jiao W, Easter AD, Parker EJ, Schipper LA, Arcus VL.
-2013. Change in heat capacity for enzyme catalysis determines
-temperature dependence of enzyme catalyzed rates. ACS Chemical
-Biology 8:2388-2393.
-
-Kruse J, Adams MA. 2008. Three parameters comprehensively describe
-the temperature response of respiratory oxygen reduction. Plant 
-Cell Environ 31:954-967
-
-Liang LL, Arcus VL, Heskel MA, O'Sullivan OS, Weerasinghe LK,
-Creek D, Egerton JJG, Tjoelker MG, Atkin OK, Schipper LA. 2018.
-Macromolecular rate theory (MMRT) provides a thermodynamics
-rationale to underpin the convergent temperature response in
-plant leaf respiration. Glob Chang Biol 24:1538-1547
-
-Medlyn BE, Dreyer E, Ellsworth D, Forstreuter M, Harley PC,
-Kirschbaum MUF, Le Roux X, Montpied P, Strassemeyer J, Walcroft A,
-Wang K, Loutstau D. 2002. Temperature response of parameters of a
-biochemically based model of photosynthesis. II. A review of
-experimental data. Plant Cell Environ 25:1167-1179
 }
 \description{
 Fitting temperature response functions
 }
 \examples{
-\dontrun{
+\donttest{
 #FITTING ARRHENIUS RESPONSE CURVE
 out <- fit_t_response_arrhenius(pars[pars$Plant == 1,],
 varnames = list(Par = "V_cmax",
@@ -228,4 +198,35 @@ out[[2]]
 out[[3]]
 }
 
+}
+\references{
+Arrhenius S. 1915. Quantitative laws in biological chemistry. Bell.
+
+Heskel MA, O'Sullivan OS, Reich PB, Tjoelker MG, Weerasinghe LK,
+Penillard A, Egerton JJG, Creek D, Bloomfield KJ, Xiang J, Sinca F,
+Stangl ZR, la Torre AM, Griffin KL, Huntingford C, Hurry V, Meir P,
+Turnbull MH, Atkin OK. 2016. Convergence in the temperature response
+of leaf respiration across biomes and plant functional types. PNAS
+113:3832-3837
+
+Hobbs JK, Jiao W, Easter AD, Parker EJ, Schipper LA, Arcus VL.
+2013. Change in heat capacity for enzyme catalysis determines
+temperature dependence of enzyme catalyzed rates. ACS Chemical
+Biology 8:2388-2393.
+
+Kruse J, Adams MA. 2008. Three parameters comprehensively describe
+the temperature response of respiratory oxygen reduction. Plant 
+Cell Environ 31:954-967
+
+Liang LL, Arcus VL, Heskel MA, O'Sullivan OS, Weerasinghe LK,
+Creek D, Egerton JJG, Tjoelker MG, Atkin OK, Schipper LA. 2018.
+Macromolecular rate theory (MMRT) provides a thermodynamics
+rationale to underpin the convergent temperature response in
+plant leaf respiration. Glob Chang Biol 24:1538-1547
+
+Medlyn BE, Dreyer E, Ellsworth D, Forstreuter M, Harley PC,
+Kirschbaum MUF, Le Roux X, Montpied P, Strassemeyer J, Walcroft A,
+Wang K, Loutstau D. 2002. Temperature response of parameters of a
+biochemically based model of photosynthesis. II. A review of
+experimental data. Plant Cell Environ 25:1167-1179
 }

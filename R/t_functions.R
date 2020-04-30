@@ -26,20 +26,19 @@
 #' @param dG Change in Gibbs free energy of the reaction at 25 C in J mol-1
 #' (Hobbs et al. 2013)
 #'
-#' @return t_response_arrhenius calculates the rate of a process based on an 
+#' @return t_response_arrhenius calculates the rate of a process based on an
 #' Arrhenius-type curve
 #'
-#' t_response_arrhenius_kruse fits a peaked Arrhenius response according to 
+#' t_response_arrhenius_kruse fits a peaked Arrhenius response according to
 #' Kruse et al. 2008.
 #'
 #' t_response_arrhenius_medlyn is a peaked Arrhenius response as found in
 #' Medlyn et al. 2002.
 #'
-#' t_response_arrhenius_topt is a peaked Arrhenius temperature 
-#' response function.
+#' t_response_arrhenius_topt is a peaked Arrhenius temperature response
+#' function.
 #'
-#' t_response_calc_dS calculates dS from the fitted Topt
-#' model.
+#' t_response_calc_dS calculates dS from the fitted Topt model.
 #'
 #' t_response_calc_topt calculates Topt for a process from Arrhenius
 #' parameters.
@@ -50,12 +49,12 @@
 #' t_response_mmrt is a macromolecular rate theory temperature response
 #' according to Hobbs et al. 2013.
 #'
-#' @references 
+#' @references
 #'
 #' Arrhenius S. 1915. Quantitative laws in biological chemistry. Bell.
 #'
-#' Heskel et al. 2016. Convergence in the temperature response of leaf respiration
-#' across biomes and plant functional types. PNAS 113:3832-3837
+#' Heskel et al. 2016. Convergence in the temperature response of leaf
+#' respiration across biomes and plant functional types. PNAS 113:3832-3837
 #'
 #' Hobbs et al. 2013. Change in heat capacity for enzyme catalysis
 #' determines temperature dependence of enzyme catalyzed rates. ACS Chemical
@@ -89,8 +88,8 @@ t_response_arrhenius_kruse <- function(dEa, Ea_ref, Par_ref, T2) {
 t_response_arrhenius_medlyn <- function(Tleaf, Ea, Hd, dS) {
   exp(Ea * ((Tleaf + 273.15) - 298.15) /
         (298.15 * 8.314 * (Tleaf + 273.15))) *
-    (1 + exp((298.15 * dS - Hd)/(298.15 * 8.314))) / 
-    (1 + exp(((Tleaf + 273.15) * dS - Hd)/((Tleaf + 273.15) * 8.314)))
+    (1 + exp((298.15 * dS - Hd) / (298.15 * 8.314))) /
+    (1 + exp(((Tleaf + 273.15) * dS - Hd) / ((Tleaf + 273.15) * 8.314)))
 }
 
 #' @rdname t_functions

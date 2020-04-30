@@ -24,12 +24,12 @@ a grouping variable.
 Fitting many functions across groups
 }
 \examples{
-\dontrun{
+\donttest{
 #Read in your data
 #Note that this data is coming from data supplied by the package
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
-data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
                              package = "plantecophystools"))
 
 #Define a grouping factor based on light intensity to split the ACi
@@ -59,7 +59,9 @@ fits_graphs <- compile_data(fits,
 
 #Print graphs to pdf
 print_graphs(data = fits_graphs,
-             output_type = "pdf")
+             path = tempdir(),
+             output_type = "pdf",
+             pdf_filename = "mygraphs.pdf")
 
 #Compile parameters into dataframe for analysis
 fits_pars <- compile_data(fits,

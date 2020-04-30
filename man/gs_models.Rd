@@ -42,11 +42,13 @@ of stomatal conductance
 gs_mod_opti fits the optimal stomatal conductance model according to
 Medlyn et al. 2011
 
-gs_mod_optifull fits the full optimal stomatal conductance model according to
-Medlyn et al. 2011
-
-REFERENCES
-
+gs_mod_optifull fits the full optimal stomatal conductance model according
+to Medlyn et al. 2011
+}
+\description{
+Stomatal conductance models
+}
+\references{
 Ball JT, Woodrow IE, Berry JA. 1987. A model predicting stomatal 
 conductance and its contribution to the control of photosynthesis
 under different environmental conditions, in Progress in 
@@ -61,7 +63,4 @@ Medlyn BE, Duursma RA, Eamus D, Ellsworth DS, Prentice IC, Barton
 CVM, Crous KY, Angelis PD, Freeman M, Wingate L. 2011. Reconciling
 the optimal and empirical approaches to modelling stomatal 
 conductance. Glob Chang Biol 17:2134-2144
-}
-\description{
-Stomatal conductance models
 }

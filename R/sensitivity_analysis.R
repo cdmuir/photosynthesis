@@ -70,7 +70,7 @@ sensitivity_analysis <- function(data,
                                      values2,
                                      element_out = 1,
                                      ...
-){
+) {
   #Create an empty list for ACi fits
   fits <- list(NULL)
 
