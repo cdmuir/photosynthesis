@@ -1,5 +1,15 @@
 # photosynthesis (development version)
 
+# photosynthesis 2.0.0
+
+* Added analytical tools for plant ecophysiology, including fitting stomatal
+conductance models, photosynthetic responses to light, CO2, and temperature,
+light respiration, as well as tools for performing sensitivity analyses.
+
+* Added tests for new functions.
+
+* Expanded vignette to include examples of each function.
+
 # photosynthesis 1.0.1
 
 Release to be archived with revision of "Is amphistomy an adaptation to high light? Optimality models of stomatal traits along light gradients."

@@ -1,0 +1,949 @@
+---
+title: "Using_plantecophystools"
+author: "Joseph R. Stinziano"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_document
+vignette: >
+ %\VignetteIndexEntry{Using_plantecophystools}
+ %\VignetteEngine{knitr::rmarkdown}
+ %\VignetteEncoding{UTF-8}
+---
+
+This vignette is designed to demonstrate how to use plantecophystools.
+Sections are named based on the set of methods to be used:
+
+1. Fitting light response curves
+
+2. Fitting CO2 response curves
+
+3. Fitting temperature response curves (Need data & to complete tutorial here)
+
+4. Fitting stomatal conductance models
+
+5. Fitting light respiration
+
+6. Fitting mesophyll conductance
+
+7. Fitting pressure-volume curves
+
+8. Fitting hydraulic vulnerability curves
+
+9. Sensitivity analyses (just need to think about measures of sensitivity & multi fits)
+
+10. Dependency checking
+
+Components under construction:
+
+1. Full Gu-type CO2 response fitting
+
+2. alphag fitting
+
+3. Busch et al (2018) CO2 response model
+
+Within each section, data will either be generated or used from an
+installed dataset within the package. For help with a given function,
+please consult the help file via: ?functionname in the console. If you
+want to know the fine details of the code, please go to:
+
+https://github.com/jstinzi/plantecophystools
+
+And look in the R folder to find the raw function files. These contain
+heavily annotated code that explains the why and how of their operation.
+
+#Installing the package
+
+You will need the following packages:
+
+devtools - lets you install packages from Github and Bitbucket
+
+minpack.lm - useful for nonlinear curve fitting that is more robust
+than base R
+
+tidyverse - set of tools for manipulating data within R
+
+FOR WINDOWS USERS
+
+You will need to install Rtools, available at:
+
+https://cran.r-project.org/bin/windows/Rtools/
+
+```{r}
+#To install, run the following without comments
+#library(devtools)
+#install_github("jstinzi/plantecophystools")
+
+#Load package
+library(photosynthesis)
+
+#Load these packages as a fail-safe - they don't always load automatically
+library(ggplot2)
+library(minpack.lm)
+library(nlme)
+library(rlang)
+library(tidyr)
+
+#To cite, use:
+citation("photosynthesis")
+
+```
+
+#Reading Li-Cor data
+
+If you are trying to read in the raw data files of the Li-Cor 6400 or 6800
+models, you can use the package RLicor by Erik Erhardt available on Github.
+```{r}
+#library(devtools)
+#install_github("erikerhardt/RLicor")
+#library(RLicor)
+
+#The following will detect and read Li-Cor 6400 and 6800 files
+#?read_Licor
+
+#To cite, use:
+#citation("RLicor")
+```
+
+#1. Fitting light response curves
+
+This package currently only implements the Marshall et al. 1980
+non-rectangular hyperbola model of the photosynthetic light response.
+```{r}
+#Read in your data
+#Note that this data is coming from data supplied by the package
+#hence the complicated argument in read.csv()
+#This dataset is a CO2 by light response curve for a single sunflower
+#Note that to read in your own data, you will need to delete the
+#system.file() function, otherwise you will get an error
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+                             package = "plantecophystools"))
+
+#Fit many AQ curves
+#Set your grouping variable
+#Here we are grouping by CO2_s and individual
+data$C_s <-(round(data$CO2_s, digits = 0))
+
+#For this example we need to round sequentially due to CO2_s setpoints
+data$C_s <- as.factor(round(data$C_s, digits = -1))
+
+#To fit one AQ curve
+fit <- fit_aq_response(data[data$C_s == 600,],
+                       varnames = list(A_net = "A",
+                                         PPFD = "Qin",
+                                       Q_cut = 250))
+
+#Print model summary
+summary(fit[[1]])
+
+#Print fitted parameters
+fit[[2]]
+
+#Print graph
+fit[[3]]
+
+#Fit many curves
+fits <- fit_many(data = data,
+                 varnames = list(A_net = "A",
+                                         PPFD = "Qin",
+                                         group = "C_s"),
+                 funct = fit_aq_response,
+                 group = "C_s")
+
+#Look at model summary for a given fit
+#First set of double parentheses selects an individual group value
+#Second set selects an element of the sublist
+summary(fits[[3]][[1]])
+
+#Print the parameters
+fits[[2]][[2]]
+
+#Print the graph
+fits[[3]][[3]]
+
+#Compile graphs into a list for plotting
+fits_graphs <- compile_data(fits,
+                            list_element = 3)
+
+#Print graphs to pdf. Note that this part is commented out
+#to avoid issues with package compilation of the vignette.
+#Remove "#"s to run.
+#print_graphs(data = fits_graphs,
+#             output_type = "jpeg")
+
+#Compile parameters into dataframe for analysis
+fits_pars <- compile_data(fits,
+                          output_type = "dataframe",
+                          list_element = 2)
+
+```
+
+#2. Fitting CO2 response curves
+
+This package currently implements a Gu-type fitting procedure for
+CO2 response curves similar to the Duursma (2015) implementation.
+There is ongoing work to implement a full Gu-type method whereby
+mesophyll conductance, Km, and GammaStar could all be fit (Gu et al
+2010). There is also ongoing work to implement a procedure to fit 
+alphag for the TPU-limited region and to incorporate the Sharkey
+(2019) suggestion of using chlorophyll fluorescence data to inform
+TPU limitations.
+```{r}
+#Read in your data
+#Note that this data is coming from data supplied by the package
+#hence the complicated argument in read.csv()
+#This dataset is a CO2 by light response curve for a single sunflower
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+                             package = "plantecophystools"))
+
+#Define a grouping factor based on light intensity to split the ACi
+#curves
+data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
+
+#Fit ACi curve. Note that we are subsetting the dataframe
+#here to fit for a single value of Q_2
+fit <- fit_aci_response(data[data$Q_2 == 1500, ],
+                        varnames = list(A_net = "A",
+                                      Tleaf = "Tleaf",
+                                      C_i = "Ci",
+                                      PPFD = "Qin"))
+
+#View fitted parameters
+fit[[1]]
+
+#View graph
+fit[[2]]
+
+#View data with modelled parameters attached
+#fit[[3]]
+
+#Fit many curves
+fits <- fit_many(data = data,
+                 varnames = list(A_net = "A",
+                                      Tleaf = "Tleaf",
+                                      C_i = "Ci",
+                                      PPFD = "Qin"),
+                 funct = fit_aci_response,
+                 group = "Q_2")
+
+#Print the parameters
+#First set of double parentheses selects an individual group value
+#Second set selects an element of the sublist
+fits[[3]][[1]]
+
+#Print the graph
+fits[[3]][[2]]
+
+#Compile graphs into a list for plotting
+fits_graphs <- compile_data(fits,
+                            list_element = 2)
+
+#Print graphs to pdf. Note that this part is commented out
+#to avoid issues with package compilation of the vignette.
+#Remove "#"s to run.
+#print_graphs(data = fits_graphs,
+#             output_type = "jpeg")
+
+#Compile parameters into dataframe for analysis
+fits_pars <- compile_data(fits,
+                          output_type = "dataframe",
+                          list_element = 1)
+
+```
+
+#3. Fitting temperature response curves
+
+This package provides support for multiple temperature response
+functions (Arrhenius 1915; Medlyn et al. 2002; Kruse & Adams. 2006;
+Heskel et al. 2016; Liang et al. 2018).
+```{r}
+#Read in data
+data <- read.csv(system.file("extdata", "A_Ci_T_data.csv", 
+                             package = "plantecophystools"),
+                 stringsAsFactors = FALSE)
+
+#Round temperatures to group them appropriately
+#Use sequential rounding
+data$T2 <- round(data$Tleaf, 1)
+data$T2 <- round(data$Tleaf, 0)
+
+#Look at unique values to detect rounding issues
+unique(data$T2)
+
+#Some still did not round correctly,
+#manually correct
+for(i in 1:nrow(data)){
+  if(data$T2[i] == 18){
+    data$T2[i] <- 17
+  }
+  if(data$T2[i] == 23){
+    data$T2[i] <- 22
+  }
+  if(data$T2[i] == 28){
+    data$T2[i] <- 27
+  }
+  if(data$T2[i] == 33){
+    data$T2[i] <- 32
+  }
+  if(data$T2[i] == 38){
+    data$T2[i] <- 37
+  }
+}
+
+#Make sure it is a character string for grouping
+data$T2 <- as.character(data$T2)
+
+#Create grouping variable by ID and measurement temperature
+data <- unite(data, col = "ID2", c("ID", "T2"),
+                 sep = "_")
+
+#Split by temperature group
+data <- split(data, data$ID2)
+
+#Obtain mean temperature for group so temperature
+#response fitting is acceptable later, round to
+#2 decimal places
+for(i in 1:length(data)){
+  data[[i]]$Curve_Tleaf <- round(mean(data[[i]]$Tleaf), 2)
+}
+
+#Convert from list back to dataframe
+data <- do.call("rbind", data)
+
+#Parse grouping variable by ID and measurement temperature
+data <- separate(data, col = "ID2", into = c("ID", "T2"),
+                 sep = "_")
+
+#Make sure number of values matches number of measurement
+#temperatures. May vary slightly if plants had slightly
+#different leaf temperatures during the measurements
+unique(data$Curve_Tleaf)
+
+#Create ID column to curve fit by ID and temperature
+data <- unite(data, col = "ID2", c("ID", "Curve_Tleaf"),
+                 sep = "_")
+
+#Fit many CO2 response curves
+fits2 <- fit_many(data = data,
+                 group = "ID2",
+                 varnames = list(A_net = "A",
+                                 C_i = "Ci",
+                                 Tleaf = "Tleaf",
+                                 PPFD = "Qin",
+                                 g_mc = "g_mc"),
+                 funct = fit_aci_response,
+                 alphag = 0)
+
+#Extract ACi parameters
+pars <- compile_data(fits2, output_type = "dataframe",
+                     list_element = 1)
+
+#Extract ACi graphs
+graphs <- compile_data(fits2, output_type = "list",
+                     list_element = 2)
+
+#Parse the ID variable
+pars <- separate(pars, col = "ID", into = c("ID", "Curve_Tleaf"), sep = "_")
+
+#Make sure curve leaf temperature is numeric
+pars$Curve_Tleaf <- as.numeric(pars$Curve_Tleaf)
+
+#Fit regular Arrhenius curve
+out <- fit_t_response_arrhenius(pars[pars$ID == "S1",],
+                                varnames = list(Par = "J_max",
+                                                Tleaf = "Curve_Tleaf"))
+
+#Fit Heskel response removing the measurement at 40C
+out <- fit_t_response_heskel(pars[pars$ID == "S1" & pars$Curve_Tleaf < 40,],
+                                varnames = list(Par = "J_max",
+                                                Tleaf = "Curve_Tleaf"))
+
+#Print graph output of Heskel response
+out[[3]]
+
+#jpeg("tresponse.jpeg", width = 5, height = 5, res = 600, units = "in")
+#out[[3]]
+#dev.off()
+
+#Fit many Medlyn et al. 2002 temperature response curves
+fits <- fit_many(pars,
+                 group = "ID",
+                 funct = fit_t_response_medlyn,
+                 varnames = list(Par = "V_cmax",
+                                 Tleaf = "Curve_Tleaf"))
+
+#Print graph of 1st replicate
+fits[[1]][[3]]
+
+#compile parameters
+parameters <- compile_data(data = fits,
+                           output_type = "dataframe",
+                           list_element = 2)
+```
+
+#4. Fitting stomatal conductance models
+
+The package currently supports three varieties of stomatal conductance
+models (Ball et al. 1987; Leuning 1995; Medlyn et al. 2011).
+```{r}
+#Read in your data
+#Note that this data is coming from data supplied by the package
+#hence the complicated argument in read.csv()
+#This dataset is a CO2 by light response curve for a single sunflower
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+                             package = "plantecophystools"))
+
+#Convert RH to a proportion
+data$RH <- data$RHcham / 100
+
+#Fit the Ball-Berry model
+fit <- fit_gs_mod_ballberry(data = data,
+                            varnames = list(A_net = "A",
+                                            C_air = "Ca",
+                                            g_sw = "gsw",
+                                            RH = "RH"))
+
+#View model summary
+summary(fit[[1]])
+
+#View model output
+fit[[2]]
+
+#View graph
+fit[[3]]
+
+#Fit the Leuning model
+fit <- fit_gs_mod_leuning(data = data,
+                            D0 = 3,
+                            varnames = list(A_net = "A",
+                                            C_air = "Ca",
+                                            g_sw = "gsw",
+                                            VPD = "VPDleaf"))
+
+#View model summary
+summary(fit[[1]])
+
+#View model output
+fit[[2]]
+
+#View graph
+fit[[3]]
+
+#Fit the Medlyn model - select if fitting full model or not
+fit <- fit_gs_mod_medlyn(data = data,
+                            full_model = TRUE,
+                            varnames = list(A_net = "A",
+                                            C_air = "Ca",
+                                            g_sw = "gsw",
+                                            VPD = "VPDleaf"))
+
+#View model summary
+summary(fit[[1]])
+
+#View model output
+fit[[2]]
+
+#View graph
+fit[[3]]
+
+#Fit many g_sw models
+#Set your grouping variable
+#Here we are grouping by Qin and individual
+data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
+
+fits <- fit_many(data,
+                 varnames = list(A_net = "A",
+                                            C_air = "Ca",
+                                            g_sw = "gsw",
+                                            RH = "RH"),
+                 funct = fit_gs_mod_ballberry,
+                 group = "Q_2")
+
+#Look at 2nd group information
+#Model summary
+summary(fits[[2]][[1]])
+
+#Model parameters
+fits[[2]][[2]]
+
+#Graph
+fits[[8]][[3]]
+
+#Compile parameter outputs
+pars <- compile_data(data = fits,
+                     output_type = "dataframe",
+                     list_element = 2)
+
+#Convert group variable back to numeric
+pars$ID <- as.numeric(pars$ID)
+
+#Take quick look at light response of intercept parameters
+plot(g0 ~ ID, pars)
+
+#Compile graphs
+graphs <- compile_data(data = fits,
+                       output_type = "list",
+                       list_element = 3)
+
+#Look at 3rd graph
+graphs[[3]]
+```
+
+#5. Fitting light respiration
+
+The package currently supports fitting light respiration according to
+the slope-intercept regression extension of the Laisk method (Laisk 
+1977; Walker & Ort 2015), the Kok method (Kok 1956), and the Yin
+modification of the Kok method (Yin et al. 2009, 2011)
+```{r}
+#Read in your data
+#Note that this data is coming from data supplied by the package
+#hence the complicated argument in read.csv()
+#This dataset is a CO2 by light response curve for a single sunflower
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+                             package = "plantecophystools"))
+
+#Fit light respiration with Yin method
+r_light <- fit_r_light_yin(data = data,
+                           varnames = list(A_net = "A",
+                                           PPFD = "Qin",
+                                           phi_PSII = "PhiPS2"),
+                           PPFD_lower = 20,
+                           PPFD_upper = 250)
+
+#Fit light respiration with Kok method
+r_light <- fit_r_light_kok(data = data,
+                           varnames = list(A_net = "A",
+                                           PPFD = "Qin"),
+                           PPFD_lower = 20,
+                           PPFD_upper = 150)
+
+#Set your grouping variable
+#Here we are grouping by CO2_s and individual
+data$C_s <-(round(data$CO2_s, digits = 0))
+
+#For this example we need to round sequentially due to CO2_s setpoints
+data$C_s <- as.factor(round(data$C_s, digits = -1))
+
+#Fit light respiration across groups with Yin method
+r_lights <- fit_many(data = data,
+                     funct = fit_r_light_yin,
+                     group = "C_s",
+                     varnames = list(A_net = "A",
+                                           PPFD = "Qin",
+                                           phi_PSII = "PhiPS2"),
+                           PPFD_lower = 20,
+                           PPFD_upper = 250)
+
+#Compile the outputs - note this is slightly more complex because the
+#output of the fit_many above is a list of atomic vectors, not dataframes.
+group <- names(r_lights)
+r_lights <- do.call("c", r_lights)
+r_light_yin <- data.frame(x = group, y = r_lights, stringsAsFactors = FALSE)
+r_light_yin$x <- as.numeric(r_light_yin$x)
+colnames(r_light_yin) <- c("C_s", "r_light")
+
+#Fit the Walker-Ort method for GammaStar and light respiration
+walker_ort <- fit_r_light_WalkerOrt(data,
+                      varnames = list(A_net = "A",
+                                      C_i = "Ci",
+                                      PPFD = "Qin"))
+
+#View model output
+summary(walker_ort[[1]])
+
+#View graph
+walker_ort[[2]]
+
+#View coeffients
+walker_ort[[3]]
+
+```
+
+#6. Fitting mesophyll conductance
+
+Currently there is only support for fitting mesophyll conductance
+according to the variable J method from Harley et al. 1992
+```{r}
+#Read in your data
+#Note that this data is coming from data supplied by the package
+#hence the complicated argument in read.csv()
+#This dataset is a CO2 by light response curve for a single sunflower
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+                             package = "plantecophystools"))
+
+#Note: there will be issues here if the alpha value used
+#for calculating ETR is off, if GammaStar is incorrect,
+#if Rd is incorrect.
+data <- fit_g_mc_variableJ(data,
+                         varnames = list(A_net = "A",
+                                         J_etr = "ETR",
+                                         C_i = "Ci",
+                                         PPFD = "Qin",
+                                         phi_PSII = "PhiPS2"),
+                                         gamma_star = 46,
+                                         R_d = 0.153,
+                         usealpha_Q = TRUE,
+                         alpha_Q = 0.84,
+                         beta_Q = 0.5,
+                         P = 84)
+
+#Note that many g_mc values from this method can be unreliable
+ggplot(data, aes(x = CO2_s, y = g_mc, colour = reliable)) +
+  labs(x = expression(CO[2]~"("*mu*mol~mol^{-1}*")"),
+       y = expression(g[m]~"(mol"~m^{-2}~s^{-1}~Pa^{-1}*")")) +
+  geom_point(size = 2) +
+  theme_bw() +
+  theme(legend.position = 'bottom')
+
+#Plot QAQC graph according to Harley et al. 1992
+ggplot(data, aes(x = CO2_s, y = dCcdA, colour = reliable)) +
+  labs(x = expression(CO[2]~"("*mu*mol~mol^{-1}*")"),
+       y = expression(delta*C[c]*"/"*delta*A)) +
+  geom_hline(yintercept = 10) +
+  geom_point(size = 2) +
+  theme_bw() +
+  theme(legend.position = 'bottom')
+
+#Uncomment the following code to run
+#jpeg("g_mc.jpeg", height = 5, width = 5, res = 600, units = "in")
+#ggplot(data, aes(x = dCcdA, y = g_mc, colour = reliable)) +
+#  labs(x = expression(delta*C[c]*"/"*delta*A),
+#       y = expression(g[m]~"(mol"~m^{-2}~s^{-1}~Pa^{-1}*")")) +
+#  geom_point(size = 2) +
+#  theme_bw() +
+#  theme(legend.position = 'bottom')
+#dev.off()
+```
+
+#7. Fitting pressure-volume curves
+
+This package follows the Prometheus wiki spreadsheet from Sack and Pasquet-Kok at:
+
+http://prometheuswiki.org/tiki-index.php?page=Leaf+pressure-volume+curve+parameters. 
+
+For references, see Koide et al. 2000, Sack et al. 2003, and Tyree & Hammel 1972.
+```{r}
+#Read in data
+data <- read.csv(system.file("extdata", "PV_curve.csv", 
+                             package = "plantecophystools"))
+
+#Fit one PV curve
+fit <- fit_PV_curve(data[data$ID == "L2", ],
+                    varnames = list(psi = "psi", 
+                                    mass = "mass", 
+                                    leaf_mass = "leaf_mass", 
+                                    bag_mass = "bag_mass", 
+                                    leaf_area = "leaf_area"))
+
+#See fitted parameters
+fit[[1]]
+
+#Plot water mass graph
+fit[[2]]
+
+#Plot PV Curve
+fit[[3]]
+
+#Fit all PV curves in a file
+fits <- fit_many(data,
+                 group = "ID",
+                 funct = fit_PV_curve,
+                 varnames = list(psi = "psi", 
+                                    mass = "mass", 
+                                    leaf_mass = "leaf_mass", 
+                                    bag_mass = "bag_mass", 
+                                    leaf_area = "leaf_area"))
+
+#See parameters
+fits[[1]][[1]]
+
+#See water mass - water potential graph
+fits[[1]][[2]]
+
+#See PV curve
+fits[[1]][[3]]
+
+#Compile parameter outputs
+pars <- compile_data(data = fits,
+                     output_type = "dataframe",
+                     list_element = 1)
+
+#Compile the water mass - water potential graphs
+graphs1 <- compile_data(data = fits,
+                     output_type = "list",
+                     list_element = 2)
+
+#Compile the PV graphs
+graphs2 <- compile_data(data = fits,
+                     output_type = "list",
+                     list_element = 3)
+```
+
+#8. Fitting hydraulic vulnerability curves
+
+Current approach fits a sigmoidal model and calculates hydraulic parameters
+from the curve fit. See Pammenter & Van der Willigen, 1998 and Ogle et al. 2009.
+```{r}
+#Read in data
+data <- read.csv(system.file("extdata", "hydraulic_vulnerability.csv", 
+                             package = "plantecophystools"))
+
+#Fit hydraulic vulnerability curve
+fit <- fit_hydra_vuln_curve(data[data$Tree == 5 & data$Plot == "Irrigation",],
+                            varnames = list(psi = "P",
+                                            PLC = "PLC"),
+                            start_weibull = list(a = 2, b = 1),
+                            title = "Irrigation 5")
+
+#Return Sigmoidal model summary
+summary(fit[[1]]) 
+
+#Return Weibull model summary
+summary(fit[[4]]) #expecting a = 4.99, b = 3.22
+
+#Return model parameters with 95% confidence intervals
+fit[[2]] 
+
+#Return hydraulic parameters
+fit[[3]] 
+
+#Return graph
+#jpeg("Hydra_vuln.jpeg", height = 5, width = 5, res = 600, units = "in")
+#fit[[5]] 
+#dev.off()
+
+data <- unite(data, col = "ID", c("Plot", "Tree"), sep = "_")
+#fit many function check to make sure it works for weibull
+#Fit many curves
+fits <- fit_many(data = data,
+                  varnames = list(psi = "P",
+                                            PLC = "PLC"),
+                 group = "ID",
+                 start_weibull = list(a = 4, b = 2),
+                  #group = "Tree",
+                  funct = fit_hydra_vuln_curve)
+
+#To select individuals from the many fits
+#Return model summary
+summary(fits[[1]][[1]]) #Returns model summary
+
+#Return sigmoidal model output
+fits[[1]][[2]] 
+
+#Return hydraulic parameters
+fits[[1]][[3]] 
+
+#Return graph
+fits[[1]][[5]] 
+
+#Compile parameter outputs
+pars <- compile_data(data = fits,
+                     output_type = "dataframe",
+                     list_element = 3)
+
+#Compile graphs
+graphs <- compile_data(data = fits,
+                     output_type = "list",
+                     list_element = 5)
+
+```
+
+#9. Sensitivity analyses
+
+This segment outlines a set of functions that can be used to assess the
+sensitivity of data outputs to assumed parameters. For example, assuming
+different values of GammaStar, mesophyll conductance, and light absorbance
+on fitted gas exchange parameters.
+```{r}
+#Read in your data
+#Note that this data is coming from data supplied by the package
+#hence the complicated argument in read.csv()
+#This dataset is a CO2 by light response curve for a single sunflower
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+                             package = "plantecophystools"))
+
+#Define a grouping factor based on light intensity to split the ACi
+#curves
+data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
+
+#Run a sensitivity analysis on GammaStar and mesophyll conductance
+#at 25 Celsius for one individual curve
+pars <- sensitivity_analysis(data = data[data$Q_2 == 1500, ],
+                                  funct = fit_aci_response,
+                                   varnames = list(A_net = "A",
+                                      Tleaf = "Tleaf",
+                                      C_i = "Ci",
+                                      PPFD = "Qin"),
+                                   useg_mct = TRUE,
+                                   test1 = "gamma_star25",
+                                   element_out = 1,
+                                   test2 = "g_mc25",
+                                   fitTPU = TRUE,
+                                   Ea_gamma_star = 0,
+                                   Ea_g_mc = 0,
+                                   values1 = seq(from = 20,
+                                               to = 60,
+                                               by = 2),
+                                   values2 = seq(from = 0.2,
+                                               to = 2,
+                                               by = 0.1))
+#Graph Vcmax
+a <- ggplot(pars, aes(x = gamma_star25, y = g_mc25, z = V_cmax))+
+  geom_tile(aes(fill = V_cmax)) +
+  labs(x = expression(Gamma*"*"[25]~"("*mu*mol~mol^{-1}*")"),
+       y = expression(g[m][25]~"("*mu*mol~m^{-2}~s^{-1}~Pa^{-1}*")"))+
+  scale_fill_distiller(palette = "Greys") +
+  geom_contour(colour = "Black", size = 1) +
+  theme_bw()
+
+#Compute measures of sensitivity
+par2 <- compute_sensitivity(data = pars,
+                            varnames = list(Par = "V_cmax",
+                                            test1 = "gamma_star25",
+                                            test2 = "g_mc25"),
+                            test1_ref = 42,
+                            test2_ref = 1)
+#Plot sensitivity
+jpeg("Figure 9.jpeg", height = 4, width = 4, res = 600,
+     units = "in")
+ggplot(par2, aes(y = CE_gamma_star25, x = CE_g_mc25, colour = V_cmax))+
+  labs(x = expression(g_mc[25]~"Control Coefficient"),
+       y = expression(Gamma[25]~"Control Coefficient")) +
+  geom_point() + 
+  theme_bw() 
+dev.off()
+
+ggplot(par2, aes(y = CE_gamma_star25, x = V_cmax, colour = gamma_star25))+
+  geom_point() + 
+  theme_bw() 
+#Note that in this case a missing point appears due to an infinity
+#Can also plot sensitivity measures in 2 dimensions
+ggplot(par2, aes(x = gamma_star25, y = g_mc25, z = CE_gamma_star25))+
+geom_tile(aes(fill = CE_G25)) +
+labs(x = expression(Gamma*"*"[25]~"("*mu*mol~mol^{-1}*")"),
+     y = expression(g[m][25]~"("*mu*mol~m^{-2}~s^{-1}~Pa^{-1}*")"))+
+scale_fill_distiller(palette = "Greys") +
+geom_contour(colour = "Black", size = 1) +
+theme_bw()
+
+plot(PE_gamma_star25 ~ gamma_star25, par2)
+```
+
+#10. Dependency checking
+
+A function can be used to generate an html file that assesses
+the dependencies within and between packages
+```{r}
+check_dependencies()
+```
+
+
+#References
+
+Arrhenius S. 1915. Quantitative laws in biological chemistry. Bell.
+
+Ball JT, Woodrow IE, Berry JA. 1987. A model predicting stomatal
+conductance and its contribution to the control of photosynthesis
+under different environmental conditions, in Progress in 
+Photosynthesis Research, Proceedings of the VII International 
+Congress on Photosynthesis, vol. 4, edited by I. Biggins, pp. 
+221–224, Martinus Nijhoff, Dordrecht, Netherlands.
+
+Duursma R. 2015. Plantecophys - an R package for analysing and
+modelling leaf gas exchange data. PLoS ONE 10:e0143346
+
+Erhardt EB. 2019. RLicor: Read Licor files. R package version 0.0.01.
+
+Gu L, Pallardy SG, Tu K, Law BE, Wullschleger SD. 2010. Reliable
+estimation of biochemical parameters from C3 leaf photosynthesis-
+intercellular carbon dioxide response curves. Plant Cell Environ
+33:1582-1874.
+
+Harley PC, Loreto F, Di Marco G, Sharkey TD. 1992. Theoretical
+considerations when estimating mesophyll conductance to CO2 flux
+by analysis of the response of photosynthesis to CO2. Plant Physiol
+98:1429 - 1436.
+
+Heskel MA, O'Sullivan OS, Reich PB, Tjoelker MG, Weerasinghe LK,
+Penillard A, Egerton JJG, Creek D, Bloomfield KJ, Xiang J, Sinca F,
+Stangl ZR, la Torre AM, Griffin KL, Huntingford C, Hurry V, Meir P,
+Turnbull MH, Atkin OK. 2016. Convergence in the temperature response
+of leaf respiration across biomes and plant functional types. PNAS
+113:3832-3837
+
+Hobbs JK, Jiao W, Easter AD, Parker EJ, Schipper LA, Arcus VL.
+2013. Change in heat capacity for enzyme catalysis determines
+temperature dependence of enzyme catalyzed rates. ACS Chemical
+Biology 8:2388-2393.
+
+Koide RT, Robichaux RH, Morse SR, Smith CM. 2000. Plant water status, 
+hydraulic resistance and capacitance. In: Plant Physiological Ecology: 
+Field Methods and Instrumentation (eds RW Pearcy, JR Ehleringer, HA
+Mooney, PW Rundel), pp. 161-183. Kluwer, Dordrecht, the Netherlands
+
+Kok B. 1956. On the inhibition of photosynthesis by intense light.
+Biochimica et Biophysica Acta 21: 234–244
+
+Kruse J, Adams MA. 2008. Three parameters comprehensively describe
+the temperature response of respiratory oxygen reduction. Plant 
+Cell Environ 31:954-967
+
+Laisk A. 1977. Kinetics of photosynthesis and photorespiration in
+C3 plants. Nauka, Moscow.
+
+Leuning R. 1995. A critical appraisal of a coupled stomatal-
+photosynthesis model for C3 plants. Plant Cell Environ 18:339-357
+
+Liang LL, Arcus VL, Heskel MA, O'Sullivan OS, Weerasinghe LK,
+Creek D, Egerton JJG, Tjoelker MG, Atkin OK, Schipper LA. 2018.
+Macromolecular rate theory (MMRT) provides a thermodynamics
+rationale to underpin the convergent temperature response in
+plant leaf respiration. Glob Chang Biol 24:1538-1547
+
+Marshall B, Biscoe P. 1980. A model for C3 leaves describing the
+dependence of net photosynthesis on irradiance. J Ex Bot 31:29-39
+
+Medlyn BE, Dreyer E, Ellsworth D, Forstreuter M, Harley PC,
+Kirschbaum MUF, Le Roux X, Montpied P, Strassemeyer J, Walcroft A,
+Wang K, Loutstau D. 2002. Temperature response of parameters of a
+biochemically based model of photosynthesis. II. A review of
+experimental data. Plant Cell Environ 25:1167-1179
+
+Medlyn BE, Duursma RA, Eamus D, Ellsworth DS, Prentice IC, Barton
+CVM, Crous KY, Angelis PD, Freeman M, Wingate L. 2011. Reconciling
+the optimal and empirical approaches to modelling stomatal 
+conductance. Glob Chang Biol 17:2134-2144
+
+Ogle K, Barber JJ, Willson C, Thompson B. 2009. Hierarchical statistical 
+modeling of xylem vulnerability to cavitation. New Phytologist 182:541-554
+
+Pammenter NW, Van der Willigen CV. 1998. A mathematical and statistical 
+analysis of the curves illustrating vulnerability of xylem to cavitation. 
+Tree Physiology 18:589-593
+
+Sack L, Cowan PD, Jaikumar N, Holbrook NM. 2003. The 'hydrology' of 
+leaves: co-ordination of structure and function in temperate woody 
+species. Plant, Cell and Environment, 26, 1343-1356
+
+Sharkey TD. 2019. Is triose phosphate utilization important for understanding
+photosynthesis? Journal of Experimental Botany 70, 5521-5525
+
+Tyree MT, Hammel HT. 1972. Measurement of turgor pressure and water 
+relations of plants by pressure bomb technique. Journal of Experimental 
+Botany, 23, 267
+
+Walker BJ, Ort DR. 2015. Improved method for measuring the apparent
+CO2 photocompensation point resolves the impact of multiple internal
+conductances to CO2 to net gas exchange. Plant Cell Environ 38:2462-
+2474
+
+Yin X, Struik PC, Romero P, Harbinson J, Evers JB, van der Putten 
+PEL, Vos J. 2009. Using combined measurements of gas exchange and
+chlorophyll fluorescence to estimate parameters of a biochemical C3
+photosynthesis model: a critical appraisal and a new integrated 
+approach applied to leaves in a wheat (Triticum aestivum) canopy. 
+Plant Cell Environ 32:448-464
+
+Yin X, Sun Z, Struik PC, Gu J. 2011. Evaluating a new method to 
+estimate the rate of leaf respiration in the light by analysis of
+combined gas exchange and chlorophyll fluorescence measurements. 
+Journal of Experimental Botany 62: 3489–3499

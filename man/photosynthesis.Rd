@@ -6,13 +6,29 @@
 \alias{photo}
 \title{Simulate C3 photosynthesis}
 \usage{
-photosynthesis(leaf_par, enviro_par, bake_par, constants, use_tealeaves,
-  progress = TRUE, quiet = FALSE, set_units = TRUE,
-  parallel = FALSE)
+photosynthesis(
+  leaf_par,
+  enviro_par,
+  bake_par,
+  constants,
+  use_tealeaves,
+  progress = TRUE,
+  quiet = FALSE,
+  set_units = TRUE,
+  parallel = FALSE
+)
 
-photo(leaf_par, enviro_par, bake_par, constants, use_tealeaves,
-  quiet = FALSE, set_units = TRUE, check = TRUE,
-  prepare_for_tleaf = TRUE)
+photo(
+  leaf_par,
+  enviro_par,
+  bake_par,
+  constants,
+  use_tealeaves,
+  quiet = FALSE,
+  set_units = TRUE,
+  check = TRUE,
+  prepare_for_tleaf = TRUE
+)
 }
 \arguments{
 \item{leaf_par}{A list of leaf parameters inheriting class \code{leaf_par}. This can be generated using the \code{make_leafpar} function.}
