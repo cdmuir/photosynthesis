@@ -14,13 +14,20 @@ temp_resp1(par25, E_a, R, T_leaf, T_ref, unitless)
 temp_resp2(par25, D_s, E_a, E_d, R, T_leaf, T_ref, unitless)
 }
 \arguments{
-\item{leaf_par}{A list of leaf parameters inheriting class \code{leaf_par}. This can be generated using the \code{make_leafpar} function.}
+\item{leaf_par}{A list of leaf parameters inheriting class \code{leaf_par}.
+This can be generated using the \code{make_leafpar} function.}
 
-\item{bake_par}{A list of temperature response parameters inheriting class \code{bake_par}. This can be generated using the \code{make_bakepar} function.}
+\item{bake_par}{A list of temperature response parameters inheriting class
+\code{bake_par}. This can be generated using the \code{make_bakepar}
+function.}
 
-\item{constants}{A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.}
+\item{constants}{A list of physical constants inheriting class
+\code{constants}. This can be generated using the \code{make_constants}
+function.}
 
-\item{set_units}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
+\item{set_units}{Logical. Should \code{units} be set? The function is faster
+when FALSE, but input must be in correct units or else results will be
+incorrect without any warning.}
 
 \item{par25}{Parameter value at 25 °C of class \code{units}.}
 

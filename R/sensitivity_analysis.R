@@ -13,23 +13,23 @@
 #' Note that any parameter value combinations that break the input function
 #' WILL break this function. For 1-parameter sensitivity analysis, use test1
 #' only.
-#' 
+#'
 #' @importFrom rlang exec
 #' @importFrom rlang :=
 #' @export
-#' 
-#' @examples \dontrun{
+#'
+#' @examples \donttest{
 #' #Read in your data
 #' #Note that this data is coming from data supplied by the package
 #' #hence the complicated argument in read.csv()
 #' #This dataset is a CO2 by light response curve for a single sunflower
-#' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+#' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
 #'                              package = "plantecophystools"))
-#' 
+#'
 #' #Define a grouping factor based on light intensity to split the ACi
 #' #curves
 #' data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
-#' 
+#'
 #' #Run a sensitivity analysis on gamma_star and mesophyll conductance
 #' #at 25 Celsius for one individual curve
 #' pars <- sensitivity_analysis(data = data[data$Q_2 == 1500, ],
@@ -51,7 +51,7 @@
 #'                              values2 = seq(from = 0.5,
 #'                                            to = 2,
 #'                                            by = 0.1))
-#' 
+#'
 #' #Graph V_cmax
 #' ggplot(pars, aes(x = gamma_star25, y = g_mc25, z = V_cmax))+
 #'   geom_tile(aes(fill = Vcmax)) +
@@ -73,17 +73,17 @@ sensitivity_analysis <- function(data,
 ){
   #Create an empty list for ACi fits
   fits <- list(NULL)
-  
+
   #Next loops through values depending on whether there are
   #two input parameters or one.
   #Note that these loops generalize the arguments and functions
-  if(!is.na(test2)){
+  if (!is.na(test2)) {
     #Start progress bar
     pb <- txtProgressBar(min = 0, max = length(values2) *
                            length(values1), style = 3)
     #Loop through values of test1 and test2
-  for(j in 1:length(values2)){
-  for(i in 1:length(values1)){
+  for (j in 1:length(values2)) {
+  for (i in 1:length(values1)) {
     fits[[i + (j - 1) * length(values1)]] <- exec(funct, data = data,
                                    !!test1 := values1[i],
                                    !!test2 := values2[j],
@@ -96,7 +96,7 @@ sensitivity_analysis <- function(data,
   } else {
     #Start progress bar
     pb <- txtProgressBar(min = 0, max = length(values1), style = 3)
-    for(i in 1:length(values1)){
+    for (i in 1:length(values1)) {
       fits[[i]] <- exec(funct, data = data,
                         !!test1 := values1[i],
                         ...
@@ -107,19 +107,16 @@ sensitivity_analysis <- function(data,
 }
   #Create empty list for parameter outputs
   pars <- list(NULL)
-  
+
   #Compile parameter outputs
   #Main challenge here when using out-of-package functions:
   #Output style may vary, making this component behave
   #unexpectedly
-  for(i in 1:length(fits)){
+  for (i in 1:length(fits)) {
     pars[[i]] <- fits[[i]][[element_out]]
   }
-  
   #Convert parameter outputs to dataframe
   pars <- do.call("bind_rows", pars)
-  
   #Return parameters as output
   return(pars)
-  
 }

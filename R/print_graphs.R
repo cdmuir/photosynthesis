@@ -25,7 +25,7 @@
 #' #Note that this data is coming from data supplied by the package
 #' #hence the complicated argument in read.csv()
 #' #This dataset is a CO2 by light response curve for a single sunflower
-#' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+#' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
 #'                              package = "plantecophystools"))
 #'
 #' #Fit many AQ curves
@@ -89,13 +89,13 @@ print_graphs <- function(data,
                          pdf_filename,
                          ...){
   #Is output_type compatible with options?
-  if(!output_type %in% c("pdf", "jpeg")){
+  if (!output_type %in% c("pdf", "jpeg")) {
     print("Error: Output type not found. Use pdf or jpeg")
   }
-  if(!missing(path)){
+  if (!missing(path)) {
   #Print out individual jpeg files
-  if(output_type == "jpeg"){
-  for(i in 1:length(data)){
+  if (output_type == "jpeg") {
+  for (i in 1:length(data)) {
     jpeg(paste(names(data[i])[1], ".jpeg"), 
          height = height, width = width, 
          res = res, units = units, ...)
@@ -104,10 +104,10 @@ print_graphs <- function(data,
   }
   }
   #Print out pdf with all graphs
-  if(output_type == "pdf"){
+  if (output_type == "pdf") {
     pdf(pdf_filename, ...)
     par(mfrow = c(2, 2))
-    for(i in 1:length(data)){
+    for (i in 1:length(data)) {
       plot(data[[i]], main = names(data[i]))
     }
     dev.off()

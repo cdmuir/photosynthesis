@@ -34,7 +34,7 @@ test_that("nu_constant returns a list of two numbers", {
   T_high <- set_units(298.15, "K")
   T_low <- set_units(300, "K")
   nu <- cnstnts$nu_constant(set_units(3999), "forced",
-                            T_high, T_low, "lower", FALSE) 
+                            T_high, T_low, "lower", FALSE)
   expect_true(is.list(nu))
   expect_true(length(nu) == 2L)
   expect_true(length(nu[[1]]) == 1L)
@@ -43,7 +43,7 @@ test_that("nu_constant returns a list of two numbers", {
   expect_true(is.numeric(nu[[2]]))
 
   nu <- cnstnts$nu_constant(set_units(4001), "forced",
-                            T_high, T_low, "lower", FALSE) 
+                            T_high, T_low, "lower", FALSE)
   expect_true(is.list(nu))
   expect_true(length(nu) == 2L)
   expect_true(length(nu[[1]]) == 1L)
@@ -52,7 +52,7 @@ test_that("nu_constant returns a list of two numbers", {
   expect_true(is.numeric(nu[[2]]))
 
   nu <- cnstnts$nu_constant(set_units(1), "free",
-                            T_high, T_low, "lower", FALSE) 
+                            T_high, T_low, "lower", FALSE)
   expect_true(is.list(nu))
   expect_true(length(nu) == 2L)
   expect_true(length(nu[[1]]) == 1L)
@@ -61,7 +61,7 @@ test_that("nu_constant returns a list of two numbers", {
   expect_true(is.numeric(nu[[2]]))
 
   nu <- cnstnts$nu_constant(set_units(1), "free",
-                            T_high, T_low, "upper", FALSE) 
+                            T_high, T_low, "upper", FALSE)
   expect_true(is.list(nu))
   expect_true(length(nu) == 2L)
   expect_true(length(nu[[1]]) == 1L)
@@ -70,9 +70,9 @@ test_that("nu_constant returns a list of two numbers", {
   expect_true(is.numeric(nu[[2]]))
 
   nu1 <- cnstnts$nu_constant(set_units(1), "free",
-                             T_high, T_low, "lower", FALSE) 
+                             T_high, T_low, "lower", FALSE)
   nu2 <- cnstnts$nu_constant(set_units(1), "free",
-                             T_low, T_high, "upper", FALSE) 
+                             T_low, T_high, "upper", FALSE)
   expect_equal(nu1, nu2)
 
   expect_error(cnstnts$nu_constant(set_units(1), "foo",

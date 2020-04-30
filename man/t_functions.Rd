@@ -36,7 +36,8 @@ t_response_mmrt(dCp, dG, dH, Tleaf)
 
 \item{Ea_ref}{Activation energy in J mol-1 (Kruse et al. 2008)}
 
-\item{Par_ref}{Parameter at reference temperature of 25 Celsius (Kruse et al. 2008)}
+\item{Par_ref}{Parameter at reference temperature of 25 Celsius (Kruse et
+al. 2008)}
 
 \item{T2}{Leaf temperature term (Kruse et al. 2008)}
 
@@ -44,7 +45,8 @@ t_response_mmrt(dCp, dG, dH, Tleaf)
 
 \item{dS}{Entropy parameter in J mol-1 (Medlyn et al. 2002)}
 
-\item{Topt}{Optimum temperature of the process in Celsius (Medlyn et al. 2002)}
+\item{Topt}{Optimum temperature of the process in Celsius (Medlyn et al.
+2002)}
 
 \item{a}{Constant to minimize residuals (Heskel et al. 2016)}
 
@@ -52,12 +54,15 @@ t_response_mmrt(dCp, dG, dH, Tleaf)
 
 \item{c}{Quadratic coefficient to minimize residuals (Heskel et al. 2016)}
 
-\item{dCp}{Change in heat capacity of the enzyme between the enzyme-substrate
-and enzyme-transition states in J mol-1 K-1 (Hobbs et al. 2013)}
+\item{dCp}{Change in heat capacity of the enzyme between the
+enzyme-substrate #' and enzyme-transition states in J mol-1 K-1 (Hobbs et
+al. 2013)}
 
-\item{dG}{Change in Gibbs free energy of the reaction at 25 C in J mol-1 (Hobbs et al. 2013)}
+\item{dG}{Change in Gibbs free energy of the reaction at 25 C in J mol-1
+(Hobbs et al. 2013)}
 
-\item{dH}{Change in enthalpy of the reaction at 25 C in J mol-1 (Hobbs et al. 2013)}
+\item{dH}{Change in enthalpy of the reaction at 25 C in J mol-1 (Hobbs et
+al. 2013)}
 }
 \value{
 t_response_arrhenius calculates the rate of a process based on an 
@@ -70,24 +75,26 @@ t_response_arrhenius_medlyn is a peaked Arrhenius response as found in
 Medlyn et al. 2002.
 
 t_response_arrhenius_topt is a peaked Arrhenius temperature 
-response function
+response function.
 
 t_response_calc_dS calculates dS from the fitted Topt
 model.
 
 t_response_calc_topt calculates Topt for a process from Arrhenius
-parameters
+parameters.
 
 t_response_heskel is a quadratic temperature response according to
-Heskel et al. 2016. 
+Heskel et al. 2016.
 
 t_response_mmrt is a macromolecular rate theory temperature response
 according to Hobbs et al. 2013.
-
-REFERENCES
-
+}
+\description{
+Temperature response functions
+}
+\references{
 Arrhenius S. 1915. Quantitative laws in biological chemistry. Bell.
-  
+
 Heskel et al. 2016. Convergence in the temperature response of leaf respiration
 across biomes and plant functional types. PNAS 113:3832-3837
 
@@ -96,7 +103,7 @@ determines temperature dependence of enzyme catalyzed rates. ACS Chemical
 Biology 8:2388-2393
 
 Kruse J, Adams MA. 2008. Three parameters comprehensively describe
-the temperature response of respiratory oxygen reduction. Plant 
+the temperature response of respiratory oxygen reduction. Plant
 Cell Environ 31:954-967
 
 Medlyn BE, Dreyer E, Ellsworth D, Forstreuter M, Harley PC,
@@ -104,7 +111,4 @@ Kirschbaum MUF, Le Roux X, Montpied P, Strassemeyer J, Walcroft A,
 Wang K, Loutstau D. 2002. Temperature response of parameters of a
 biochemically based model of photosynthesis. II. A review of
 experimental data. Plant Cell Environ 25:1167-1179
-}
-\description{
-Temperature response functions
 }

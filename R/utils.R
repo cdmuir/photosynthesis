@@ -10,7 +10,7 @@
 #' \deqn{\mathrm{Press}(kPa) = \mathrm{Press}(ppm) P(kPa)}{Press(kPa) = Press(ppm) P(kPa)}
 #' \deqn{\mathrm{Press}(Pa) = 1000 \mathrm{Press}(kPa)}{Press(Pa) = 1000 Press(kPa)}
 #'
-#' @examples 
+#' @examples
 #'
 #' ppm <- set_units(400, "umol/mol")
 #' P <- set_units(101.325, "kPa")
@@ -46,7 +46,7 @@ ppm2pa <- function(ppm, P) {
 #'
 #' @note This function will soon be moving to the standalone gunit package.
 #'
-#' @examples 
+#' @examples
 #' D_c <- set_units(1.29e-05, "m^2/s")
 #' D_w <- set_units(2.12e-05, "m^2/s")
 #' g_c <- set_units(3, "umol/m^2/s/Pa")

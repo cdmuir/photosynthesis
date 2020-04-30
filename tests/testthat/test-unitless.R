@@ -63,7 +63,7 @@ test_that("unitless values match unit-ed values", {
   gbc1 <- drop_units(.get_gbc(pars1, "lower", unitless = FALSE))
   gbc2 <- .get_gbc(pars2, "lower", unitless = TRUE)
   expect_equal(gbc1, gbc2)
-  
+
   gbc3 <- drop_units(.get_gbc(pars1, "upper", unitless = FALSE))
   gbc4 <- .get_gbc(pars2, "upper", unitless = TRUE)
   expect_equal(gbc3, gbc4)
