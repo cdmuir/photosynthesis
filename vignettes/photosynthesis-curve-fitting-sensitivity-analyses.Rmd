@@ -1,15 +1,15 @@
 ---
-title: "Using_plantecophystools"
+title: "photosynthesis-curve-fitting-sensitivity-analyses"
 author: "Joseph R. Stinziano"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 vignette: >
- %\VignetteIndexEntry{Using_plantecophystools}
+ %\VignetteIndexEntry{Vignette Title}
  %\VignetteEngine{knitr::rmarkdown}
  %\VignetteEncoding{UTF-8}
 ---
 
-This vignette is designed to demonstrate how to use plantecophystools.
+This vignette is designed to demonstrate how to use the curve fitting and sensitivity analysis tools
 Sections are named based on the set of methods to be used:
 
 1. Fitting light response curves
@@ -45,7 +45,7 @@ installed dataset within the package. For help with a given function,
 please consult the help file via: ?functionname in the console. If you
 want to know the fine details of the code, please go to:
 
-https://github.com/jstinzi/plantecophystools
+https://github.com/jstinzi/photosynthesis
 
 And look in the R folder to find the raw function files. These contain
 heavily annotated code that explains the why and how of their operation.
@@ -70,7 +70,7 @@ https://cran.r-project.org/bin/windows/Rtools/
 ```{r}
 #To install, run the following without comments
 #library(devtools)
-#install_github("jstinzi/plantecophystools")
+#install_github("jstinzi/photosynthesis")
 
 #Load package
 library(photosynthesis)
@@ -818,7 +818,7 @@ ggplot(par2, aes(y = CE_gamma_star25, x = V_cmax, colour = gamma_star25))+
 #Note that in this case a missing point appears due to an infinity
 #Can also plot sensitivity measures in 2 dimensions
 ggplot(par2, aes(x = gamma_star25, y = g_mc25, z = CE_gamma_star25))+
-geom_tile(aes(fill = CE_G25)) +
+geom_tile(aes(fill = CE_gamma_star25)) +
 labs(x = expression(Gamma*"*"[25]~"("*mu*mol~mol^{-1}*")"),
      y = expression(g[m][25]~"("*mu*mol~m^{-2}~s^{-1}~Pa^{-1}*")"))+
 scale_fill_distiller(palette = "Greys") +
