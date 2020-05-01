@@ -25,14 +25,14 @@
 #'
 #' fit_t_response_mmrt fits the Macromolecular Rate Theory equation as
 #' redefined in Liang et al. 2018, and described in Hobbs et al. 2013.
-#' 
+#'
 #' fit_t_response_quad is used to fit a 2nd order polynomial to
 #' temperature response data
 #'
 #' fit_t_response_topt fits the peaked Arrhenius model from
 #' Medlyn et al. 2002 with kopt and Topt.
 #'
-#' @references 
+#' @references
 #' Arrhenius S. 1915. Quantitative laws in biological chemistry. Bell.
 #'
 #' Heskel MA, O'Sullivan OS, Reich PB, Tjoelker MG, Weerasinghe LK,
@@ -48,7 +48,7 @@
 #' Biology 8:2388-2393.
 #'
 #' Kruse J, Adams MA. 2008. Three parameters comprehensively describe
-#' the temperature response of respiratory oxygen reduction. Plant 
+#' the temperature response of respiratory oxygen reduction. Plant
 #' Cell Environ 31:954-967
 #'
 #' Liang LL, Arcus VL, Heskel MA, O'Sullivan OS, Weerasinghe LK,
@@ -174,7 +174,7 @@ fit_t_response_arrhenius <- function(data,
                                                      Tleaf = "Tleaf"),
                                      start = list(Ea = 40000,
                                                   Par25 = 50),
-                                     title = NULL){
+                                     title = NULL) {
   #Locally bind variables - avoids notes on check package
   Par <- NULL
   Tleaf <- NULL
@@ -182,7 +182,7 @@ fit_t_response_arrhenius <- function(data,
   data$Par <- data[, varnames$Par]
   data$Tleaf <- data[, varnames$Tleaf]
   #Fit the model
-  fit <- nlsLM(data = data, 
+  fit <- nlsLM(data = data,
                Par ~ Par25 * t_response_arrhenius(Ea,
                                                   Tleaf = Tleaf),
                start = start,
@@ -196,7 +196,7 @@ fit_t_response_arrhenius <- function(data,
   #Add parameter outputs to output list
   output[[2]] <- data.frame(rbind(coef(fit)))
   #Add graph to output list
-  output[[3]] <- ggplot(data, aes(x = Tleaf, y = Par)) + 
+  output[[3]] <- ggplot(data, aes(x = Tleaf, y = Par)) +
     #Add axis labels
     labs(x = expression("Tleaf (Celsius)"),
          y = varnames$Par) +
@@ -205,7 +205,7 @@ fit_t_response_arrhenius <- function(data,
     #Add fitted smoothing function
     geom_smooth(
       method = "lm",
-      formula = y ~ I(output[[2]]$Par25[1] * 
+      formula = y ~ I(output[[2]]$Par25[1] *
                         (t_response_arrhenius(Tleaf = x,
                                               Ea = output[[2]]$Ea[1]))),
       size = 2) +
@@ -235,7 +235,7 @@ fit_t_response_heskel <- function(data,
   data$Par <- data[, varnames$Par]
   data$Tleaf <- data[, varnames$Tleaf]
   #Fit the model
-  fit <- nlsLM(data = data, 
+  fit <- nlsLM(data = data,
                log(Par) ~ t_response_heskel(a,
                                             b,
                                             c,
@@ -249,7 +249,7 @@ fit_t_response_heskel <- function(data,
   #Add parameter outputs to output list
   output[[2]] <- data.frame(rbind(coef(fit)))
   #Add graph to output list
-  output[[3]] <- ggplot(data, aes(x = Tleaf, y = Par)) + 
+  output[[3]] <- ggplot(data, aes(x = Tleaf, y = Par)) +
     #Add axis labels
     labs(x = expression("Tleaf (Celsius)"),
          y = varnames$Par) +
@@ -292,7 +292,7 @@ fit_t_response_kruse <- function(data,
   data$T2 <- ((data$Tleaf + 273.15) - 298.15) /
     ((data$Tleaf + 273.15) * 298.15)
   #Fit the model
-  fit <- nlsLM(data = data, 
+  fit <- nlsLM(data = data,
                log(Par) ~ t_response_arrhenius_kruse(dEa,
                                                      Ea_ref,
                                                      Par_ref,
@@ -306,7 +306,7 @@ fit_t_response_kruse <- function(data,
   #Add parameter outputs to output list
   output[[2]] <- data.frame(rbind(coef(fit)))
   #Add graph to output list
-  output[[3]] <- ggplot(data, aes(x = Tleaf, y = Par)) + 
+  output[[3]] <- ggplot(data, aes(x = Tleaf, y = Par)) +
     #Add axis labels
     labs(x = expression("Tleaf (Celsius)"),
          y = varnames$Par) +
@@ -315,7 +315,7 @@ fit_t_response_kruse <- function(data,
     #Add fitted smoothing function
     geom_smooth(
       method = "lm",
-      formula = y ~ 
+      formula = y ~
         exp(t_response_arrhenius_kruse(T2 = ((x + 273.15) - 298.15) /
                                          ((x + 273.15) * 298.15),
                                        dEa = output[[2]]$dEa[1],
@@ -343,7 +343,7 @@ fit_t_response_medlyn <- function(data,
                                   setvar = "none",
                                   Hd_set = 200000,
                                   dS_set = 650,
-                                  title = NULL){
+                                  title = NULL) {
   #Locally bind variables - avoids notes on check package
   Par <- NULL
   Tleaf <- NULL
@@ -351,11 +351,11 @@ fit_t_response_medlyn <- function(data,
   data$Par <- data[, varnames$Par]
   data$Tleaf <- data[, varnames$Tleaf]
   #Fit both Hd and dS
-  if(setvar == "none"){
+  if (setvar == "none") {
     #Basically, use Arrhenius curve to feed Ea into Medlyn function start
     #Try approach where you start Hd from 1 to 1000
     #select minimum residual
-    model <- nlsLM(data = data, 
+    model <- nlsLM(data = data,
                    Par ~ Par25 * t_response_arrhenius(Ea,
                                                       Tleaf = Tleaf),
                    start = list(Par25 = start[[4]],
@@ -384,7 +384,7 @@ fit_t_response_medlyn <- function(data,
     #TryCatch is used to deal with failed fits
     for (i in 1:1000) {
       #Fit model
-      model_full[[i]] <- tryCatch(nlsLM(data = data, 
+      model_full[[i]] <- tryCatch(nlsLM(data = data,
                                         Par ~ Par25 *
                                           t_response_arrhenius_medlyn(Ea,
                                                                       Hd,
@@ -431,7 +431,7 @@ fit_t_response_medlyn <- function(data,
     output[[2]] <- data.frame(rbind(coef(model_full)))
     output[[2]]$Tleaf <- mean(data$Tleaf)
     #Add graph to output list
-    output[[3]] <- ggplot(data, aes(x = Tleaf, y = Par)) + 
+    output[[3]] <- ggplot(data, aes(x = Tleaf, y = Par)) +
       #Add axis labels
       labs(x = expression("Tleaf (Celsius)"),
            y = varnames$Par) +
@@ -455,11 +455,11 @@ fit_t_response_medlyn <- function(data,
     return(output)
   }
   #Just fit dS
-  if(setvar == "Hd"){
+  if (setvar == "Hd") {
     #Basically, use Arrhenius curve to feed Ea into Medlyn function start
     #Try approach where you start Hd from 1 to 1000
     #select minimum residual
-    model <- nlsLM(data = data, 
+    model <- nlsLM(data = data,
                    Par ~ Par25 * t_response_arrhenius(Ea,
                                                       Tleaf = Tleaf),
                    start = list(Par25 = start[[4]],
@@ -488,12 +488,12 @@ fit_t_response_medlyn <- function(data,
     #TryCatch is used to deal with failed fits
     for (i in 1:1000) {
       #Fit model
-      model_full[[i]] <- tryCatch(nlsLM(data = data, 
+      model_full[[i]] <- tryCatch(nlsLM(data = data,
                                         Par ~ Par25 *
                                           t_response_arrhenius_medlyn(Ea,
-                                                                      Hd = Hd_set,
-                                                                      dS,
-                                                                      Tleaf =
+                                                                Hd = Hd_set,
+                                                                dS,
+                                                                Tleaf =
                                                                         Tleaf),
                                         start = list(Ea = coef(model)[[2]],
                                                      dS = i,
@@ -534,7 +534,7 @@ fit_t_response_medlyn <- function(data,
     output[[2]]$Hd <- Hd_set
     output[[2]]$Tleaf <- mean(data$Tleaf)
     #Add graph to output list
-    output[[3]] <- ggplot(data, aes(x = Tleaf, y = Par)) + 
+    output[[3]] <- ggplot(data, aes(x = Tleaf, y = Par)) +
       #Add axis labels
       labs(x = expression("Tleaf (Celsius)"),
            y = varnames$Par) +
@@ -562,7 +562,7 @@ fit_t_response_medlyn <- function(data,
     #Basically, use Arrhenius curve to feed Ea into Medlyn function start
     #Try approach where you start Hd from 1 to 1000
     #select minimum residual
-    model <- nlsLM(data = data, 
+    model <- nlsLM(data = data,
                    Par ~ Par25 * t_response_arrhenius(Ea,
                                                       Tleaf = Tleaf),
                    start = list(Par25 = start[[4]],
@@ -591,12 +591,12 @@ fit_t_response_medlyn <- function(data,
     #TryCatch is used to deal with failed fits
     for (i in 1:1000) {
       #Fit model
-      model_full[[i]] <- tryCatch(nlsLM(data = data, 
+      model_full[[i]] <- tryCatch(nlsLM(data = data,
                                         Par ~ Par25 *
                                           t_response_arrhenius_medlyn(Ea,
-                                                                      Hd,
-                                                                      dS = dS_set,
-                                                                      Tleaf =
+                                                                  Hd,
+                                                                  dS = dS_set,
+                                                                  Tleaf =
                                                                         Tleaf),
                                         start = list(Ea = coef(model)[[2]],
                                                      Hd = i * 1000,
@@ -678,7 +678,7 @@ fit_t_response_mmrt <- function(data,
   data$Par <- data[, varnames$Par]
   data$Tleaf <- data[, varnames$Tleaf]
   #Fit model
-  fit <- nlsLM(data = data, 
+  fit <- nlsLM(data = data,
                log(Par) ~ t_response_mmrt(dCp,
                                           dG,
                                           dH,
@@ -802,7 +802,7 @@ fit_t_response_topt <- function(data,
                                   rep(0, 1000),
                                   rep(varnames$Par[[1]], 1000)))
   #Assign column names
-  colnames(model_fm) <- c("Ea", "Hd", "kopt", "Topt", "residual", 
+  colnames(model_fm) <- c("Ea", "Hd", "kopt", "Topt", "residual",
                           "Parameter")
   #Make sure variable classes are appropriate
   model_fm$Ea <- as.double(model_fm$Ea)
@@ -815,12 +815,12 @@ fit_t_response_topt <- function(data,
   #TryCatch is used to deal with failed fits
   for (i in 1:1000) {
     #Fit model
-    model_full[[i]] <- tryCatch(nlsLM(data = data, 
+    model_full[[i]] <- tryCatch(nlsLM(data = data,
                                       Par ~ kopt *
                                         t_response_arrhenius_topt(Ea,
                                                                   Hd,
                                                                   Topt,
-                                                                  Tleaf = 
+                                                                  Tleaf =
                                                                     Tleaf),
                                       start = list(Ea = coef(model)[[2]],
                                                    Hd = i * 1000,

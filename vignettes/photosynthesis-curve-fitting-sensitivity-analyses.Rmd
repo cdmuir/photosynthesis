@@ -75,13 +75,6 @@ https://cran.r-project.org/bin/windows/Rtools/
 #Load package
 library(photosynthesis)
 
-#Load these packages as a fail-safe - they don't always load automatically
-library(ggplot2)
-library(minpack.lm)
-library(nlme)
-library(rlang)
-library(tidyr)
-
 #To cite, use:
 citation("photosynthesis")
 
@@ -114,8 +107,8 @@ non-rectangular hyperbola model of the photosynthetic light response.
 #This dataset is a CO2 by light response curve for a single sunflower
 #Note that to read in your own data, you will need to delete the
 #system.file() function, otherwise you will get an error
-data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
-                             package = "plantecophystools"))
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
+                             package = "photosynthesis"))
 
 #Fit many AQ curves
 #Set your grouping variable
@@ -191,7 +184,7 @@ TPU limitations.
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Define a grouping factor based on light intensity to split the ACi
 #curves
@@ -256,7 +249,7 @@ Heskel et al. 2016; Liang et al. 2018).
 ```{r}
 #Read in data
 data <- read.csv(system.file("extdata", "A_Ci_T_data.csv", 
-                             package = "plantecophystools"),
+                             package = "photosynthesis"),
                  stringsAsFactors = FALSE)
 
 #Round temperatures to group them appropriately
@@ -384,7 +377,7 @@ models (Ball et al. 1987; Leuning 1995; Medlyn et al. 2011).
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Convert RH to a proportion
 data$RH <- data$RHcham / 100
@@ -494,7 +487,7 @@ modification of the Kok method (Yin et al. 2009, 2011)
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Fit light respiration with Yin method
 r_light <- fit_r_light_yin(data = data,
@@ -563,7 +556,7 @@ according to the variable J method from Harley et al. 1992
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Note: there will be issues here if the alpha value used
 #for calculating ETR is off, if GammaStar is incorrect,
@@ -616,7 +609,7 @@ For references, see Koide et al. 2000, Sack et al. 2003, and Tyree & Hammel 1972
 ```{r}
 #Read in data
 data <- read.csv(system.file("extdata", "PV_curve.csv", 
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Fit one PV curve
 fit <- fit_PV_curve(data[data$ID == "L2", ],
@@ -677,7 +670,7 @@ from the curve fit. See Pammenter & Van der Willigen, 1998 and Ogle et al. 2009.
 ```{r}
 #Read in data
 data <- read.csv(system.file("extdata", "hydraulic_vulnerability.csv", 
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Fit hydraulic vulnerability curve
 fit <- fit_hydra_vuln_curve(data[data$Tree == 5 & data$Plot == "Irrigation",],
@@ -749,7 +742,7 @@ on fitted gas exchange parameters.
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Define a grouping factor based on light intensity to split the ACi
 #curves

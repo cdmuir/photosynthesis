@@ -43,7 +43,7 @@
 #' }
 compile_data <- function(data,
                          output_type = "list",
-                         list_element){
+                         list_element) {
   #Is output_type compatible with options?
   if (!output_type %in% c("list", "dataframe")) {
     print("Error: Output type not found. Use list or dataframe.")

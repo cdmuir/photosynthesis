@@ -18,19 +18,19 @@
 #' in climate on photosynthetic and stomatal parameters. Climate Dynamics 42:
 #' 2539-2554.
 #'
-#' Capaldo KP, Pandis SN 1997. Dimethylsulfide chemistry in the remote marine 
-#' atmosphere: evaluation and sensitivity analysis of available mechanisms. 
+#' Capaldo KP, Pandis SN 1997. Dimethylsulfide chemistry in the remote marine
+#' atmosphere: evaluation and sensitivity analysis of available mechanisms.
 #' J Geophys Res 102:23251-23267
 #' @importFrom utils setTxtProgressBar
 #' @importFrom utils txtProgressBar
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples \donttest{
 #' #Read in your data
 #' #Note that this data is coming from data supplied by the package
 #' #hence the complicated argument in read.csv()
 #' #This dataset is a CO2 by light response curve for a single sunflower
-#' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+#' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
 #'                              package = "plantecophystools"))
 #'
 #' #Define a grouping factor based on light intensity to split the ACi
@@ -76,13 +76,13 @@ compute_sensitivity <- function(data,
                                                 test1 = "test1",
                                                 test2 = "test2"),
                                 test1_ref,
-                                test2_ref){
+                                test2_ref) {
   #Set variable names
   data$Par <- data[, varnames$Par]
   data$test1 <- data[, varnames$test1]
   data$test2 <- data[, varnames$test2]
   #Calculate parameter effect (PE) of one input per each instance of
-  #the other input. Therefore need to split data relative to one variable, 
+  #the other input. Therefore need to split data relative to one variable,
   #calculate PE, merge data, then split by other variable and repeat
   #Split data by variable 2
   data <- split(data, data$test2)
@@ -105,22 +105,21 @@ compute_sensitivity <- function(data,
   #Start progress bar
   pb <- txtProgressBar(min = 0, max = length(data), style = 3)
   #Calculate parameter effect
-  for(i in 1:length(data)){
-    data[[i]]$PE_test2 <- abs(data[[i]][data[[i]]$test2 == 
-                                          max(data[[i]]$test2), ]$Par - 
-                                data[[i]][data[[i]]$test2 == 
+  for (i in 1:length(data)) {
+    data[[i]]$PE_test2 <- abs(data[[i]][data[[i]]$test2 ==
+                                          max(data[[i]]$test2), ]$Par -
+                                data[[i]][data[[i]]$test2 ==
                                             min(data[[i]]$test2), ]$Par) /
       mean(data[[i]]$Par) * 100
     #Set progress bar
     setTxtProgressBar(pb, i)
   }
-
   #Bind back to dataframe
   data <- do.call("bind_rows", data)
 
   #Calculate control coefficients. In this case, we are deriving it numerically
-  #Need reference point in the entire parameter space, this is test1_ref and 
-  #test2_ref. Calculations from Capaldo & Pandis 1997. 
+  #Need reference point in the entire parameter space, this is test1_ref and
+  #test2_ref. Calculations from Capaldo & Pandis 1997.
   for (i in 1:nrow(data)) {
     data$CE_test1[i] <- (log(data$Par[i]) - log(data[data$test1 == test1_ref &
                                      data$test2 == test2_ref, ]$Par)) /

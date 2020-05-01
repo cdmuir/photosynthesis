@@ -9,7 +9,7 @@
 #' - \code{W_tpu}: TPU-limited assimilation rate \cr
 #' - \code{A}: minimum of W_carbox, W_regen, and W_tpu
 #'
-#' @details 
+#' @details
 #'
 #' Equations following Buckley and Diaz-Espejo (2015): \cr
 #' \cr
@@ -56,9 +56,9 @@
 #' 38: 1200-11.
 #'
 #' Farquhar GD, Caemmerer S, Berry JA. 1980. A biochemical model of
-#' photosynthetic CO2 assimilation in leaves of C3 species. Planta 149: 78–90. 
+#' photosynthetic CO2 assimilation in leaves of C3 species. Planta 149: 78–90.
 #'
-#' @examples 
+#' @examples
 #' bake_par <- make_bakepar()
 #' constants <- make_constants(use_tealeaves = FALSE)
 #' enviro_par <- make_enviropar(use_tealeaves = FALSE)
@@ -169,7 +169,8 @@ J <- function(pars, unitless = FALSE) {
     theta_J * J ^ 2 - J * (J_max + phi_J * PPFD) + J_max * phi_J * PPFD
   }
 
-  J_I <- stats::uniroot(.f, c(0, pars$J_max), PPFD = pars$PPFD, J_max = pars$J_max, 
+  J_I <- stats::uniroot(.f, c(0, pars$J_max), PPFD = pars$PPFD, J_max = 
+                          pars$J_max,
                         phi_J = pars$phi_J, theta_J = pars$theta_J)
 
   J_I %<>% magrittr::use_series("root")

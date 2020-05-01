@@ -26,22 +26,23 @@ fit_gs_mod_medlyn(
 \arguments{
 \item{data}{Dataframe}
 
-\item{varnames}{Variable names. 
+\item{varnames}{Variable names
 
 For the Ball-Berry model: varnames = list(A_net = "A_net", C_air = "C_air",
 g_sw = "g_sw", RH = "RH") where A_net is net CO2 assimilation, C_air is CO2
-concentration at the leaf surface in umol mol-1, g_sw is stomatal conductance
-to H2O, and RH is relative humidity as a proportion.
+concentration at the leaf surface in umol mol-1, g_sw is stomatal
+conductance to H2O, and RH is relative humidity as a proportion.
 
 For the Leuning model: varnames = list(A_net = "A_net", C_air = "C_air",
-g_sw = "g_sw", VPD = "VPD") where A_net is net CO2 assimilation, C_air is CO2
-concentration at the leaf surface in umol mol-1, g_sw is stomatal conductance
-to H2O, and VPD is leaf to air vapor pressure deficit in kPa.
+g_sw = "g_sw", VPD = "VPD") where A_net is net CO2 assimilation, C_air is
+CO2 concentration at the leaf surface in umol mol-1, g_sw is stomatal
+conductance to H2O, and VPD is leaf to air vapor pressure deficit in kPa.
 
-For the Medlyn et al. 2011 models: varnames = list(A_net = "A_net", C_air = "C_air",
-g_sw = "g_sw", VPD = "VPD") where A_net is net CO2 assimilation, C_air is CO2
-concentration at the leaf surface in umol mol-1, g_sw is stomatal conductance
-to H2O, and VPD is leaf to air vapor pressure deficit in kPa.}
+For the Medlyn et al. 2011 models: varnames = list(A_net = "A_net",
+C_air = "C_air", g_sw = "g_sw", VPD = "VPD") where A_net is net CO2
+assimilation, C_air is CO2 concentration at the leaf surface in umol mol-1,
+g_sw is stomatal conductance to H2O, and VPD is leaf to air vapor pressure
+deficit in kPa.}
 
 \item{D0}{Vapor pressure sensitivity of stomata (Leuning 1995)}
 
@@ -57,34 +58,17 @@ conductance.
 
 fit_gs_mod_medlyn fits the Medlyn et al (2011) model of stomatal
 conductance. Both the reduced and full models can be fit.
-
-REFERENCES
-
-Ball JT, Woodrow IE, Berry JA. 1987. A model predicting stomatal 
-conductance and its contribution to the control of photosynthesis
-under different environmental conditions, in Progress in 
-Photosynthesis Research, Proceedings of the VII International 
-Congress on Photosynthesis, vol. 4, edited by I. Biggins, pp. 
-221–224, Martinus Nijhoff, Dordrecht, Netherlands.
-
-Leuning R. 1995. A critical appraisal of a coupled stomatal-
-photosynthesis model for C3 plants. Plant Cell Environ 18:339-357
-
-Medlyn BE, Duursma RA, Eamus D, Ellsworth DS, Prentice IC, Barton
-CVM, Crous KY, Angelis PD, Freeman M, Wingate L. 2011. Reconciling
-the optimal and empirical approaches to modelling stomatal 
-conductance. Glob Chang Biol 17:2134-2144
 }
 \description{
 Fitting stomatal conductance models
 }
 \examples{
-\dontrun{
+\donttest{
 #Read in your data
 #Note that this data is coming from data supplied by the package
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
-data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
                              package = "plantecophystools"))
 
 #FITTING THE BALL-BERRY MODEL
@@ -149,7 +133,6 @@ graphs <- compile_data(data = fits,
 
 #Look at 3rd graph
 graphs[[3]]
-
 
 #FITTING THE LEUNING MODEL
 
@@ -272,4 +255,20 @@ graphs[[3]]
 
 }
 
+}
+\references{
+Ball JT, Woodrow IE, Berry JA. 1987. A model predicting stomatal 
+conductance and its contribution to the control of photosynthesis
+under different environmental conditions, in Progress in 
+Photosynthesis Research, Proceedings of the VII International 
+Congress on Photosynthesis, vol. 4, edited by I. Biggins, pp. 
+221–224, Martinus Nijhoff, Dordrecht, Netherlands.
+
+Leuning R. 1995. A critical appraisal of a coupled stomatal-
+photosynthesis model for C3 plants. Plant Cell Environ 18:339-357
+
+Medlyn BE, Duursma RA, Eamus D, Ellsworth DS, Prentice IC, Barton
+CVM, Crous KY, Angelis PD, Freeman M, Wingate L. 2011. Reconciling
+the optimal and empirical approaches to modelling stomatal 
+conductance. Glob Chang Biol 17:2134-2144
 }

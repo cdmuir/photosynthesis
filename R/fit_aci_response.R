@@ -43,7 +43,8 @@
 #' @param Ea_K_O Activation energy for K_O in J mol-2
 #' @param Oconc O2 concentration in %. Used with P to calculate 
 #' intracellular O2 when using K_C_K_O
-#' @param gamma_star_set Value of gamma_star to use (in ppm) if usegamma_star = TRUE
+#' @param gamma_star_set Value of gamma_star to use (in ppm) if
+#' usegamma_star = TRUE
 #' @param K_M_set Value of K_M to use if useK_M = TRUE
 #' @param ... Other arguments to pass on
 #'
@@ -52,8 +53,8 @@
 #' inadmissable curve fits. If no curves are admissable (either due to poor data
 #' or poor assumed parameters), the output will include a dataframe of NA values.
 #' Default parameters are all from Bernacchi et al. 2001, 2002.
-#' 
-#' References
+#'
+#' @references
 #' Bernacchi CJ, Singsaas EL, Pimentel C, Portis AR, Long SP. 2001. Improved
 #' temperature response functions for models of rubisco-limited photosynthesis.
 #' Plant Cell Environment 24:253-259.
@@ -69,7 +70,7 @@
 #' 
 #' von Caemmerer S. 2000. Biochemical models of leaf photosynthesis. CSIRO
 #' Publishing, Collingwood.
-#' 
+#'
 #' @importFrom ggplot2 element_blank
 #' @importFrom ggplot2 geom_line
 #' @importFrom ggplot2 ggplot
@@ -79,19 +80,19 @@
 #' @importFrom stats lm
 #' @importFrom stats sd
 #' @export
-#' 
-#' @examples \dontrun{
+#'
+#' @examples \donttest{
 #' #Read in your data
 #' #Note that this data is coming from data supplied by the package
 #' #hence the complicated argument in read.csv()
 #' #This dataset is a CO2 by light response curve for a single sunflower
-#' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+#' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
 #'                              package = "plantecophystools"))
-#' 
+#'
 #' #Define a grouping factor based on light intensity to split the ACi
 #' #curves
 #' data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
-#' 
+#'
 #' #Fit ACi curve. Note that we are subsetting the dataframe
 #' #here to fit for a single value of Q_2
 #' fit <- fit_aci_response(data[data$Q_2 == 1500, ],
@@ -99,16 +100,16 @@
 #'                                         Tleaf = "Tleaf",
 #'                                         C_i = "Ci",
 #'                                         PPFD = "Qin"))
-#' 
+#'
 #' #View fitted parameters
 #' fit[[1]]
-#' 
+#'
 #' #View graph
 #' fit[[2]]
-#' 
+#'
 #' #View data with modelled parameters attached
 #' fit[[3]]
-#' 
+#'
 #' #Fit many curves
 #' fits <- fit_many(data = data,
 #'                  varnames = list(A_net = "A",
@@ -117,28 +118,24 @@
 #'                                  PPFD = "Qin"),
 #'                  funct = fit_aci_response,
 #'                  group = "Q_2")
-#' 
+#'
 #' #Print the parameters
 #' #First set of double parentheses selects an individual group value
 #' #Second set selects an element of the sublist
 #' fits[[3]][[1]]
-#' 
+#'
 #' #Print the graph
 #' fits[[3]][[2]]
-#' 
+#'
 #' #Compile graphs into a list for plotting
 #' fits_graphs <- compile_data(fits,
 #'                             list_element = 2)
-#' 
-#' #Print graphs to pdf
-#' print_graphs(data = fits_graphs,
-#'              output_type = "pdf")
-#' 
+#'
 #' #Compile parameters into dataframe for analysis
 #' fits_pars <- compile_data(fits,
 #'                           output_type = "dataframe",
 #'                           list_element = 1)
-#' 
+#'
 #' }
 fit_aci_response <- function(data,
                            varnames = list(A_net = "A_net", 
@@ -172,7 +169,7 @@ fit_aci_response <- function(data,
                            gamma_star_set = NULL,
                            K_M_set = NULL,
                            ...
-){
+) {
 #Locally bind variables - avoids notes on check package
   C_i <- NULL
   A_model <- NULL
@@ -181,39 +178,32 @@ fit_aci_response <- function(data,
   Ap <- NULL
   A_net <- NULL
   PPFD <- NULL
-
   #Set variable names  
   data$C_i <- data[, varnames$C_i]
   data$A_net <- data[, varnames$A_net]
   data$PPFD <- data[, varnames$PPFD]
   data$Tleaf <- data[, varnames$Tleaf]
   outputs <- list()
-  
   #Order data by increasing C_i, avoids calculation issues
-  data <- data[order(data$C_i),]
-  
+  data <- data[order(data$C_i), ]
   #Convert O2 concentration to partial pressure
   O <- Oconc * P / 100
- 
   #Create grid of possible C_i transition points
   ci <- data[order(data$C_i),]$C_i
   nci <- length(ci)
   citransitions <- diff(ci) / 2 + ci[-nci]
-  
   #Make sure there is a minimum of 3 points for V_cmax fitting
   citransitions1 <- citransitions[3:length(citransitions)]
-  if(!fitTPU){
+  if (!fitTPU) {
     citransitions2 <- max(ci) + 1
   } else {
   citransitions2 <- c(max(ci) + 1, rev(citransitions1))
   }
-  
   #Create combinations of ci1 and ci2 to fit
   citransdf <- expand.grid(ci1 = citransitions1, ci2 = citransitions2)
   citransdf <- citransdf[citransdf$ci1 <= citransdf$ci2, ]
-  
   #Mesophyll conductance calculations
-  if(!useg_mc){
+  if (!useg_mc) {
     #Assumes g_mc is infinite
     data$C <- data$C_i * P / 100
   } else {
@@ -221,15 +211,14 @@ fit_aci_response <- function(data,
     data$g_mc <- data[, varnames$g_mc]
     data$C <- (data$C_i - data$A_net / data$g_mc) * P / 100
   }
-  if(useg_mct) {
+  if (useg_mct) {
     #Calculates g_mc based on a specified temperature response
     data$g_mc <- g_mc25 * t_response_arrhenius(Tleaf = data$Tleaf,
                                               Ea = Ea_g_mc)
     data$C <- (data$C_i - data$A_net / data$g_mc) * P / 100
   }
-
   #gamma_star settings
-  if(!usegamma_star){
+  if (!usegamma_star) {
     #Calculates gamma_star based on temperature response function
     gamma_star <- gamma_star25 * t_response_arrhenius(Tleaf = mean(data$Tleaf),
                                              Ea = Ea_gamma_star) * P / 100
@@ -237,9 +226,8 @@ fit_aci_response <- function(data,
     #Uses specified gamma_star, converts to partial pressure
     gamma_star <- gamma_star_set * P / 100
   }
-  
   #K_M settings
-  if(!useK_M){
+  if (!useK_M) {
     #Calculates K_M based on temperature response
     K_M <- K_M25 * t_response_arrhenius(Tleaf = mean(data$Tleaf),
                                      Ea = Ea_K_M)
@@ -247,7 +235,6 @@ fit_aci_response <- function(data,
     #Uses specified K_M
     K_M <- K_M_set
   }
-  
   if(useK_C_K_O){
     #Calculates K_M based on temperature responses of K_C and K_O
     K_C <- K_C25 * t_response_arrhenius(Tleaf = mean(data$Tleaf),
@@ -256,25 +243,20 @@ fit_aci_response <- function(data,
                                       Ea = Ea_K_O)
     K_M <- K_C * (1 + O / K_O)
   }
-  
   #Generate x-variables for linearized prediction of V_cmax, J_max, V_TPU
   #Note this is based on the Duursma (2015) approach eto Gu et al. 2010
   data$V_cmax_pred <- (data$C - gamma_star) / (data$C + K_M)
   data$J_max_pred <- (data$C - gamma_star) / (data$C + 2 * gamma_star)
   data$V_TPU_part <- (data$C - gamma_star) / (data$C - (1 + 3 * alpha_g) * 
                                              gamma_star)
-
-  
   #Create dataframe for all possible curve fits
   poss_fits <- data.frame(matrix(0, nrow = nrow(citransdf),
                                  ncol = 16))
-  
   #Add column names
   colnames(poss_fits) <- c("Num", "V_cmax", "V_cmax_se", "J_max", 
                            "J", "J_se", "V_TPU", "V_TPU_se", "R_d", "R_d_se",
                            "cost", "citransition1", "citransition2",
                            "V_cmax_pts", "J_max_pts", "V_TPU_pts")
-  
   #Fit all possible citransition combinations
   for(i in seq_len(nrow(citransdf))){
     #Locally bind variables
@@ -286,19 +268,15 @@ fit_aci_response <- function(data,
     datj <- NULL
     datp <- NULL
     datcomp <- NULL
-    
     #CO2-limited points
     datc <- data[data$C_i < citransdf$ci1[i],]
-    
     #RuBP regeneration-limited points
     datj <- data[data$C_i > citransdf$ci1[i] & 
                    data$C_i < citransdf$ci2[i], ]
-    
     #V_TPU-limited points
     datp <- data[data$C_i > citransdf$ci2[i], ]
-    
     #Fits V_cmax
-    if(!useR_d){
+    if (!useR_d) {
       #Fit R_d and V_cmax
       fitc <- lm(A_net ~ V_cmax_pred, data = datc)
       R_d_fit <- coef(fitc)[[1]]
@@ -314,11 +292,10 @@ fit_aci_response <- function(data,
       V_cmax_fit <- coef(fitc)[[1]]
       V_cmax_se <- summary(fitc)$coefficients[, 2]
     }
-
     #Fit J and J_max
-    if(nrow(datj) > 0){
+    if (nrow(datj) > 0) {
       datj$A_gross <- datj$A_net - R_d_fit
-      if(nrow(datj) == 1){
+      if (nrow(datj) == 1) {
         #Calculates J_max based on one point
         J_fit <- 4 * datj$A_gross / datj$J_max_pred
         J_se <- NA
@@ -338,9 +315,8 @@ fit_aci_response <- function(data,
       J_max_SS <- 0
       J_se <- NA
     }
-    
     #Calculating V_TPU limitations
-    if(nrow(datp) == 1 && nrow(datj) == 0){
+    if (nrow(datp) == 1 && nrow(datj) == 0) {
       #Assign V_TPU a value of 1000 if there is only 1 assigned
       #point and no RuBP-limited points
       datp$A_gross <- datp$A_net - R_d_fit
@@ -354,7 +330,6 @@ fit_aci_response <- function(data,
       V_TPU_SS <- 0
       V_TPU_se <- NA
     }
-      
     #Calculates V_TPU limitations if there are at least 3 points
     #to ensure more reliable fit
     if(nrow(datp) > 2){
@@ -363,7 +338,6 @@ fit_aci_response <- function(data,
       V_TPU <- mean(V_TPU_vals)
       V_TPU_se <- sd(V_TPU_vals)/sqrt(length(V_TPU_vals))
     }
-    
     #If V_TPU is fit to be < 0, assign value of 1000. Avoids
     #strange issues.
     if(V_TPU < 0){
@@ -371,7 +345,6 @@ fit_aci_response <- function(data,
       V_TPU_SS <- 0
       V_TPU_se <- NA
     }
-    
     #Calculate rates of photosynthesis for each limitation state and sums of 
     #squares for model-wise cost function
     #CO2 limitations
@@ -390,10 +363,8 @@ fit_aci_response <- function(data,
     V_TPU_SS <- sum(datp$SS)
     #Calculate cost functions
     cost <- 1 / 2 * (V_cmax_SS + J_max_SS + V_TPU_SS)
-    
     #Bind calculated data
     datcomp <- rbind(datc, datj, datp)
-    
     #Add outputs to possible fits
     poss_fits$V_cmax[i] <- V_cmax_fit
     poss_fits$V_cmax_se[i] <- V_cmax_se
@@ -411,10 +382,8 @@ fit_aci_response <- function(data,
     poss_fits$citransition1[i] <- citransdf$ci1[i]
     poss_fits$citransition2[i] <- citransdf$ci2[i]
   }#End curve fitting of all possible C_i transitions
-  
   #Select fit with minimized cost function
   best_fits <- poss_fits[poss_fits$cost == min(poss_fits$cost), ]
-  
   #New segment for sensitivity analysis
   #Adds values for assumed constants to the output dataframe
   best_fits$alpha <- alpha
@@ -431,7 +400,6 @@ fit_aci_response <- function(data,
   best_fits$Ea_K_O <- Ea_K_O
   best_fits$Oconc <- Oconc
   best_fits$theta_J <- theta_J
-  
   #Calculate net photosynthetic rates
   data$A_carbox <- best_fits$V_cmax * data$C / 
     (data$C + K_M) * (1 - gamma_star / data$C) + best_fits$R_d
@@ -441,15 +409,12 @@ fit_aci_response <- function(data,
   data$A_tpu <- 3 * best_fits$V_TPU / 
     (1 - 0.5 * (1 + 3 * alpha_g) * (2 * gamma_star / data$C)) * 
     (1 - gamma_star / data$C) + best_fits$R_d
-  
   #Calculate gross photosynthetic rates
   data$W_carbox <- data$A_carbox - best_fits$R_d
   data$W_regen <- data$A_regen - best_fits$R_d
   data$W_tpu <- data$A_tpu - best_fits$R_d
-  
   #Create empty variable for modelled CO2 assimilation
   data$A_model <- rep(NA, nrow(data))
-  
   #To avoid issues with graphing and cases where W_j drops below W_c
   #at very low CO2, for the first few points, A_model is calculated
   #with W_c only - plantecophys took an approach where Aj was fixed
@@ -457,40 +422,37 @@ fit_aci_response <- function(data,
   for(i in 1:(best_fits$V_cmax_pts - 2)){
     data$A_model[i] <- data$W_carbox[i] + best_fits$R_d
   }
-  
   if(best_fits$V_TPU == 1000){
   for(i in (best_fits$V_cmax_pts - 1):nrow(data)){
     data$A_model[i] <- min(data$W_carbox[i], data$W_regen[i]) + best_fits$R_d
   }
   } else {
     for(i in (best_fits$V_cmax_pts - 1):nrow(data)){
-      data$A_model[i] <- min(data$W_carbox[i], data$W_regen[i], data$W_tpu[i]) + best_fits$R_d
+      data$A_model[i] <- min(data$W_carbox[i], data$W_regen[i],
+                             data$W_tpu[i]) + best_fits$R_d
     }
   }
-  
   #Assign best fit to output element 1
   outputs[[1]] <- best_fits
-  
   #Assign graph to output element 2
   outputs[[2]] <- ggplot(data, aes(x = C_i, y = A_model))+
-    scale_y_continuous(limits = c(min(c(data$A_model, data$A_net)) - 3, max(c(data$A_model, data$A_net)) + 3)) +
+    scale_y_continuous(limits = c(min(c(data$A_model, data$A_net)) - 3,
+                                  max(c(data$A_model, data$A_net)) + 3)) +
     geom_line(aes(color = "black"), size = 4)+
     geom_line(aes(y = A_carbox, color = "blue"), size = 2)+
     geom_line(aes(y = A_regen, color = "orange"), size = 2)+
     geom_line(aes(y = A_tpu, color = "red"), size = 2)+
-    geom_point(aes(y = A_net), color = "black", fill = "white", size = 2, shape = 21)+
+    geom_point(aes(y = A_net), color = "black", fill = "white", 
+               size = 2, shape = 21)+
     scale_color_manual(labels = c("Amod", "Ac", "Aj", "Ap", "Anet"),
                        values = c("black", "blue", "orange",
                                   "red", "white"))+
     theme_bw() +
     theme(legend.title = element_blank())
-  
   #Assign dataframe to output element 3
   outputs[[3]] <- data
-  
   #Add names to list output
   names(outputs) <- c("Fitted Parameters", "Plot", "Data")
-  
   #Return output list
   return(outputs)
 }#End function

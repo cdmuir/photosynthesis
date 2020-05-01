@@ -19,6 +19,6 @@
 aq_response <- function(k_sat, phi_J, Q_abs, theta_J) {
   k_net = ( (k_sat + phi_J * Q_abs) -
               sqrt( (k_sat + phi_J * Q_abs)^ 2 -
-                      4 * k_sat * phi_J * Q_abs * theta_J))/
+                      4 * k_sat * phi_J * Q_abs * theta_J)) /
     (2 * theta_J)
 }

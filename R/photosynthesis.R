@@ -249,7 +249,7 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
 
   if (!quiet) {
     glue::glue("\nSolving for photosynthetic rate from {n} parameter set{s}
-               ...", 
+               ...",
                n = nrow(par_sets), s = dplyr::if_else(length(par_sets) > 1,
                                                       "s", "")) %>%
       crayon::green() %>%

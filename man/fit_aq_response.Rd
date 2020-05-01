@@ -35,21 +35,18 @@ sum of squares (resid_SS). Note that Rd fitted in this way is essentially
 the same as the Kok method, and represents a respiration value in the 
 light that may not be accurate. Rd output should thus be interpreted more
 as a residual parameter to ensure an accurate fit of the light response
-parameters. Model originally from Marshall et al. 1980. 
-
-Marshall B, Biscoe P. 1980. A model for C3 leaves describing the
-dependence of net photosynthesis on irradiance. J Ex Bot 31:29-39
+parameters. Model originally from Marshall et al. 1980.
 }
 \description{
 Fitting light responses of net CO2 assimilation
 }
 \examples{
-\dontrun{
+\donttest{
 #Read in your data
 #Note that this data is coming from data supplied by the package
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
-data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
                              package = "plantecophystools"))
 
 #Fit many AQ curves
@@ -61,7 +58,7 @@ data$C_s <-(round(data$CO2_s, digits = 0))
 data$C_s <- as.factor(round(data$C_s, digits = -1))
 
 #To fit one AQ curve
-fit <- fit_aq_response(data[data$C_s == 600,],
+fit <- fit_aq_response(data[data$C_s == 600, ],
                        varnames = list(A_net = "A",
                                        PPFD = "Qin"))
 
@@ -97,13 +94,13 @@ fits[[3]][[3]]
 fits_graphs <- compile_data(fits,
                             list_element = 3)
 
-#Print graphs to pdf
-print_graphs(data = fits_graphs,
-             output_type = "pdf")
-
 #Compile parameters into dataframe for analysis
 fits_pars <- compile_data(fits,
                           output_type = "dataframe",
                           list_element = 2)
 }
+}
+\references{
+Marshall B, Biscoe P. 1980. A model for C3 leaves describing the
+dependence of net photosynthesis on irradiance. J Ex Bot 31:29-39
 }

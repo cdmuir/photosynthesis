@@ -14,7 +14,7 @@ NULL
 #'
 #' @inheritParams photosynthesis
 #'
-#' @return 
+#' @return
 #'
 #' \code{make_leafpar}: An object inheriting from class \code{\link{leaf_par}}\cr
 #' \code{make_enviropar}: An object inheriting from class \code{\link{enviro_par}}\cr
@@ -132,7 +132,7 @@ NULL
 #' Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic
 #' rate into contributions from different variables. Plant, Cell & Environment
 #' 38: 1200-11.
-#' 
+#'
 #' @examples
 #' bake_par <- make_bakepar()
 #' constants <- make_constants(use_tealeaves = FALSE)
@@ -255,7 +255,7 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
     par_equiv %>%
       dplyr::filter(.data$tl %in% names(replace)) %>%
       dplyr::transmute(message = stringr::str_c("\nIn `replace = list(...)`,
-             tealeaves parameter ", .data$tl, 
+             tealeaves parameter ", .data$tl,
              " is not replacable. Use ", .data$ph, " instead.")) %>%
       dplyr::pull(.data$message) %>%
       stringr::str_c(collapse = "\n") %>%

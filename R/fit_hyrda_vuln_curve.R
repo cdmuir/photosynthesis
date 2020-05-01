@@ -10,20 +10,20 @@
 #'
 #' @return fit_hydra_vuln_curve fits a sigmoidal function (Pammenter & Van der
 #' Willigen, 1998) linearized according to Ogle et al. (2009). Output is a list
-#' containing the sigmoidal model in element 1 and Weibull model in element 4, 
-#' the fit parameters with 95% confidence interval for both models are in 
-#' element 2, and hydraulic parameters in element 3 (including P25, P50, P88, 
-#' P95, S50, Pe, Pmax, DSI). Px (25 to 95): water potential at which x% of 
+#' containing the sigmoidal model in element 1 and Weibull model in element 4,
+#' the fit parameters with 95% confidence interval for both models are in
+#' element 2, and hydraulic parameters in element 3 (including P25, P50, P88,
+#' P95, S50, Pe, Pmax, DSI). Px (25 to 95): water potential at which x% of
 #' conductivity is lost. S50: slope at 50% loss of conductivity. Pe: air
 #' entry point. Pmax: hydraulic failure threshold. DSI: drought stress interval.
 #' Element 5 is a graph showing the fit, P50, Pe, and Pmax.
 #'
 #' @references
-#' Ogle K, Barber JJ, Willson C, Thompson B. 2009. Hierarchical statistical 
+#' Ogle K, Barber JJ, Willson C, Thompson B. 2009. Hierarchical statistical
 #' modeling of xylem vulnerability to cavitation. New Phytologist 182:541-554
 #'
-#' Pammenter NW, Van der Willigen CV. 1998. A mathematical and statistical 
-#' analysis of the curves illustrating vulnerability of xylem to cavitation. 
+#' Pammenter NW, Van der Willigen CV. 1998. A mathematical and statistical
+#' analysis of the curves illustrating vulnerability of xylem to cavitation.
 #' Tree Physiology 18:589-593
 #'
 #' @importFrom dplyr bind_rows
@@ -45,7 +45,7 @@
 #' @export
 #' @examples \donttest{
 #' #Read in data
-#' data <- read.csv(system.file("extdata", "hydraulic_vulnerability.csv", 
+#' data <- read.csv(system.file("extdata", "hydraulic_vulnerability.csv",
 #'                              package = "plantecophystools"))
 #'
 #' #Fit hydraulic vulnerability curve
@@ -55,19 +55,19 @@
 #'                             title = "Control 4")
 #'
 #' #Return Sigmoidal model summary
-#' summary(fit[[1]]) 
+#' summary(fit[[1]])
 #'
 #' #Return Weibull model summary
-#' summary(fit[[4]]) 
+#' summary(fit[[4]])
 #'
 #' #Return model parameters with 95% confidence intervals
-#' fit[[2]] 
+#' fit[[2]]
 #'
 #' #Return hydraulic parameters
-#' fit[[3]] 
+#' fit[[3]]
 #'
 #' #Return graph
-#' fit[[5]] 
+#' fit[[5]]
 #'
 #' #Fit many curves
 #' fits <- fit_many(data = data,
@@ -81,13 +81,13 @@
 #' summary(fits[[1]][[1]]) #Returns model summary
 #'
 #' #Return sigmoidal model output
-#' fits[[1]][[2]] 
+#' fits[[1]][[2]]
 #'
 #' #Return hydraulic parameters
-#' fits[[1]][[3]] 
+#' fits[[1]][[3]]
 #'
 #' #Return graph
-#' fits[[1]][[5]] 
+#' fits[[1]][[5]]
 #'
 #' #Compile parameter outputs
 #' pars <- compile_data(data = fits,
@@ -137,7 +137,7 @@ fit_hydra_vuln_curve <- function(data,
   fit_out[[3]] <- as.data.frame(rbind(1:8))
   #Add column names
   colnames(fit_out[[3]]) <- c("P25", "P50", "P88", "P95",
-                              "S50","Pe", "Pmax", "DSI")
+                              "S50", "Pe", "Pmax", "DSI")
   #Assign a and b values to minimize typing
   a <- fit_out[[2]]$Value[2]
   b <- fit_out[[2]]$Value[1]
@@ -147,8 +147,8 @@ fit_hydra_vuln_curve <- function(data,
   fit_out[[3]]$P88 <- log(1 / (0.88) - 1) / (a) + b
   fit_out[[3]]$P95 <- log(1 / (0.95) - 1) / (a) + b
   #To get slope, we need to take derivative of model and calculate at P50
-  dWpsi <- deriv(~ 100 / (1 + exp(a * (XX - b))), "XX")
   XX <- fit_out[[3]]$P50
+  dWpsi <- deriv(~ 100 / (1 + exp(a * (XX - b))), "XX")
   derivSoln <- eval(dWpsi)
   #This extracts the slope at P50
   fit_out[[3]]$S50 <- as.numeric(attributes(derivSoln)$gradient)
@@ -183,7 +183,7 @@ fit_hydra_vuln_curve <- function(data,
   fit_out[[5]] <- as.data.frame(rbind(1:8))
   #Add column names
   colnames(fit_out[[5]]) <- c("P25", "P50", "P88", "P95",
-                              "S50","Pe", "Pmax", "DSI")
+                              "S50", "Pe", "Pmax", "DSI")
   #Assign a and b values to minimize typing
   a <- fit_out[[2]]$Value[4]
   b <- fit_out[[2]]$Value[3]
@@ -234,14 +234,14 @@ fit_hydra_vuln_curve <- function(data,
                colour = "Orange",
                linetype = "dashed") +
     geom_smooth(method = "lm", aes(x = psi, y = PLC,
-                                   colour = "Blue"), show.legend = TRUE, 
+                                   colour = "Blue"), show.legend = TRUE,
                 formula = y ~ I(100 /
                                   (1 + exp(fit_out[[2]]$Value[2] *
                                              (x - fit_out[[2]]$Value[1])))),
-                size = 2) + 
+                size = 2) +
     geom_smooth(method = "lm", aes(x = psi, y = PLC,
                                    colour = "DarkOrange"), show.legend = TRUE,
-                formula = y ~ 
+                formula = y ~
                   I((1 - exp(- ((x / fit_out[[2]]$Value[4]) ^
                                   fit_out[[2]]$Value[3]))) * 100),
                 size = 2) +
@@ -249,10 +249,10 @@ fit_hydra_vuln_curve <- function(data,
     labs(y = "PLC (%)", x = "Water Potential (-MPa)") +
     scale_colour_manual(values = c("Black", "Blue", "Orange"),
                         labels = c("Data", "Sigmoidal", "Weibull")) +
-    annotate("text", label = "Left to Right: 
+    annotate("text", label = "Left to Right:
              Pe > P50 > Pmax",
              x = 0.5, y = 75) +
-    theme_bw() + 
+    theme_bw() +
     theme(legend.position = "bottom",
           legend.title = element_blank())
   #Assign names to elements in the output list

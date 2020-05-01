@@ -215,7 +215,7 @@ temperature dependence of enzyme catalyzed rates. ACS Chemical
 Biology 8:2388-2393.
 
 Kruse J, Adams MA. 2008. Three parameters comprehensively describe
-the temperature response of respiratory oxygen reduction. Plant 
+the temperature response of respiratory oxygen reduction. Plant
 Cell Environ 31:954-967
 
 Liang LL, Arcus VL, Heskel MA, O'Sullivan OS, Weerasinghe LK,

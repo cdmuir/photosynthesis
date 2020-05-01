@@ -32,16 +32,16 @@ fit_r_light_yin(
 
 \item{varnames}{List of variable names}
 
-\item{PPFD_lower}{Lower light intensity limit for estimating Rlight 
+\item{PPFD_lower}{Lower light intensity limit for estimating Rlight
 (Kok & Yin)}
 
-\item{PPFD_upper}{Upper light intensity limit for estimating Rlight 
+\item{PPFD_upper}{Upper light intensity limit for estimating Rlight
 (Kok & Yin)}
 
 \item{P}{Atmospheric pressure in kPa (Walker & Ort, 2015)}
 
 \item{C_i_threshold}{Threshold C_i (in umol mol-1) to cut data to
-linear region for fitting light respiration and GammaStar 
+linear region for fitting light respiration and gamma_star
 (Walker & Ort, 2015)}
 }
 \value{
@@ -67,7 +67,7 @@ however, that the convention in the field is to completely ignore this note.
 
 fit_r_light_yin estimates light respiration according
 to the Yin et al. (2009, 2011) modifications of the Kok
-method. The modification uses fluorescence data to get a 
+method. The modification uses fluorescence data to get a
 better estimate of light respiration. Note that respiration
 output should be negative here to denote an efflux of CO2.
 }
@@ -142,15 +142,15 @@ CO2 photocompensation point resolves the impact of multiple internal
 conductances to CO2 to net gas exchange. Plant Cell Environ 38:2462-
 2474
 
-Yin X, Struik PC, Romero P, Harbinson J, Evers JB, van der Putten 
+Yin X, Struik PC, Romero P, Harbinson J, Evers JB, van der Putten
 PEL, Vos J. 2009. Using combined measurements of gas exchange and
 chlorophyll fluorescence to estimate parameters of a biochemical C3
-photosynthesis model: a critical appraisal and a new integrated 
-approach applied to leaves in a wheat (Triticum aestivum) canopy. 
+photosynthesis model: a critical appraisal and a new integrated
+approach applied to leaves in a wheat (Triticum aestivum) canopy.
 Plant Cell Environ 32:448-464
 
-Yin X, Sun Z, Struik PC, Gu J. 2011. Evaluating a new method to 
+Yin X, Sun Z, Struik PC, Gu J. 2011. Evaluating a new method to
 estimate the rate of leaf respiration in the light by analysis of
-combined gas exchange and chlorophyll fluorescence measurements. 
+combined gas exchange and chlorophyll fluorescence measurements.
 Journal of Experimental Botany 62: 3489–3499
 }

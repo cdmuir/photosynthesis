@@ -16,9 +16,9 @@
 #'
 #' @rdname j_calculations
 #' @export
-calculate_jmax <- function(PPFD, 
-                           alpha, 
-                           J, 
+calculate_jmax <- function(PPFD,
+                           alpha,
+                           J,
                            theta_J) {
   J * (J * theta_J - alpha * PPFD) / (J - alpha * PPFD)
 }

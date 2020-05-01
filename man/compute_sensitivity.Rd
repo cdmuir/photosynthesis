@@ -32,12 +32,12 @@ modeling process.
 Computing measures of sensitivity
 }
 \examples{
-\dontrun{
+\donttest{
 #Read in your data
 #Note that this data is coming from data supplied by the package
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
-data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
                              package = "plantecophystools"))
 
 #Define a grouping factor based on light intensity to split the ACi
@@ -85,7 +85,7 @@ physiology by environment interactions: a sensitivity analysis of variation
 in climate on photosynthetic and stomatal parameters. Climate Dynamics 42:
 2539-2554.
 
-Capaldo KP, Pandis SN 1997. Dimethylsulfide chemistry in the remote marine 
-atmosphere: evaluation and sensitivity analysis of available mechanisms. 
+Capaldo KP, Pandis SN 1997. Dimethylsulfide chemistry in the remote marine
+atmosphere: evaluation and sensitivity analysis of available mechanisms.
 J Geophys Res 102:23251-23267
 }

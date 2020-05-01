@@ -14,9 +14,9 @@ fit_PV_curve(
 \arguments{
 \item{data}{Dataframe}
 
-\item{varnames}{Variable names. varnames = list(psi = "psi", mass = 
-"mass", leaf_mass = "leaf_mass", bag_mass = "bag_mass", leaf_area = 
-"leaf_area") where psi is leaf water potential in MPa, mass is the 
+\item{varnames}{Variable names. varnames = list(psi = "psi", mass =
+"mass", leaf_mass = "leaf_mass", bag_mass = "bag_mass", leaf_area =
+"leaf_area") where psi is leaf water potential in MPa, mass is the
 weighed mass of the bag and leaf in g, leaf_mass is the mass of the
 leaf in g, bag_mass is the mass of the bag in g, and leaf_area is
 the area of the leaf in cm2.}
@@ -26,7 +26,7 @@ the area of the leaf in cm2.}
 \value{
 fit_PV_curve fits pressure-volume curve data to determine:
 SWC: saturated water content per leaf mass (g H2O g leaf dry mass ^ -1),
-PI_o: osmotic potential at full turgor (MPa), psi_TLP: leaf water 
+PI_o: osmotic potential at full turgor (MPa), psi_TLP: leaf water
 potential at turgor loss point (TLP) (MPa), RWC_TLP: relative water
 content at TLP (%), eps: modulus of elasticity at full turgor (MPa),
 C_FT: relative capacitance at full turgor (MPa ^ -1), C_TLP: relative
@@ -46,10 +46,10 @@ data <- read.csv(system.file("extdata", "PV_curve.csv",
 
 #Fit one PV curve
 fit <- fit_PV_curve(data[data$ID == "L2", ],
-                    varnames = list(psi = "psi", 
-                                    mass = "mass", 
-                                    leaf_mass = "leaf_mass", 
-                                    bag_mass = "bag_mass", 
+                    varnames = list(psi = "psi",
+                                    mass = "mass",
+                                    leaf_mass = "leaf_mass",
+                                    bag_mass = "bag_mass",
                                     leaf_area = "leaf_area"))
 
 #See fitted parameters
@@ -65,10 +65,10 @@ fit[[3]]
 fits <- fit_many(data,
                  group = "ID",
                  funct = fit_PV_curve,
-                 varnames = list(psi = "psi", 
-                                 mass = "mass", 
-                                 leaf_mass = "leaf_mass", 
-                                 bag_mass = "bag_mass", 
+                 varnames = list(psi = "psi",
+                                 mass = "mass",
+                                 leaf_mass = "leaf_mass",
+                                 bag_mass = "bag_mass",
                                  leaf_area = "leaf_area"))
 
 #See parameters
@@ -97,16 +97,16 @@ graphs2 <- compile_data(data = fits,
 }
 }
 \references{
-Koide RT, Robichaux RH, Morse SR, Smith CM. 2000. Plant water status, 
-hydraulic resistance and capacitance. In: Plant Physiological Ecology: 
+Koide RT, Robichaux RH, Morse SR, Smith CM. 2000. Plant water status,
+hydraulic resistance and capacitance. In: Plant Physiological Ecology:
 Field Methods and Instrumentation (eds RW Pearcy, JR Ehleringer, HA
 Mooney, PW Rundel), pp. 161-183. Kluwer, Dordrecht, the Netherlands
 
-Sack L, Cowan PD, Jaikumar N, Holbrook NM. 2003. The 'hydrology' of 
-leaves: co-ordination of structure and function in temperate woody 
+Sack L, Cowan PD, Jaikumar N, Holbrook NM. 2003. The 'hydrology' of
+leaves: co-ordination of structure and function in temperate woody
 species. Plant, Cell and Environment, 26, 1343-1356
 
-Tyree MT, Hammel HT. 1972. Measurement of turgor pressure and water 
-relations of plants by pressure bomb technique. Journal of Experimental 
+Tyree MT, Hammel HT. 1972. Measurement of turgor pressure and water
+relations of plants by pressure bomb technique. Journal of Experimental
 Botany, 23, 267
 }

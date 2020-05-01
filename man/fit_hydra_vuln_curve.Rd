@@ -26,10 +26,10 @@ for the Weibull curve}
 \value{
 fit_hydra_vuln_curve fits a sigmoidal function (Pammenter & Van der
 Willigen, 1998) linearized according to Ogle et al. (2009). Output is a list
-containing the sigmoidal model in element 1 and Weibull model in element 4, 
-the fit parameters with 95% confidence interval for both models are in 
-element 2, and hydraulic parameters in element 3 (including P25, P50, P88, 
-P95, S50, Pe, Pmax, DSI). Px (25 to 95): water potential at which x% of 
+containing the sigmoidal model in element 1 and Weibull model in element 4,
+the fit parameters with 95% confidence interval for both models are in
+element 2, and hydraulic parameters in element 3 (including P25, P50, P88,
+P95, S50, Pe, Pmax, DSI). Px (25 to 95): water potential at which x% of
 conductivity is lost. S50: slope at 50% loss of conductivity. Pe: air
 entry point. Pmax: hydraulic failure threshold. DSI: drought stress interval.
 Element 5 is a graph showing the fit, P50, Pe, and Pmax.
@@ -40,7 +40,7 @@ Fitting hydraulic vulnerability curves
 \examples{
 \donttest{
 #Read in data
-data <- read.csv(system.file("extdata", "hydraulic_vulnerability.csv", 
+data <- read.csv(system.file("extdata", "hydraulic_vulnerability.csv",
                              package = "plantecophystools"))
 
 #Fit hydraulic vulnerability curve
@@ -50,19 +50,19 @@ fit <- fit_hydra_vuln_curve(data[data$Tree == 4 & data$Plot == "Control",],
                             title = "Control 4")
 
 #Return Sigmoidal model summary
-summary(fit[[1]]) 
+summary(fit[[1]])
 
 #Return Weibull model summary
-summary(fit[[4]]) 
+summary(fit[[4]])
 
 #Return model parameters with 95\% confidence intervals
-fit[[2]] 
+fit[[2]]
 
 #Return hydraulic parameters
-fit[[3]] 
+fit[[3]]
 
 #Return graph
-fit[[5]] 
+fit[[5]]
 
 #Fit many curves
 fits <- fit_many(data = data,
@@ -76,13 +76,13 @@ fits <- fit_many(data = data,
 summary(fits[[1]][[1]]) #Returns model summary
 
 #Return sigmoidal model output
-fits[[1]][[2]] 
+fits[[1]][[2]]
 
 #Return hydraulic parameters
-fits[[1]][[3]] 
+fits[[1]][[3]]
 
 #Return graph
-fits[[1]][[5]] 
+fits[[1]][[5]]
 
 #Compile parameter outputs
 pars <- compile_data(data = fits,
@@ -96,10 +96,10 @@ graphs <- compile_data(data = fits,
 }
 }
 \references{
-Ogle K, Barber JJ, Willson C, Thompson B. 2009. Hierarchical statistical 
+Ogle K, Barber JJ, Willson C, Thompson B. 2009. Hierarchical statistical
 modeling of xylem vulnerability to cavitation. New Phytologist 182:541-554
 
-Pammenter NW, Van der Willigen CV. 1998. A mathematical and statistical 
-analysis of the curves illustrating vulnerability of xylem to cavitation. 
+Pammenter NW, Van der Willigen CV. 1998. A mathematical and statistical
+analysis of the curves illustrating vulnerability of xylem to cavitation.
 Tree Physiology 18:589-593
 }

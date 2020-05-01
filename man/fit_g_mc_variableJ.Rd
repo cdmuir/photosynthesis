@@ -43,22 +43,17 @@ fit_g_mc_variableJ fits mesophyll conductance according
 to Harley et al. 1992. It also tests the reliability of the
 calculation and calculates a mean with only reliable values.
 Note that the output is in units of umol m-2 s-1 Pa-1.
-
-Harley PC, Loreto F, Di Marco G, Sharkey TD. 1992. Theoretical
-considerations when estimating mesophyll conductance to CO2 flux
-by analysis of the response of photosynthesis to CO2. Plant Physiol
-98:1429 - 1436.
 }
 \description{
 Fitting mesophyll conductance with the variable J method
 }
 \examples{
-\dontrun{
+\donttest{
 #Read in your data
 #Note that this data is coming from data supplied by the package
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
-data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
                              package = "plantecophystools"))
 
 #Note: there will be issues here if the alpha value used
@@ -94,4 +89,10 @@ ggplot(data, aes(x = CO2_s, y = dCcdA, colour = reliable)) +
   theme_bw() +
   theme(legend.position = 'bottom')
 }
+}
+\references{
+Harley PC, Loreto F, Di Marco G, Sharkey TD. 1992. Theoretical
+considerations when estimating mesophyll conductance to CO2 flux
+by analysis of the response of photosynthesis to CO2. Plant Physiol
+98:1429 - 1436.
 }

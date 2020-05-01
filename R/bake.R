@@ -14,11 +14,14 @@ NULL
 #' @inheritParams photosynthesis
 #' @inheritParams A_supply
 #'
-#' @description 
+#' @description
 #'
-#' Constructor function for \code{baked} class. This will also inherit class \code{\link{leaf_par}}. This function ensures that temperature is "baked in" to leaf parameter calculations \code{T_leaf} using temperature response functions detailed below. 
+#' Constructor function for \code{baked} class. This will also inherit class
+#' \code{\link{leaf_par}}. This function ensures that temperature is "baked in"
+#' to leaf parameter calculations \code{T_leaf} using temperature response
+#' functions detailed below.
 #'
-#' @details 
+#' @details
 #'
 #' Several leaf parameters (\code{\link{leaf_par}}) are temperature sensitive. Temperature-sensitive parameters are input at a reference temperature of 25 °C. These parameters are provided as \code{par_name25} and then "baked" using the appropriate temperature response function and parameters in \code{\link{bake_par}}. The "baked" parameter will have the name without "25" apprended (\code{par_name}). E.g. \code{V_cmax25} becomes \code{V_cmax}. \cr
 #' \cr
@@ -39,7 +42,7 @@ NULL
 #'
 #' @encoding UTF-8
 #'
-#' @references 
+#' @references
 #'
 #' Bernacchi CJ, Portis AR, Nakano H, von Caemmerer S, Long SP. 2002. Temperature response of mesophyll conductance. Implications for the determination of Rubisco enzyme kinetics and for limitations to photosynthesis in vivo. Plant Physiology 130: 1992-8.
 #'
@@ -68,10 +71,10 @@ bake <- function(leaf_par, bake_par, constants, set_units = TRUE) {
     purrr::map_if(~ inherits(.x, "units"), drop_units)
   T_ref <- 298.15
 
-  leaf_par$g_mc <- temp_resp2(pars$g_mc25, pars$Ds_gmc, pars$Ea_gmc, 
-                              pars$Ed_gmc, pars$R, pars$T_leaf, T_ref, 
+  leaf_par$g_mc <- temp_resp2(pars$g_mc25, pars$Ds_gmc, pars$Ea_gmc,
+                              pars$Ed_gmc, pars$R, pars$T_leaf, T_ref,
                               unitless = TRUE)
-  leaf_par$gamma_star <- temp_resp1(pars$gamma_star25, pars$Ea_gammastar, 
+  leaf_par$gamma_star <- temp_resp1(pars$gamma_star25, pars$Ea_gammastar,
                                     pars$R, pars$T_leaf, T_ref, unitless = TRUE)
   leaf_par$J_max <- temp_resp2(pars$J_max25, pars$Ds_Jmax, pars$Ea_Jmax, 
                                pars$Ed_Jmax, pars$R, pars$T_leaf, T_ref, 

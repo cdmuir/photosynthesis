@@ -105,7 +105,8 @@ the Arrhenius temperature response function.}
 \item{Oconc}{O2 concentration in %. Used with P to calculate 
 intracellular O2 when using K_C_K_O}
 
-\item{gamma_star_set}{Value of gamma_star to use (in ppm) if usegamma_star = TRUE}
+\item{gamma_star_set}{Value of gamma_star to use (in ppm) if
+usegamma_star = TRUE}
 
 \item{K_M_set}{Value of K_M to use if useK_M = TRUE}
 
@@ -117,34 +118,17 @@ Gu et al. 2010. Iterates all possible C_i transition points and checks for
 inadmissable curve fits. If no curves are admissable (either due to poor data
 or poor assumed parameters), the output will include a dataframe of NA values.
 Default parameters are all from Bernacchi et al. 2001, 2002.
-
-References
-Bernacchi CJ, Singsaas EL, Pimentel C, Portis AR, Long SP. 2001. Improved
-temperature response functions for models of rubisco-limited photosynthesis.
-Plant Cell Environment 24:253-259.
-
-Bernacchi CJ, Portis AR, Nakano H, von Caemmerer S, Long SP. 2002. Temperature
-response of mesophyll conductance. Implications for the determination of rubisco
-enzyme kinetics and for limitations to photosynthesis in vivo. Plant Physiology
-130:1992-1998.
-
-Gu L, Pallardy SG, Tu K, Law BE, Wullschleger SD. 2010. Reliable estimation
-of biochemical parameters from C3 leaf photosynthesis-intercellular carbon
-dioxide response curves. Plant Cell Environment 33:1852-1874.
-
-von Caemmerer S. 2000. Biochemical models of leaf photosynthesis. CSIRO
-Publishing, Collingwood.
 }
 \description{
 Fitting ACi curves
 }
 \examples{
-\dontrun{
+\donttest{
 #Read in your data
 #Note that this data is coming from data supplied by the package
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
-data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
                              package = "plantecophystools"))
 
 #Define a grouping factor based on light intensity to split the ACi
@@ -189,14 +173,27 @@ fits[[3]][[2]]
 fits_graphs <- compile_data(fits,
                             list_element = 2)
 
-#Print graphs to pdf
-print_graphs(data = fits_graphs,
-             output_type = "pdf")
-
 #Compile parameters into dataframe for analysis
 fits_pars <- compile_data(fits,
                           output_type = "dataframe",
                           list_element = 1)
 
 }
+}
+\references{
+Bernacchi CJ, Singsaas EL, Pimentel C, Portis AR, Long SP. 2001. Improved
+temperature response functions for models of rubisco-limited photosynthesis.
+Plant Cell Environment 24:253-259.
+
+Bernacchi CJ, Portis AR, Nakano H, von Caemmerer S, Long SP. 2002. Temperature
+response of mesophyll conductance. Implications for the determination of rubisco
+enzyme kinetics and for limitations to photosynthesis in vivo. Plant Physiology
+130:1992-1998.
+
+Gu L, Pallardy SG, Tu K, Law BE, Wullschleger SD. 2010. Reliable estimation
+of biochemical parameters from C3 leaf photosynthesis-intercellular carbon
+dioxide response curves. Plant Cell Environment 33:1852-1874.
+
+von Caemmerer S. 2000. Biochemical models of leaf photosynthesis. CSIRO
+Publishing, Collingwood.
 }

@@ -26,11 +26,11 @@
 #'
 #' @references
 #'
-#' Ball JT, Woodrow IE, Berry JA. 1987. A model predicting stomatal 
+#' Ball JT, Woodrow IE, Berry JA. 1987. A model predicting stomatal
 #' conductance and its contribution to the control of photosynthesis
-#' under different environmental conditions, in Progress in 
-#' Photosynthesis Research, Proceedings of the VII International 
-#' Congress on Photosynthesis, vol. 4, edited by I. Biggins, pp. 
+#' under different environmental conditions, in Progress in
+#' Photosynthesis Research, Proceedings of the VII International
+#' Congress on Photosynthesis, vol. 4, edited by I. Biggins, pp.
 #' 221–224, Martinus Nijhoff, Dordrecht, Netherlands.
 #'
 #' Leuning R. 1995. A critical appraisal of a coupled stomatal-
@@ -38,7 +38,7 @@
 #'
 #' Medlyn BE, Duursma RA, Eamus D, Ellsworth DS, Prentice IC, Barton
 #' CVM, Crous KY, Angelis PD, Freeman M, Wingate L. 2011. Reconciling
-#' the optimal and empirical approaches to modelling stomatal 
+#' the optimal and empirical approaches to modelling stomatal
 #' conductance. Glob Chang Biol 17:2134-2144
 #'
 #' @rdname gs_models

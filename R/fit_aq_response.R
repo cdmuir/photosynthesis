@@ -18,47 +18,48 @@
 #' light that may not be accurate. Rd output should thus be interpreted more
 #' as a residual parameter to ensure an accurate fit of the light response
 #' parameters. Model originally from Marshall et al. 1980. 
-#' 
+#'
+#' @references
 #' Marshall B, Biscoe P. 1980. A model for C3 leaves describing the
 #' dependence of net photosynthesis on irradiance. J Ex Bot 31:29-39
-#' 
+#'
 #' @importFrom ggplot2 ggplot
 #' @importFrom minpack.lm nlsLM
 #' @importFrom minpack.lm nls.lm.control
 #' @importFrom stats coef
 #' @importFrom stats resid
 #' @export
-#' 
-#' @examples \dontrun{
+#'
+#' @examples \donttest{
 #' #Read in your data
 #' #Note that this data is coming from data supplied by the package
 #' #hence the complicated argument in read.csv()
 #' #This dataset is a CO2 by light response curve for a single sunflower
-#' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
+#' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
 #'                              package = "plantecophystools"))
-#' 
+#'
 #' #Fit many AQ curves
 #' #Set your grouping variable
 #' #Here we are grouping by CO2_s and individual
 #' data$C_s <-(round(data$CO2_s, digits = 0))
-#' 
+#'
 #' #For this example we need to round sequentially due to CO2_s setpoints
 #' data$C_s <- as.factor(round(data$C_s, digits = -1))
-#' 
+#'
 #' #To fit one AQ curve
-#' fit <- fit_aq_response(data[data$C_s == 600,],
+#' fit <- fit_aq_response(data[data$C_s == 600, ],
 #'                        varnames = list(A_net = "A",
 #'                                        PPFD = "Qin"))
-#' 
+#'
 #' #Print model summary
 #' summary(fit[[1]])
-#' 
+#'
 #' #Print fitted parameters
 #' fit[[2]]
-#' 
+#'
 #' #Print graph
 #' fit[[3]]
-#' 
+#'
 #' #Fit many curves
 #' fits <- fit_many(data = data,
 #'                  varnames = list(A_net = "A",
@@ -66,26 +67,22 @@
 #'                                  group = "C_s"),
 #'                  funct = fit_aq_response,
 #'                  group = "C_s")
-#' 
+#'
 #' #Look at model summary for a given fit
 #' #First set of double parentheses selects an individual group value
 #' #Second set selects an element of the sublist
 #' summary(fits[[3]][[1]])
-#' 
+#'
 #' #Print the parameters
 #' fits[[3]][[2]]
-#' 
+#'
 #' #Print the graph
 #' fits[[3]][[3]]
-#' 
+#'
 #' #Compile graphs into a list for plotting
 #' fits_graphs <- compile_data(fits,
 #'                             list_element = 3)
-#' 
-#' #Print graphs to pdf
-#' print_graphs(data = fits_graphs,
-#'              output_type = "pdf")
-#' 
+#'
 #' #Compile parameters into dataframe for analysis
 #' fits_pars <- compile_data(fits,
 #'                           output_type = "dataframe",
@@ -96,14 +93,12 @@ fit_aq_response <- function(data,
                                             PPFD = "PPFD"),
                             usealpha_Q = FALSE,
                             alpha_Q = 0.84,
-                            title = NULL){
+                            title = NULL) {
   #Locally bind variables - avoids notes on check package
   A_net <- NULL
   Q_abs <- NULL
-  
   #Set variable names
   data$A_net <- data[, varnames$A_net]
-  
   #Set light intensity dependent on whether it is incident or
   #absorbed that you want the variables on
   if(usealpha_Q){
@@ -111,10 +106,8 @@ fit_aq_response <- function(data,
   } else {
     data$Q_abs <- data[, varnames$PPFD]
   }
-  
   #Create empty list for outputs
   output <- list(NULL)
-  
   #Fit AQ response model using nlsLM - this function is more
   #robust (i.e. successful) than regular nls
   output[[1]] <- nlsLM(data = data, A_net ~ aq_response(k_sat,
@@ -123,9 +116,13 @@ fit_aq_response <- function(data,
                                                         theta_J) - Rd,
                        #Attempt to estimate starting parameters
                        start = list(k_sat = max(data$A_net),
-                                    phi_J = coef(lm(A_net ~ Q_abs, data[data$Q_abs < 300,]))[2],
+                                    phi_J = coef(lm(A_net ~ Q_abs,
+                                                    data[data$Q_abs <
+                                                           300,]))[2],
                                     theta_J = 0.85,
-                                    Rd = -coef(lm(A_net ~ Q_abs, data[data$Q_abs < 300,]))[1]),
+                                    Rd = -coef(lm(A_net ~ Q_abs,
+                                                  data[data$Q_abs <
+                                                         300,]))[1]),
                        #Set lower limits
                        lower = c(min(data$A_net),
                                  0,
@@ -138,21 +135,20 @@ fit_aq_response <- function(data,
                                  max(abs(data$A_net))),
                        #set max iterations for curve fitting
                        control = nls.lm.control(maxiter = 100))
-  
   #Prepare output dataframe and extract coefficients
   fitted_pars <- NULL
   fitted_pars$A_sat <- coef(output[[1]])[1]
   fitted_pars$phi_J <- coef(output[[1]])[2]
   fitted_pars$theta_J <- coef(output[[1]])[3]
   fitted_pars$Rd <- coef(output[[1]])[4]
-  fitted_pars$LCP <- ( (coef(output[[1]])[4]) * (coef(output[[1]])[4] * coef(output[[1]])[3] -
-                                                   coef(output[[1]])[1]) / 
-                         (coef(output[[1]])[2] * (coef(output[[1]])[4] - coef(output[[1]])[1])))
+  fitted_pars$LCP <- ( (coef(output[[1]])[4]) *
+                         (coef(output[[1]])[4] * coef(output[[1]])[3] -
+                                                   coef(output[[1]])[1]) /
+                         (coef(output[[1]])[2] * (coef(output[[1]])[4] -
+                                                    coef(output[[1]])[1])))
   fitted_pars$resid_SSs <- sum(resid(output[[1]]) ^ 2)
-  
   #Add fitted parameters to output
   output[[2]] <- as.data.frame(do.call("cbind", fitted_pars))
-  
   #Create graph
   output[[3]] <- ggplot(data, aes(x = Q_abs, y = A_net))+
     #Add axis labels
@@ -166,17 +162,15 @@ fit_aq_response <- function(data,
                 formula = y ~ I(aq_response(k_sat = output[[2]]$A_sat[1],
                                             phi_J = output[[2]]$phi_J[1],
                                             Q_abs = x,
-                                            theta_J = output[[2]]$theta_J[1]) - 
+                                            theta_J = output[[2]]$theta_J[1]) -
                                   output[[2]]$Rd[1]),
                 size = 2) +
     #Add points
     geom_point(size = 2) +
     #Use clean theme
     theme_bw()
-  
   #Name outputs
   names(output) <- c("Model", "Parameters", "Graph")
-  
   #Return list of outputs
   return(output)
 }
