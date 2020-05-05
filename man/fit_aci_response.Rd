@@ -6,8 +6,8 @@
 \usage{
 fit_aci_response(
   data,
-  varnames = list(A_net = "A_net", Tleaf = "Tleaf", C_i = "C_i", PPFD = "PPFD", g_mc =
-    "g_mc"),
+  varnames = list(A_net = "A_net", T_leaf = "T_leaf", C_i = "C_i", PPFD = "PPFD", g_mc
+    = "g_mc"),
   P = 100,
   fitTPU = TRUE,
   alpha_g = 0,
@@ -40,8 +40,8 @@ fit_aci_response(
 \item{data}{Dataframe for A-Ci curve fitting}
 
 \item{varnames}{List of variable names. varnames = list(A_net = "A_net", 
-Tleaf = "Tleaf", C_i = "C_i", PPFD = "PPFD", g_mc = "g_mc"), where A_net
-is net CO2 assimilation, Tleaf is leaf temperature in Celsius, C_i is 
+T_leaf = "T_leaf", C_i = "C_i", PPFD = "PPFD", g_mc = "g_mc"), where A_net
+is net CO2 assimilation, T_leaf is leaf temperature in Celsius, C_i is 
 intercellular CO2 concentration in umol/mol, PPFD is incident irradiance
 in umol m-2 s-1 (note that it is ASSUMED to be absorbed irradiance, so be
 sure to adjust according to light absorbance and PSI/PSII partitioning
@@ -129,17 +129,20 @@ Fitting ACi curves
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Define a grouping factor based on light intensity to split the ACi
 #curves
 data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
 
+#Convert leaf temperature to K
+data$T_leaf <- data$Tleaf + 273.15
+
 #Fit ACi curve. Note that we are subsetting the dataframe
 #here to fit for a single value of Q_2
 fit <- fit_aci_response(data[data$Q_2 == 1500, ],
                         varnames = list(A_net = "A",
-                                        Tleaf = "Tleaf",
+                                        T_leaf = "T_leaf",
                                         C_i = "Ci",
                                         PPFD = "Qin"))
 
@@ -155,7 +158,7 @@ fit[[3]]
 #Fit many curves
 fits <- fit_many(data = data,
                  varnames = list(A_net = "A",
-                                 Tleaf = "Tleaf",
+                                 T_leaf = "T_leaf",
                                  C_i = "Ci",
                                  PPFD = "Qin"),
                  funct = fit_aci_response,

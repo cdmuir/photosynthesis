@@ -9,7 +9,7 @@
 #' @importFrom pkgnet CreatePackageReport
 #' @export
 #'
-#' @examples \dontrun{
+#' @examples \donttest{
 #' check_dependencies()
 #' }
 check_dependencies <- function() {

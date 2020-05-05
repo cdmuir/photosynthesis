@@ -47,7 +47,7 @@ Fitting light responses of net CO2 assimilation
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Fit many AQ curves
 #Set your grouping variable

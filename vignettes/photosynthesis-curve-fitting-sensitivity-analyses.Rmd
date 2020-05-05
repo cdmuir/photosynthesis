@@ -4,7 +4,7 @@ author: "Joseph R. Stinziano"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 vignette: >
- %\VignetteIndexEntry{Vignette Title}
+ %\VignetteIndexEntry{photosynthesis-curve-fitting-sensitivity-analyses}
  %\VignetteEngine{knitr::rmarkdown}
  %\VignetteEncoding{UTF-8}
 ---
@@ -77,6 +77,9 @@ library(photosynthesis)
 
 #To cite, use:
 citation("photosynthesis")
+
+#Load tidyr - needed for vignette manipulations
+library(tidyr)
 
 ```
 
@@ -156,10 +159,10 @@ fits[[3]][[3]]
 fits_graphs <- compile_data(fits,
                             list_element = 3)
 
-#Print graphs to pdf.
-print_graphs(data = fits_graphs,
-             path = tempdir(),
-             output_type = "jpeg")
+#Print graphs to jpeg
+#print_graphs(data = fits_graphs,
+#             path = tempdir(),
+#             output_type = "jpeg")
 
 #Compile parameters into dataframe for analysis
 fits_pars <- compile_data(fits,
@@ -190,11 +193,14 @@ data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
 #curves
 data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
 
+#Convert data temperature to K
+data$T_leaf <- data$Tleaf + 273.15
+
 #Fit ACi curve. Note that we are subsetting the dataframe
 #here to fit for a single value of Q_2
 fit <- fit_aci_response(data[data$Q_2 == 1500, ],
                         varnames = list(A_net = "A",
-                                      Tleaf = "Tleaf",
+                                      T_leaf = "T_leaf",
                                       C_i = "Ci",
                                       PPFD = "Qin"))
 
@@ -210,7 +216,7 @@ fit[[2]]
 #Fit many curves
 fits <- fit_many(data = data,
                  varnames = list(A_net = "A",
-                                      Tleaf = "Tleaf",
+                                      T_leaf = "T_leaf",
                                       C_i = "Ci",
                                       PPFD = "Qin"),
                  funct = fit_aci_response,
@@ -229,10 +235,10 @@ fits_graphs <- compile_data(fits,
                             list_element = 2)
 
 #Print graphs to pdf.
-print_graphs(data = fits_graphs,
-             path = tempdir(),
-             output_type = "pdf",
-             pdf_filename = "mygraphs.pdf")
+#print_graphs(data = fits_graphs,
+#             path = tempdir(),
+#             output_type = "pdf",
+#             pdf_filename = "mygraphs.pdf")
 
 #Compile parameters into dataframe for analysis
 fits_pars <- compile_data(fits,
@@ -313,12 +319,15 @@ unique(data$Curve_Tleaf)
 data <- unite(data, col = "ID2", c("ID", "Curve_Tleaf"),
                  sep = "_")
 
+#Convert data temperature to K
+data$T_leaf <- data$Tleaf + 273.15
+
 #Fit many CO2 response curves
 fits2 <- fit_many(data = data,
                  group = "ID2",
                  varnames = list(A_net = "A",
                                  C_i = "Ci",
-                                 Tleaf = "Tleaf",
+                                 T_leaf = "T_leaf",
                                  PPFD = "Qin",
                                  g_mc = "g_mc"),
                  funct = fit_aci_response,
@@ -337,34 +346,19 @@ pars <- separate(pars, col = "ID", into = c("ID", "Curve_Tleaf"), sep = "_")
 
 #Make sure curve leaf temperature is numeric
 pars$Curve_Tleaf <- as.numeric(pars$Curve_Tleaf)
+pars$T_leaf <- pars$Curve_Tleaf + 273.15
+out <- fit_t_response(data = pars[pars$ID == "S2",],
+                      varnames = list(Par = "V_cmax",
+                                      T_leaf = "T_leaf"),
+                      setvar = "Hd")
 
-#Fit regular Arrhenius curve
-out <- fit_t_response_arrhenius(pars[pars$ID == "S1",],
-                                varnames = list(Par = "J_max",
-                                                Tleaf = "Curve_Tleaf"))
-
-#Fit Heskel response removing the measurement at 40C
-out <- fit_t_response_heskel(pars[pars$ID == "S1" & pars$Curve_Tleaf < 40,],
-                                varnames = list(Par = "J_max",
-                                                Tleaf = "Curve_Tleaf"))
-
-#Print graph output of Heskel response
-out[[3]]
-
-#Fit many Medlyn et al. 2002 temperature response curves
-fits <- fit_many(pars,
-                 group = "ID",
-                 funct = fit_t_response_medlyn,
-                 varnames = list(Par = "V_cmax",
-                                 Tleaf = "Curve_Tleaf"))
-
-#Print graph of 1st replicate
-fits[[1]][[3]]
-
-#compile parameters
-parameters <- compile_data(data = fits,
-                           output_type = "dataframe",
-                           list_element = 2)
+out[["Arrhenius"]][["Graph"]]
+out[["Heskel"]][["Graph"]]
+out[["Kruse"]][["Graph"]]
+out[["Medlyn"]][["Graph"]]
+out[["MMRT"]][["Graph"]]
+out[["Quadratic"]][["Graph"]]
+out[["Topt"]][["Graph"]]
 ```
 
 #4. Fitting stomatal conductance models
@@ -382,55 +376,29 @@ data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
 #Convert RH to a proportion
 data$RH <- data$RHcham / 100
 
-#Fit the Ball-Berry model
-fit <- fit_gs_mod_ballberry(data = data,
-                            varnames = list(A_net = "A",
-                                            C_air = "Ca",
-                                            g_sw = "gsw",
-                                            RH = "RH"))
+#Fit stomatal conductance models
+#Can specify a single model, or all as below
+fits <- fit_gs_model(data = data,
+                     varnames = list(A_net = "A",
+                                     C_air = "Ca",
+                                     g_sw = "gsw",
+                                     RH = "RH",
+                                     VPD = "VPDleaf"),
+                     model = c("BallBerry",
+                               "Leuning",
+                               "Medlyn_partial",
+                               "Medlyn_full"),
+                         D0 = 3)
 
-#View model summary
-summary(fit[[1]])
+#Look at BallBerry model summary:
+summary(fits[["BallBerry"]][["Model"]])
 
-#View model output
-fit[[2]]
+#Look at BallBerry parameters
+fits[["BallBerry"]][["Parameters"]]
 
-#View graph
-fit[[3]]
+#Look at BallBerry plot
+fits[["BallBerry"]][["Graph"]]
 
-#Fit the Leuning model
-fit <- fit_gs_mod_leuning(data = data,
-                            D0 = 3,
-                            varnames = list(A_net = "A",
-                                            C_air = "Ca",
-                                            g_sw = "gsw",
-                                            VPD = "VPDleaf"))
-
-#View model summary
-summary(fit[[1]])
-
-#View model output
-fit[[2]]
-
-#View graph
-fit[[3]]
-
-#Fit the Medlyn model - select if fitting full model or not
-fit <- fit_gs_mod_medlyn(data = data,
-                            full_model = TRUE,
-                            varnames = list(A_net = "A",
-                                            C_air = "Ca",
-                                            g_sw = "gsw",
-                                            VPD = "VPDleaf"))
-
-#View model summary
-summary(fit[[1]])
-
-#View model output
-fit[[2]]
-
-#View graph
-fit[[3]]
 
 #Fit many g_sw models
 #Set your grouping variable
@@ -439,35 +407,42 @@ data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
 
 fits <- fit_many(data,
                  varnames = list(A_net = "A",
-                                            C_air = "Ca",
-                                            g_sw = "gsw",
-                                            RH = "RH"),
-                 funct = fit_gs_mod_ballberry,
+                                 C_air = "Ca",
+                                 g_sw = "gsw",
+                                 RH = "RH",
+                                 VPD = "VPDleaf"),
+                 funct = fit_gs_model,
                  group = "Q_2")
 
-#Look at 2nd group information
+#Look at the Medlyn_partial outputs at 750 PAR
 #Model summary
-summary(fits[[2]][[1]])
+summary(fits[["750"]][["Medlyn_partial"]][["Model"]])
 
 #Model parameters
-fits[[2]][[2]]
+fits[["750"]][["Medlyn_partial"]][["Parameters"]]
 
 #Graph
-fits[[8]][[3]]
+fits[["750"]][["Medlyn_partial"]][["Graph"]]
 
-#Compile parameter outputs
-pars <- compile_data(data = fits,
+#Compile parameter outputs for BallBerry model
+#Note that it's the first element for each PAR value
+#First compile list of BallBerry fits
+bbmods <- compile_data(data = fits,
+                     output_type = "list",
+                     list_element = 1)
+#Now compile the parameters (2nd element) into a dataframe
+bbpars <- compile_data(data = bbmods,
                      output_type = "dataframe",
                      list_element = 2)
 
 #Convert group variable back to numeric
-pars$ID <- as.numeric(pars$ID)
+bbpars$ID <- as.numeric(bbpars$ID)
 
 #Take quick look at light response of intercept parameters
-plot(g0 ~ ID, pars)
+plot(g0 ~ ID, bbpars)
 
 #Compile graphs
-graphs <- compile_data(data = fits,
+graphs <- compile_data(data = bbmods,
                        output_type = "list",
                        list_element = 3)
 
@@ -736,7 +711,9 @@ This segment outlines a set of functions that can be used to assess the
 sensitivity of data outputs to assumed parameters. For example, assuming
 different values of GammaStar, mesophyll conductance, and light absorbance
 on fitted gas exchange parameters.
-```{r}
+
+Uncomment the chunk below to run - it takes awhile.
+#```{r}
 #Read in your data
 #Note that this data is coming from data supplied by the package
 #hence the complicated argument in read.csv()
@@ -748,12 +725,15 @@ data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
 #curves
 data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
 
+#Convert data temperature to K
+data$T_leaf <- data$Tleaf + 273.15
+
 #Run a sensitivity analysis on GammaStar and mesophyll conductance
 #at 25 Celsius for one individual curve
-pars <- sensitivity_analysis(data = data[data$Q_2 == 1500, ],
+pars <- analyze_sensitivity(data = data[data$Q_2 == 1500, ],
                                   funct = fit_aci_response,
                                    varnames = list(A_net = "A",
-                                      Tleaf = "Tleaf",
+                                      T_leaf = "T_leaf",
                                       C_i = "Ci",
                                       PPFD = "Qin"),
                                    useg_mct = TRUE,
@@ -765,25 +745,17 @@ pars <- sensitivity_analysis(data = data[data$Q_2 == 1500, ],
                                    Ea_g_mc = 0,
                                    values1 = seq(from = 20,
                                                to = 60,
-                                               by = 2),
+                                               by = 4),
                                    values2 = seq(from = 0.2,
                                                to = 2,
                                                by = 0.1))
-#Graph Vcmax
-a <- ggplot(pars, aes(x = gamma_star25, y = g_mc25, z = V_cmax))+
-  geom_tile(aes(fill = V_cmax)) +
-  labs(x = expression(Gamma*"*"[25]~"("*mu*mol~mol^{-1}*")"),
-       y = expression(g[m][25]~"("*mu*mol~m^{-2}~s^{-1}~Pa^{-1}*")"))+
-  scale_fill_distiller(palette = "Greys") +
-  geom_contour(colour = "Black", size = 1) +
-  theme_bw()
 
 #Compute measures of sensitivity
 par2 <- compute_sensitivity(data = pars,
                             varnames = list(Par = "V_cmax",
                                             test1 = "gamma_star25",
                                             test2 = "g_mc25"),
-                            test1_ref = 42,
+                            test1_ref = 40,
                             test2_ref = 1)
 #Plot sensitivity
 ggplot(par2, aes(y = CE_gamma_star25, x = CE_g_mc25, colour = V_cmax))+
@@ -806,14 +778,14 @@ geom_contour(colour = "Black", size = 1) +
 theme_bw()
 
 plot(PE_gamma_star25 ~ gamma_star25, par2)
-```
+#```
 
 #10. Dependency checking
 
 A function can be used to generate an html file that assesses
 the dependencies within and between packages
 ```{r}
-check_dependencies()
+#check_dependencies()
 ```
 
 

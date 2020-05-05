@@ -2,8 +2,8 @@
 #'
 #' @param data Dataframe for A-Ci curve fitting
 #' @param varnames List of variable names. varnames = list(A_net = "A_net", 
-#' Tleaf = "Tleaf", C_i = "C_i", PPFD = "PPFD", g_mc = "g_mc"), where A_net
-#' is net CO2 assimilation, Tleaf is leaf temperature in Celsius, C_i is 
+#' T_leaf = "T_leaf", C_i = "C_i", PPFD = "PPFD", g_mc = "g_mc"), where A_net
+#' is net CO2 assimilation, T_leaf is leaf temperature in Celsius, C_i is 
 #' intercellular CO2 concentration in umol/mol, PPFD is incident irradiance
 #' in umol m-2 s-1 (note that it is ASSUMED to be absorbed irradiance, so be
 #' sure to adjust according to light absorbance and PSI/PSII partitioning
@@ -87,17 +87,20 @@
 #' #hence the complicated argument in read.csv()
 #' #This dataset is a CO2 by light response curve for a single sunflower
 #' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-#'                              package = "plantecophystools"))
+#'                              package = "photosynthesis"))
 #'
 #' #Define a grouping factor based on light intensity to split the ACi
 #' #curves
 #' data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
 #'
+#' #Convert leaf temperature to K
+#' data$T_leaf <- data$Tleaf + 273.15
+#' 
 #' #Fit ACi curve. Note that we are subsetting the dataframe
 #' #here to fit for a single value of Q_2
 #' fit <- fit_aci_response(data[data$Q_2 == 1500, ],
 #'                         varnames = list(A_net = "A",
-#'                                         Tleaf = "Tleaf",
+#'                                         T_leaf = "T_leaf",
 #'                                         C_i = "Ci",
 #'                                         PPFD = "Qin"))
 #'
@@ -113,7 +116,7 @@
 #' #Fit many curves
 #' fits <- fit_many(data = data,
 #'                  varnames = list(A_net = "A",
-#'                                  Tleaf = "Tleaf",
+#'                                  T_leaf = "T_leaf",
 #'                                  C_i = "Ci",
 #'                                  PPFD = "Qin"),
 #'                  funct = fit_aci_response,
@@ -139,7 +142,7 @@
 #' }
 fit_aci_response <- function(data,
                            varnames = list(A_net = "A_net", 
-                                        Tleaf = "Tleaf", 
+                                        T_leaf = "T_leaf", 
                                         C_i = "C_i", 
                                         PPFD = "PPFD",
                                         g_mc = "g_mc"),
@@ -173,17 +176,17 @@ fit_aci_response <- function(data,
 #Locally bind variables - avoids notes on check package
   C_i <- NULL
   A_model <- NULL
-  Ac <- NULL
-  Aj <- NULL
-  Ap <- NULL
+  A_carbox <- NULL
+  A_regen <- NULL
+  A_tpu <- NULL
   A_net <- NULL
   PPFD <- NULL
   #Set variable names  
   data$C_i <- data[, varnames$C_i]
   data$A_net <- data[, varnames$A_net]
   data$PPFD <- data[, varnames$PPFD]
-  data$Tleaf <- data[, varnames$Tleaf]
-  outputs <- list()
+  data$T_leaf <- data[, varnames$T_leaf]
+  outputs <- vector("list", 3)
   #Order data by increasing C_i, avoids calculation issues
   data <- data[order(data$C_i), ]
   #Convert O2 concentration to partial pressure
@@ -213,14 +216,14 @@ fit_aci_response <- function(data,
   }
   if (useg_mct) {
     #Calculates g_mc based on a specified temperature response
-    data$g_mc <- g_mc25 * t_response_arrhenius(Tleaf = data$Tleaf,
+    data$g_mc <- g_mc25 * t_response_arrhenius(T_leaf = data$T_leaf,
                                               Ea = Ea_g_mc)
     data$C <- (data$C_i - data$A_net / data$g_mc) * P / 100
   }
   #gamma_star settings
   if (!usegamma_star) {
     #Calculates gamma_star based on temperature response function
-    gamma_star <- gamma_star25 * t_response_arrhenius(Tleaf = mean(data$Tleaf),
+    gamma_star <- gamma_star25 * t_response_arrhenius(T_leaf = mean(data$T_leaf),
                                              Ea = Ea_gamma_star) * P / 100
   } else {
     #Uses specified gamma_star, converts to partial pressure
@@ -229,7 +232,7 @@ fit_aci_response <- function(data,
   #K_M settings
   if (!useK_M) {
     #Calculates K_M based on temperature response
-    K_M <- K_M25 * t_response_arrhenius(Tleaf = mean(data$Tleaf),
+    K_M <- K_M25 * t_response_arrhenius(T_leaf = mean(data$T_leaf),
                                      Ea = Ea_K_M)
   } else {
     #Uses specified K_M
@@ -237,9 +240,9 @@ fit_aci_response <- function(data,
   }
   if(useK_C_K_O){
     #Calculates K_M based on temperature responses of K_C and K_O
-    K_C <- K_C25 * t_response_arrhenius(Tleaf = mean(data$Tleaf),
+    K_C <- K_C25 * t_response_arrhenius(T_leaf = mean(data$T_leaf),
                                       Ea = Ea_K_C)
-    K_O <- K_O25 * t_response_arrhenius(Tleaf = mean(data$Tleaf),
+    K_O <- K_O25 * t_response_arrhenius(T_leaf = mean(data$T_leaf),
                                       Ea = Ea_K_O)
     K_M <- K_C * (1 + O / K_O)
   }

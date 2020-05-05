@@ -13,7 +13,7 @@ citEntry(
   year     = "2020",
   url      = "https://CRAN.R-project.org/package=photosynthesis",
   textVersion = paste("Stinziano JR, Roback C, Gamble D, Murphy B, Hudson P,
-  Muir CD. (2019).",
+  Muir CD. (2020).",
                  title = "photosynthesis: tools for plant ecophysiology & modeling. R package version 2.0.1.",
                  "https://CRAN.R-project.org/package=photosynthesis."
 

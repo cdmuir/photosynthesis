@@ -6,8 +6,8 @@
 \usage{
 fit_g_mc_variableJ(
   data,
-  varnames = list(A_net = "A_net", J_etr = "J_etr", C_i = "C_i", PPFD = "PPFD", phi_PSII
-    = "phi_PSII"),
+  varnames = list(A_net = "A_net", J_etr = "J_etr", C_i = "C_i", PPFD = "PPFD",
+    phi_PSII = "phi_PSII"),
   usealpha_Q = FALSE,
   alpha_Q = 0.84,
   beta_Q = 0.5,
@@ -54,7 +54,7 @@ Fitting mesophyll conductance with the variable J method
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Note: there will be issues here if the alpha value used
 #for calculating ETR is off, if gamma_star is incorrect,

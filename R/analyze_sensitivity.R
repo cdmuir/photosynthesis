@@ -9,7 +9,7 @@
 #' @param element_out List element to compile
 #' @param ... Additional arguments required for the function
 #'
-#' @return sensitivity_analysis runs a 2-parameter sensitivity analysis.
+#' @return analyze_sensitivity runs a 2-parameter sensitivity analysis.
 #' Note that any parameter value combinations that break the input function
 #' WILL break this function. For 1-parameter sensitivity analysis, use test1
 #' only.
@@ -24,18 +24,21 @@
 #' #hence the complicated argument in read.csv()
 #' #This dataset is a CO2 by light response curve for a single sunflower
 #' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-#'                              package = "plantecophystools"))
+#'                              package = "photosynthesis"))
 #'
 #' #Define a grouping factor based on light intensity to split the ACi
 #' #curves
 #' data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
 #'
+#' #Convert leaf temperature to K
+#' data$T_leaf <- data$Tleaf + 273.15
+#' 
 #' #Run a sensitivity analysis on gamma_star and mesophyll conductance
 #' #at 25 Celsius for one individual curve
-#' pars <- sensitivity_analysis(data = data[data$Q_2 == 1500, ],
+#' pars <- analyze_sensitivity(data = data[data$Q_2 == 1500, ],
 #'                              funct = fit_aci_response,
 #'                              varnames = list(A_net = "A",
-#'                                              Tleaf = "Tleaf",
+#'                                              T_leaf = "T_leaf",
 #'                                              C_i = "Ci",
 #'                                              PPFD = "Qin"),
 #'                              useg_mct = TRUE,
@@ -54,7 +57,7 @@
 #'
 #' #Graph V_cmax
 #' ggplot(pars, aes(x = gamma_star25, y = g_mc25, z = V_cmax))+
-#'   geom_tile(aes(fill = Vcmax)) +
+#'   geom_tile(aes(fill = V_cmax)) +
 #'   labs(x = expression(Gamma*"*"[25]~"("*mu*mol~mol^{-1}*")"),
 #'        y = expression(g[m][25]~"("*mu*mol~m^{-2}~s^{-1}~Pa^{-1}*")"))+
 #'   scale_fill_distiller(palette = "Greys") +
@@ -62,7 +65,7 @@
 #'   theme_bw()
 #' }
 #'
-sensitivity_analysis <- function(data,
+analyze_sensitivity <- function(data,
                                      funct,
                                      test1 = NA,
                                      values1,
@@ -106,13 +109,13 @@ sensitivity_analysis <- function(data,
     }
 }
   #Create empty list for parameter outputs
-  pars <- list(NULL)
+  pars <- vector("list", length(fits))
 
   #Compile parameter outputs
   #Main challenge here when using out-of-package functions:
   #Output style may vary, making this component behave
   #unexpectedly
-  for (i in 1:length(fits)) {
+  for (i in seq_along(fits)) {
     pars[[i]] <- fits[[i]][[element_out]]
   }
   #Convert parameter outputs to dataframe

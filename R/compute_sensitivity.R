@@ -31,18 +31,21 @@
 #' #hence the complicated argument in read.csv()
 #' #This dataset is a CO2 by light response curve for a single sunflower
 #' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-#'                              package = "plantecophystools"))
+#'                              package = "photosynthesis"))
 #'
 #' #Define a grouping factor based on light intensity to split the ACi
 #' #curves
 #' data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
+#' 
+#' #Convert leaf temperature to K
+#' data$T_leaf <- data$Tleaf + 273.15
 #'
 #' #Run a sensitivity analysis on gamma_star and mesophyll conductance
 #' #at 25 Celsius for one individual curve
-#' pars <- sensitivity_analysis(data = data[data$Q_2 == 1500, ],
+#' pars <- analyze_sensitivity(data = data[data$Q_2 == 1500, ],
 #'                              funct = fit_aci_response,
 #'                              varnames = list(A_net = "A",
-#'                                              Tleaf = "Tleaf",
+#'                                              T_leaf = "T_leaf",
 #'                                              C_i = "Ci",
 #'                                              PPFD = "Qin"),
 #'                              useg_mct = TRUE,
@@ -115,11 +118,13 @@ compute_sensitivity <- function(data,
     setTxtProgressBar(pb, i)
   }
   #Bind back to dataframe
-  data <- do.call("bind_rows", data)
+  data <- do.call("rbind", data)
 
   #Calculate control coefficients. In this case, we are deriving it numerically
   #Need reference point in the entire parameter space, this is test1_ref and
   #test2_ref. Calculations from Capaldo & Pandis 1997.
+  data$CE_test1 <- NA
+  data$CE_test2 <- NA
   for (i in 1:nrow(data)) {
     data$CE_test1[i] <- (log(data$Par[i]) - log(data[data$test1 == test1_ref &
                                      data$test2 == test2_ref, ]$Par)) /

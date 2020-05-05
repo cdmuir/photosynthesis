@@ -44,13 +44,13 @@ from a list of graphs
 Printing graphs to system
 }
 \examples{
-\dontrun{
+\donttest{
 #Read in your data
 #Note that this data is coming from data supplied by the package
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Fit many AQ curves
 #Set your grouping variable
@@ -98,9 +98,10 @@ fits_graphs <- compile_data(fits,
                             list_element = 3)
 
 #Print graphs to pdf
-print_graphs(data = fits_graphs,
-             output_type = "pdf",
-             path = tempdir(),
-             pdf_filename = "mygraphs.pdf")
+#Uncomment to run
+#print_graphs(data = fits_graphs,
+#            output_type = "pdf",
+#            path = tempdir(),
+#            pdf_filename = "mygraphs.pdf")
 }
 }

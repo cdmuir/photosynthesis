@@ -1,6 +1,6 @@
 #' \code{photosynthesis} package
 #'
-#' Model C3 Photosynthesis
+#' Modeling and analytical tools for plant ecophysiology
 #'
 #' See the README on
 #' \href{https://github.com/cdmuir/photosynthesis}{GitHub}

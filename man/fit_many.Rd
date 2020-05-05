@@ -30,16 +30,19 @@ Fitting many functions across groups
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Define a grouping factor based on light intensity to split the ACi
 #curves
 data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
 
+#Convert leaf temperature to K
+data$T_leaf <- data$Tleaf + 273.15
+
 #Fit many curves
 fits <- fit_many(data = data,
                  varnames = list(A_net = "A",
-                                 Tleaf = "Tleaf",
+                                 T_leaf = "T_leaf",
                                  C_i = "Ci",
                                  PPFD = "Qin"),
                  funct = fit_aci_response,
@@ -57,11 +60,6 @@ fits[[3]][[2]]
 fits_graphs <- compile_data(fits,
                             list_element = 2)
 
-#Print graphs to pdf
-print_graphs(data = fits_graphs,
-             path = tempdir(),
-             output_type = "pdf",
-             pdf_filename = "mygraphs.pdf")
 
 #Compile parameters into dataframe for analysis
 fits_pars <- compile_data(fits,

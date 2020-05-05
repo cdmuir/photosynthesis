@@ -11,24 +11,24 @@
 \alias{t_response_mmrt}
 \title{Temperature response functions}
 \usage{
-t_response_arrhenius(Tleaf, Ea)
+t_response_arrhenius(T_leaf, Ea)
 
 t_response_arrhenius_kruse(dEa, Ea_ref, Par_ref, T2)
 
-t_response_arrhenius_medlyn(Tleaf, Ea, Hd, dS)
+t_response_arrhenius_medlyn(T_leaf, Ea, Hd, dS)
 
-t_response_arrhenius_topt(Tleaf, Ea, Hd, Topt)
+t_response_arrhenius_topt(T_leaf, Ea, Hd, Topt)
 
 t_response_calc_dS(Ea, Hd, Topt)
 
 t_response_calc_topt(Hd, dS, Ea)
 
-t_response_heskel(Tleaf, a, b, c)
+t_response_heskel(T_leaf, a, b, c)
 
-t_response_mmrt(dCp, dG, dH, Tleaf)
+t_response_mmrt(dCp, dG, dH, T_leaf)
 }
 \arguments{
-\item{Tleaf}{Leaf temperature in Celsius}
+\item{T_leaf}{Leaf temperature in K}
 
 \item{Ea}{Activation energy in J mol-1 (Medlyn et al. 2002)}
 
@@ -45,7 +45,7 @@ al. 2008)}
 
 \item{dS}{Entropy parameter in J mol-1 (Medlyn et al. 2002)}
 
-\item{Topt}{Optimum temperature of the process in Celsius (Medlyn et al.
+\item{Topt}{Optimum temperature of the process in K (Medlyn et al.
 2002)}
 
 \item{a}{Constant to minimize residuals (Heskel et al. 2016)}

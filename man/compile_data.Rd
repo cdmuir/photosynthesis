@@ -25,22 +25,25 @@ but could be used to compile elements from ANY list of lists.
 Compiling outputs from lists
 }
 \examples{
-\dontrun{
+\donttest{
 #Read in your data
 #Note that this data is coming from data supplied by the package
 #hence the complicated argument in read.csv()
 #This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Define a grouping factor based on light intensity to split the ACi
 #curves
 data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
 
+#Convert leaf temperature to K
+data$T_leaf <- data$Tleaf + 273.15
+
 #Fit many curves
 fits <- fit_many(data = data,
                  varnames = list(A_net = "A",
-                                 Tleaf = "Tleaf",
+                                 T_leaf = "T_leaf",
                                  C_i = "Ci",
                                  PPFD = "Qin"),
                  funct = fit_aci_response,

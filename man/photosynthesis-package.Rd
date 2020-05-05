@@ -5,7 +5,7 @@
 \alias{photosynthesis-package}
 \title{\code{photosynthesis} package}
 \description{
-Model C3 Photosynthesis
+Modeling and analytical tools for plant ecophysiology
 }
 \details{
 See the README on

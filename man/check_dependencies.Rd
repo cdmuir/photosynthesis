@@ -17,7 +17,7 @@ changed together.
 Checking dependencies of photosynthesis
 }
 \examples{
-\dontrun{
+\donttest{
 check_dependencies()
 }
 }

@@ -41,11 +41,11 @@ Fitting hydraulic vulnerability curves
 \donttest{
 #Read in data
 data <- read.csv(system.file("extdata", "hydraulic_vulnerability.csv",
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Fit hydraulic vulnerability curve
 fit <- fit_hydra_vuln_curve(data[data$Tree == 4 & data$Plot == "Control",],
-                            varnames = list(psi = "psi",
+                            varnames = list(psi = "P",
                                             PLC = "PLC"),
                             title = "Control 4")
 
@@ -66,7 +66,7 @@ fit[[5]]
 
 #Fit many curves
 fits <- fit_many(data = data,
-                 varnames = list(psi = "psi",
+                 varnames = list(psi = "P",
                                  PLC = "PLC"),
                  group = "Tree",
                  funct = fit_hydra_vuln_curve)

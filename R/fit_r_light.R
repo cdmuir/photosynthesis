@@ -70,7 +70,7 @@
 #' #hence the complicated argument in read.csv()
 #' #This dataset is a CO2 by light response curve for a single sunflower
 #' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-#'                              package = "plantecophystools"))
+#'                              package = "photosynthesis"))
 #'
 #' #Fit light respiration with Kok method
 #' r_light <- fit_r_light_kok(data = data,
@@ -87,7 +87,7 @@
 #' #hence the complicated argument in read.csv()
 #' #This dataset is a CO2 by light response curve for a single sunflower
 #' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-#'                              package = "plantecophystools"))
+#'                              package = "photosynthesis"))
 #'
 #' #Fit the Walker-Ort method for GammaStar and light respiration
 #' walker_ort <- fit_r_light_WalkerOrt(data,
@@ -109,7 +109,7 @@
 #' #hence the complicated argument in read.csv()
 #' #This dataset is a CO2 by light response curve for a single sunflower
 #' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-#'                              package = "plantecophystools"))
+#'                              package = "photosynthesis"))
 #'
 #' #Fit light respiration with Yin method
 #' r_light <- fit_r_light_yin(data = data,

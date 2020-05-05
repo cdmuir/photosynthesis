@@ -42,7 +42,7 @@ Fitting pressure-volume curves
 \donttest{
 #Read in data
 data <- read.csv(system.file("extdata", "PV_curve.csv",
-                             package = "plantecophystools"))
+                             package = "photosynthesis"))
 
 #Fit one PV curve
 fit <- fit_PV_curve(data[data$ID == "L2", ],

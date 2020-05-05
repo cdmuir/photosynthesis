@@ -8,7 +8,7 @@ light respiration, as well as tools for performing sensitivity analyses.
 
 * Added tests for new functions.
 
-* Expanded vignette to include examples of each function.
+* Added new vignette to include examples of new analytical functions.
 
 # photosynthesis 1.0.1
 
