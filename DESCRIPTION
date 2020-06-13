@@ -28,5 +28,5 @@ Description: Simulate C3 photosynthesis using the Farquhar, von Caemmerer, Berry
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 VignetteBuilder: knitr
