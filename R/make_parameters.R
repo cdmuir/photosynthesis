@@ -232,12 +232,22 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
       E_q = set_units(220, kJ/mol),
       f_par = set_units(0.5),
       r = set_units(0.2),
-      T_air = set_units(298.15, K)
+      T_air = set_units(298.15, K),
+      T_sky = function(pars) {
+        pars$T_air - set_units(20, K) * pars$S_sw / set_units(1000, W / m ^ 2)
+      }
     ))
 
   }
   
   # Replace defaults ----
+  if ("T_sky" %in% names(replace)) {
+    if (is.function(replace$T_sky)) {
+      obj$T_sky <- replace$T_sky
+      replace$T_sky <- NULL
+    }
+  }
+  
   par_equiv <- data.frame(
     tl = c("S_sw"),
     ph = c("PPFD"),

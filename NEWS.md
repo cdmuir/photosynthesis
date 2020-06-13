@@ -1,10 +1,18 @@
 # photosynthesis (development version)
 
+* Fixed bug in `photosynthesis()` caused by new version of **dplyr**.
+* Added citation to published paper. See `citation(package = "tealeaves")`.
+* Compatible with **dplyr 1.0.0**
+* In `enviro_par()`, "sky" temperature (`T_sky`) can now be provided directly as a values (in K) or as a function (the default).
+* If `parallel = TRUE` in `tleaves()`, **future** uses `plan("multisession")` rather than `plan("multiprocess")`.
+* New vignette on making parameters functions of other parameters.
+* Added full URL for `CONDUCT.md` in README
+
 # photosynthesis 1.0.1
 
 Release to be archived with revision of "Is amphistomy an adaptation to high light? Optimality models of stomatal traits along light gradients."
 
-[Blog post.](http://dreamy-mcnulty-07a670.netlify.com/post/2019-11-21-phyteclub/)
+[Blog post.](https://cdmuir.netlify.app/post/2019-11-21-phyteclub/)
 
 # photosynthesis 1.0.0
 

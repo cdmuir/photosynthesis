@@ -32,7 +32,7 @@ parameter_names <- function(which, use_tealeaves) {
       switch(
         bake = bakepar_names,
         constants = sort(c(constants_names, "c_p", "R_air")),
-        enviro = sort(c(enviropar_names, "E_q", "f_par", "r", "T_air")),
+        enviro = sort(c(enviropar_names, "E_q", "f_par", "r", "T_air", "T_sky")),
         leaf = sort(c(leafpar_names, "abs_l", "abs_s"))
       ) %>%
       return()
