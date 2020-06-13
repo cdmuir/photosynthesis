@@ -127,6 +127,9 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
   
   # Capture units ----
   pars <- c(leaf_par, enviro_par)
+  if (is.function(pars$T_sky)) {
+    pars$T_sky <- pars$T_sky(pars)
+  }
   par_units <- purrr::map(pars, units) %>%
     magrittr::set_names(names(pars))
   if (!is.null(T_air)) {
@@ -232,7 +235,7 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
       message(appendLF = FALSE)
   }
   
-  if (parallel) future::plan("multiprocess")
+  if (parallel) future::plan("multisession")
   
   if (progress & !parallel) pb <- dplyr::progress_estimated(nrow(par_sets))
   
@@ -361,6 +364,15 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
   }
   
   # Return -----
+  # This is a hack needed for `photosynthesis()` because leaf_par and enviro_par
+  # are both passed from pars = c(leaf_par, enviro_par), so they have redundant
+  # information. This checks that everything is identical, then gets rid of 
+  # redundant parameters.
+  shared_pars <- intersect(names(leaf_par), names(enviro_par))
+  checkmate::assert_true(all(unlist(leaf_par[shared_pars]) == 
+                               unlist(enviro_par[shared_pars])))
+  leaf_par[shared_pars] <- NULL
+  
   soln %<>% 
     dplyr::bind_cols(as.data.frame(leaf_par)) %>%
     dplyr::bind_cols(as.data.frame(enviro_par))
