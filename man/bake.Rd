@@ -7,7 +7,7 @@
 \alias{temp_resp2}
 \title{Leaf parameter temperature responses}
 \usage{
-bake(leaf_par, bake_par, constants, set_units = TRUE)
+bake(leaf_par, bake_par, constants, assert_units = TRUE)
 
 temp_resp1(par25, E_a, R, T_leaf, T_ref, unitless)
 
@@ -20,7 +20,7 @@ temp_resp2(par25, D_s, E_a, E_d, R, T_leaf, T_ref, unitless)
 
 \item{constants}{A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.}
 
-\item{set_units}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
+\item{assert_units}{Logical. Should parameter \code{units} be checked? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 
 \item{par25}{Parameter value at 25 °C of class \code{units}.}
 

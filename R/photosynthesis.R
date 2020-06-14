@@ -16,7 +16,7 @@
 #' 
 #' @param quiet Logical. Should messages be displayed?
 #' 
-#' @param set_units Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.
+#' @param assert_units Logical. Should parameter \code{units} be checked? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.
 #' 
 #' @param parallel Logical. Should parallel processing be used via \code{\link[furrr]{future_map}}?
 #' 
@@ -105,7 +105,7 @@
 
 photosynthesis <- function(leaf_par, enviro_par, bake_par, constants, 
                            use_tealeaves, progress = TRUE, quiet = FALSE,
-                           set_units = TRUE, parallel = FALSE) {
+                           assert_units = TRUE, parallel = FALSE) {
   
   T_air <- NULL
   if (!use_tealeaves & !is.null(enviro_par$T_air)) {
@@ -116,20 +116,23 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
     T_air <- enviro_par$T_air
   }
   
-  # Set units ----
-  if (set_units) {
+  # Assert units ----
+  if (assert_units) {
     bake_par %<>% photosynthesis::bake_par()
     constants %<>% photosynthesis::constants(use_tealeaves)
     enviro_par %<>% photosynthesis::enviro_par(use_tealeaves)
     leaf_par %<>% photosynthesis::leaf_par(use_tealeaves)
     if (!is.null(T_air)) enviro_par$T_air <- set_units(T_air, K)
   }
-  
-  # Capture units ----
+
   pars <- c(leaf_par, enviro_par)
+  
   if (is.function(pars$T_sky)) {
-    pars$T_sky <- pars$T_sky(pars)
+    tsky_function <- pars$T_sky
+    pars$T_sky <- NULL
   }
+
+  # Capture units ----
   par_units <- purrr::map(pars, units) %>%
     magrittr::set_names(names(pars))
   if (!is.null(T_air)) {
@@ -143,60 +146,55 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
   ## This code will cause errors if units are not properly set
   pars %<>% purrr::cross_df()
   
-  # Calculate T_leaf using energy balance or set to T_air ----
   if (use_tealeaves) {
     
-    pars %<>%
-      dplyr::mutate(
-        S_sw = .data$E_q * .data$PPFD / .data$f_par / 1000,
-        g_sw = drop_units(constants$D_w0 / constants$D_c0) * .data$g_sc,
-        g_uw = drop_units(constants$D_w0 / constants$D_c0) * .data$g_uc,
-        logit_sr = stats::qlogis(.data$k_sc / (1 + .data$k_sc))
-      )
+    # This is an inefficient hack
+    E_q <- pars$E_q
+    PPFD <- pars$PPFD
+    f_par <- pars$f_par
+    g_sc <- pars$g_sc
+    g_uc <- pars$g_uc
     
+    units(E_q) <- par_units$E_q
+    units(PPFD) <- par_units$PPFD
+    units(f_par) <- par_units$f_par
+    units(g_sc) <- par_units$g_sc
+    units(g_uc) <- par_units$g_uc
+    
+    pars$S_sw <- set_units(E_q * PPFD / f_par, W / m ^ 2)
+    pars$g_sw <- set_units(constants$D_w0 / constants$D_c0 * g_sc, 
+                           umol/m^2/Pa/s)
+    pars$g_uw <- set_units(constants$D_w0 / constants$D_c0 * g_uc,
+                           umol/m^2/Pa/s)
+    pars$logit_sr <- stats::qlogis(pars$k_sc / (1 + pars$k_sc))
+    
+    if (is.function(tsky_function)) {
+      pars$T_sky <- tsky_function(pars)
+    }
+  
+    # Calculate T_leaf using energy balance or set to T_air ----
+
     par_units$S_sw <- units(units::make_units(W/m^2))
     par_units$g_sw <- par_units$g_sc
     par_units$g_uw <- par_units$g_uc
     par_units$logit_sr <- par_units$k_sc
+    par_units$T_sky <- units(pars$T_sky)
     
-    # This section should be removed after tealeaves is patched {
+    pars$S_sw %<>% drop_units()
+    pars$g_sw %<>% drop_units()
+    pars$g_uw %<>% drop_units()
+    pars$T_sky %<>% drop_units()
+    
     tlp <- pars %>%
       as.list() %>%
-      purrr::map(unique) 
-    
-    names(tlp) %>%
-      glue::glue("units(tlp${x}) <<- par_units${x}", x = .) %>%
-      parse(text = .) %>%
-      eval()
-    
-    tlp %<>% tealeaves::leaf_par()
-    
+      purrr::map(unique) %>%
+      tealeaves::leaf_par()
+     
     tep <- pars %>%
       as.list() %>%
-      purrr::map(unique)
-    
-    names(tep) %>%
-      glue::glue("units(tep${x}) <<- par_units${x}", x = .) %>%
-      parse(text = .) %>%
-      eval()
-    
-    tep %<>% tealeaves::enviro_par()
-    
-    # }
-    
-    # This section should be uncommented after tealeaves is patched {
-    # tlp <- pars %>%
-    #   as.list() %>%
-    #   purrr::map(unique) %>%
-    #   tealeaves::leaf_par()
-    # 
-    # tep <- pars %>%
-    #   as.list() %>%
-    #   purrr::map(unique) %>%
-    #   tealeaves::enviro_par()
-    # 
-    # }
-    
+      purrr::map(unique) %>%
+      tealeaves::enviro_par()
+
     tcs <- tealeaves::constants(constants)
     
     tl <- tealeaves::tleaves(tlp, tep, tcs, progress = FALSE, quiet = TRUE, 
@@ -248,7 +246,7 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
         ret <- photosynthesis::photo(
           leaf_par = .x, enviro_par = .x, bake_par = bake_par,
           constants = constants, use_tealeaves = FALSE, quiet = TRUE, 
-          set_units = FALSE, check = FALSE, prepare_for_tleaf = FALSE
+          assert_units = FALSE, check = FALSE, prepare_for_tleaf = FALSE
         )
         if (progress & !parallel) pb$tick()$print()
         ret
@@ -292,7 +290,7 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
 #' @export
 
 photo <- function(leaf_par, enviro_par, bake_par, constants, 
-                  use_tealeaves, quiet = FALSE, set_units = TRUE,
+                  use_tealeaves, quiet = FALSE, assert_units = TRUE,
                   check = TRUE, prepare_for_tleaf = TRUE) {
   
   checkmate::assert_flag(check)
@@ -305,7 +303,7 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
     checkmate::assert_class(leaf_par, "leaf_par")
     checkmate::assert_flag(use_tealeaves)
     checkmate::assert_flag(quiet)
-    checkmate::assert_flag(set_units)
+    checkmate::assert_flag(assert_units)
   }
   
   T_air <- NULL
@@ -318,7 +316,7 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
   }
   
   # Set units and bake ----
-  if (set_units) {
+  if (assert_units) {
     bake_par %<>% photosynthesis::bake_par()
     constants %<>% photosynthesis::constants(use_tealeaves)
     enviro_par %<>% photosynthesis::enviro_par(use_tealeaves)
@@ -347,7 +345,7 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
     
   }
   
-  leaf_par %<>% bake(bake_par, constants, set_units = FALSE)
+  leaf_par %<>% bake(bake_par, constants, assert_units = FALSE)
   
   pars <- c(leaf_par, enviro_par, constants) %>%
     purrr::map_if(~ inherits(.x, "units"), drop_units)

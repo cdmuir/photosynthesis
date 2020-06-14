@@ -42,8 +42,8 @@ test_that("unitless values match unit-ed values", {
   bp1 <- make_bakepar()
   bp2 <- purrr::map_if(bp1, ~ is(.x, "units"), drop_units)
   
-  lp1 %<>% bake(bp1, cs1, set_units = TRUE)
-  lp2 %<>% bake(bp2, cs2, set_units = FALSE)
+  lp1 %<>% bake(bp1, cs1, assert_units = TRUE)
+  lp2 %<>% bake(bp2, cs2, assert_units = FALSE)
   
   purrr::map2(lp1, lp2, function(.x, .y) drop_units(.x) == .y) %>%
     purrr::map(expect_true)

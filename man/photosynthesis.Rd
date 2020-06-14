@@ -14,7 +14,7 @@ photosynthesis(
   use_tealeaves,
   progress = TRUE,
   quiet = FALSE,
-  set_units = TRUE,
+  assert_units = TRUE,
   parallel = FALSE
 )
 
@@ -25,7 +25,7 @@ photo(
   constants,
   use_tealeaves,
   quiet = FALSE,
-  set_units = TRUE,
+  assert_units = TRUE,
   check = TRUE,
   prepare_for_tleaf = TRUE
 )
@@ -45,7 +45,7 @@ photo(
 
 \item{quiet}{Logical. Should messages be displayed?}
 
-\item{set_units}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
+\item{assert_units}{Logical. Should parameter \code{units} be checked? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 
 \item{parallel}{Logical. Should parallel processing be used via \code{\link[furrr]{future_map}}?}
 

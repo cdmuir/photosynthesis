@@ -57,9 +57,9 @@ NULL
 #' 
 #' @export
 
-bake <- function(leaf_par, bake_par, constants, set_units = TRUE) {
+bake <- function(leaf_par, bake_par, constants, assert_units = TRUE) {
   
-  if (set_units) {
+  if (assert_units) {
     leaf_par %<>% leaf_par(use_tealeaves = FALSE)
     bake_par %<>% bake_par()
     constants %<>% constants(use_tealeaves = FALSE)
@@ -89,7 +89,7 @@ bake <- function(leaf_par, bake_par, constants, set_units = TRUE) {
                                T_ref, unitless = TRUE)
 
   # Set units ----
-  if (set_units) {
+  if (assert_units) {
     leaf_par$g_mc %<>% set_units(umol/m^2/s/Pa)
     leaf_par$gamma_star %<>% set_units(Pa)
     leaf_par$J_max %<>% set_units(umol / (m^2 * s))
@@ -101,7 +101,7 @@ bake <- function(leaf_par, bake_par, constants, set_units = TRUE) {
   }
   
   # Check values ----
-  if (set_units) {
+  if (assert_units) {
     stopifnot(leaf_par$g_mc >= set_units(0, umol/m^2/s/Pa))
     stopifnot(leaf_par$gamma_star >= set_units(0, Pa))
     stopifnot(leaf_par$J_max >= set_units(0, umol / (m^2 * s)))

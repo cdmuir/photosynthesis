@@ -234,7 +234,7 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
       r = set_units(0.2),
       T_air = set_units(298.15, K),
       T_sky = function(pars) {
-        pars$T_air - set_units(20, K) * pars$S_sw / set_units(1000, W / m ^ 2)
+        set_units(pars$T_air, K) - set_units(20, K) * set_units(pars$S_sw, W / m ^ 2) / set_units(1000, W / m ^ 2)
       }
     ))
 
