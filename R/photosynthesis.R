@@ -127,6 +127,7 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
 
   pars <- c(leaf_par, enviro_par)
   
+  tsky_function <- NULL
   if (is.function(pars$T_sky)) {
     tsky_function <- pars$T_sky
     pars$T_sky <- NULL
@@ -146,6 +147,7 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
   ## This code will cause errors if units are not properly set
   pars %<>% purrr::cross_df()
   
+  # Calculate T_leaf using energy balance or set to T_air ----
   if (use_tealeaves) {
     
     # This is an inefficient hack
@@ -167,23 +169,22 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
     pars$g_uw <- set_units(constants$D_w0 / constants$D_c0 * g_uc,
                            umol/m^2/Pa/s)
     pars$logit_sr <- stats::qlogis(pars$k_sc / (1 + pars$k_sc))
-    
-    if (is.function(tsky_function)) {
-      pars$T_sky <- tsky_function(pars)
-    }
-  
-    # Calculate T_leaf using energy balance or set to T_air ----
 
+    # I probably don't need this. Delete after fixing    
+    # if (!is.null(tsky_function)) {
+    #   pars$T_sky <- tsky_function(pars)
+    # }
+  
     par_units$S_sw <- units(units::make_units(W/m^2))
     par_units$g_sw <- par_units$g_sc
     par_units$g_uw <- par_units$g_uc
     par_units$logit_sr <- par_units$k_sc
-    par_units$T_sky <- units(pars$T_sky)
+    # par_units$T_sky <- units(pars$T_sky)
     
     pars$S_sw %<>% drop_units()
     pars$g_sw %<>% drop_units()
     pars$g_uw %<>% drop_units()
-    pars$T_sky %<>% drop_units()
+    # pars$T_sky %<>% drop_units() # I probably don't need this. Delete after fixing    
     
     tlp <- pars %>%
       as.list() %>%
@@ -192,8 +193,13 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
      
     tep <- pars %>%
       as.list() %>%
-      purrr::map(unique) %>%
-      tealeaves::enviro_par()
+      purrr::map(unique) 
+    
+    if (!is.null(tsky_function)) {
+      tep$T_sky <- tsky_function
+    }
+    
+    tep %<>% tealeaves::enviro_par()
 
     tcs <- tealeaves::constants(constants)
     
