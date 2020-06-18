@@ -7,6 +7,7 @@
 * In `enviro_par()`, "sky" temperature (`T_sky`) can now be provided directly as a values (in K) or as a function (the default).
 * If `parallel = TRUE` in `photosynthesis()`, **future** uses `plan("multisession")` rather than `plan("multiprocess")`.
 * Added full URL for `CONDUCT.md` in README
+* Fixed cross-references in .Rd files
 
 # photosynthesis 1.0.1
 
