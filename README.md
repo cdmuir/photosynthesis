@@ -9,6 +9,7 @@
 status](https://www.r-pkg.org/badges/version/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 [![Build
 Status](https://travis-ci.org/cdmuir/photosynthesis.svg?branch=master)](https://travis-ci.org/cdmuir/photosynthesis)
+[![](https://cranlogs.r-pkg.org/badges/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
@@ -33,7 +34,7 @@ install.packages("photosynthesis")
 or from GitHub
 
 ``` r
-install.packages("devtools")
+install.packages("remotes")
 remotes::install_github("cdmuir/photosynthesis")
 ```
 
@@ -85,18 +86,16 @@ photo(leaf_par, enviro_par, bake_par, constants, quiet = TRUE,
       use_tealeaves = FALSE)
 #>           C_chl        value convergence                     g_tc
 #> 1 24.52925 [Pa] -1.09648e-06           0 1.668765 [umol/m^2/Pa/s]
-#>                       A            g_mc25              g_sc
-#> 1 27.48581 [umol/m^2/s] 4 [umol/m^2/Pa/s] 4 [umol/m^2/Pa/s]
-#>                  g_uc gamma_star25          J_max25       K_C25
-#> 1 0.1 [umol/m^2/Pa/s]   3.743 [Pa] 200 [umol/m^2/s] 27.238 [Pa]
-#>          K_O25  k_mc  k_sc  k_uc leafsize     phi_J          R_d25
-#> 1 16.582 [kPa] 1 [1] 1 [1] 1 [1]  0.1 [m] 0.331 [1] 2 [umol/m^2/s]
-#>       T_leaf   theta_J         V_cmax25          V_tpu25 g_mc gamma_star
-#> 1 298.15 [K] 0.825 [1] 150 [umol/m^2/s] 200 [umol/m^2/s]    4      3.743
-#>   J_max    K_C    K_O R_d V_cmax V_tpu   C_air              O
-#> 1   200 27.238 16.582   2    150   200 41 [Pa] 21.27565 [kPa]
-#>                P              PPFD      RH    wind
-#> 1 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 2 [m/s]
+#>                       A            g_mc25              g_sc                g_uc
+#> 1 27.48581 [umol/m^2/s] 4 [umol/m^2/Pa/s] 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]
+#>   gamma_star25          J_max25       K_C25        K_O25  k_mc  k_sc  k_uc
+#> 1   3.743 [Pa] 200 [umol/m^2/s] 27.238 [Pa] 16.582 [kPa] 1 [1] 1 [1] 1 [1]
+#>   leafsize     phi_J          R_d25     T_leaf   theta_J         V_cmax25
+#> 1  0.1 [m] 0.331 [1] 2 [umol/m^2/s] 298.15 [K] 0.825 [1] 150 [umol/m^2/s]
+#>            V_tpu25 g_mc gamma_star J_max    K_C    K_O R_d V_cmax V_tpu   C_air
+#> 1 200 [umol/m^2/s]    4      3.743   200 27.238 16.582   2    150   200 41 [Pa]
+#>                O              P              PPFD      RH    wind
+#> 1 21.27565 [kPa] 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 2 [m/s]
 ```
 
 ## Replace default parameters
@@ -321,8 +320,9 @@ new features. You can submit issues here:
   - Get citation information for **photosynthesis** in R doing
     `citation(package = 'photosynthesis')`
   - Please note that this project is released with a [Contributor Code
-    of Conduct](CONDUCT.md). By participating in this project you agree
-    to abide by its terms.
+    of
+    Conduct](https://github.com/cdmuir/photosynthesis/blob/master/CONDUCT.md).
+    By participating in this project you agree to abide by its terms.
 
 <!-- end list -->
 

@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 [![Build Status](https://travis-ci.org/cdmuir/photosynthesis.svg?branch=master)](https://travis-ci.org/cdmuir/photosynthesis)
-[![](https://cranlogs.r-pkg.org/badges/tealeaves)](https://cran.r-project.org/package=photosynthesis)
+[![](https://cranlogs.r-pkg.org/badges/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
 
@@ -41,7 +41,7 @@ install.packages("photosynthesis")
 or from GitHub
 
 ```r
-install.packages("devtools")
+install.packages("remotes")
 remotes::install_github("cdmuir/photosynthesis")
 ```
 
@@ -73,4 +73,4 @@ https://github.com/cdmuir/photosynthesis/issues
 * Please [report any issues or bugs](https://github.com/cdmuir/photosynthesis/issues).
 * License: MIT
 * Get citation information for **photosynthesis** in R doing `citation(package = 'photosynthesis')`
-* Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+* Please note that this project is released with a [Contributor Code of Conduct](https://github.com/cdmuir/photosynthesis/blob/master/CONDUCT.md). By participating in this project you agree to abide by its terms.

@@ -27,7 +27,7 @@ photo(
   quiet = FALSE,
   assert_units = TRUE,
   check = TRUE,
-  prepare_for_tleaf = TRUE
+  prepare_for_tleaf = use_tealeaves
 )
 }
 \arguments{
@@ -49,9 +49,9 @@ photo(
 
 \item{parallel}{Logical. Should parallel processing be used via \code{\link[furrr]{future_map}}?}
 
-\item{check}{Logical. Should arguments checkes be done? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}} Default is TRUE.}
+\item{check}{Logical. Should arguments checks be done? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}} Default is TRUE.}
 
-\item{prepare_for_tleaf}{Logical. Should arguments additional calculations for \code{\link[tealeaves]{tleaf}}? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}}. Default is TRUE.}
+\item{prepare_for_tleaf}{Logical. Should arguments additional calculations for \code{\link[tealeaves]{tleaf}}? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}}. Default is \code{use_tealeaves}.}
 }
 \value{
 A data.frame with the following \code{units} columns \cr
@@ -80,9 +80,9 @@ A data.frame with the following \code{units} columns \cr
 \code{RH} \tab relative humidity (unitless) \cr
 \code{theta_J} \tab curvature factor for light-response curve (unitless) \cr
 \code{T_air} \tab air temperature (K) \cr
-\code{T_leaf} \tab leaf tempearture (K) \cr
+\code{T_leaf} \tab leaf temperature (K) \cr
 \code{V_cmax25} \tab maximum rate of carboxylation at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-\code{V_tpu25} \tab rate of triose phosphate utilisation at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
+\code{V_tpu25} \tab rate of triose phosphate utilization at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
 \code{wind} \tab wind speed (m / s) \cr
 \cr
 \bold{Baked Input:} \tab \cr
