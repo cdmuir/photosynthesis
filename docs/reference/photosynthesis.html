@@ -8,22 +8,36 @@
 
 <title>Simulate C3 photosynthesis — photosynthesis • photosynthesis</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -31,13 +45,12 @@
 
 
 
-<meta property="og:title" content="Simulate C3 photosynthesis — photosynthesis" />
 
+<meta property="og:title" content="Simulate C3 photosynthesis — photosynthesis" />
 <meta property="og:description" content="photosynthesis: simulate C3 photosynthesis over multiple parameter sets
 photo: simulate C3 photosynthesis over a single parameter set" />
-
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -51,9 +64,10 @@ photo: simulate C3 photosynthesis over a single parameter set" />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -67,7 +81,7 @@ photo: simulate C3 photosynthesis over a single parameter set" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -98,7 +112,6 @@ photo: simulate C3 photosynthesis over a single parameter set" />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -108,6 +121,7 @@ photo: simulate C3 photosynthesis over a single parameter set" />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -119,20 +133,34 @@ photo: simulate C3 photosynthesis over a single parameter set" />
     </div>
 
     <div class="ref-description">
-    
     <p><code>photosynthesis</code>: simulate C3 photosynthesis over multiple parameter sets</p>
 <p><code>photo</code>: simulate C3 photosynthesis over a single parameter set</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>photosynthesis</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>, <span class='no'>use_tealeaves</span>,
-  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>set_units</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>photosynthesis</span>(
+  <span class='no'>leaf_par</span>,
+  <span class='no'>enviro_par</span>,
+  <span class='no'>bake_par</span>,
+  <span class='no'>constants</span>,
+  <span class='no'>use_tealeaves</span>,
+  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>assert_units</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
-<span class='fu'>photo</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>, <span class='no'>use_tealeaves</span>,
-  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>set_units</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>prepare_for_tleaf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
-    
+<span class='fu'>photo</span>(
+  <span class='no'>leaf_par</span>,
+  <span class='no'>enviro_par</span>,
+  <span class='no'>bake_par</span>,
+  <span class='no'>constants</span>,
+  <span class='no'>use_tealeaves</span>,
+  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>assert_units</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>prepare_for_tleaf</span> <span class='kw'>=</span> <span class='no'>use_tealeaves</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -165,8 +193,8 @@ photo: simulate C3 photosynthesis over a single parameter set" />
       <td><p>Logical. Should messages be displayed?</p></td>
     </tr>
     <tr>
-      <th>set_units</th>
-      <td><p>Logical. Should <code>units</code> be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.</p></td>
+      <th>assert_units</th>
+      <td><p>Logical. Should parameter <code>units</code> be checked? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -174,14 +202,14 @@ photo: simulate C3 photosynthesis over a single parameter set" />
     </tr>
     <tr>
       <th>check</th>
-      <td><p>Logical. Should arguments checkes be done? This is intended to be disabled when <code>photo</code> is called from <code>photosynthesis</code> Default is TRUE.</p></td>
+      <td><p>Logical. Should arguments checks be done? This is intended to be disabled when <code>photo</code> is called from <code>photosynthesis</code> Default is TRUE.</p></td>
     </tr>
     <tr>
       <th>prepare_for_tleaf</th>
-      <td><p>Logical. Should arguments additional calculations for <code><a href='https://rdrr.io/pkg/tealeaves/man/tleaves.html'>tleaf</a></code>? This is intended to be disabled when <code>photo</code> is called from <code>photosynthesis</code>. Default is TRUE.</p></td>
+      <td><p>Logical. Should arguments additional calculations for <code><a href='https://rdrr.io/pkg/tealeaves/man/tleaves.html'>tleaf</a></code>? This is intended to be disabled when <code>photo</code> is called from <code>photosynthesis</code>. Default is <code>use_tealeaves</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A data.frame with the following <code>units</code> columns <br /></p>
@@ -208,9 +236,9 @@ photo: simulate C3 photosynthesis over a single parameter set" />
 <tr><td>relative humidity (unitless)</td><td><code>theta_J</code></td></tr>
 <tr><td>curvature factor for light-response curve (unitless)</td><td><code>T_air</code></td></tr>
 <tr><td>air temperature (K)</td><td><code>T_leaf</code></td></tr>
-<tr><td>leaf tempearture (K)</td><td><code>V_cmax25</code></td></tr>
+<tr><td>leaf temperature (K)</td><td><code>V_cmax25</code></td></tr>
 <tr><td>maximum rate of carboxylation at 25 °C (\(\mu\)mol CO2 / (m\(^2\) s))</td><td><code>V_tpu25</code></td></tr>
-<tr><td>rate of triose phosphate utilisation at 25 °C (\(\mu\)mol CO2 / (m\(^2\) s))</td><td><code>wind</code></td></tr>
+<tr><td>rate of triose phosphate utilization at 25 °C (\(\mu\)mol CO2 / (m\(^2\) s))</td><td><code>wind</code></td></tr>
 <tr><td>wind speed (m / s)</td><td></td></tr>
 <tr><td><b>Baked Input:</b></td><td></td></tr>
 <tr><td></td><td><code>g_mc</code></td></tr>
@@ -231,13 +259,11 @@ photo: simulate C3 photosynthesis over a single parameter set" />
 </table>
 
 
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>photo</code>: This function takes simulates photosynthetic rate using the Farquhar-von Caemmerer-Berry (<code><a href='FvCB.html'>FvCB</a></code>) model of C3 photosynthesis for single combined set of leaf parameters (<code><a href='leaf_par.html'>leaf_par</a></code>), environmental parameters (<code><a href='enviro_par.html'>enviro_par</a></code>), and physical constants (<code><a href='constants.html'>constants</a></code>). Leaf parameters are provided at reference temperature (25 °C) and then "baked" to the appropriate leaf temperature using temperature response functions (see <code><a href='bake.html'>bake</a></code>). <br />
 <br />
 <code>photosynthesis</code>: This function uses <code>photo</code> to simulate photosynthesis over multiple parameter sets that are generated using <code><a href='https://tidyr.tidyverse.org/reference/expand.html'>crossing</a></code>. <br /></p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Single parameter set with 'photo'</span>
@@ -247,8 +273,8 @@ photo: simulate C3 photosynthesis over a single parameter set" />
 <span class='no'>enviro_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='fu'>photo</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>,
-      <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'></span>
-#&gt; <span class='message'>Solving for C_chl ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'> done</span><span></span></div><div class='output co'>#&gt;           C_chl        value convergence                     g_tc
+      <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Solving for C_chl ...</span></div><div class='output co'>#&gt; <span class='message'> done</span></div><div class='output co'>#&gt;           C_chl        value convergence                     g_tc
 #&gt; 1 24.52925 [Pa] -1.09648e-06           0 1.668765 [umol/m^2/Pa/s]
 #&gt;                       A            g_mc25              g_sc                g_uc
 #&gt; 1 27.48581 [umol/m^2/s] 4 [umol/m^2/Pa/s] 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]
@@ -268,51 +294,42 @@ photo: simulate C3 photosynthesis over a single parameter set" />
     ), <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
   )
 <span class='fu'>photosynthesis</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>,
-               <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>Solving for photosynthetic rate from 2 parameter sets ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span>
+               <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>Solving for photosynthetic rate from 2 parameter sets ...</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘purrr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:magrittr’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    set_names</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    is_null</span></div><div class='output co'>#&gt;           C_chl        value convergence                     g_tc
+#&gt; <span class='message'>    set_names</span></div><div class='output co'>#&gt;           C_chl        value convergence                     g_tc
 #&gt; 1 25.73239 [Pa] -3.49677e-06           0 1.455976 [umol/m^2/Pa/s]
 #&gt; 2 24.52925 [Pa] -1.09648e-06           0 1.668765 [umol/m^2/Pa/s]
-#&gt;                       A            g_mc25              g_sc                g_uc
-#&gt; 1 22.22927 [umol/m^2/s] 4 [umol/m^2/Pa/s] 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]
-#&gt; 2 27.48581 [umol/m^2/s] 4 [umol/m^2/Pa/s] 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]
-#&gt;   gamma_star25          J_max25       K_C25        K_O25  k_mc  k_sc  k_uc
-#&gt; 1   3.743 [Pa] 200 [umol/m^2/s] 27.238 [Pa] 16.582 [kPa] 1 [1] 1 [1] 1 [1]
-#&gt; 2   3.743 [Pa] 200 [umol/m^2/s] 27.238 [Pa] 16.582 [kPa] 1 [1] 1 [1] 1 [1]
-#&gt;   leafsize     phi_J          R_d25     T_leaf   theta_J         V_cmax25
-#&gt; 1  0.1 [m] 0.331 [1] 2 [umol/m^2/s] 293.14 [K] 0.825 [1] 150 [umol/m^2/s]
-#&gt; 2  0.1 [m] 0.331 [1] 2 [umol/m^2/s] 298.15 [K] 0.825 [1] 150 [umol/m^2/s]
-#&gt;            V_tpu25   C_air              O              P              PPFD
-#&gt; 1 200 [umol/m^2/s] 41 [Pa] 21.27565 [kPa] 101.3246 [kPa] 1500 [umol/m^2/s]
-#&gt; 2 200 [umol/m^2/s] 41 [Pa] 21.27565 [kPa] 101.3246 [kPa] 1500 [umol/m^2/s]
-#&gt;        RH    wind      T_air                     g_mc    gamma_star
-#&gt; 1 0.5 [1] 2 [m/s] 293.14 [K] 2.844658 [umol/m^2/Pa/s] 3.162148 [Pa]
-#&gt; 2 0.5 [1] 2 [m/s] 298.15 [K] 4.000000 [umol/m^2/Pa/s] 3.743000 [Pa]
+#&gt;                       A                     g_mc    gamma_star
+#&gt; 1 22.22927 [umol/m^2/s] 2.844658 [umol/m^2/Pa/s] 3.162148 [Pa]
+#&gt; 2 27.48581 [umol/m^2/s] 4.000000 [umol/m^2/Pa/s] 3.743000 [Pa]
 #&gt;                   J_max           K_C           K_O                 R_d
 #&gt; 1 143.6921 [umol/m^2/s] 15.58393 [Pa] 14.0804 [kPa] 1.5133 [umol/m^2/s]
 #&gt; 2 200.0000 [umol/m^2/s] 27.23800 [Pa] 16.5820 [kPa] 2.0000 [umol/m^2/s]
-#&gt;                  V_cmax                 V_tpu
-#&gt; 1 104.6304 [umol/m^2/s] 139.5072 [umol/m^2/s]
-#&gt; 2 150.0000 [umol/m^2/s] 200.0000 [umol/m^2/s]</div><div class='input'>
-</div></span></pre>
+#&gt;                  V_cmax                 V_tpu            g_mc25
+#&gt; 1 104.6304 [umol/m^2/s] 139.5072 [umol/m^2/s] 4 [umol/m^2/Pa/s]
+#&gt; 2 150.0000 [umol/m^2/s] 200.0000 [umol/m^2/s] 4 [umol/m^2/Pa/s]
+#&gt;                g_sc                g_uc gamma_star25          J_max25
+#&gt; 1 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]   3.743 [Pa] 200 [umol/m^2/s]
+#&gt; 2 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]   3.743 [Pa] 200 [umol/m^2/s]
+#&gt;         K_C25        K_O25  k_mc  k_sc  k_uc leafsize     phi_J          R_d25
+#&gt; 1 27.238 [Pa] 16.582 [kPa] 1 [1] 1 [1] 1 [1]  0.1 [m] 0.331 [1] 2 [umol/m^2/s]
+#&gt; 2 27.238 [Pa] 16.582 [kPa] 1 [1] 1 [1] 1 [1]  0.1 [m] 0.331 [1] 2 [umol/m^2/s]
+#&gt;       T_leaf   theta_J         V_cmax25          V_tpu25   C_air              O
+#&gt; 1 293.14 [K] 0.825 [1] 150 [umol/m^2/s] 200 [umol/m^2/s] 41 [Pa] 21.27565 [kPa]
+#&gt; 2 298.15 [K] 0.825 [1] 150 [umol/m^2/s] 200 [umol/m^2/s] 41 [Pa] 21.27565 [kPa]
+#&gt;                P              PPFD      RH    wind      T_air
+#&gt; 1 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 2 [m/s] 293.14 [K]
+#&gt; 2 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 2 [m/s] 298.15 [K]</div><div class='input'>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -320,13 +337,16 @@ photo: simulate C3 photosynthesis over a single parameter set" />
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
