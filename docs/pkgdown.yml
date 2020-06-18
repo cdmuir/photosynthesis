@@ -1,6 +1,7 @@
-pandoc: 2.7.2
-pkgdown: 1.3.0.9000
-pkgdown_sha: 83f2afb5d2ec85abe29bfd8d67408cdf2bb55f03
+pandoc: 2.7.3
+pkgdown: 1.5.1
+pkgdown_sha: ~
 articles:
   photosynthesis-introduction: photosynthesis-introduction.html
+last_built: 2020-06-18T02:01Z
 

@@ -47,9 +47,9 @@
 #' \code{RH} \tab relative humidity (unitless) \cr
 #' \code{theta_J} \tab curvature factor for light-response curve (unitless) \cr
 #' \code{T_air} \tab air temperature (K) \cr
-#' \code{T_leaf} \tab leaf tempearture (K) \cr
+#' \code{T_leaf} \tab leaf temperature (K) \cr
 #' \code{V_cmax25} \tab maximum rate of carboxylation at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-#' \code{V_tpu25} \tab rate of triose phosphate utilisation at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
+#' \code{V_tpu25} \tab rate of triose phosphate utilization at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
 #' \code{wind} \tab wind speed (m / s) \cr
 #' \cr
 #' \bold{Baked Input:} \tab \cr
@@ -170,22 +170,15 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
                            umol/m^2/Pa/s)
     pars$logit_sr <- stats::qlogis(pars$k_sc / (1 + pars$k_sc))
 
-    # I probably don't need this. Delete after fixing    
-    # if (!is.null(tsky_function)) {
-    #   pars$T_sky <- tsky_function(pars)
-    # }
-  
     par_units$S_sw <- units(units::make_units(W/m^2))
     par_units$g_sw <- par_units$g_sc
     par_units$g_uw <- par_units$g_uc
     par_units$logit_sr <- par_units$k_sc
-    # par_units$T_sky <- units(pars$T_sky)
-    
+
     pars$S_sw %<>% drop_units()
     pars$g_sw %<>% drop_units()
     pars$g_uw %<>% drop_units()
-    # pars$T_sky %<>% drop_units() # I probably don't need this. Delete after fixing    
-    
+
     tlp <- pars %>%
       as.list() %>%
       purrr::map(unique) %>%
@@ -207,6 +200,9 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
                              set_units = FALSE, parallel = parallel)
     
     par_units$T_leaf <- units(tl$T_leaf)
+    
+    tl <- tl %>% dplyr::rename(tealeaves_convergence = .data$convergence, 
+                               tealeaves_value = .data$value)
     
     ## Drop units and join
     suppressMessages(
@@ -289,15 +285,15 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
 #' @description \code{photo}: simulate C3 photosynthesis over a single parameter set
 #' @rdname photosynthesis
 #' 
-#' @param check Logical. Should arguments checkes be done? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}} Default is TRUE.
+#' @param check Logical. Should arguments checks be done? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}} Default is TRUE.
 #'
-#' @param prepare_for_tleaf Logical. Should arguments additional calculations for \code{\link[tealeaves]{tleaf}}? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}}. Default is TRUE.
+#' @param prepare_for_tleaf Logical. Should arguments additional calculations for \code{\link[tealeaves]{tleaf}}? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}}. Default is \code{use_tealeaves}.
 #' 
 #' @export
 
 photo <- function(leaf_par, enviro_par, bake_par, constants, 
                   use_tealeaves, quiet = FALSE, assert_units = TRUE,
-                  check = TRUE, prepare_for_tleaf = TRUE) {
+                  check = TRUE, prepare_for_tleaf = use_tealeaves) {
   
   checkmate::assert_flag(check)
   checkmate::assert_flag(prepare_for_tleaf)
@@ -347,6 +343,8 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
     tl <- tealeaves::tleaf(leaf_par = leaf_par, enviro_par = enviro_par, 
                            constants = constants, quiet = TRUE, 
                            set_units = TRUE)
+    tl <- tl %>% dplyr::rename(tealeaves_convergence = .data$convergence, 
+                               tealeaves_value = .data$value)
     leaf_par$T_leaf <- tl$T_leaf
     
   }

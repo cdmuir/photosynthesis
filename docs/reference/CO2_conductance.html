@@ -8,22 +8,36 @@
 
 <title>Conductance to CO2 (umol / (m^2 s Pa)) — CO2_conductance • photosynthesis</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -31,17 +45,16 @@
 
 
 
-<meta property="og:title" content="Conductance to CO2 (umol / (m^2 s Pa)) — CO2_conductance" />
 
+<meta property="og:title" content="Conductance to CO2 (umol / (m^2 s Pa)) — CO2_conductance" />
 <meta property="og:description" content="Conductance to CO2 (umol / (m^2 s Pa))
 - g_tc: total conductance to CO2
 - g_uc: cuticular conductance to CO2
 - g_bc: boundary layer conductance to CO2
 - g_mc: mesophyll conductance to CO2
 - g_sc: stomatal conductance to CO2" />
-
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -55,9 +68,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -71,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -102,7 +116,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -112,6 +125,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -123,14 +137,12 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Conductance to CO2 (umol / (m^2 s Pa))</p>
 <p>- g_tc: total conductance to CO2</p>
 <p>- g_uc: cuticular conductance to CO2</p>
 <p>- g_bc: boundary layer conductance to CO2</p>
 <p>- g_mc: mesophyll conductance to CO2</p>
 <p>- g_sc: stomatal conductance to CO2</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>.get_gtc</span>(<span class='no'>pars</span>, <span class='no'>unitless</span>)
@@ -142,7 +154,7 @@
 <span class='fu'>.get_gmc</span>(<span class='no'>pars</span>, <span class='no'>surface</span>, <span class='no'>unitless</span>)
 
 <span class='fu'>.get_gsc</span>(<span class='no'>pars</span>, <span class='no'>surface</span>, <span class='no'>unitless</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -159,7 +171,7 @@
       <td><p>Leaf surface (lower or upper)</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Total conductance to CO2 is the sum of parallel conductances on the lower (\(g_\mathrm{c,lower}\)) and upper (\(g_\mathrm{c,upper}\)) leaf portions:</p>
@@ -178,7 +190,9 @@ $$g_x = g_{x,\mathrm{lower}} + g_{x,\mathrm{upper}}$$</p>
 <tr><td>2</td><td>2/3 conductance on <b>upper</b> surface</td></tr>
 <tr><td>Inf</td><td>all conductance on <b>upper</b> surface/portion</td></tr>
 </table>
-    <p>The boundary layer conductances for each are calculated on the basis of mass and heat transfer (see <code>.get_gbc</code>).</p>
+
+
+<p>The boundary layer conductances for each are calculated on the basis of mass and heat transfer (see <code>.get_gbc</code>).</p>
 <table class='table'>
 <tr><td><em>Symbol</em></td><td><em>R</em></td><td><em>Description</em></td><td><em>Units</em></td><td><em>Default</em></td></tr>
 <tr><td>\(g_\mathrm{mc}\)</td><td><code>g_mc</code></td><td>mesophyll conductance to CO2 (T_leaf)</td><td>\(\mu\)mol CO2 / (m\(^2\) s Pa)</td><td><a href='bake.html'>calculated</a></td></tr>
@@ -188,15 +202,14 @@ $$g_x = g_{x,\mathrm{lower}} + g_{x,\mathrm{upper}}$$</p>
 <tr><td>\(k_\mathrm{sc}\)</td><td><code>k_sc</code></td><td>partition of \(g_\mathrm{sc}\) to lower surface</td><td>none</td><td>1</td></tr>
 <tr><td>\(k_\mathrm{uc}\)</td><td><code>k_uc</code></td><td>partition of \(g_\mathrm{uc}\) to lower surface</td><td>none</td><td>1</td></tr>
 </table>
-    
+
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Total conductance to CO2</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>magrittr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘magrittr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:testthat’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    equals, is_less_than, not</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>photosynthesis</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>magrittr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>photosynthesis</span>)
 
 <span class='co'>## Hypostomatous leaf; default parameters</span>
 <span class='no'>bake_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span>()
@@ -208,23 +221,23 @@ $$g_x = g_{x,\mathrm{lower}} + g_{x,\mathrm{upper}}$$</p>
 <span class='no'>enviro_par</span>$<span class='no'>T_air</span> <span class='kw'>&lt;-</span> <span class='no'>leaf_par</span>$<span class='no'>T_leaf</span>
 <span class='no'>pars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>constants</span>)
 
-<span class='no'>gbw_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/photosynthesis/man/CO2_conductance.html'>.get_gbc</a></span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
+<span class='no'>gbw_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_gbc</span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
 
 <span class='co'># Lower surface ----</span>
-<span class='no'>gbc_lower</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/photosynthesis/man/CO2_conductance.html'>.get_gbc</a></span>(<span class='no'>pars</span>, <span class='st'>"lower"</span>, <span class='fl'>FALSE</span>)
-<span class='no'>gmc_lower</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/photosynthesis/man/CO2_conductance.html'>.get_gmc</a></span>(<span class='no'>pars</span>, <span class='st'>"lower"</span>, <span class='fl'>FALSE</span>)
-<span class='no'>gsc_lower</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/photosynthesis/man/CO2_conductance.html'>.get_gsc</a></span>(<span class='no'>pars</span>, <span class='st'>"lower"</span>, <span class='fl'>FALSE</span>)
-<span class='no'>guc_lower</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/photosynthesis/man/CO2_conductance.html'>.get_guc</a></span>(<span class='no'>pars</span>, <span class='st'>"lower"</span>, <span class='fl'>FALSE</span>)
+<span class='no'>gbc_lower</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_gbc</span>(<span class='no'>pars</span>, <span class='st'>"lower"</span>, <span class='fl'>FALSE</span>)
+<span class='no'>gmc_lower</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_gmc</span>(<span class='no'>pars</span>, <span class='st'>"lower"</span>, <span class='fl'>FALSE</span>)
+<span class='no'>gsc_lower</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_gsc</span>(<span class='no'>pars</span>, <span class='st'>"lower"</span>, <span class='fl'>FALSE</span>)
+<span class='no'>guc_lower</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_guc</span>(<span class='no'>pars</span>, <span class='st'>"lower"</span>, <span class='fl'>FALSE</span>)
 
 <span class='no'>rc_lower</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span> / <span class='no'>gmc_lower</span> + <span class='fl'>1</span> / <span class='no'>gsc_lower</span> + <span class='fl'>1</span> / <span class='no'>gbc_lower</span>
 <span class='no'>gc_lower</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span> / <span class='no'>rc_lower</span>
 <span class='no'>gc_lower</span> <span class='kw'>%&lt;&gt;%</span> <span class='kw pkg'>magrittr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/magrittr/man/aliases.html'>add</a></span>(<span class='no'>guc_lower</span>)
 
 <span class='co'># Upper surface ----</span>
-<span class='no'>gbc_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/photosynthesis/man/CO2_conductance.html'>.get_gbc</a></span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
-<span class='no'>gmc_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/photosynthesis/man/CO2_conductance.html'>.get_gmc</a></span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
-<span class='no'>gsc_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/photosynthesis/man/CO2_conductance.html'>.get_gsc</a></span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
-<span class='no'>guc_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/photosynthesis/man/CO2_conductance.html'>.get_guc</a></span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
+<span class='no'>gbc_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_gbc</span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
+<span class='no'>gmc_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_gmc</span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
+<span class='no'>gsc_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_gsc</span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
+<span class='no'>guc_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_guc</span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
 
 <span class='no'>rc_upper</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span> / <span class='no'>gmc_upper</span> + <span class='fl'>1</span> / <span class='no'>gsc_upper</span> + <span class='fl'>1</span> / <span class='no'>gbc_upper</span>
 <span class='no'>gc_upper</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span> / <span class='no'>rc_upper</span>
@@ -236,18 +249,13 @@ $$g_x = g_{x,\mathrm{lower}} + g_{x,\mathrm{upper}}$$</p>
 <span class='no'>g_tc</span></div><div class='output co'>#&gt; 1.075716 [umol/m^2/Pa/s]</div><div class='input'>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -255,13 +263,16 @@ $$g_x = g_{x,\mathrm{lower}} + g_{x,\mathrm{upper}}$$</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

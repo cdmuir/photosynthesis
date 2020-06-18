@@ -44,7 +44,7 @@ temp_resp2(par25, D_s, E_a, E_d, R, T_leaf, T_ref, unitless)
 Constructor function for \code{baked} class. This will also inherit class \code{\link{leaf_par}}. This function ensures that temperature is "baked in" to leaf parameter calculations \code{T_leaf} using temperature response functions detailed below.
 }
 \details{
-Several leaf parameters (\code{\link{leaf_par}}) are temperature sensitive. Temperature-sensitive parameters are input at a reference temperature of 25 °C. These parameters are provided as \code{par_name25} and then "baked" using the appropriate temperature response function and parameters in \code{\link{bake_par}}. The "baked" parameter will have the name without "25" apprended (\code{par_name}). E.g. \code{V_cmax25} becomes \code{V_cmax}. \cr
+Several leaf parameters (\code{\link{leaf_par}}) are temperature sensitive. Temperature-sensitive parameters are input at a reference temperature of 25 °C. These parameters are provided as \code{par_name25} and then "baked" using the appropriate temperature response function and parameters in \code{\link{bake_par}}. The "baked" parameter will have the name without "25" appended (\code{par_name}). E.g. \code{V_cmax25} becomes \code{V_cmax}. \cr
 \cr
 Temperature response functions following Bernacchi et al. 2002. \cr
 \cr
