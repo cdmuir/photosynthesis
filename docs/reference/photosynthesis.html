@@ -263,7 +263,7 @@ photo: simulate C3 photosynthesis over a single parameter set" />
 
     <p><code>photo</code>: This function takes simulates photosynthetic rate using the Farquhar-von Caemmerer-Berry (<code><a href='FvCB.html'>FvCB</a></code>) model of C3 photosynthesis for single combined set of leaf parameters (<code><a href='leaf_par.html'>leaf_par</a></code>), environmental parameters (<code><a href='enviro_par.html'>enviro_par</a></code>), and physical constants (<code><a href='constants.html'>constants</a></code>). Leaf parameters are provided at reference temperature (25 °C) and then "baked" to the appropriate leaf temperature using temperature response functions (see <code><a href='bake.html'>bake</a></code>). <br />
 <br />
-<code>photosynthesis</code>: This function uses <code>photo</code> to simulate photosynthesis over multiple parameter sets that are generated using <code><a href='https://tidyr.tidyverse.org/reference/expand.html'>crossing</a></code>. <br /></p>
+<code>photosynthesis</code>: This function uses <code>photo</code> to simulate photosynthesis over multiple parameter sets that are generated using <code><a href='https://purrr.tidyverse.org/reference/cross.html'>cross_df</a></code>. <br /></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Single parameter set with 'photo'</span>
@@ -273,8 +273,8 @@ photo: simulate C3 photosynthesis over a single parameter set" />
 <span class='no'>enviro_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='fu'>photo</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>,
-      <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Solving for C_chl ...</span></div><div class='output co'>#&gt; <span class='message'> done</span></div><div class='output co'>#&gt;           C_chl        value convergence                     g_tc
+      <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'></span>
+#&gt; <span class='message'>Solving for C_chl ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'> done</span><span></span></div><div class='output co'>#&gt;           C_chl        value convergence                     g_tc
 #&gt; 1 24.52925 [Pa] -1.09648e-06           0 1.668765 [umol/m^2/Pa/s]
 #&gt;                       A            g_mc25              g_sc                g_uc
 #&gt; 1 27.48581 [umol/m^2/s] 4 [umol/m^2/Pa/s] 4 [umol/m^2/Pa/s] 0.1 [umol/m^2/Pa/s]
@@ -294,7 +294,7 @@ photo: simulate C3 photosynthesis over a single parameter set" />
     ), <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
   )
 <span class='fu'>photosynthesis</span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>,
-               <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>Solving for photosynthetic rate from 2 parameter sets ...</span></div><div class='output co'>#&gt; <span class='message'></span>
+               <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>Solving for photosynthetic rate from 2 parameter sets ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘purrr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:magrittr’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    set_names</span></div><div class='output co'>#&gt;           C_chl        value convergence                     g_tc
@@ -321,7 +321,7 @@ photo: simulate C3 photosynthesis over a single parameter set" />
 #&gt;                P              PPFD      RH    wind      T_air
 #&gt; 1 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 2 [m/s] 293.14 [K]
 #&gt; 2 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 2 [m/s] 298.15 [K]</div><div class='input'>
-</div></pre>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
