@@ -260,18 +260,19 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
   )
   
   # Reassign units ----
+  soln_env <- environment()
   colnames(soln) %>%
-    glue::glue("units(soln${x}) <<- par_units${x}", x = .) %>%
+    glue::glue("units(soln${x}) <- par_units${x}", x = .) %>%
     parse(text = .) %>%
-    eval()
+    eval(envir = soln_env)
   
   soln %>%
     dplyr::select(tidyselect::ends_with("25")) %>%
     colnames() %>%
     stringr::str_remove("25$") %>%
-    glue::glue("units(soln${x}) <<- par_units${x}25", x = .) %>%
+    glue::glue("units(soln${x}) <- par_units${x}25", x = .) %>%
     parse(text = .) %>%
-    eval()
+    eval(envir = soln_env)
   
   soln$C_chl %<>% set_units(Pa)
   soln$g_tc %<>% set_units(umol/m^2/s/Pa)
@@ -427,7 +428,6 @@ find_A <- function(unitless_pars, quiet) {
 #' 
 #' This function is not intended to be called by users directly.
 #' 
-#' @inheritParams photosynthesis
 #' @param C_chl Chloroplastic CO2 concentration in Pa of class \code{units}
 #' @param pars Concatenated parameters (\code{leaf_par}, \code{enviro_par}, and \code{constants})
 #' @param unitless Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.

@@ -44,57 +44,12 @@
 #' 
 #' @encoding UTF-8
 #' 
-#' @examples 
-#' # Total conductance to CO2
-#' 
-#' library(magrittr)
-#' library(photosynthesis)
-#' 
-#' ## Hypostomatous leaf; default parameters
-#' bake_par <- make_bakepar()
-#' constants <- make_constants(use_tealeaves = FALSE)
-#' enviro_par <- make_enviropar(use_tealeaves = FALSE)
-#' leaf_par <- make_leafpar(replace = list(k_sc = set_units(0)),
-#'                          use_tealeaves = FALSE)
-#' leaf_par %<>% bake(bake_par, constants)
-#' enviro_par$T_air <- leaf_par$T_leaf
-#' pars <- c(leaf_par, enviro_par, constants)
-#' 
-#' gbw_upper <- photosynthesis:::.get_gbc(pars, "upper", FALSE)
-#' 
-#' # Lower surface ----
-#' gbc_lower <- photosynthesis:::.get_gbc(pars, "lower", FALSE)
-#' gmc_lower <- photosynthesis:::.get_gmc(pars, "lower", FALSE)
-#' gsc_lower <- photosynthesis:::.get_gsc(pars, "lower", FALSE)
-#' guc_lower <- photosynthesis:::.get_guc(pars, "lower", FALSE)
-#' 
-#' rc_lower <- 1 / gmc_lower + 1 / gsc_lower + 1 / gbc_lower
-#' gc_lower <- 1 / rc_lower
-#' gc_lower %<>% magrittr::add(guc_lower)
-#' 
-#' # Upper surface ----
-#' gbc_upper <- photosynthesis:::.get_gbc(pars, "upper", FALSE)
-#' gmc_upper <- photosynthesis:::.get_gmc(pars, "upper", FALSE)
-#' gsc_upper <- photosynthesis:::.get_gsc(pars, "upper", FALSE)
-#' guc_upper <- photosynthesis:::.get_guc(pars, "upper", FALSE)
-#' 
-#' rc_upper <- 1 / gmc_upper + 1 / gsc_upper + 1 / gbc_upper
-#' gc_upper <- 1 / rc_upper
-#' gc_upper %<>% magrittr::add(guc_upper)
-#' 
-#' ## Lower and upper surface are in parallel
-#' g_tc <- gc_lower + gc_upper
-#' 
-#' g_tc
-#' 
 
 NULL
 
 #'  - g_tc: total conductance to CO2
 #' 
 #' @rdname CO2_conductance
-#' 
-#' 
 
 .get_gtc <- function(pars, unitless) {
   

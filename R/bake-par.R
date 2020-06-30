@@ -2,7 +2,6 @@
 #' @exportClass bake_par
 #
 
-#' @inheritParams photosynthesis
 #' @param .x A list to be constructed into \strong{bake_par}.
 #' 
 #' @description 
