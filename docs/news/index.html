@@ -133,6 +133,11 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#photosynthesis-development-version" class="anchor"></a>photosynthesis (development version)<small> Unreleased </small>
 </h1>
+</div>
+    <div id="photosynthesis-102" class="section level1">
+<h1 class="page-header" data-toc-text="1.0.2">
+<a href="#photosynthesis-102" class="anchor"></a>photosynthesis 1.0.2<small> Unreleased </small>
+</h1>
 <ul>
 <li>Fixed bug with crossing parameters in <code><a href="../reference/photosynthesis.html">photosynthesis()</a></code> that was introduced when <code>use_tealeaves = TRUE</code> because of changes in the <strong>tealeaves</strong> package. This led to crossing all parameter values with all unique values of calculated <code>T_sky</code>, which was incorrect. Added unit tests to ensuring that crossing is done correctly under <code>tests/test-photosynthesis-crossing.R</code>
 </li>
@@ -140,6 +145,7 @@
 <li>In <code><a href="../reference/enviro_par.html">enviro_par()</a></code>, “sky” temperature (<code>T_sky</code>) can now be provided directly as a values (in K) or as a function (the default).</li>
 <li>If <code>parallel = TRUE</code> in <code><a href="../reference/photosynthesis.html">photosynthesis()</a></code>, <strong>future</strong> uses <code>plan("multisession")</code> rather than <code>plan("multiprocess")</code>.</li>
 <li>Added full URL for <code>CONDUCT.md</code> in README</li>
+<li>Fixed cross-references in .Rd files</li>
 </ul>
 </div>
     <div id="photosynthesis-101" class="section level1">
@@ -147,7 +153,7 @@
 <a href="#photosynthesis-101" class="anchor"></a>photosynthesis 1.0.1<small> Unreleased </small>
 </h1>
 <p>Release to be archived with revision of “Is amphistomy an adaptation to high light? Optimality models of stomatal traits along light gradients.”</p>
-<p><a href="https://cdmuir.netlify.app/post/2019-11-21-phyteclub/">Blog post.</a></p>
+<p><a href="https://cdmuir.netlify.app/post/2019-05-21-phyteclub/">Blog post.</a></p>
 </div>
     <div id="photosynthesis-100" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.0">

@@ -10,7 +10,7 @@
 #' 
 #' @param constants A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.
 #' 
-#' @param use_tealeaves Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.
+#' @param use_tealeaves Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves:tleaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.
 #' 
 #' @param progress Logical. Should a progress bar be displayed?
 #' 
@@ -76,7 +76,7 @@
 #' 
 #' \code{photo}: This function takes simulates photosynthetic rate using the Farquhar-von Caemmerer-Berry (\code{\link{FvCB}}) model of C3 photosynthesis for single combined set of leaf parameters (\code{\link{leaf_par}}), environmental parameters (\code{\link{enviro_par}}), and physical constants (\code{\link{constants}}). Leaf parameters are provided at reference temperature (25 °C) and then "baked" to the appropriate leaf temperature using temperature response functions (see \code{\link{bake}}). \cr
 #' \cr
-#' \code{photosynthesis}: This function uses \code{photo} to simulate photosynthesis over multiple parameter sets that are generated using \code{\link[tidyr]{crossing}}. \cr
+#' \code{photosynthesis}: This function uses \code{photo} to simulate photosynthesis over multiple parameter sets that are generated using \code{\link[purrr:cross]{cross_df}}. \cr
 #' 
 #' @examples 
 #' # Single parameter set with 'photo'
@@ -260,18 +260,19 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
   )
   
   # Reassign units ----
+  soln_env <- environment()
   colnames(soln) %>%
-    glue::glue("units(soln${x}) <<- par_units${x}", x = .) %>%
+    glue::glue("units(soln${x}) <- par_units${x}", x = .) %>%
     parse(text = .) %>%
-    eval()
+    eval(envir = soln_env)
   
   soln %>%
     dplyr::select(tidyselect::ends_with("25")) %>%
     colnames() %>%
     stringr::str_remove("25$") %>%
-    glue::glue("units(soln${x}) <<- par_units${x}25", x = .) %>%
+    glue::glue("units(soln${x}) <- par_units${x}25", x = .) %>%
     parse(text = .) %>%
-    eval()
+    eval(envir = soln_env)
   
   soln$C_chl %<>% set_units(Pa)
   soln$g_tc %<>% set_units(umol/m^2/s/Pa)
@@ -287,7 +288,7 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
 #' 
 #' @param check Logical. Should arguments checks be done? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}} Default is TRUE.
 #'
-#' @param prepare_for_tleaf Logical. Should arguments additional calculations for \code{\link[tealeaves]{tleaf}}? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}}. Default is \code{use_tealeaves}.
+#' @param prepare_for_tleaf Logical. Should arguments additional calculations for \code{\link[tealeaves:tleaves]{tleaf}}? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}}. Default is \code{use_tealeaves}.
 #' 
 #' @export
 
@@ -427,7 +428,6 @@ find_A <- function(unitless_pars, quiet) {
 #' 
 #' This function is not intended to be called by users directly.
 #' 
-#' @inheritParams photosynthesis
 #' @param C_chl Chloroplastic CO2 concentration in Pa of class \code{units}
 #' @param pars Concatenated parameters (\code{leaf_par}, \code{enviro_par}, and \code{constants})
 #' @param unitless Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.

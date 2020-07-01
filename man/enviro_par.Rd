@@ -9,7 +9,7 @@ enviro_par(.x, use_tealeaves)
 \arguments{
 \item{.x}{A list to be constructed into \strong{enviro_par}.}
 
-\item{use_tealeaves}{Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.}
+\item{use_tealeaves}{Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves:tleaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.}
 }
 \description{
 Constructor function for enviro_par class. This function ensures that environmental parameter inputs are properly formatted.

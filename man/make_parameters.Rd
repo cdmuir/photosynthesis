@@ -20,7 +20,7 @@ make_constants(replace = NULL, use_tealeaves)
 \arguments{
 \item{replace}{A named list of parameters to replace defaults. If \code{NULL}, defaults will be used.}
 
-\item{use_tealeaves}{Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.}
+\item{use_tealeaves}{Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves:tleaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.}
 }
 \value{
 \code{make_leafpar}: An object inheriting from class \code{\link{leaf_par}}\cr

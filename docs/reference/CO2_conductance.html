@@ -205,49 +205,6 @@ $$g_x = g_{x,\mathrm{lower}} + g_{x,\mathrm{upper}}$$</p>
 
 
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Total conductance to CO2</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>magrittr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>photosynthesis</span>)
-
-<span class='co'>## Hypostomatous leaf; default parameters</span>
-<span class='no'>bake_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span>()
-<span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>enviro_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(<span class='kw'>replace</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>k_sc</span> <span class='kw'>=</span> <span class='fu'>set_units</span>(<span class='fl'>0</span>)),
-                         <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>leaf_par</span> <span class='kw'>%&lt;&gt;%</span> <span class='fu'><a href='bake.html'>bake</a></span>(<span class='no'>bake_par</span>, <span class='no'>constants</span>)
-<span class='no'>enviro_par</span>$<span class='no'>T_air</span> <span class='kw'>&lt;-</span> <span class='no'>leaf_par</span>$<span class='no'>T_leaf</span>
-<span class='no'>pars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>constants</span>)
-
-<span class='no'>gbw_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_gbc</span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
-
-<span class='co'># Lower surface ----</span>
-<span class='no'>gbc_lower</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_gbc</span>(<span class='no'>pars</span>, <span class='st'>"lower"</span>, <span class='fl'>FALSE</span>)
-<span class='no'>gmc_lower</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_gmc</span>(<span class='no'>pars</span>, <span class='st'>"lower"</span>, <span class='fl'>FALSE</span>)
-<span class='no'>gsc_lower</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_gsc</span>(<span class='no'>pars</span>, <span class='st'>"lower"</span>, <span class='fl'>FALSE</span>)
-<span class='no'>guc_lower</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_guc</span>(<span class='no'>pars</span>, <span class='st'>"lower"</span>, <span class='fl'>FALSE</span>)
-
-<span class='no'>rc_lower</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span> / <span class='no'>gmc_lower</span> + <span class='fl'>1</span> / <span class='no'>gsc_lower</span> + <span class='fl'>1</span> / <span class='no'>gbc_lower</span>
-<span class='no'>gc_lower</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span> / <span class='no'>rc_lower</span>
-<span class='no'>gc_lower</span> <span class='kw'>%&lt;&gt;%</span> <span class='kw pkg'>magrittr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/magrittr/man/aliases.html'>add</a></span>(<span class='no'>guc_lower</span>)
-
-<span class='co'># Upper surface ----</span>
-<span class='no'>gbc_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_gbc</span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
-<span class='no'>gmc_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_gmc</span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
-<span class='no'>gsc_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_gsc</span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
-<span class='no'>guc_upper</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>photosynthesis</span><span class='kw ns'>:::</span><span class='fu'>.get_guc</span>(<span class='no'>pars</span>, <span class='st'>"upper"</span>, <span class='fl'>FALSE</span>)
-
-<span class='no'>rc_upper</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span> / <span class='no'>gmc_upper</span> + <span class='fl'>1</span> / <span class='no'>gsc_upper</span> + <span class='fl'>1</span> / <span class='no'>gbc_upper</span>
-<span class='no'>gc_upper</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span> / <span class='no'>rc_upper</span>
-<span class='no'>gc_upper</span> <span class='kw'>%&lt;&gt;%</span> <span class='kw pkg'>magrittr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/magrittr/man/aliases.html'>add</a></span>(<span class='no'>guc_upper</span>)
-
-<span class='co'>## Lower and upper surface are in parallel</span>
-<span class='no'>g_tc</span> <span class='kw'>&lt;-</span> <span class='no'>gc_lower</span> + <span class='no'>gc_upper</span>
-
-<span class='no'>g_tc</span></div><div class='output co'>#&gt; 1.075716 [umol/m^2/Pa/s]</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
