@@ -1,23 +1,22 @@
 #' S3 class leaf_par
 #' @exportClass leaf_par
 #
-
 #' @inheritParams photosynthesis
 #' @param .x A list to be constructed into \strong{leaf_par}.
-#' 
-#' @description 
-#' 
-#' Constructor function for leaf_par class. This function ensures that leaf parameter inputs are properly formatted.
-#' 
+#'
+#' @description
+#'
+#' Constructor function for leaf_par class. This function ensures that leaf
+#' parameter inputs are properly formatted.
+#'
 #' @export
-
 leaf_par <- function(.x, use_tealeaves) {
-  
+
   which <- "leaf"
   nms <- photosynthesis::parameter_names(which, use_tealeaves)
-  
+
   stopifnot(is.list(.x))
-  
+
   if (!all(nms %in% names(.x))) {
     nms[!(nms %in% names(.x))] %>%
       stringr::str_c(collapse = ", ") %>%
@@ -25,9 +24,9 @@ leaf_par <- function(.x, use_tealeaves) {
                  x = ., which = which) %>%
       stop()
   }
-  
+
   .x %<>% magrittr::extract(nms)
-  
+
   # Set units ----
   .x$g_mc25 %<>% set_units(umol / (m^2 * s * Pa))
   .x$g_sc %<>% set_units(umol / (m^2 * s * Pa))
@@ -45,13 +44,13 @@ leaf_par <- function(.x, use_tealeaves) {
   if (!use_tealeaves) .x$T_leaf %<>% set_units(K)
   .x$V_cmax25 %<>% set_units(umol / (m^2 * s))
   .x$V_tpu25 %<>% set_units(umol / (m^2 * s))
-  
+
   # If using tealeaves, convert conductance values ----
   if (use_tealeaves) {
     .x$abs_l %<>% set_units()
     .x$abs_s %<>% set_units()
   }
-  
+
   # Check values ----
   stopifnot(.x$g_mc25 >= set_units(0, umol / (m^2 * s * Pa)))
   stopifnot(.x$g_sc >= set_units(0, umol / (m^2 * s * Pa)))
@@ -69,13 +68,12 @@ leaf_par <- function(.x, use_tealeaves) {
   if (!use_tealeaves) stopifnot(.x$T_leaf >= set_units(0, K))
   stopifnot(.x$V_cmax25 >= set_units(0, umol / (m^2 * s)))
   stopifnot(.x$V_tpu25 >= set_units(0, umol / (m^2 * s)))
-  
+
   if (use_tealeaves) {
     stopifnot(.x$abs_l > set_units(0) & .x$abs_l < set_units(1))
     stopifnot(.x$abs_s > set_units(0) & .x$abs_s < set_units(1))
   }
-  
-  structure(.x, class = c(stringr::str_c(which, "_par"), "list"))
-  
-}
 
+  structure(.x, class = c(stringr::str_c(which, "_par"), "list"))
+
+}

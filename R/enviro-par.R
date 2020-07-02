@@ -83,4 +83,3 @@ enviro_par <- function(.x, use_tealeaves) {
   structure(.x, class = c(stringr::str_c(which, "_par"), "list"))
   
 }
-

@@ -81,7 +81,7 @@ Convert g_c (umol CO2/m^2/s/Pa) to g_w (umol H2O /m^2/s/Pa)" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
       </span>
     </div>
 
@@ -103,6 +103,9 @@ Convert g_c (umol CO2/m^2/s/Pa) to g_w (umol H2O /m^2/s/Pa)" />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/photosynthesis-curve-fitting-sensitivity-analyses.html">photosynthesis-curve-fitting-sensitivity-analyses</a>
+    </li>
     <li>
       <a href="../articles/photosynthesis-introduction.html">Introduction to the photosynthesis package</a>
     </li>
@@ -146,15 +149,18 @@ Convert g_c (umol CO2/m^2/s/Pa) to g_w (umol H2O /m^2/s/Pa)" />
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>g_w</th>
-      <td><p>conductance to water vapor in units (\(\mu\)mol H2O / (m^2 s Pa)) of class <code>units</code>.</p></td>
+      <td><p>conductance to water vapor in units
+(\(\mu\)mol H2O / (m^2 s Pa)) of class <code>units</code>.</p></td>
     </tr>
     <tr>
       <th>D_c</th>
-      <td><p>diffusion coefficient for CO2 in air in units of m^2/s of call <code>units</code></p></td>
+      <td><p>diffusion coefficient for CO2 in air in units of m^2/s of call
+<code>units</code></p></td>
     </tr>
     <tr>
       <th>D_w</th>
-      <td><p>diffusion coefficient for H2O in air in units of m^2/s of call <code>units</code></p></td>
+      <td><p>diffusion coefficient for H2O in air in units of m^2/s of call
+<code>units</code></p></td>
     </tr>
     <tr>
       <th>unitless</th>
@@ -162,7 +168,8 @@ Convert g_c (umol CO2/m^2/s/Pa) to g_w (umol H2O /m^2/s/Pa)" />
     </tr>
     <tr>
       <th>g_c</th>
-      <td><p>conductance to CO2 in units (\(\mu\)mol H2O / (m^2 s Pa)) of class <code>units</code>.</p></td>
+      <td><p>conductance to CO2 in units (\(\mu\)mol H2O / (m^2 s Pa)) of
+class <code>units</code>.</p></td>
     </tr>
     </table>
 
@@ -171,7 +178,9 @@ Convert g_c (umol CO2/m^2/s/Pa) to g_w (umol H2O /m^2/s/Pa)" />
     <p>Value with units \(\mu\)mol / (m^2 s Pa) of class <code>units</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Diffusive conductance to CO2 is generally about ~1.6x that of H2O because of the higher molecular weight. To convert, multiply conductance by the ratio of diffusion coefficients:</p>
+    <p>Diffusive conductance to CO2 is generally about ~1.6x that of H2O because of
+the higher molecular weight. To convert, multiply conductance by the ratio
+of diffusion coefficients:</p>
 <p>$$g_\mathrm{c} = g_\mathrm{w} D_\mathrm{c} / D_\mathrm{w}$$
 $$g_\mathrm{w} = g_\mathrm{c} D_\mathrm{w} / D_\mathrm{c}$$</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
@@ -197,7 +206,7 @@ $$g_\mathrm{w} = g_\mathrm{c} D_\mathrm{w} / D_\mathrm{c}$$</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Chris Muir.</p>
+  <p>Developed by Joseph Stinziano, Cassaundra Roback, Demi Gamble, Bridget Murphy, Patrick Hudson, Chris Muir.</p>
 </div>
 
 <div class="pkgdown">

@@ -2,13 +2,19 @@ citHeader("To cite photosynthesis in publications use:")
 
 citEntry(
   entry    = "Misc",
-  title    = "photosynthesis: model {C3} photosynthesis",
-  author   = c(person("Christopher", "Muir", "D")),
-  note     = "R package version 1.0.2",
+  title    = "photosynthesis: tools for plant ecophysiology & modeling",
+  author   = c(person("Joseph", "Stinziano", "R"),
+  person("Cassaundra", "Roback"),
+  person("Demi", "Gamble"),
+  person("Bridget", "Murphy"),
+  person("Patrick", "Hudson"),
+  person("Christopher", "Muir", "D")),
+  note     = "R package version 2.0.1",
   year     = "2020",
   url      = "https://CRAN.R-project.org/package=photosynthesis",
-  textVersion = paste("Muir CD. (2020).",
-                 title = "photosynthesis: model C3 photosynthesis. R package version 1.0.2.",
+  textVersion = paste("Stinziano JR, Roback C, Gamble D, Murphy B, Hudson P,
+  Muir CD. (2020).",
+                 title = "photosynthesis: tools for plant ecophysiology & modeling. R package version 2.0.1.",
                  "https://CRAN.R-project.org/package=photosynthesis."
 
   )

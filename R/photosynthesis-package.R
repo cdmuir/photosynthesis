@@ -1,6 +1,6 @@
 #' \code{photosynthesis} package
-#' 
-#' Model C3 Photosynthesis
+#'
+#' Modeling and analytical tools for plant ecophysiology
 #'
 #' See the README on
 #' \href{https://github.com/cdmuir/photosynthesis}{GitHub}
@@ -15,8 +15,8 @@
 NULL
 
 ## quiets concerns of R CMD check re: the .'s that appear in pipelines
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
+if (getRversion() >= "2.15.1")  utils::globalVariables(c("."))
 
 ## quiets concerns of R CMD check re: units
-utils::globalVariables(c("degreeC", "g", "hPa", "J", "K", "kg", "kJ", "kPa", 
+utils::globalVariables(c("degreeC", "g", "hPa", "J", "K", "kg", "kJ", "kPa",
                          "m", "mol", "Pa", "PPFD", "s", "umol", "W"))

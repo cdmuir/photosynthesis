@@ -1,5 +1,15 @@
 # photosynthesis (development version)
 
+# photosynthesis 2.0.0
+
+* Added analytical tools for plant ecophysiology, including fitting stomatal
+conductance models, photosynthetic responses to light, CO2, and temperature,
+light respiration, as well as tools for performing sensitivity analyses.
+
+* Added tests for new functions.
+
+* Added new vignette to include examples of new analytical functions.
+
 # photosynthesis 1.0.2
 
 * Fixed bug with crossing parameters in `photosynthesis()` that was introduced when `use_tealeaves = TRUE` because of changes in the **tealeaves** package. This led to crossing all parameter values with all unique values of calculated `T_sky`, which was incorrect. Added unit tests to ensuring that crossing is done correctly under `tests/test-photosynthesis-crossing.R`

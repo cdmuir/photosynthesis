@@ -124,7 +124,7 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
     leaf_par %<>% photosynthesis::leaf_par(use_tealeaves)
     if (!is.null(T_air)) enviro_par$T_air <- set_units(T_air, K)
   }
-
+  
   pars <- c(leaf_par, enviro_par)
   
   tsky_function <- NULL
@@ -132,7 +132,7 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
     tsky_function <- pars$T_sky
     pars$T_sky <- NULL
   }
-
+  
   # Capture units ----
   par_units <- purrr::map(pars, units) %>%
     magrittr::set_names(names(pars))
@@ -169,21 +169,21 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
     pars$g_uw <- set_units(constants$D_w0 / constants$D_c0 * g_uc,
                            umol/m^2/Pa/s)
     pars$logit_sr <- stats::qlogis(pars$k_sc / (1 + pars$k_sc))
-
+    
     par_units$S_sw <- units(units::make_units(W/m^2))
     par_units$g_sw <- par_units$g_sc
     par_units$g_uw <- par_units$g_uc
     par_units$logit_sr <- par_units$k_sc
-
+    
     pars$S_sw %<>% drop_units()
     pars$g_sw %<>% drop_units()
     pars$g_uw %<>% drop_units()
-
+    
     tlp <- pars %>%
       as.list() %>%
       purrr::map(unique) %>%
       tealeaves::leaf_par()
-     
+    
     tep <- pars %>%
       as.list() %>%
       purrr::map(unique) 
@@ -193,7 +193,7 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
     }
     
     tep %<>% tealeaves::enviro_par()
-
+    
     tcs <- tealeaves::constants(constants)
     
     tl <- tealeaves::tleaves(tlp, tep, tcs, progress = FALSE, quiet = TRUE, 
@@ -213,7 +213,7 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
   } else {
     
     if (is.null(T_air)) pars$T_air <- pars$T_leaf
-
+    
   }
   
   # Simulate ----
@@ -313,7 +313,7 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
   if (!use_tealeaves & !is.null(enviro_par$T_air)) {
     if (!quiet) {
       message(glue::glue("Both air and leaf temperature are provided and fixed: T_air = {T_air}; T_leaf = {T_leaf}", T_air = enviro_par$T_air,
-                       T_leaf = leaf_par$T_leaf))
+                         T_leaf = leaf_par$T_leaf))
     }
     T_air <- enviro_par$T_air
   }
@@ -326,10 +326,10 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
     leaf_par %<>% photosynthesis::leaf_par(use_tealeaves)
     if (!is.null(T_air)) enviro_par$T_air <- set_units(T_air, K)
   }
-
+  
   # Calculate T_leaf using energy balance ----
   if (use_tealeaves) {
-
+    
     if (prepare_for_tleaf) {
       enviro_par$S_sw <- set_units(enviro_par$E_q * enviro_par$PPFD / 
                                      enviro_par$f_par, W/m^2)
@@ -379,11 +379,11 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
   soln %<>% 
     dplyr::bind_cols(as.data.frame(leaf_par)) %>%
     dplyr::bind_cols(as.data.frame(enviro_par))
-
+  
   soln$C_chl %<>% set_units(Pa)
   soln$g_tc %<>% set_units(umol/m^2/s/Pa)
   soln$A %<>% set_units(umol/m^2/s)
-
+  
   soln  
   
 }
@@ -419,7 +419,7 @@ find_A <- function(unitless_pars, quiet) {
   
   soln$g_tc <- .get_gtc(unitless_pars, unitless = TRUE)
   soln$A <- A_supply(soln$C_chl, unitless_pars, unitless = TRUE)
-
+  
   soln
   
 }

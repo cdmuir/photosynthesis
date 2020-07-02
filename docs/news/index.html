@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
       </span>
     </div>
 
@@ -101,6 +101,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/photosynthesis-curve-fitting-sensitivity-analyses.html">photosynthesis-curve-fitting-sensitivity-analyses</a>
+    </li>
     <li>
       <a href="../articles/photosynthesis-introduction.html">Introduction to the photosynthesis package</a>
     </li>
@@ -134,9 +137,19 @@
 <a href="#photosynthesis-development-version" class="anchor"></a>photosynthesis (development version)<small> Unreleased </small>
 </h1>
 </div>
+    <div id="photosynthesis-200" class="section level1">
+<h1 class="page-header" data-toc-text="2.0.0">
+<a href="#photosynthesis-200" class="anchor"></a>photosynthesis 2.0.0<small> Unreleased </small>
+</h1>
+<ul>
+<li><p>Added analytical tools for plant ecophysiology, including fitting stomatal conductance models, photosynthetic responses to light, CO2, and temperature, light respiration, as well as tools for performing sensitivity analyses.</p></li>
+<li><p>Added tests for new functions.</p></li>
+<li><p>Added new vignette to include examples of new analytical functions.</p></li>
+</ul>
+</div>
     <div id="photosynthesis-102" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.2">
-<a href="#photosynthesis-102" class="anchor"></a>photosynthesis 1.0.2<small> Unreleased </small>
+<a href="#photosynthesis-102" class="anchor"></a>photosynthesis 1.0.2<small> 2020-07-01 </small>
 </h1>
 <ul>
 <li>Fixed bug with crossing parameters in <code><a href="../reference/photosynthesis.html">photosynthesis()</a></code> that was introduced when <code>use_tealeaves = TRUE</code> because of changes in the <strong>tealeaves</strong> package. This led to crossing all parameter values with all unique values of calculated <code>T_sky</code>, which was incorrect. Added unit tests to ensuring that crossing is done correctly under <code>tests/test-photosynthesis-crossing.R</code>
@@ -177,7 +190,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Chris Muir.</p>
+  <p>Developed by Joseph Stinziano, Cassaundra Roback, Demi Gamble, Bridget Murphy, Patrick Hudson, Chris Muir.</p>
 </div>
 
 <div class="pkgdown">

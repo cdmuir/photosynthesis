@@ -1,20 +1,21 @@
 #' Make lists of parameters for \code{photosynthesis}
 #'
-#' @param replace A named list of parameters to replace defaults. If \code{NULL}, defaults will be used.
+#' @param replace A named list of parameters to replace defaults.
+#' If \code{NULL}, defaults will be used.
 #'
 #' @name make_parameters
-#' 
+#'
 #' @encoding UTF-8
 
 NULL
 
 #' make_leafpar
 #' @rdname make_parameters
-#' 
+#'
 #' @inheritParams photosynthesis
-#' 
-#' @return 
-#' 
+#'
+#' @return
+#'
 #' \code{make_leafpar}: An object inheriting from class \code{\link{leaf_par}}\cr
 #' \code{make_enviropar}: An object inheriting from class \code{\link{enviro_par}}\cr
 #' \code{make_bakepar}: An object inheriting from class \code{\link{bake_par}}\cr
@@ -36,7 +37,7 @@ NULL
 #' \eqn{\sigma} \tab \code{s} \tab Stephan-Boltzmann constant \tab W / (m\eqn{^2} K\eqn{^4}) \tab 5.67e-08 \cr
 #' \eqn{Sh} \tab \code{Sh} \tab Sherwood number \tab none \tab \link[=.get_sh]{calculated}
 #' }
-#' 
+#'
 #' \bold{Baking (i.e. temperature response) parameters:}
 #'
 #' \tabular{lllll}{
@@ -53,7 +54,7 @@ NULL
 #' \eqn{E_\mathrm{d,gmc}}{Ed_gmc} \tab \code{Ed_gmc} \tab empirical temperature response parameter \tab J / mol \tab 148788.56 \cr
 #' \eqn{E_\mathrm{d,Jmax}}{Ed_Jmax} \tab \code{Ed_Jmax} \tab empirical temperature response parameter \tab J / mol \tab 121244.79
 #' }
-#' 
+#'
 #' \bold{Environment parameters:}
 #'
 #' \tabular{lllll}{
@@ -65,7 +66,7 @@ NULL
 #' \eqn{\mathrm{RH}}{RH} \tab \code{RH} \tab relative humidity \tab none \tab 0.50 \cr
 #' \eqn{u} \tab \code{wind} \tab windspeed \tab m / s \tab 2
 #' }
-#' 
+#'
 #' \bold{Leaf parameters:}
 #'
 #' \tabular{lllll}{
@@ -96,9 +97,9 @@ NULL
 #' \eqn{V_\mathrm{tpu25}}{V_tpu25} \tab \code{V_tpu25} \tab rate of triose phosphate utilization (25 °C) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 200 \cr
 #' \eqn{V_\mathrm{tpu}}{V_tpu} \tab \code{V_tpu} \tab rate of triose phosphate utilisation (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated}
 #' }
-#' 
+#'
 #' If \code{use_tealeaves = TRUE}, additional parameters are:
-#' 
+#'
 #' \bold{Constants:}
 #' \tabular{lllll}{
 #' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
@@ -114,7 +115,7 @@ NULL
 #' \eqn{r} \tab \code{r} \tab reflectance for shortwave irradiance (albedo) \tab none \tab 0.2 \cr
 #' \eqn{T_\mathrm{air}}{T_air} \tab \code{T_air} \tab air temperature \tab K \tab 298.15 \cr
 #' }
-#' 
+#'
 #' \bold{Leaf parameters:}
 #'
 #' \tabular{lllll}{
@@ -125,26 +126,27 @@ NULL
 #' \eqn{g_\mathrm{uw}}{g_uw} \tab \code{g_uw} \tab cuticular conductance to H2O \tab (\eqn{\mu}mol H2O) / (m\eqn{^2} s Pa) \tab converted from \eqn{g_\mathrm{uc}}{g_uc} \cr
 #' \eqn{\mathrm{logit}(sr)}{logit(sr)} \tab \code{logit_sr} \tab stomatal ratio (logit transformed) \tab none \tab converted from \eqn{k_\mathrm{sc}}{k_sc}
 #' }
-#' 
-#' @references 
-#' 
-#' Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic rate into contributions from different variables. Plant, Cell & Environment 38: 1200-11.
-#' 
-#' @examples 
+#'
+#' @references
+#'
+#' Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic
+#' rate into contributions from different variables. Plant, Cell & Environment
+#' 38: 1200-11.
+#'
+#' @examples
 #' bake_par <- make_bakepar()
 #' constants <- make_constants(use_tealeaves = FALSE)
 #' enviro_par <- make_enviropar(use_tealeaves = FALSE)
 #' leaf_par <- make_leafpar(use_tealeaves = FALSE)
-#' 
+#'
 #' leaf_par <- make_leafpar(
 #'   replace = list(
 #'     g_sc = set_units(3, "umol/m^2/s/Pa"),
 #'     V_cmax25 = set_units(100, "umol/m^2/s")
 #'   ), use_tealeaves = FALSE
 #' )
-#' 
+#'
 #' @export
-
 make_leafpar <- function(replace = NULL, use_tealeaves) {
 
   # Defaults -----
@@ -152,13 +154,16 @@ make_leafpar <- function(replace = NULL, use_tealeaves) {
     g_mc25 = set_units(4, umol / (m^2 * s * Pa)),
     g_sc = set_units(4, umol / (m^2 * s * Pa)),
     g_uc = set_units(0.1, umol / (m^2 * s * Pa)),
-    gamma_star25 = set_units(3.743, Pa), # From Sharkey et al. 2007. Newer source? Check bayCi
+    gamma_star25 = set_units(3.743, Pa), # From Sharkey et al. 2007.
+    #Newer source? Check bayCi
     J_max25 = set_units(200, umol / (m^2 * s)),
     k_mc = set_units(1),
     k_sc = set_units(1),
     k_uc = set_units(1),
-    K_C25 = set_units(27.238, Pa), # From Sharkey et al. 2007. Newer source? Check bayCi
-    K_O25 = set_units(16.582, kPa), # From Sharkey et al. 2007. Newer source? Check bayCi
+    K_C25 = set_units(27.238, Pa), # From Sharkey et al. 2007.
+    #Newer source? Check bayCi
+    K_O25 = set_units(16.582, kPa), # From Sharkey et al. 2007.
+    #Newer source? Check bayCi
     leafsize = set_units(0.1, m),
     phi_J = set_units(0.331),
     theta_J = set_units(0.825),
@@ -167,16 +172,16 @@ make_leafpar <- function(replace = NULL, use_tealeaves) {
     V_cmax25 = set_units(150, umol / (m^2 * s)),
     V_tpu25 = set_units(200, umol / (m^2 * s))
   )
-  
+
   if (use_tealeaves) {
-    
+
     obj <- c(obj, list(
       abs_l = set_units(0.97),
       abs_s = set_units(0.5)
     ))
-    
+
   }
-  
+
   # Replace defaults ----
   if (!is.null(replace$T_leaf) & use_tealeaves) {
     warning("replace$T_leaf ignored when use_tealeaves is TRUE")
@@ -188,18 +193,20 @@ make_leafpar <- function(replace = NULL, use_tealeaves) {
     ph = c("g_sc", "g_uc", "k_sc"),
     stringsAsFactors = FALSE
   )
-  
+
   if (any(purrr::map_lgl(replace[par_equiv$tl], ~ !is.null(.x)))) {
-    
+
     par_equiv %>%
       dplyr::filter(.data$tl %in% names(replace)) %>%
-      dplyr::transmute(message = stringr::str_c("\nIn `replace = list(...)`, tealeaves parameter ", .data$tl, " is not replacable. Use ", .data$ph, " instead.")) %>%
+      dplyr::transmute(message = stringr::str_c("\nIn `replace = list(...)`,
+             tealeaves parameter ", .data$tl, " is not replacable. Use ",
+                                                .data$ph, " instead.")) %>%
       dplyr::pull(.data$message) %>%
       stringr::str_c(collapse = "\n") %>%
       stop(call. = FALSE)
-    
+
   }
-  
+
   obj %<>% replace_defaults(replace)
 
   # Assign class and return ----
@@ -223,11 +230,11 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
     PPFD = set_units(1500, umol/m^2/s),
     RH = set_units(0.5),
     wind = set_units(2, m/s)
-  ) 
-  
+  )
+
   # Add parameters for tealeaves ----
   if (use_tealeaves) {
-    
+
     obj %<>% c(list(
       E_q = set_units(220, kJ/mol),
       f_par = set_units(0.5),
@@ -237,9 +244,8 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
         set_units(pars$T_air, K) - set_units(20, K) * set_units(pars$S_sw, W / m ^ 2) / set_units(1000, W / m ^ 2)
       }
     ))
-
   }
-  
+
   # Replace defaults ----
   if ("T_sky" %in% names(replace)) {
     if (is.function(replace$T_sky)) {
@@ -253,23 +259,25 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
     ph = c("PPFD"),
     stringsAsFactors = FALSE
   )
-  
+
   if (any(purrr::map_lgl(replace[par_equiv$tl], ~ !is.null(.x)))) {
-    
+
     par_equiv %>%
       dplyr::filter(.data$tl %in% names(replace)) %>%
-      dplyr::transmute(message = stringr::str_c("\nIn `replace = list(...)`, tealeaves parameter ", .data$tl, " is not replacable. Use ", .data$ph, " instead.")) %>%
+      dplyr::transmute(message = stringr::str_c("\nIn `replace = list(...)`,
+             tealeaves parameter ", .data$tl,
+             " is not replacable. Use ", .data$ph, " instead.")) %>%
       dplyr::pull(.data$message) %>%
       stringr::str_c(collapse = "\n") %>%
       stop(call. = FALSE)
-    
+
   }
-  
+
   obj %<>% replace_defaults(replace)
 
   # Assign class and return ----
   obj %<>% photosynthesis::enviro_par(use_tealeaves)
-  
+
   obj
 
 }
@@ -279,7 +287,7 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
 #' @export
 
 make_bakepar <- function(replace = NULL) {
-  
+
   # Defaults -----
   obj <- list(
     Ds_gmc = set_units(487.29, J/mol/K),
@@ -289,21 +297,21 @@ make_bakepar <- function(replace = NULL) {
     Ea_Jmax = set_units(56095.18, J/mol),
     Ea_KC = set_units(80989.78, J/mol),
     Ea_KO = set_units(23719.97, J/mol),
-    Ea_Rd = set_units(40446.75, J/mol), 
+    Ea_Rd = set_units(40446.75, J/mol),
     Ea_Vcmax = set_units(52245.78, J/mol),
     Ea_Vtpu = set_units(52245.78, J/mol),
     Ed_gmc = set_units(148788.56, J/mol),
     Ed_Jmax = set_units(121244.79, J/mol)
-  ) 
-  
+  )
+
   # Replace defaults -----
   obj %<>% replace_defaults(replace)
-  
+
   # Assign class and return -----
   obj %<>% photosynthesis::bake_par()
-  
+
   obj
-  
+
 }
 
 #' make_constants
@@ -322,16 +330,16 @@ make_constants <- function(replace = NULL, use_tealeaves) {
     eT = set_units(1.75),
     G = set_units(9.8, m / s ^ 2),
     nu_constant = function(Re, type, T_air, T_leaf, surface, unitless) {
-      
+
       if (!unitless) {
-        stopifnot(units(T_air)$numerator == "K" & 
+        stopifnot(units(T_air)$numerator == "K" &
                     length(units(T_air)$denominator) == 0L)
-        stopifnot(units(T_leaf)$numerator == "K" & 
+        stopifnot(units(T_leaf)$numerator == "K" &
                     length(units(T_leaf)$denominator) == 0L)
       }
-      
+
       type %<>% match.arg(c("free", "forced"))
-      
+
       if (identical(type, "forced")) {
         if (unitless) {
           if (Re <= 4000) ret <- list(a = 0.6, b = 0.5)
@@ -342,7 +350,7 @@ make_constants <- function(replace = NULL, use_tealeaves) {
         }
         return(ret)
       }
-      
+
       if (identical(type, "free")) {
         surface %<>% match.arg(c("lower", "upper"))
         if ((surface == "upper" & T_leaf > T_air) |
@@ -353,16 +361,16 @@ make_constants <- function(replace = NULL, use_tealeaves) {
         }
         return(ret)
       }
-      
+
     },
     R = set_units(8.3144598, J / (mol * K)),
     s = set_units(5.67e-08, W / (m ^ 2 * K ^ 4)),
     sh_constant = function(type, unitless) {
-      
+
       type %>%
         match.arg(c("free", "forced")) %>%
         switch(forced = 0.33, free = 0.25)
-      
+
     }
   )
 
@@ -372,29 +380,29 @@ make_constants <- function(replace = NULL, use_tealeaves) {
     obj$nu_constant <- replace$nu_constant
     replace$nu_constant <- NULL
   }
-  
+
   if ("sh_constant" %in% names(replace)) {
     stopifnot(is.function(replace$sh_constant))
     obj$sh_constant <- replace$sh_constant
     replace$sh_constant <- NULL
   }
-  
+
   # Add parameters for tealeaves ----
   if (use_tealeaves) {
-    
+
     obj %<>% c(list(
       c_p = set_units(1.01, J/g/K),
       R_air = set_units(287.058, J/kg/K)
     ))
-    
+
   }
-  
+
   # Replace defaults -----
   obj %<>% replace_defaults(replace)
-  
+
   # Assign class and return -----
   obj %<>% photosynthesis::constants(use_tealeaves)
-  
+
   obj
 
 }
@@ -414,7 +422,9 @@ replace_defaults <- function(obj, replace) {
     stopifnot(all(sapply(replace, is.numeric)))
     x <- names(replace)
     if (any(!x %in% names(obj))) {
-      warning(sprintf("The following parameters in 'replace' were not recognized:\n%s", paste0(x[!x %in% names(obj)], collapse = "\n")))
+      warning(sprintf("The following parameters in 'replace' were not
+                      recognized:\n%s", paste0(x[!x %in% names(obj)],
+                                               collapse = "\n")))
       x %<>% .[. %in% names(obj)]
     }
     obj[x] <- replace[x]

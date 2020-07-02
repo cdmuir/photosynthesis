@@ -91,7 +91,10 @@ FvCB(C_chl, pars)
 
 }
 \references{
-Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic rate into contributions from different variables. Plant, Cell & Environment 38: 1200-11.
- 
-Farquhar GD, Caemmerer S, Berry JA. 1980. A biochemical model of photosynthetic CO2 assimilation in leaves of C3 species. Planta 149: 78–90.
+Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic
+rate into contributions from different variables. Plant, Cell & Environment
+38: 1200-11.
+
+Farquhar GD, Caemmerer S, Berry JA. 1980. A biochemical model of
+photosynthetic CO2 assimilation in leaves of C3 species. Planta 149: 78–90.
 }

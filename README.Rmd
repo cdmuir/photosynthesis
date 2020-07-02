@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 
 ## Description
 
-**photosynthesis** is a lightweight R package to model C3 photosynthesis using the Farquhar-von Caemmerer-Berry model. It uses the R package [**units**](https://CRAN.R-project.org/package=units) to ensure that parameters are properly specified and transformed before calculations. 
+**photosynthesis** is an R package with modeling tools for C3 photosynthesis, as well as analytical tools for curve-fitting plant ecophysiology responses. It uses the R package [**units**](https://CRAN.R-project.org/package=units) to ensure that parameters are properly specified and transformed before calculations. 
 
 ## Get **photosynthesis**
 
@@ -51,18 +51,26 @@ And load `photosynthesis`
 library("photosynthesis")
 ```
 
-## Vignette
+## Vignettes
 
 ```{r child = 'vignettes/photosynthesis-introduction.Rmd'}
 ```
 
+```{r child = 'vignettes/photosynthesis-curve-fitting-sensitivity-analyses.Rmd'}
+```
+
 ## Contributors
 
+* [Joseph Stinziano](https://github.com/jstinzi)
 * [Chris Muir](https://github.com/cdmuir)
+* [Cassaundra Roback]
+* [Demi Gamble]
+* [Bridget Murphy]
+* [Patrick Hudson]
 
 ## Comments and contributions
 
-I welcome comments, criticisms, and especially contributions!
+We welcome comments, criticisms, and especially contributions!
 GitHub issues are the preferred way to report bugs, ask questions, or request new features.
 You can submit issues here:
 

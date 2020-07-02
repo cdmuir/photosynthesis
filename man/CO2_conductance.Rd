@@ -41,15 +41,20 @@ Conductance to CO2 (umol / (m^2 s Pa))
 - g_sc: stomatal conductance to CO2
 }
 \details{
-Total conductance to CO2 is the sum of parallel conductances on the lower (\eqn{g_\mathrm{c,lower}}{gc_lower}) and upper (\eqn{g_\mathrm{c,upper}}{gc_upper}) leaf portions:
+Total conductance to CO2 is the sum of parallel conductances on the lower
+(\eqn{g_\mathrm{c,lower}}{gc_lower}) and upper
+(\eqn{g_\mathrm{c,upper}}{gc_upper}) leaf portions:
 
  \deqn{g_\mathrm{c,total} = g_\mathrm{c,lower} + g_\mathrm{c,upper}}{gc_total = gc_lower + gc_upper}
- 
-Each partial conductance consists of two parallel conductances, the cuticular conductance (\eqn{g_\mathrm{u,c}}{g_uc}) and the in-series conductances through mesophyll (\eqn{g_\mathrm{m,c}}{g_mc}), stomata (\eqn{g_\mathrm{s,c}}{g_sc}), and boundary layer (\eqn{g_\mathrm{b,c}}{g_bc}). To simplify the formula, I use substitute resistance where \eqn{r_x = 1 / g_x}. For surface \eqn{i}:
+
+Each partial conductance consists of two parallel conductances, the
+cuticular conductance (\eqn{g_\mathrm{u,c}}{g_uc}) and the in-series
+conductances through mesophyll (\eqn{g_\mathrm{m,c}}{g_mc}), stomata (\eqn{g_\mathrm{s,c}}{g_sc}), and boundary layer (\eqn{g_\mathrm{b,c}}{g_bc}). To simplify the formula, I use substitute resistance where \eqn{r_x = 1 / g_x}. For surface \eqn{i}:
 
 \deqn{g_{\mathrm{c},i} = g_{\mathrm{u},i} + (1 / (r_{\mathrm{m},i} + r_{\mathrm{s},i} + r_{\mathrm{b},i}))}{g_ci = g_ui + (1 / (r_mi + r_si + r_bi))}
 
-The cuticular, stomatal, and mesophyll conductances can be the same or different for upper and lower. The partitioning factors (\eqn{k_x}) divide the conductance between surfaces while keeping the total conductance constant:
+The cuticular, stomatal, and mesophyll conductances can be the same or
+different for upper and lower. The partitioning factors (\eqn{k_x}) divide the conductance between surfaces while keeping the total conductance constant:
 
 \deqn{g_{x,\mathrm{lower}} = g_x (1 / (1 + k_x))}{gx_lower = g_x (1 / (1 + k_x))}
 \deqn{g_{x,\mathrm{upper}} = g_x (k_x / (1 + k_x))}{gx_upper = g_x (k_x / (1 + k_x))}

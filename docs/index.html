@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Model C3 Photosynthesis • photosynthesis</title>
+<title>photosynthesis: tools for plant ecophysiology &amp; modeling • photosynthesis</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -17,8 +17,37 @@
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Model C3 Photosynthesis">
-<meta property="og:description" content='Simulate C3 photosynthesis using the Farquhar, von Caemmerer, Berry (1980) &lt;doi:10.1007/BF00386231&gt; model as described in Buckley and Diaz-Espejo (2015) &lt;doi:10.1111/pce.12459&gt;. It uses units to ensure that parameters are properly specified and transformed before calculations. Temperature response functions get automatically "baked" into all parameters based on leaf temperature following Bernacchi et al. (2002) &lt;doi:10.1104/pp.008250&gt;. The package includes boundary layer, cuticular, stomatal, and mesophyll conductances to CO2, which each can vary on the upper and lower portions of the leaf. Use straightforward functions to simulate photosynthesis over environmental gradients such as Photosynthetic Photon Flux Density (PPFD) and leaf temperature, or over trait gradients such as CO2 conductance or photochemistry. '>
+<script src="pkgdown.js"></script><meta property="og:title" content="photosynthesis: tools for plant ecophysiology &amp; modeling">
+<meta property="og:description" content='Contains modeling and analytical tools for plant ecophysiology.
+    MODELING: Simulate C3 photosynthesis using the Farquhar, von Caemmerer,
+    Berry (1980) &lt;doi:10.1007/BF00386231&gt; model as described in Buckley and
+    Diaz-Espejo (2015) &lt;doi:10.1111/pce.12459&gt;. It uses units to ensure that
+    parameters are properly specified and transformed before calculations.
+    Temperature response functions get automatically "baked" into all
+    parameters based on leaf temperature following Bernacchi et al. (2002)
+    &lt;doi:10.1104/pp.008250&gt;. The package includes boundary layer, cuticular,
+    stomatal, and mesophyll conductances to CO2, which each can vary on the
+    upper and lower portions of the leaf. Use straightforward functions to
+    simulate photosynthesis over environmental gradients such as Photosynthetic
+    Photon Flux Density (PPFD) and leaf temperature, or over trait gradients
+    such as CO2 conductance or photochemistry. 
+    ANALYTICAL TOOLS: Fit ACi (Farquhar et al. 1980 &lt;doi:10.1007/BF00386231&gt;)
+    and AQ curves (Marshall &amp; Biscoe 1980 &lt;doi:10.1093/jxb/31.1.29&gt;),
+    temperature responses (Heskel et al. 2016 &lt;doi:10.1073/pnas.1520282113&gt;;
+    Kruse et al. 2008 &lt;doi:10.1111/j.1365-3040.2008.01809.x&gt;, Medlyn et al.
+    2002 &lt;doi:10.1046/j.1365-3040.2002.00891.x&gt;, Hobbs et al. 2013
+    &lt;doi:10.1021/cb4005029&gt;), respiration in the light (Kok 1956
+    &lt;doi:10.1016/0006-3002(56)90003-8&gt;, Walker &amp; Ort 2015 &lt;doi:10.1111/pce.12562&gt;,
+    Yin et al. 2009 &lt;doi:10.1111/j.1365-3040.2009.01934.x&gt;, Yin et al. 2011
+    &lt;doi:10.1093/jxb/err038&gt;), mesophyll conductance (Harley et al. 1992
+    &lt;doi:10.1104/pp.98.4.1429&gt;), pressure-volume curves (Koide et al. 2000
+    &lt;doi:10.1007/978-94-009-2221-1_9&gt;, Sack et al. 2003
+    &lt;doi:10.1046/j.0016-8025.2003.01058.x&gt;, Tyree et al. 1972
+    &lt;doi:10.1093/jxb/23.1.267&gt;), hydraulic vulnerability curves (Ogle et al. 2009
+    &lt;doi:10.1111/j.1469-8137.2008.02760.x&gt;, Pammenter et al. 1998
+    &lt;doi:10.1093/treephys/18.8-9.589&gt;), and tools for running sensitivity
+    analyses particularly for variables with uncertainty (e.g. g_mc, gamma_star,
+    R_d).'>
 <meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -38,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
       </span>
     </div>
 
@@ -61,6 +90,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="articles/photosynthesis-curve-fitting-sensitivity-analyses.html">photosynthesis-curve-fitting-sensitivity-analyses</a>
+    </li>
+    <li>
       <a href="articles/photosynthesis-introduction.html">Introduction to the photosynthesis package</a>
     </li>
   </ul>
@@ -422,7 +454,12 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Chris Muir <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0003-2555-3878" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Joseph Stinziano <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-7628-4201" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Cassaundra Roback <br><small class="roles"> Author </small>  </li>
+<li>Demi Gamble <br><small class="roles"> Author </small>  </li>
+<li>Bridget Murphy <br><small class="roles"> Author </small>  </li>
+<li>Patrick Hudson <br><small class="roles"> Author, data contributor </small>  </li>
+<li>Chris Muir <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-2555-3878" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
@@ -440,7 +477,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Chris Muir.</p>
+  <p>Developed by Joseph Stinziano, Cassaundra Roback, Demi Gamble, Bridget Murphy, Patrick Hudson, Chris Muir.</p>
 </div>
 
 <div class="pkgdown">

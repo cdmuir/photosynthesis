@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
       </span>
     </div>
 
@@ -107,6 +107,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/photosynthesis-curve-fitting-sensitivity-analyses.html">photosynthesis-curve-fitting-sensitivity-analyses</a>
+    </li>
     <li>
       <a href="../articles/photosynthesis-introduction.html">Introduction to the photosynthesis package</a>
     </li>
@@ -174,11 +177,16 @@
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Total conductance to CO2 is the sum of parallel conductances on the lower (\(g_\mathrm{c,lower}\)) and upper (\(g_\mathrm{c,upper}\)) leaf portions:</p>
-<p>$$g_\mathrm{c,total} = g_\mathrm{c,lower} + g_\mathrm{c,upper}$$</p> 
-<p>Each partial conductance consists of two parallel conductances, the cuticular conductance (\(g_\mathrm{u,c}\)) and the in-series conductances through mesophyll (\(g_\mathrm{m,c}\)), stomata (\(g_\mathrm{s,c}\)), and boundary layer (\(g_\mathrm{b,c}\)). To simplify the formula, I use substitute resistance where \(r_x = 1 / g_x\). For surface \(i\):</p>
+    <p>Total conductance to CO2 is the sum of parallel conductances on the lower
+(\(g_\mathrm{c,lower}\)) and upper
+(\(g_\mathrm{c,upper}\)) leaf portions:</p>
+<p>$$g_\mathrm{c,total} = g_\mathrm{c,lower} + g_\mathrm{c,upper}$$</p>
+<p>Each partial conductance consists of two parallel conductances, the
+cuticular conductance (\(g_\mathrm{u,c}\)) and the in-series
+conductances through mesophyll (\(g_\mathrm{m,c}\)), stomata (\(g_\mathrm{s,c}\)), and boundary layer (\(g_\mathrm{b,c}\)). To simplify the formula, I use substitute resistance where \(r_x = 1 / g_x\). For surface \(i\):</p>
 <p>$$g_{\mathrm{c},i} = g_{\mathrm{u},i} + (1 / (r_{\mathrm{m},i} + r_{\mathrm{s},i} + r_{\mathrm{b},i}))$$</p>
-<p>The cuticular, stomatal, and mesophyll conductances can be the same or different for upper and lower. The partitioning factors (\(k_x\)) divide the conductance between surfaces while keeping the total conductance constant:</p>
+<p>The cuticular, stomatal, and mesophyll conductances can be the same or
+different for upper and lower. The partitioning factors (\(k_x\)) divide the conductance between surfaces while keeping the total conductance constant:</p>
 <p>$$g_{x,\mathrm{lower}} = g_x (1 / (1 + k_x))$$
 $$g_{x,\mathrm{upper}} = g_x (k_x / (1 + k_x))$$
 $$g_x = g_{x,\mathrm{lower}} + g_{x,\mathrm{upper}}$$</p>
@@ -216,7 +224,7 @@ $$g_x = g_{x,\mathrm{lower}} + g_{x,\mathrm{upper}}$$</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Chris Muir.</p>
+  <p>Developed by Joseph Stinziano, Cassaundra Roback, Demi Gamble, Bridget Murphy, Patrick Hudson, Chris Muir.</p>
 </div>
 
 <div class="pkgdown">
