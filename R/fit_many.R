@@ -12,69 +12,76 @@
 #' @importFrom utils txtProgressBar
 #' @export
 #'
-#' @examples \donttest{
-#' #Read in your data
-#' #Note that this data is coming from data supplied by the package
-#' #hence the complicated argument in read.csv()
-#' #This dataset is a CO2 by light response curve for a single sunflower
+#' @examples
+#' \donttest{
+#' # Read in your data
+#' # Note that this data is coming from data supplied by the package
+#' # hence the complicated argument in read.csv()
+#' # This dataset is a CO2 by light response curve for a single sunflower
 #' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-#'                              package = "photosynthesis"))
+#'   package = "photosynthesis"
+#' ))
 #'
-#' #Define a grouping factor based on light intensity to split the ACi
-#' #curves
+#' # Define a grouping factor based on light intensity to split the ACi
+#' # curves
 #' data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
-#' 
-#' #Convert leaf temperature to K
+#'
+#' # Convert leaf temperature to K
 #' data$T_leaf <- data$Tleaf + 273.15
 #'
-#' #Fit many curves
-#' fits <- fit_many(data = data,
-#'                  varnames = list(A_net = "A",
-#'                                  T_leaf = "T_leaf",
-#'                                  C_i = "Ci",
-#'                                  PPFD = "Qin"),
-#'                  funct = fit_aci_response,
-#'                  group = "Q_2")
+#' # Fit many curves
+#' fits <- fit_many(
+#'   data = data,
+#'   varnames = list(
+#'     A_net = "A",
+#'     T_leaf = "T_leaf",
+#'     C_i = "Ci",
+#'     PPFD = "Qin"
+#'   ),
+#'   funct = fit_aci_response,
+#'   group = "Q_2"
+#' )
 #'
-#' #Print the parameters
-#' #First set of double parentheses selects an individual group value
-#' #Second set selects an element of the sublist
+#' # Print the parameters
+#' # First set of double parentheses selects an individual group value
+#' # Second set selects an element of the sublist
 #' fits[[3]][[1]]
 #'
-#' #Print the graph
+#' # Print the graph
 #' fits[[3]][[2]]
 #'
-#' #Compile graphs into a list for plotting
+#' # Compile graphs into a list for plotting
 #' fits_graphs <- compile_data(fits,
-#'                             list_element = 2)
+#'   list_element = 2
+#' )
 #'
 #'
-#' #Compile parameters into dataframe for analysis
+#' # Compile parameters into dataframe for analysis
 #' fits_pars <- compile_data(fits,
-#'                           output_type = "dataframe",
-#'                           list_element = 1)
-#'
+#'   output_type = "dataframe",
+#'   list_element = 1
+#' )
 #' }
 fit_many <- function(data,
                      funct,
                      group,
                      ...) {
-  #Split data into list by group
+  # Split data into list by group
   data <- split(data, data[, group])
 
-  #Create empty list by group
+  # Create empty list by group
   fits <- list(NULL)
 
-  #Start progress bar
+  # Start progress bar
   pb <- txtProgressBar(min = 0, max = length(data), style = 3)
 
-  #Loop through list, fitting the function
+  # Loop through list, fitting the function
   for (i in 1:length(data)) {
     fits[[i]] <- funct(data[[i]], ...)
     names(fits)[i] <- names(data[i])
-    #Set progress bar
+    # Set progress bar
     setTxtProgressBar(pb, i)
   }
-  #Return the list of fits
+  # Return the list of fits
   return(fits)
 }

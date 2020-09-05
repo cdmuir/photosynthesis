@@ -2,8 +2,10 @@ library(testthat)
 library(photosynthesis)
 context("Fitting temperature response curves")
 
-df <- data.frame(Par = c(38, 42, 55, 58, 63, 62, 83, 104, 116, 98),
-                 Tleaf = c(17, 20, 22, 25, 27, 30, 32, 35, 37, 40))
+df <- data.frame(
+  Par = c(38, 42, 55, 58, 63, 62, 83, 104, 116, 98),
+  Tleaf = c(17, 20, 22, 25, 27, 30, 32, 35, 37, 40)
+)
 df$T_leaf <- df$Tleaf + 273.15
 
 model <- suppressWarnings(fit_t_response(df))

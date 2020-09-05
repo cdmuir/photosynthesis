@@ -157,7 +157,6 @@ leaf_par <- make_leafpar(
     V_cmax25 = set_units(100, "umol/m^2/s")
   ), use_tealeaves = FALSE
 )
-
 }
 \references{
 Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic

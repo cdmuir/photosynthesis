@@ -17,8 +17,3 @@ in a later version.
 \description{
 Reading in LiCor files
 }
-\examples{
-\donttest{
-
-}
-}

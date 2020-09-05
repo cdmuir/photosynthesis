@@ -2,7 +2,6 @@ context("temperature responses")
 library(photosynthesis)
 
 test_that("baked parameters do not equal unbaked unless Temp = 25", {
-
   cs <- make_constants(use_tealeaves = FALSE)
   bp <- make_bakepar()
   ep <- make_enviropar(use_tealeaves = FALSE)
@@ -33,5 +32,4 @@ test_that("baked parameters do not equal unbaked unless Temp = 25", {
     purrr::map_lgl(function(x) eval(parse(text = x))) %>%
     any() %>%
     expect_false()
-
 })

@@ -49,7 +49,7 @@
 #' \eqn{V_\mathrm{tpu}}{V_tpu} \tab \code{V_tpu} \tab rate of triose phosphate utilization (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated}
 #' }
 #'
-#' @references 
+#' @references
 #'
 #' Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic
 #' rate into contributions from different variables. Plant, Cell & Environment
@@ -68,7 +68,6 @@
 #' pars <- c(leaf_par, enviro_par, constants)
 #' C_chl <- set_units(24.28, "Pa")
 #' FvCB(C_chl, pars)
-#'
 #' @export
 #'
 FvCB <- function(C_chl, pars, unitless = FALSE) {
@@ -93,9 +92,11 @@ W_carbox <- function(C_chl, pars, unitless = FALSE) {
   if (unitless) {
     A <- pars$V_cmax * C_chl / (C_chl + pars$K_C * (1 + pars$O / pars$K_O))
   } else {
-    A <- set_units(pars$V_cmax * C_chl /
-                     (C_chl + pars$K_C * (set_units(1) + pars$O / pars$K_O)),
-                   umol/m^2/s)
+    A <- set_units(
+      pars$V_cmax * C_chl /
+        (C_chl + pars$K_C * (set_units(1) + pars$O / pars$K_O)),
+      umol / m^2 / s
+    )
   }
   A
 }
@@ -105,7 +106,7 @@ W_carbox <- function(C_chl, pars, unitless = FALSE) {
 W_regen <- function(C_chl, pars, unitless = FALSE) {
   J <- J(pars, unitless)
   A <- J * C_chl / (4 * C_chl + 8 * pars$gamma_star)
-  if (!unitless) A %<>% set_units(umol/m^2/s)
+  if (!unitless) A %<>% set_units(umol / m^2 / s)
   A
 }
 #' TPU-limited assimilation rate
@@ -113,7 +114,7 @@ W_regen <- function(C_chl, pars, unitless = FALSE) {
 #' @export
 W_tpu <- function(C_chl, pars, unitless = FALSE) {
   A <- 3 * pars$V_tpu * C_chl / (C_chl - pars$gamma_star)
-  if (!unitless) A %<>% set_units(umol/m^2/s)
+  if (!unitless) A %<>% set_units(umol / m^2 / s)
   A
 }
 #' J: Rate of electron transport (umol/m^2/s)
@@ -152,31 +153,30 @@ W_tpu <- function(C_chl, pars, unitless = FALSE) {
 #'
 #' pars <- c(leaf_par, enviro_par, constants)
 #' J(pars, FALSE)
-#'
 #' @export
 #'
 J <- function(pars, unitless = FALSE) {
-
   if (!unitless) {
     # drop units for root finding
-    pars$PPFD %<>% set_units(umol/m^2/s) %>% drop_units()
-    pars$J_max %<>% set_units(umol/m^2/s) %>% drop_units()
+    pars$PPFD %<>% set_units(umol / m^2 / s) %>% drop_units()
+    pars$J_max %<>% set_units(umol / m^2 / s) %>% drop_units()
     pars$phi_J %<>% drop_units()
     pars$theta_J %<>% drop_units()
   }
 
   .f <- function(J, PPFD, J_max, phi_J, theta_J) {
-    theta_J * J ^ 2 - J * (J_max + phi_J * PPFD) + J_max * phi_J * PPFD
+    theta_J * J^2 - J * (J_max + phi_J * PPFD) + J_max * phi_J * PPFD
   }
 
-  J_I <- stats::uniroot(.f, c(0, pars$J_max), PPFD = pars$PPFD, J_max = 
-                          pars$J_max,
-                        phi_J = pars$phi_J, theta_J = pars$theta_J)
+  J_I <- stats::uniroot(.f, c(0, pars$J_max),
+    PPFD = pars$PPFD, J_max =
+      pars$J_max,
+    phi_J = pars$phi_J, theta_J = pars$theta_J
+  )
 
   J_I %<>% magrittr::use_series("root")
 
-  if (!unitless) J_I %<>% set_units(umol/m^2/s)
+  if (!unitless) J_I %<>% set_units(umol / m^2 / s)
 
   J_I
-
 }

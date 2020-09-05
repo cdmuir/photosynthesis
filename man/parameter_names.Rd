@@ -17,5 +17,4 @@ Get vector of parameter names
 \examples{
 
 parameter_names("leaf", use_tealeaves = FALSE)
-
 }

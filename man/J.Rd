@@ -44,5 +44,4 @@ leaf_par \%<>\% bake(bake_par, constants)
 
 pars <- c(leaf_par, enviro_par, constants)
 J(pars, FALSE)
-
 }

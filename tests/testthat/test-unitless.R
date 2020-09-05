@@ -2,7 +2,6 @@ context("unitless values match unit-ed values")
 library(photosynthesis)
 
 test_that("unitless values match unit-ed values", {
-
   cs1 <- make_constants(use_tealeaves = FALSE)
   cs2 <- purrr::map_if(cs1, function(x) is(x, "units"), drop_units)
 
@@ -44,7 +43,7 @@ test_that("unitless values match unit-ed values", {
 
   lp1 %<>% bake(bp1, cs1, assert_units = TRUE)
   lp2 %<>% bake(bp2, cs2, assert_units = FALSE)
-  
+
   purrr::map2(lp1, lp2, function(.x, .y) drop_units(.x) == .y) %>%
     purrr::map(expect_true)
 

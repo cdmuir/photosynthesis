@@ -50,7 +50,7 @@ al. 2008)}
 
 \item{a}{Constant to minimize residuals (Heskel et al. 2016)}
 
-\item{b}{Linear coefficient to minmize residuals (Heskel et al. 2016)}
+\item{b}{Linear coefficient to minimize residuals (Heskel et al. 2016)}
 
 \item{c}{Quadratic coefficient to minimize residuals (Heskel et al. 2016)}
 

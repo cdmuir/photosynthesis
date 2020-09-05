@@ -56,109 +56,129 @@ Fitting temperature responses
 }
 \examples{
 \donttest{
-#Read in data
-data <- read.csv(system.file("extdata", "A_Ci_T_data.csv", 
-                             package = "photosynthesis"),
-                 stringsAsFactors = FALSE)
+# Read in data
+data <- read.csv(system.file("extdata", "A_Ci_T_data.csv",
+  package = "photosynthesis"
+),
+stringsAsFactors = FALSE
+)
 
 library(tidyr)
 
-#Round temperatures to group them appropriately
-#Use sequential rounding
+# Round temperatures to group them appropriately
+# Use sequential rounding
 data$T2 <- round(data$Tleaf, 1)
 data$T2 <- round(data$Tleaf, 0)
 
-#Look at unique values to detect rounding issues
+# Look at unique values to detect rounding issues
 unique(data$T2)
 
-#Some still did not round correctly,
-#manually correct
-for(i in 1:nrow(data)){
-  if(data$T2[i] == 18){
+# Some still did not round correctly,
+# manually correct
+for (i in 1:nrow(data)) {
+  if (data$T2[i] == 18) {
     data$T2[i] <- 17
   }
-  if(data$T2[i] == 23){
+  if (data$T2[i] == 23) {
     data$T2[i] <- 22
   }
-  if(data$T2[i] == 28){
+  if (data$T2[i] == 28) {
     data$T2[i] <- 27
   }
-  if(data$T2[i] == 33){
+  if (data$T2[i] == 33) {
     data$T2[i] <- 32
   }
-  if(data$T2[i] == 38){
+  if (data$T2[i] == 38) {
     data$T2[i] <- 37
   }
 }
 
-#Make sure it is a character string for grouping
+# Make sure it is a character string for grouping
 data$T2 <- as.character(data$T2)
 
-#Create grouping variable by ID and measurement temperature
-data <- unite(data, col = "ID2", c("ID", "T2"),
-              sep = "_")
+# Create grouping variable by ID and measurement temperature
+data <- unite(data,
+  col = "ID2", c("ID", "T2"),
+  sep = "_"
+)
 
-#Split by temperature group
+# Split by temperature group
 data <- split(data, data$ID2)
 
-#Obtain mean temperature for group so temperature
-#response fitting is acceptable later, round to
-#2 decimal places
-for(i in 1:length(data)){
+# Obtain mean temperature for group so temperature
+# response fitting is acceptable later, round to
+# 2 decimal places
+for (i in 1:length(data)) {
   data[[i]]$Curve_Tleaf <- round(mean(data[[i]]$Tleaf), 2)
 }
 
-#Convert from list back to dataframe
+# Convert from list back to dataframe
 data <- do.call("rbind", data)
 
-#Parse grouping variable by ID and measurement temperature
-data <- separate(data, col = "ID2", into = c("ID", "T2"),
-                 sep = "_")
+# Parse grouping variable by ID and measurement temperature
+data <- separate(data,
+  col = "ID2", into = c("ID", "T2"),
+  sep = "_"
+)
 
-#Make sure number of values matches number of measurement
-#temperatures. May vary slightly if plants had slightly
-#different leaf temperatures during the measurements
+# Make sure number of values matches number of measurement
+# temperatures. May vary slightly if plants had slightly
+# different leaf temperatures during the measurements
 unique(data$Curve_Tleaf)
 
-#Create ID column to curve fit by ID and temperature
-data <- unite(data, col = "ID2", c("ID", "Curve_Tleaf"),
-              sep = "_")
+# Create ID column to curve fit by ID and temperature
+data <- unite(data,
+  col = "ID2", c("ID", "Curve_Tleaf"),
+  sep = "_"
+)
 
-#Convert leaf temperature to K
+# Convert leaf temperature to K
 data$T_leaf <- data$Tleaf + 273.15
 
-#Fit many CO2 response curves
-fits2 <- fit_many(data = data,
-                  group = "ID2",
-                  varnames = list(A_net = "A",
-                                  C_i = "Ci",
-                                  T_leaf = "T_leaf",
-                                  PPFD = "Qin",
-                                  g_mc = "g_mc"),
-                  funct = fit_aci_response,
-                  alphag = 0)
+# Fit many CO2 response curves
+fits2 <- fit_many(
+  data = data,
+  group = "ID2",
+  varnames = list(
+    A_net = "A",
+    C_i = "Ci",
+    T_leaf = "T_leaf",
+    PPFD = "Qin",
+    g_mc = "g_mc"
+  ),
+  funct = fit_aci_response,
+  alphag = 0
+)
 
-#Extract ACi parameters
-pars <- compile_data(fits2, output_type = "dataframe",
-                     list_element = 1)
+# Extract ACi parameters
+pars <- compile_data(fits2,
+  output_type = "dataframe",
+  list_element = 1
+)
 
-#Extract ACi graphs
-graphs <- compile_data(fits2, output_type = "list",
-                       list_element = 2)
+# Extract ACi graphs
+graphs <- compile_data(fits2,
+  output_type = "list",
+  list_element = 2
+)
 
-#Parse the ID variable
+# Parse the ID variable
 pars <- separate(pars, col = "ID", into = c("ID", "Curve_Tleaf"), sep = "_")
 
-#Make sure curve leaf temperature is numeric
+# Make sure curve leaf temperature is numeric
 pars$Curve_Tleaf <- as.numeric(pars$Curve_Tleaf)
 pars$T_leaf <- pars$Curve_Tleaf + 273.15
 
-#Fit all models, set Hd to constant in Medlyn model
-out <- fit_t_response(data = pars[pars$ID == "S2",],
-                      varnames = list(Par = "V_cmax",
-                                      T_leaf = "T_leaf"),
-                      setvar = "Hd",
-                      hdset = 200000)
+# Fit all models, set Hd to constant in Medlyn model
+out <- fit_t_response(
+  data = pars[pars$ID == "S2", ],
+  varnames = list(
+    Par = "V_cmax",
+    T_leaf = "T_leaf"
+  ),
+  setvar = "Hd",
+  hdset = 200000
+)
 
 out[["Arrhenius"]][["Graph"]]
 out[["Heskel"]][["Graph"]]

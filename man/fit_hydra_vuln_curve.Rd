@@ -39,60 +39,72 @@ Fitting hydraulic vulnerability curves
 }
 \examples{
 \donttest{
-#Read in data
+# Read in data
 data <- read.csv(system.file("extdata", "hydraulic_vulnerability.csv",
-                             package = "photosynthesis"))
+  package = "photosynthesis"
+))
 
-#Fit hydraulic vulnerability curve
-fit <- fit_hydra_vuln_curve(data[data$Tree == 4 & data$Plot == "Control",],
-                            varnames = list(psi = "P",
-                                            PLC = "PLC"),
-                            title = "Control 4")
+# Fit hydraulic vulnerability curve
+fit <- fit_hydra_vuln_curve(data[data$Tree == 4 & data$Plot == "Control", ],
+  varnames = list(
+    psi = "P",
+    PLC = "PLC"
+  ),
+  title = "Control 4"
+)
 
-#Return Sigmoidal model summary
+# Return Sigmoidal model summary
 summary(fit[[1]])
 
-#Return Weibull model summary
+# Return Weibull model summary
 summary(fit[[4]])
 
-#Return model parameters with 95\% confidence intervals
+# Return model parameters with 95\\% confidence intervals
 fit[[2]]
 
-#Return hydraulic parameters
+# Return hydraulic parameters
 fit[[3]]
 
-#Return graph
+# Return graph
 fit[[5]]
 
-#Fit many curves
-fits <- fit_many(data = data,
-                 varnames = list(psi = "P",
-                                 PLC = "PLC"),
-                 group = "Tree",
-                 funct = fit_hydra_vuln_curve)
+# Fit many curves
+fits <- fit_many(
+  data = data,
+  varnames = list(
+    psi = "P",
+    PLC = "PLC"
+  ),
+  group = "Tree",
+  funct = fit_hydra_vuln_curve
+)
 
-#To select individuals from the many fits
-#Return model summary
-summary(fits[[1]][[1]]) #Returns model summary
+# To select individuals from the many fits
+# Return model summary
+summary(fits[[1]][[1]]) # Returns model summary
 
-#Return sigmoidal model output
+# Return sigmoidal model output
 fits[[1]][[2]]
 
-#Return hydraulic parameters
+# Return hydraulic parameters
 fits[[1]][[3]]
 
-#Return graph
+# Return graph
 fits[[1]][[5]]
 
-#Compile parameter outputs
-pars <- compile_data(data = fits,
-                     output_type = "dataframe",
-                     list_element = 3)
+# Compile parameter outputs
+pars <- compile_data(
+  data = fits,
+  output_type = "dataframe",
+  list_element = 3
+)
 
-#Compile graphs
-graphs <- compile_data(data = fits,
-                       output_type = "list",
-                       list_element = 5)
+# Compile graphs
+graphs <- compile_data(
+  data = fits,
+  output_type = "list",
+  list_element = 5
+)
 }
 }
 \references{

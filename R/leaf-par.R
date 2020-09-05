@@ -11,7 +11,6 @@
 #'
 #' @export
 leaf_par <- function(.x, use_tealeaves) {
-
   which <- "leaf"
   nms <- photosynthesis::parameter_names(which, use_tealeaves)
 
@@ -21,7 +20,8 @@ leaf_par <- function(.x, use_tealeaves) {
     nms[!(nms %in% names(.x))] %>%
       stringr::str_c(collapse = ", ") %>%
       glue::glue("{x} not in parameter names required for {which}",
-                 x = ., which = which) %>%
+        x = ., which = which
+      ) %>%
       stop()
   }
 
@@ -75,5 +75,4 @@ leaf_par <- function(.x, use_tealeaves) {
   }
 
   structure(.x, class = c(stringr::str_c(which, "_par"), "list"))
-
 }

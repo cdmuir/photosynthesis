@@ -15,7 +15,6 @@
 #' ppm <- set_units(400, "umol/mol")
 #' P <- set_units(101.325, "kPa")
 #' ppm2pa(ppm, P)
-#'
 #' @export
 #'
 
@@ -54,12 +53,10 @@ ppm2pa <- function(ppm, P) {
 #' g_w
 #'
 #' gw2gc(g_w, D_c, D_w, unitles = FALSE)
-#'
 #' @export
 #'
 
 gw2gc <- function(g_w, D_c, D_w, unitless) {
-
   if (unitless) {
     if (is(g_w, "units")) g_w %<>% drop_units()
     if (is(D_c, "units")) D_c %<>% drop_units()
@@ -73,7 +70,6 @@ gw2gc <- function(g_w, D_c, D_w, unitless) {
     g_c <- g_w * D_c / D_w
     return(g_c)
   }
-
 }
 
 #' Convert g_c (umol CO2/m^2/s/Pa) to g_w (umol H2O /m^2/s/Pa)
@@ -87,7 +83,6 @@ gw2gc <- function(g_w, D_c, D_w, unitless) {
 #'
 
 gc2gw <- function(g_c, D_c, D_w, unitless) {
-
   if (unitless) {
     if (is(g_c, "units")) g_c %<>% drop_units()
     if (is(D_c, "units")) D_c %<>% drop_units()
@@ -95,11 +90,10 @@ gc2gw <- function(g_c, D_c, D_w, unitless) {
     g_w <- g_c * D_w / D_c
     return(g_w)
   } else {
-    g_c %<>% set_units(umol/m^2/s/Pa)
-    D_c %<>% set_units(m^2/s)
-    D_w %<>% set_units(m^2/s)
+    g_c %<>% set_units(umol / m^2 / s / Pa)
+    D_c %<>% set_units(m^2 / s)
+    D_w %<>% set_units(m^2 / s)
     g_w <- g_c * D_w / D_c
     return(g_w)
   }
-
 }

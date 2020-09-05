@@ -10,19 +10,27 @@
 #' @rdname read_licors
 #' @export
 read_li6800 <- function(x) {
-  #Read in header information
-  header <- read.csv(file = x, header = TRUE, sep = "\t",
-                     skip = grep(pattern = "\\[Data\\]",
-                                 x = readLines(x),
-                                 value = FALSE) + 1,
-                     nrows = 1)
-  #Read in data information
-  data <- read.csv(file = x, header = FALSE, sep = "\t",
-                   skip = grep(pattern = "\\[Data\\]",
-                               x = readLines(x),
-                               value = FALSE) + 3)
-  #Add header to data
+  # Read in header information
+  header <- read.csv(
+    file = x, header = TRUE, sep = "\t",
+    skip = grep(
+      pattern = "\\[Data\\]",
+      x = readLines(x),
+      value = FALSE
+    ) + 1,
+    nrows = 1
+  )
+  # Read in data information
+  data <- read.csv(
+    file = x, header = FALSE, sep = "\t",
+    skip = grep(
+      pattern = "\\[Data\\]",
+      x = readLines(x),
+      value = FALSE
+    ) + 3
+  )
+  # Add header to data
   colnames(data) <- colnames(header)
-  #Return data
+  # Return data
   return(data)
 }

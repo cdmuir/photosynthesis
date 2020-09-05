@@ -3,7 +3,7 @@
 #' @inheritParams A_supply
 #'
 #' @name CO2_conductance
-#' 
+#'
 #' @details
 #'
 #' Total conductance to CO2 is the sum of parallel conductances on the lower
@@ -15,7 +15,7 @@
 #' Each partial conductance consists of two parallel conductances, the
 #' cuticular conductance (\eqn{g_\mathrm{u,c}}{g_uc}) and the in-series
 #' conductances through mesophyll (\eqn{g_\mathrm{m,c}}{g_mc}), stomata (\eqn{g_\mathrm{s,c}}{g_sc}), and boundary layer (\eqn{g_\mathrm{b,c}}{g_bc}). To simplify the formula, I use substitute resistance where \eqn{r_x = 1 / g_x}. For surface \eqn{i}:
-#' 
+#'
 #' \deqn{g_{\mathrm{c},i} = g_{\mathrm{u},i} + (1 / (r_{\mathrm{m},i} + r_{\mathrm{s},i} + r_{\mathrm{b},i}))}{g_ci = g_ui + (1 / (r_mi + r_si + r_bi))}
 #'
 #' The cuticular, stomatal, and mesophyll conductances can be the same or
@@ -55,7 +55,6 @@ NULL
 #'
 #' @rdname CO2_conductance
 .get_gtc <- function(pars, unitless) {
-
   gbc_lower <- .get_gbc(pars, "lower", unitless)
   gmc_lower <- .get_gmc(pars, "lower", unitless)
   gsc_lower <- .get_gsc(pars, "lower", unitless)
@@ -75,10 +74,9 @@ NULL
 
   g_tc <- gc_lower + gc_upper
 
-  if (!unitless) g_tc %<>% set_units(umol/m^2/s/Pa)
+  if (!unitless) g_tc %<>% set_units(umol / m^2 / s / Pa)
 
   g_tc
-
 }
 
 #'  - g_uc: cuticular conductance to CO2
@@ -87,7 +85,6 @@ NULL
 #'
 #' @rdname CO2_conductance
 .get_guc <- function(pars, surface, unitless) {
-
   surface %<>% match.arg(c("lower", "upper"))
 
   if (unitless) {
@@ -105,7 +102,6 @@ NULL
   }
 
   g_uc
-
 }
 #'  - g_bc: boundary layer conductance to CO2
 #'
@@ -113,21 +109,19 @@ NULL
 #'
 #' @rdname CO2_conductance
 .get_gbc <- function(pars, surface, unitless) {
-
   surface %<>% match.arg(c("lower", "upper"))
 
   ret <- tealeaves:::.get_gbw(pars$T_leaf, surface, pars, unitless) %>%
-    set_units(m/s) %>%
+    set_units(m / s) %>%
     gunit::convert_conductance(
       P = set_units(pars$P, kPa),
-      R = set_units(pars$R, J/K/mol),
+      R = set_units(pars$R, J / K / mol),
       Temp = set_units((pars$T_air + pars$T_leaf) / 2, K)
     ) %>%
     dplyr::pull(.data$`umol/m^2/s/Pa`) %>%
     gw2gc(D_c = pars$D_c0, D_w = pars$D_w0, unitless = unitless)
 
   ret
-
 }
 #'  - g_mc: mesophyll conductance to CO2
 #'
@@ -135,7 +129,6 @@ NULL
 #'
 #' @rdname CO2_conductance
 .get_gmc <- function(pars, surface, unitless) {
-
   surface %<>% match.arg(c("lower", "upper"))
 
   if (unitless) {
@@ -153,7 +146,6 @@ NULL
   }
 
   g_mc
-
 }
 #'  - g_sc: stomatal conductance to CO2
 #'
@@ -161,7 +153,6 @@ NULL
 #'
 #' @rdname CO2_conductance
 .get_gsc <- function(pars, surface, unitless) {
-
   surface %<>% match.arg(c("lower", "upper"))
   if (unitless) {
     g_sc <- switch(
@@ -178,5 +169,4 @@ NULL
   }
 
   g_sc
-
 }

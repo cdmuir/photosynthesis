@@ -145,7 +145,6 @@ NULL
 #'     V_cmax25 = set_units(100, "umol/m^2/s")
 #'   ), use_tealeaves = FALSE
 #' )
-#'
 #' @export
 make_leafpar <- function(replace = NULL, use_tealeaves) {
 
@@ -155,15 +154,15 @@ make_leafpar <- function(replace = NULL, use_tealeaves) {
     g_sc = set_units(4, umol / (m^2 * s * Pa)),
     g_uc = set_units(0.1, umol / (m^2 * s * Pa)),
     gamma_star25 = set_units(3.743, Pa), # From Sharkey et al. 2007.
-    #Newer source? Check bayCi
+    # Newer source? Check bayCi
     J_max25 = set_units(200, umol / (m^2 * s)),
     k_mc = set_units(1),
     k_sc = set_units(1),
     k_uc = set_units(1),
     K_C25 = set_units(27.238, Pa), # From Sharkey et al. 2007.
-    #Newer source? Check bayCi
+    # Newer source? Check bayCi
     K_O25 = set_units(16.582, kPa), # From Sharkey et al. 2007.
-    #Newer source? Check bayCi
+    # Newer source? Check bayCi
     leafsize = set_units(0.1, m),
     phi_J = set_units(0.331),
     theta_J = set_units(0.825),
@@ -174,12 +173,10 @@ make_leafpar <- function(replace = NULL, use_tealeaves) {
   )
 
   if (use_tealeaves) {
-
     obj <- c(obj, list(
       abs_l = set_units(0.97),
       abs_s = set_units(0.5)
     ))
-
   }
 
   # Replace defaults ----
@@ -195,16 +192,16 @@ make_leafpar <- function(replace = NULL, use_tealeaves) {
   )
 
   if (any(purrr::map_lgl(replace[par_equiv$tl], ~ !is.null(.x)))) {
-
     par_equiv %>%
       dplyr::filter(.data$tl %in% names(replace)) %>%
-      dplyr::transmute(message = stringr::str_c("\nIn `replace = list(...)`,
+      dplyr::transmute(message = stringr::str_c(
+        "\nIn `replace = list(...)`,
              tealeaves parameter ", .data$tl, " is not replacable. Use ",
-                                                .data$ph, " instead.")) %>%
+        .data$ph, " instead."
+      )) %>%
       dplyr::pull(.data$message) %>%
       stringr::str_c(collapse = "\n") %>%
       stop(call. = FALSE)
-
   }
 
   obj %<>% replace_defaults(replace)
@@ -213,7 +210,6 @@ make_leafpar <- function(replace = NULL, use_tealeaves) {
   obj %<>% photosynthesis::leaf_par(use_tealeaves)
 
   obj
-
 }
 
 #' make_enviropar
@@ -227,21 +223,20 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
     C_air = set_units(41, Pa),
     O = set_units(21.27565, kPa),
     P = set_units(101.3246, kPa),
-    PPFD = set_units(1500, umol/m^2/s),
+    PPFD = set_units(1500, umol / m^2 / s),
     RH = set_units(0.5),
-    wind = set_units(2, m/s)
+    wind = set_units(2, m / s)
   )
 
   # Add parameters for tealeaves ----
   if (use_tealeaves) {
-
     obj %<>% c(list(
-      E_q = set_units(220, kJ/mol),
+      E_q = set_units(220, kJ / mol),
       f_par = set_units(0.5),
       r = set_units(0.2),
       T_air = set_units(298.15, K),
       T_sky = function(pars) {
-        set_units(pars$T_air, K) - set_units(20, K) * set_units(pars$S_sw, W / m ^ 2) / set_units(1000, W / m ^ 2)
+        set_units(pars$T_air, K) - set_units(20, K) * set_units(pars$S_sw, W / m^2) / set_units(1000, W / m^2)
       }
     ))
   }
@@ -253,7 +248,7 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
       replace$T_sky <- NULL
     }
   }
-  
+
   par_equiv <- data.frame(
     tl = c("S_sw"),
     ph = c("PPFD"),
@@ -261,16 +256,16 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
   )
 
   if (any(purrr::map_lgl(replace[par_equiv$tl], ~ !is.null(.x)))) {
-
     par_equiv %>%
       dplyr::filter(.data$tl %in% names(replace)) %>%
-      dplyr::transmute(message = stringr::str_c("\nIn `replace = list(...)`,
+      dplyr::transmute(message = stringr::str_c(
+        "\nIn `replace = list(...)`,
              tealeaves parameter ", .data$tl,
-             " is not replacable. Use ", .data$ph, " instead.")) %>%
+        " is not replacable. Use ", .data$ph, " instead."
+      )) %>%
       dplyr::pull(.data$message) %>%
       stringr::str_c(collapse = "\n") %>%
       stop(call. = FALSE)
-
   }
 
   obj %<>% replace_defaults(replace)
@@ -279,7 +274,6 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
   obj %<>% photosynthesis::enviro_par(use_tealeaves)
 
   obj
-
 }
 
 #' make_bakepar
@@ -290,18 +284,18 @@ make_bakepar <- function(replace = NULL) {
 
   # Defaults -----
   obj <- list(
-    Ds_gmc = set_units(487.29, J/mol/K),
-    Ds_Jmax = set_units(388.04, J/mol/K),
-    Ea_gammastar = set_units(24459.97, J/mol),
-    Ea_gmc = set_units(68901.56, J/mol),
-    Ea_Jmax = set_units(56095.18, J/mol),
-    Ea_KC = set_units(80989.78, J/mol),
-    Ea_KO = set_units(23719.97, J/mol),
-    Ea_Rd = set_units(40446.75, J/mol),
-    Ea_Vcmax = set_units(52245.78, J/mol),
-    Ea_Vtpu = set_units(52245.78, J/mol),
-    Ed_gmc = set_units(148788.56, J/mol),
-    Ed_Jmax = set_units(121244.79, J/mol)
+    Ds_gmc = set_units(487.29, J / mol / K),
+    Ds_Jmax = set_units(388.04, J / mol / K),
+    Ea_gammastar = set_units(24459.97, J / mol),
+    Ea_gmc = set_units(68901.56, J / mol),
+    Ea_Jmax = set_units(56095.18, J / mol),
+    Ea_KC = set_units(80989.78, J / mol),
+    Ea_KO = set_units(23719.97, J / mol),
+    Ea_Rd = set_units(40446.75, J / mol),
+    Ea_Vcmax = set_units(52245.78, J / mol),
+    Ea_Vtpu = set_units(52245.78, J / mol),
+    Ed_gmc = set_units(148788.56, J / mol),
+    Ed_Jmax = set_units(121244.79, J / mol)
   )
 
   # Replace defaults -----
@@ -311,7 +305,6 @@ make_bakepar <- function(replace = NULL) {
   obj %<>% photosynthesis::bake_par()
 
   obj
-
 }
 
 #' make_constants
@@ -322,20 +315,19 @@ make_constants <- function(replace = NULL, use_tealeaves) {
 
   # Defaults -----
   obj <- list(
-    D_c0 = set_units(1.29e-5, m ^ 2 / s),
-    D_h0 = set_units(1.90e-5, m ^ 2 / s),
-    D_m0 = set_units(1.33e-5, m ^ 2 / s),
-    D_w0 = set_units(2.12e-5, m ^ 2 / s),
+    D_c0 = set_units(1.29e-5, m^2 / s),
+    D_h0 = set_units(1.90e-5, m^2 / s),
+    D_m0 = set_units(1.33e-5, m^2 / s),
+    D_w0 = set_units(2.12e-5, m^2 / s),
     epsilon = set_units(0.622),
     eT = set_units(1.75),
-    G = set_units(9.8, m / s ^ 2),
+    G = set_units(9.8, m / s^2),
     nu_constant = function(Re, type, T_air, T_leaf, surface, unitless) {
-
       if (!unitless) {
         stopifnot(units(T_air)$numerator == "K" &
-                    length(units(T_air)$denominator) == 0L)
+          length(units(T_air)$denominator) == 0L)
         stopifnot(units(T_leaf)$numerator == "K" &
-                    length(units(T_leaf)$denominator) == 0L)
+          length(units(T_leaf)$denominator) == 0L)
       }
 
       type %<>% match.arg(c("free", "forced"))
@@ -354,23 +346,20 @@ make_constants <- function(replace = NULL, use_tealeaves) {
       if (identical(type, "free")) {
         surface %<>% match.arg(c("lower", "upper"))
         if ((surface == "upper" & T_leaf > T_air) |
-            (surface == "lower" & T_leaf < T_air)) {
+          (surface == "lower" & T_leaf < T_air)) {
           ret <- list(a = 0.5, b = 0.25)
         } else {
           ret <- list(a = 0.23, b = 0.25)
         }
         return(ret)
       }
-
     },
     R = set_units(8.3144598, J / (mol * K)),
-    s = set_units(5.67e-08, W / (m ^ 2 * K ^ 4)),
+    s = set_units(5.67e-08, W / (m^2 * K^4)),
     sh_constant = function(type, unitless) {
-
       type %>%
         match.arg(c("free", "forced")) %>%
         switch(forced = 0.33, free = 0.25)
-
     }
   )
 
@@ -389,12 +378,10 @@ make_constants <- function(replace = NULL, use_tealeaves) {
 
   # Add parameters for tealeaves ----
   if (use_tealeaves) {
-
     obj %<>% c(list(
-      c_p = set_units(1.01, J/g/K),
-      R_air = set_units(287.058, J/kg/K)
+      c_p = set_units(1.01, J / g / K),
+      R_air = set_units(287.058, J / kg / K)
     ))
-
   }
 
   # Replace defaults -----
@@ -404,7 +391,6 @@ make_constants <- function(replace = NULL, use_tealeaves) {
   obj %<>% photosynthesis::constants(use_tealeaves)
 
   obj
-
 }
 
 #' Replace default parameters
@@ -414,9 +400,7 @@ make_constants <- function(replace = NULL, use_tealeaves) {
 #' @noRd
 
 replace_defaults <- function(obj, replace) {
-
   if (!is.null(replace)) {
-
     stopifnot(is.list(replace))
     stopifnot(all(sapply(replace, inherits, what = "units")))
     stopifnot(all(sapply(replace, is.numeric)))
@@ -424,13 +408,12 @@ replace_defaults <- function(obj, replace) {
     if (any(!x %in% names(obj))) {
       warning(sprintf("The following parameters in 'replace' were not
                       recognized:\n%s", paste0(x[!x %in% names(obj)],
-                                               collapse = "\n")))
+        collapse = "\n"
+      )))
       x %<>% .[. %in% names(obj)]
     }
     obj[x] <- replace[x]
-
   }
 
   obj
-
 }

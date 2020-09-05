@@ -73,5 +73,5 @@ gs_mod_optifull <- function(g0,
                             VPD,
                             A_net,
                             C_air) {
-  g0 + 1.6 * (1 + g1 / VPD ^ (1 - gk)) * (A_net / C_air)
+  g0 + 1.6 * (1 + g1 / VPD^(1 - gk)) * (A_net / C_air)
 }

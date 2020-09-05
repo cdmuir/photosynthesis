@@ -39,9 +39,9 @@ fit_aci_response(
 \arguments{
 \item{data}{Dataframe for A-Ci curve fitting}
 
-\item{varnames}{List of variable names. varnames = list(A_net = "A_net", 
+\item{varnames}{List of variable names. varnames = list(A_net = "A_net",
 T_leaf = "T_leaf", C_i = "C_i", PPFD = "PPFD", g_mc = "g_mc"), where A_net
-is net CO2 assimilation, T_leaf is leaf temperature in Celsius, C_i is 
+is net CO2 assimilation, T_leaf is leaf temperature in Celsius, C_i is
 intercellular CO2 concentration in umol/mol, PPFD is incident irradiance
 in umol m-2 s-1 (note that it is ASSUMED to be absorbed irradiance, so be
 sure to adjust according to light absorbance and PSI/PSII partitioning
@@ -67,15 +67,15 @@ in varnames above.}
 \item{useg_mct}{Use mesophyll conductance temperature response? Set to TRUE
 if using a temperature response of mesophyll conductance.}
 
-\item{usegamma_star}{Specify gamma_star value? If FALSE, uses a temperature 
+\item{usegamma_star}{Specify gamma_star value? If FALSE, uses a temperature
 response function with Nicotiana tabacum defaults from Bernacchi et al.
 2001.}
 
-\item{useK_M}{Specify K_M? If FALSE, uses an Arrhenius temperature response 
+\item{useK_M}{Specify K_M? If FALSE, uses an Arrhenius temperature response
 function with Nicotiana tabacum defaults from Bernacchi et al. 2001.}
 
 \item{useK_C_K_O}{Use individual carboxylation/oxygenation constants for
-rubisco? If TRUE, need to specify values at 25C and activation energy for 
+rubisco? If TRUE, need to specify values at 25C and activation energy for
 the Arrhenius temperature response function.}
 
 \item{alpha}{Quantum yield of CO2 assimilation}
@@ -102,7 +102,7 @@ the Arrhenius temperature response function.}
 
 \item{Ea_K_O}{Activation energy for K_O in J mol-2}
 
-\item{Oconc}{O2 concentration in %. Used with P to calculate 
+\item{Oconc}{O2 concentration in %. Used with P to calculate
 intracellular O2 when using K_C_K_O}
 
 \item{gamma_star_set}{Value of gamma_star to use (in ppm) if
@@ -113,9 +113,9 @@ usegamma_star = TRUE}
 \item{...}{Other arguments to pass on}
 }
 \value{
-fit_aci_response fits ACi curves using an approach similar to 
+fit_aci_response fits ACi curves using an approach similar to
 Gu et al. 2010. Iterates all possible C_i transition points and checks for
-inadmissable curve fits. If no curves are admissable (either due to poor data
+inadmissible curve fits. If no curves are admissible (either due to poor data
 or poor assumed parameters), the output will include a dataframe of NA values.
 Default parameters are all from Bernacchi et al. 2001, 2002.
 }
@@ -124,63 +124,72 @@ Fitting ACi curves
 }
 \examples{
 \donttest{
-#Read in your data
-#Note that this data is coming from data supplied by the package
-#hence the complicated argument in read.csv()
-#This dataset is a CO2 by light response curve for a single sunflower
+# Read in your data
+# Note that this data is coming from data supplied by the package
+# hence the complicated argument in read.csv()
+# This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-                             package = "photosynthesis"))
+  package = "photosynthesis"
+))
 
-#Define a grouping factor based on light intensity to split the ACi
-#curves
+# Define a grouping factor based on light intensity to split the ACi
+# curves
 data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
 
-#Convert leaf temperature to K
+# Convert leaf temperature to K
 data$T_leaf <- data$Tleaf + 273.15
 
-#Fit ACi curve. Note that we are subsetting the dataframe
-#here to fit for a single value of Q_2
+# Fit ACi curve. Note that we are subsetting the dataframe
+# here to fit for a single value of Q_2
 fit <- fit_aci_response(data[data$Q_2 == 1500, ],
-                        varnames = list(A_net = "A",
-                                        T_leaf = "T_leaf",
-                                        C_i = "Ci",
-                                        PPFD = "Qin"))
+  varnames = list(
+    A_net = "A",
+    T_leaf = "T_leaf",
+    C_i = "Ci",
+    PPFD = "Qin"
+  )
+)
 
-#View fitted parameters
+# View fitted parameters
 fit[[1]]
 
-#View graph
+# View graph
 fit[[2]]
 
-#View data with modelled parameters attached
+# View data with modelled parameters attached
 fit[[3]]
 
-#Fit many curves
-fits <- fit_many(data = data,
-                 varnames = list(A_net = "A",
-                                 T_leaf = "T_leaf",
-                                 C_i = "Ci",
-                                 PPFD = "Qin"),
-                 funct = fit_aci_response,
-                 group = "Q_2")
+# Fit many curves
+fits <- fit_many(
+  data = data,
+  varnames = list(
+    A_net = "A",
+    T_leaf = "T_leaf",
+    C_i = "Ci",
+    PPFD = "Qin"
+  ),
+  funct = fit_aci_response,
+  group = "Q_2"
+)
 
-#Print the parameters
-#First set of double parentheses selects an individual group value
-#Second set selects an element of the sublist
+# Print the parameters
+# First set of double parentheses selects an individual group value
+# Second set selects an element of the sublist
 fits[[3]][[1]]
 
-#Print the graph
+# Print the graph
 fits[[3]][[2]]
 
-#Compile graphs into a list for plotting
+# Compile graphs into a list for plotting
 fits_graphs <- compile_data(fits,
-                            list_element = 2)
+  list_element = 2
+)
 
-#Compile parameters into dataframe for analysis
+# Compile parameters into dataframe for analysis
 fits_pars <- compile_data(fits,
-                          output_type = "dataframe",
-                          list_element = 1)
-
+  output_type = "dataframe",
+  list_element = 1
+)
 }
 }
 \references{

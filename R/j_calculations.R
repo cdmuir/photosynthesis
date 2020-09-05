@@ -30,6 +30,6 @@ calculate_j <- function(PPFD,
                         J_max,
                         theta_J) {
   (alpha * PPFD + J_max -
-     sqrt((alpha * PPFD + J_max) ^ 2 - 4 * alpha * theta_J * PPFD * J_max)) /
+    sqrt((alpha * PPFD + J_max)^2 - 4 * alpha * theta_J * PPFD * J_max)) /
     (2 * theta_J)
 }

@@ -63,154 +63,176 @@
 #' @importFrom stats coef
 #' @importFrom stats lm
 #'
-#' @examples \donttest{
-#' #FITTING KOK METHOD
-#' #Read in your data
-#' #Note that this data is coming from data supplied by the package
-#' #hence the complicated argument in read.csv()
-#' #This dataset is a CO2 by light response curve for a single sunflower
+#' @examples
+#' \donttest{
+#' # FITTING KOK METHOD
+#' # Read in your data
+#' # Note that this data is coming from data supplied by the package
+#' # hence the complicated argument in read.csv()
+#' # This dataset is a CO2 by light response curve for a single sunflower
 #' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-#'                              package = "photosynthesis"))
+#'   package = "photosynthesis"
+#' ))
 #'
-#' #Fit light respiration with Kok method
-#' r_light <- fit_r_light_kok(data = data,
-#'                            varnames = list(A_net = "A",
-#'                                            PPFD = "Qin"),
-#'                            PPFD_lower = 20,
-#'                            PPFD_upper = 150)
-#' #Return r_light
+#' # Fit light respiration with Kok method
+#' r_light <- fit_r_light_kok(
+#'   data = data,
+#'   varnames = list(
+#'     A_net = "A",
+#'     PPFD = "Qin"
+#'   ),
+#'   PPFD_lower = 20,
+#'   PPFD_upper = 150
+#' )
+#' # Return r_light
 #' r_light
 #'
-#' #FITTING WALKER-ORT METHOD
-#' #Read in your data
-#' #Note that this data is coming from data supplied by the package
-#' #hence the complicated argument in read.csv()
-#' #This dataset is a CO2 by light response curve for a single sunflower
+#' # FITTING WALKER-ORT METHOD
+#' # Read in your data
+#' # Note that this data is coming from data supplied by the package
+#' # hence the complicated argument in read.csv()
+#' # This dataset is a CO2 by light response curve for a single sunflower
 #' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-#'                              package = "photosynthesis"))
+#'   package = "photosynthesis"
+#' ))
 #'
-#' #Fit the Walker-Ort method for GammaStar and light respiration
+#' # Fit the Walker-Ort method for GammaStar and light respiration
 #' walker_ort <- fit_r_light_WalkerOrt(data,
-#'                                     varnames = list(A_net = "A",
-#'                                                     C_i = "Ci",
-#'                                                     PPFD = "Qin"))
-#' #Extract model
+#'   varnames = list(
+#'     A_net = "A",
+#'     C_i = "Ci",
+#'     PPFD = "Qin"
+#'   )
+#' )
+#' # Extract model
 #' summary(walker_ort[[1]])
 #'
-#' #View graph
+#' # View graph
 #' walker_ort[[2]]
 #'
-#' #View coefficients
+#' # View coefficients
 #' walker_ort[[3]]
 #'
-#' #FITTING THE YIN METHOD
-#' #Read in your data
-#' #Note that this data is coming from data supplied by the package
-#' #hence the complicated argument in read.csv()
-#' #This dataset is a CO2 by light response curve for a single sunflower
+#' # FITTING THE YIN METHOD
+#' # Read in your data
+#' # Note that this data is coming from data supplied by the package
+#' # hence the complicated argument in read.csv()
+#' # This dataset is a CO2 by light response curve for a single sunflower
 #' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-#'                              package = "photosynthesis"))
+#'   package = "photosynthesis"
+#' ))
 #'
-#' #Fit light respiration with Yin method
-#' r_light <- fit_r_light_yin(data = data,
-#'                            varnames = list(A_net = "A",
-#'                                            PPFD = "Qin",
-#'                                            phi_PSII = "PhiPS2"),
-#'                            PPFD_lower = 20,
-#'                            PPFD_upper = 250)
+#' # Fit light respiration with Yin method
+#' r_light <- fit_r_light_yin(
+#'   data = data,
+#'   varnames = list(
+#'     A_net = "A",
+#'     PPFD = "Qin",
+#'     phi_PSII = "PhiPS2"
+#'   ),
+#'   PPFD_lower = 20,
+#'   PPFD_upper = 250
+#' )
 #' }
 #'
 #' @rdname fit_r_light
 #' @export
 fit_r_light_kok <- function(data,
-                            varnames = list(A_net = "A_net",
-                                            PPFD = "PPFD"),
+                            varnames = list(
+                              A_net = "A_net",
+                              PPFD = "PPFD"
+                            ),
                             PPFD_lower = 40,
                             PPFD_upper = 100) {
-  #Set variable names
+  # Set variable names
   data$A_net <- data[, varnames$A_net]
   data$PPFD <- data[, varnames$PPFD]
-  #Reduce data to within PPFD range
+  # Reduce data to within PPFD range
   data_use <- data[data$PPFD < PPFD_upper, ]
   data_use <- data_use[data_use$PPFD > PPFD_lower, ]
-  #Linear regression to estimate r_light (intercept)
+  # Linear regression to estimate r_light (intercept)
   model <- lm(A_net ~ PPFD, data = data_use)
   r_light <- coef(model)[1]
-  #Output light respiration value
+  # Output light respiration value
   return(r_light)
 }
 
 #' @rdname fit_r_light
 #' @export
 fit_r_light_WalkerOrt <- function(data,
-                                  varnames = list(A_net = "A_net",
-                                                  C_i = "C_i",
-                                                  PPFD = "PPFD"),
+                                  varnames = list(
+                                    A_net = "A_net",
+                                    C_i = "C_i",
+                                    PPFD = "PPFD"
+                                  ),
                                   P = 100,
                                   C_i_threshold = 300) {
-  #Set variable names
+  # Set variable names
   data$A_net <- data[, varnames$A_net]
   data$C_i <- data[, varnames$C_i]
   data$PPFD <- data[, varnames$PPFD]
 
-  #Locally define slope and intercept for slope-intercept regression
-  #This gets rid of a note in the R CMD CHECK
+  # Locally define slope and intercept for slope-intercept regression
+  # This gets rid of a note in the R CMD CHECK
   Slope <- NULL
   Intercept <- NULL
 
-  #Restrict data analysis by a threshold C_i
+  # Restrict data analysis by a threshold C_i
   data_use <- data[data$C_i < C_i_threshold, ]
-  #Convert C_i to units of Pa
+  # Convert C_i to units of Pa
   data_use$C_i <- data_use$C_i / 1000000 * P * 1000
-  #Set PPFD as factor for grouping & round
-  #PPFD to nearest 10s
+  # Set PPFD as factor for grouping & round
+  # PPFD to nearest 10s
   data_use$PPFD <- round(data_use$PPFD, digits = -1)
   data_use$PPFD <- as.factor(data_use$PPFD)
-  #Construct regressions on the pseudolinear portions of
-  #the ACi curves
+  # Construct regressions on the pseudolinear portions of
+  # the ACi curves
   model <- lmList(A_net ~ C_i | PPFD, data = data_use)
-  #Extract coefficients
+  # Extract coefficients
   coefs <- coef(model)
   colnames(coefs) <- c("Intercept", "Slope")
   coefs$PPFD <- rownames(coefs)
-  #Create output list
+  # Create output list
   output <- list(NULL)
-  #Run slope-intercept regression model, assign to element 1
+  # Run slope-intercept regression model, assign to element 1
   output[[1]] <- lm(Intercept ~ Slope,
-                    data = coefs)
-  #Create graph, assign to element 2
+    data = coefs
+  )
+  # Create graph, assign to element 2
   output[[2]] <- ggplot(coefs, aes(x = Slope, y = Intercept)) +
     labs(x = "Slope", y = "Intercept") +
     geom_smooth(method = "lm", size = 2) +
     geom_point(size = 3) +
     theme_bw()
-  #Extract coefficients as per Walker and Ort 2015
-  #But convert C_istar to umol mol-1
+  # Extract coefficients as per Walker and Ort 2015
+  # But convert C_istar to umol mol-1
   GammaStar <- -coef(output[[1]])[2] / (P * 1000) * 1000000
   r_light <- coef(output[[1]])[1]
   output[[3]] <- as.data.frame(cbind(GammaStar, r_light))
-  #Return output
+  # Return output
   return(output)
 }
 
 #' @rdname fit_r_light
 #' @export
 fit_r_light_yin <- function(data,
-varnames = list(A_net = "A_net",
-                PPFD = "PPFD",
-                phi_PSII = "phi_PSII"),
-PPFD_lower = 40,
-PPFD_upper = 100) {
-  #Set variable names
+                            varnames = list(
+                              A_net = "A_net",
+                              PPFD = "PPFD",
+                              phi_PSII = "phi_PSII"
+                            ),
+                            PPFD_lower = 40,
+                            PPFD_upper = 100) {
+  # Set variable names
   data$A_net <- data[, varnames$A_net]
   data$phi_PSII <- data[, varnames$phi_PSII]
   data$PPFD <- data[, varnames$PPFD]
-  #Reduce data to within PPFD range
+  # Reduce data to within PPFD range
   data_use <- data[data$PPFD < PPFD_upper, ]
   data_use <- data_use[data_use$PPFD > PPFD_lower, ]
-  #Calculate x-variable for Yin method
+  # Calculate x-variable for Yin method
   data_use$x_var <- data_use$PPFD * data_use$phi_PSII / 4
-  #Fit linear model for Yin method
+  # Fit linear model for Yin method
   model <- lm(A_net ~ x_var, data = data_use)
   r_light <- coef(model)[1]
   return(r_light)

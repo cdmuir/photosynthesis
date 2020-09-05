@@ -76,60 +76,74 @@ Estimating light respiration
 }
 \examples{
 \donttest{
-#FITTING KOK METHOD
-#Read in your data
-#Note that this data is coming from data supplied by the package
-#hence the complicated argument in read.csv()
-#This dataset is a CO2 by light response curve for a single sunflower
+# FITTING KOK METHOD
+# Read in your data
+# Note that this data is coming from data supplied by the package
+# hence the complicated argument in read.csv()
+# This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-                             package = "photosynthesis"))
+  package = "photosynthesis"
+))
 
-#Fit light respiration with Kok method
-r_light <- fit_r_light_kok(data = data,
-                           varnames = list(A_net = "A",
-                                           PPFD = "Qin"),
-                           PPFD_lower = 20,
-                           PPFD_upper = 150)
-#Return r_light
+# Fit light respiration with Kok method
+r_light <- fit_r_light_kok(
+  data = data,
+  varnames = list(
+    A_net = "A",
+    PPFD = "Qin"
+  ),
+  PPFD_lower = 20,
+  PPFD_upper = 150
+)
+# Return r_light
 r_light
 
-#FITTING WALKER-ORT METHOD
-#Read in your data
-#Note that this data is coming from data supplied by the package
-#hence the complicated argument in read.csv()
-#This dataset is a CO2 by light response curve for a single sunflower
+# FITTING WALKER-ORT METHOD
+# Read in your data
+# Note that this data is coming from data supplied by the package
+# hence the complicated argument in read.csv()
+# This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-                             package = "photosynthesis"))
+  package = "photosynthesis"
+))
 
-#Fit the Walker-Ort method for GammaStar and light respiration
+# Fit the Walker-Ort method for GammaStar and light respiration
 walker_ort <- fit_r_light_WalkerOrt(data,
-                                    varnames = list(A_net = "A",
-                                                    C_i = "Ci",
-                                                    PPFD = "Qin"))
-#Extract model
+  varnames = list(
+    A_net = "A",
+    C_i = "Ci",
+    PPFD = "Qin"
+  )
+)
+# Extract model
 summary(walker_ort[[1]])
 
-#View graph
+# View graph
 walker_ort[[2]]
 
-#View coefficients
+# View coefficients
 walker_ort[[3]]
 
-#FITTING THE YIN METHOD
-#Read in your data
-#Note that this data is coming from data supplied by the package
-#hence the complicated argument in read.csv()
-#This dataset is a CO2 by light response curve for a single sunflower
+# FITTING THE YIN METHOD
+# Read in your data
+# Note that this data is coming from data supplied by the package
+# hence the complicated argument in read.csv()
+# This dataset is a CO2 by light response curve for a single sunflower
 data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-                             package = "photosynthesis"))
+  package = "photosynthesis"
+))
 
-#Fit light respiration with Yin method
-r_light <- fit_r_light_yin(data = data,
-                           varnames = list(A_net = "A",
-                                           PPFD = "Qin",
-                                           phi_PSII = "PhiPS2"),
-                           PPFD_lower = 20,
-                           PPFD_upper = 250)
+# Fit light respiration with Yin method
+r_light <- fit_r_light_yin(
+  data = data,
+  varnames = list(
+    A_net = "A",
+    PPFD = "Qin",
+    phi_PSII = "PhiPS2"
+  ),
+  PPFD_lower = 20,
+  PPFD_upper = 250
+)
 }
 
 }

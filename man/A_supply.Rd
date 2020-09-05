@@ -57,5 +57,4 @@ C_chl <- set_units(35, "Pa")
 A_supply(C_chl, pars)
 
 A_demand(C_chl, pars)
-
 }

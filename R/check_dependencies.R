@@ -9,11 +9,12 @@
 #' @importFrom pkgnet CreatePackageReport
 #' @export
 #'
-#' @examples \donttest{
+#' @examples
+#' \donttest{
 #' check_dependencies()
 #' }
 check_dependencies <- function() {
-  #This function from pkgnet creates an html report and
-  #opens the page within a browser.
+  # This function from pkgnet creates an html report and
+  # opens the page within a browser.
   CreatePackageReport(pkg_name = "photosynthesis")
 }

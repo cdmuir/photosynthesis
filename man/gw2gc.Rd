@@ -51,5 +51,4 @@ g_w <- gc2gw(g_c, D_c, D_w, unitless = FALSE)
 g_w
 
 gw2gc(g_w, D_c, D_w, unitles = FALSE)
-
 }

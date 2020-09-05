@@ -54,95 +54,111 @@ Fitting stomatal conductance models
 }
 \examples{
 \donttest{
-#Read in your data
-#Note that this data is coming from data supplied by the package
-#hence the complicated argument in read.csv()
-#This dataset is a CO2 by light response curve for a single sunflower
-data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv", 
-                             package = "photosynthesis"))
+# Read in your data
+# Note that this data is coming from data supplied by the package
+# hence the complicated argument in read.csv()
+# This dataset is a CO2 by light response curve for a single sunflower
+data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
+  package = "photosynthesis"
+))
 
-#Convert RH to a proportion
+# Convert RH to a proportion
 data$RH <- data$RHcham / 100
 
-#Fit stomatal conductance models
-#Can specify a single model, or all as below
-fits <- fit_gs_model(data = data,
-                     varnames = list(A_net = "A",
-                                     C_air = "Ca",
-                                     g_sw = "gsw",
-                                     RH = "RH",
-                                     VPD = "VPDleaf"),
-                     model = c("BallBerry",
-                               "Leuning",
-                               "Medlyn_partial",
-                               "Medlyn_full"),
-                     D0 = 3)
+# Fit stomatal conductance models
+# Can specify a single model, or all as below
+fits <- fit_gs_model(
+  data = data,
+  varnames = list(
+    A_net = "A",
+    C_air = "Ca",
+    g_sw = "gsw",
+    RH = "RH",
+    VPD = "VPDleaf"
+  ),
+  model = c(
+    "BallBerry",
+    "Leuning",
+    "Medlyn_partial",
+    "Medlyn_full"
+  ),
+  D0 = 3
+)
 
-#Look at BallBerry model summary:
+# Look at BallBerry model summary:
 summary(fits[["BallBerry"]][["Model"]])
 
-#Look at BallBerry parameters
+# Look at BallBerry parameters
 fits[["BallBerry"]][["Parameters"]]
 
-#Look at BallBerry plot
+# Look at BallBerry plot
 fits[["BallBerry"]][["Graph"]]
 
-#Fit many g_sw models
-#Set your grouping variable
-#Here we are grouping by Qin and individual
+# Fit many g_sw models
+# Set your grouping variable
+# Here we are grouping by Qin and individual
 data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
 
 fits <- fit_many(data,
-                 varnames = list(A_net = "A",
-                                 C_air = "Ca",
-                                 g_sw = "gsw",
-                                 RH = "RH",
-                                 VPD = "VPDleaf"),
-                 funct = fit_gs_model,
-                 group = "Q_2")
+  varnames = list(
+    A_net = "A",
+    C_air = "Ca",
+    g_sw = "gsw",
+    RH = "RH",
+    VPD = "VPDleaf"
+  ),
+  funct = fit_gs_model,
+  group = "Q_2"
+)
 
-#Look at the Medlyn_partial outputs at 750 PAR
-#Model summary
+# Look at the Medlyn_partial outputs at 750 PAR
+# Model summary
 summary(fits[["750"]][["Medlyn_partial"]][["Model"]])
 
-#Model parameters
+# Model parameters
 fits[["750"]][["Medlyn_partial"]][["Parameters"]]
 
-#Graph
+# Graph
 fits[["750"]][["Medlyn_partial"]][["Graph"]]
 
-#Compile parameter outputs for BallBerry model
-#Note that it's the first element for each PAR value
-#First compile list of BallBerry fits
-bbmods <- compile_data(data = fits,
-                       output_type = "list",
-                       list_element = 1)
-#Now compile the parameters (2nd element) into a dataframe
-bbpars <- compile_data(data = bbmods,
-                       output_type = "dataframe",
-                       list_element = 2)
+# Compile parameter outputs for BallBerry model
+# Note that it's the first element for each PAR value
+# First compile list of BallBerry fits
+bbmods <- compile_data(
+  data = fits,
+  output_type = "list",
+  list_element = 1
+)
+# Now compile the parameters (2nd element) into a dataframe
+bbpars <- compile_data(
+  data = bbmods,
+  output_type = "dataframe",
+  list_element = 2
+)
 
-#Convert group variable back to numeric
+# Convert group variable back to numeric
 bbpars$ID <- as.numeric(bbpars$ID)
 
-#Take quick look at light response of intercept parameters
+# Take quick look at light response of intercept parameters
 plot(g0 ~ ID, bbpars)
 
-#Compile graphs
-graphs <- compile_data(data = bbmods,
-                       output_type = "list",
-                       list_element = 3)
+# Compile graphs
+graphs <- compile_data(
+  data = bbmods,
+  output_type = "list",
+  list_element = 3
+)
 
-#Look at 3rd graph
+# Look at 3rd graph
 graphs[[3]]
 }
 }
 \references{
-Ball JT, Woodrow IE, Berry JA. 1987. A model predicting stomatal 
+Ball JT, Woodrow IE, Berry JA. 1987. A model predicting stomatal
 conductance and its contribution to the control of photosynthesis
-under different environmental conditions, in Progress in 
-Photosynthesis Research, Proceedings of the VII International 
-Congress on Photosynthesis, vol. 4, edited by I. Biggins, pp. 
+under different environmental conditions, in Progress in
+Photosynthesis Research, Proceedings of the VII International
+Congress on Photosynthesis, vol. 4, edited by I. Biggins, pp.
 221–224, Martinus Nijhoff, Dordrecht, Netherlands.
 
 Leuning R. 1995. A critical appraisal of a coupled stomatal-
@@ -150,6 +166,6 @@ photosynthesis model for C3 plants. Plant Cell Environ 18:339-357
 
 Medlyn BE, Duursma RA, Eamus D, Ellsworth DS, Prentice IC, Barton
 CVM, Crous KY, Angelis PD, Freeman M, Wingate L. 2011. Reconciling
-the optimal and empirical approaches to modelling stomatal 
+the optimal and empirical approaches to modelling stomatal
 conductance. Glob Chang Biol 17:2134-2144
 }

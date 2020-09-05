@@ -2,8 +2,10 @@ library(testthat)
 library(photosynthesis)
 context("Fitting hydraulic vulnerability curves")
 
-df <- data.frame(psi = c(0, 1.5, 3, 4.6, 5.3, 6.1),
-                 PLC = c(0, 7, 17, 38, 66, 90))
+df <- data.frame(
+  psi = c(0, 1.5, 3, 4.6, 5.3, 6.1),
+  PLC = c(0, 7, 17, 38, 66, 90)
+)
 
 model <- fit_hydra_vuln_curve(df)
 

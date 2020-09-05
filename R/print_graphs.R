@@ -20,62 +20,72 @@
 #' @importFrom graphics plot
 #' @export
 #'
-#' @examples \donttest{
-#' #Read in your data
-#' #Note that this data is coming from data supplied by the package
-#' #hence the complicated argument in read.csv()
-#' #This dataset is a CO2 by light response curve for a single sunflower
+#' @examples
+#' \donttest{
+#' # Read in your data
+#' # Note that this data is coming from data supplied by the package
+#' # hence the complicated argument in read.csv()
+#' # This dataset is a CO2 by light response curve for a single sunflower
 #' data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-#'                              package = "photosynthesis"))
+#'   package = "photosynthesis"
+#' ))
 #'
-#' #Fit many AQ curves
-#' #Set your grouping variable
-#' #Here we are grouping by CO2_s and individual
-#' data$C_s <-(round(data$CO2_s, digits = 0))
+#' # Fit many AQ curves
+#' # Set your grouping variable
+#' # Here we are grouping by CO2_s and individual
+#' data$C_s <- (round(data$CO2_s, digits = 0))
 #'
-#' #For this example we need to round sequentially due to CO2_s setpoints
+#' # For this example we need to round sequentially due to CO2_s setpoints
 #' data$C_s <- as.factor(round(data$C_s, digits = -1))
 #'
-#' #To fit one AQ curve
-#' fit <- fit_aq_response(data[data$C_s == 600,],
-#'                        varnames = list(A_net = "A",
-#'                                        PPFD = "Qin"))
+#' # To fit one AQ curve
+#' fit <- fit_aq_response(data[data$C_s == 600, ],
+#'   varnames = list(
+#'     A_net = "A",
+#'     PPFD = "Qin"
+#'   )
+#' )
 #'
-#' #Print model summary
+#' # Print model summary
 #' summary(fit[[1]])
 #'
-#' #Print fitted parameters
+#' # Print fitted parameters
 #' fit[[2]]
 #'
-#' #Print graph
+#' # Print graph
 #' fit[[3]]
 #'
-#' #Fit many curves
-#' fits <- fit_many(data = data,
-#'                  varnames = list(A_net = "A",
-#'                                  PPFD = "Qin",
-#'                                  group = "C_s"),
-#'                  funct = fit_aq_response,
-#'                  group = "C_s")
+#' # Fit many curves
+#' fits <- fit_many(
+#'   data = data,
+#'   varnames = list(
+#'     A_net = "A",
+#'     PPFD = "Qin",
+#'     group = "C_s"
+#'   ),
+#'   funct = fit_aq_response,
+#'   group = "C_s"
+#' )
 #'
-#' #Look at model summary for a given fit
-#' #First set of double parentheses selects an individual group value
-#' #Second set selects an element of the sublist
+#' # Look at model summary for a given fit
+#' # First set of double parentheses selects an individual group value
+#' # Second set selects an element of the sublist
 #' summary(fits[[3]][[1]])
 #'
-#' #Print the parameters
+#' # Print the parameters
 #' fits[[3]][[2]]
 #'
-#' #Print the graph
+#' # Print the graph
 #' fits[[3]][[3]]
 #'
-#' #Compile graphs into a list for plotting
+#' # Compile graphs into a list for plotting
 #' fits_graphs <- compile_data(fits,
-#'                             list_element = 3)
+#'   list_element = 3
+#' )
 #'
-#' #Print graphs to pdf
-#' #Uncomment to run
-#' #print_graphs(data = fits_graphs,
+#' # Print graphs to pdf
+#' # Uncomment to run
+#' # print_graphs(data = fits_graphs,
 #' #            output_type = "pdf",
 #' #            path = tempdir(),
 #' #            pdf_filename = "mygraphs.pdf")
@@ -89,30 +99,31 @@ print_graphs <- function(data,
                          units = "in",
                          pdf_filename,
                          ...) {
-  #Is output_type compatible with options?
+  # Is output_type compatible with options?
   if (!output_type %in% c("pdf", "jpeg")) {
     print("Error: Output type not found. Use pdf or jpeg")
   }
   if (!missing(path)) {
-  #Print out individual jpeg files
-  if (output_type == "jpeg") {
-  for (i in 1:length(data)) {
-    jpeg(paste(names(data[i])[1], ".jpeg"),
-         height = height, width = width,
-         res = res, units = units, ...)
-    print(data[[i]])
-    dev.off()
-  }
-  }
-  #Print out pdf with all graphs
-  if (output_type == "pdf") {
-    pdf(pdf_filename, ...)
-    par(mfrow = c(2, 2))
-    for (i in 1:length(data)) {
-      plot(data[[i]], main = names(data[i]))
+    # Print out individual jpeg files
+    if (output_type == "jpeg") {
+      for (i in 1:length(data)) {
+        jpeg(paste(names(data[i])[1], ".jpeg"),
+          height = height, width = width,
+          res = res, units = units, ...
+        )
+        print(data[[i]])
+        dev.off()
+      }
     }
-    dev.off()
-  }
+    # Print out pdf with all graphs
+    if (output_type == "pdf") {
+      pdf(pdf_filename, ...)
+      par(mfrow = c(2, 2))
+      for (i in 1:length(data)) {
+        plot(data[[i]], main = names(data[i]))
+      }
+      dev.off()
+    }
   } else {
     print("Graphs not printed. 'path' argument required.")
   }

@@ -26,5 +26,4 @@ Convert pressure from PPM to Pascals
 ppm <- set_units(400, "umol/mol")
 P <- set_units(101.325, "kPa")
 ppm2pa(ppm, P)
-
 }

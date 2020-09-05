@@ -40,60 +40,73 @@ Fitting pressure-volume curves
 }
 \examples{
 \donttest{
-#Read in data
+# Read in data
 data <- read.csv(system.file("extdata", "PV_curve.csv",
-                             package = "photosynthesis"))
+  package = "photosynthesis"
+))
 
-#Fit one PV curve
+# Fit one PV curve
 fit <- fit_PV_curve(data[data$ID == "L2", ],
-                    varnames = list(psi = "psi",
-                                    mass = "mass",
-                                    leaf_mass = "leaf_mass",
-                                    bag_mass = "bag_mass",
-                                    leaf_area = "leaf_area"))
+  varnames = list(
+    psi = "psi",
+    mass = "mass",
+    leaf_mass = "leaf_mass",
+    bag_mass = "bag_mass",
+    leaf_area = "leaf_area"
+  )
+)
 
-#See fitted parameters
+# See fitted parameters
 fit[[1]]
 
-#Plot water mass graph
+# Plot water mass graph
 fit[[2]]
 
-#Plot PV Curve
+# Plot PV Curve
 fit[[3]]
 
-#Fit all PV curves in a file
+# Fit all PV curves in a file
 fits <- fit_many(data,
-                 group = "ID",
-                 funct = fit_PV_curve,
-                 varnames = list(psi = "psi",
-                                 mass = "mass",
-                                 leaf_mass = "leaf_mass",
-                                 bag_mass = "bag_mass",
-                                 leaf_area = "leaf_area"))
+  group = "ID",
+  funct = fit_PV_curve,
+  varnames = list(
+    psi = "psi",
+    mass = "mass",
+    leaf_mass = "leaf_mass",
+    bag_mass = "bag_mass",
+    leaf_area = "leaf_area"
+  )
+)
 
-#See parameters
+# See parameters
 fits[[1]][[1]]
 
-#See water mass - water potential graph
+# See water mass - water potential graph
 fits[[1]][[2]]
 
-#See PV curve
+# See PV curve
 fits[[1]][[3]]
 
-#Compile parameter outputs
-pars <- compile_data(data = fits,
-                     output_type = "dataframe",
-                     list_element = 1)
+# Compile parameter outputs
+pars <- compile_data(
+  data = fits,
+  output_type = "dataframe",
+  list_element = 1
+)
 
-#Compile the water mass - water potential graphs
-graphs1 <- compile_data(data = fits,
-                        output_type = "list",
-                        list_element = 2)
+# Compile the water mass - water potential graphs
+graphs1 <- compile_data(
+  data = fits,
+  output_type = "list",
+  list_element = 2
+)
 
-#Compile the PV graphs
-graphs2 <- compile_data(data = fits,
-                        output_type = "list",
-                        list_element = 3)
+# Compile the PV graphs
+graphs2 <- compile_data(
+  data = fits,
+  output_type = "list",
+  list_element = 3
+)
 }
 }
 \references{

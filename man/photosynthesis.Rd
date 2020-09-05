@@ -123,16 +123,17 @@ constants <- make_constants(use_tealeaves = FALSE)
 enviro_par <- make_enviropar(use_tealeaves = FALSE)
 leaf_par <- make_leafpar(use_tealeaves = FALSE)
 photo(leaf_par, enviro_par, bake_par, constants,
-      use_tealeaves = FALSE)
+  use_tealeaves = FALSE
+)
 
 # Multiple parameter sets with 'photosynthesis'
 
 leaf_par <- make_leafpar(
   replace = list(
     T_leaf = set_units(c(293.14, 298.15), "K")
-    ), use_tealeaves = FALSE
-  )
+  ), use_tealeaves = FALSE
+)
 photosynthesis(leaf_par, enviro_par, bake_par, constants,
-               use_tealeaves = FALSE)
-
+  use_tealeaves = FALSE
+)
 }

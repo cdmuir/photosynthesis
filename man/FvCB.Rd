@@ -88,7 +88,6 @@ leaf_par <- bake(leaf_par, bake_par, constants)
 pars <- c(leaf_par, enviro_par, constants)
 C_chl <- set_units(24.28, "Pa")
 FvCB(C_chl, pars)
-
 }
 \references{
 Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic

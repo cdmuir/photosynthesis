@@ -13,14 +13,22 @@ NULL
 #'
 #' @inheritParams photosynthesis
 #' @inheritParams A_supply
-#' 
-#' @description 
-#' 
-#' Constructor function for \code{baked} class. This will also inherit class \code{\link{leaf_par}}. This function ensures that temperature is "baked in" to leaf parameter calculations \code{T_leaf} using temperature response functions detailed below. 
-#' 
-#' @details 
-#' 
-#' Several leaf parameters (\code{\link{leaf_par}}) are temperature sensitive. Temperature-sensitive parameters are input at a reference temperature of 25 °C. These parameters are provided as \code{par_name25} and then "baked" using the appropriate temperature response function and parameters in \code{\link{bake_par}}. The "baked" parameter will have the name without "25" appended (\code{par_name}). E.g. \code{V_cmax25} becomes \code{V_cmax}. \cr
+#'
+#' @description
+#'
+#' Constructor function for \code{baked} class. This will also inherit class
+#' \code{\link{leaf_par}}. This function ensures that temperature is "baked in"
+#' to leaf parameter calculations \code{T_leaf} using temperature response
+#' functions detailed below.
+#'
+#' @details
+#'
+#' Several leaf parameters (\code{\link{leaf_par}}) are temperature sensitive.
+#' Temperature-sensitive parameters are input at a reference temperature of 
+#' 25 °C. These parameters are provided as \code{par_name25} and then "baked"
+#' using the appropriate temperature response function and parameters in
+#' \code{\link{bake_par}}. The "baked" parameter will have the name without "25"
+#' appended (\code{par_name}). E.g. \code{V_cmax25} becomes \code{V_cmax}. \cr
 #' \cr
 #' Temperature response functions following Bernacchi et al. 2002. \cr
 #' \cr
@@ -41,24 +49,27 @@ NULL
 #'
 #' @references
 #'
-#' Bernacchi CJ, Portis AR, Nakano H, von Caemmerer S, Long SP. 2002. Temperature response of mesophyll conductance. Implications for the determination of Rubisco enzyme kinetics and for limitations to photosynthesis in vivo. Plant Physiology 130: 1992-8.
+#' Bernacchi CJ, Portis AR, Nakano H, von Caemmerer S, Long SP. 2002. 
+#' Temperature response of mesophyll conductance. Implications for the
+#' determination of Rubisco enzyme kinetics and for limitations to 
+#' photosynthesis in vivo. Plant Physiology 130: 1992-8.
 #'
-#' @examples 
+#' @examples
 #' bake_par <- make_bakepar()
 #' constants <- make_constants(use_tealeaves = FALSE)
-#' leaf_par <- make_leafpar(replace = list(T_leaf = set_units(293.15, "K")),
-#'                          use_tealeaves = FALSE)
+#' leaf_par <- make_leafpar(
+#'   replace = list(T_leaf = set_units(293.15, "K")),
+#'   use_tealeaves = FALSE
+#' )
 #' baked_leafpar <- bake(leaf_par, bake_par, constants)
 #'
 #' baked_leafpar$V_cmax25
 #' baked_leafpar$V_cmax
-#'
 #' @encoding UTF-8
 #'
 #' @export
 
 bake <- function(leaf_par, bake_par, constants, assert_units = TRUE) {
-  
   if (assert_units) {
     leaf_par %<>% leaf_par(use_tealeaves = FALSE)
     bake_par %<>% bake_par()
@@ -70,26 +81,40 @@ bake <- function(leaf_par, bake_par, constants, assert_units = TRUE) {
   T_ref <- 298.15
 
   leaf_par$g_mc <- temp_resp2(pars$g_mc25, pars$Ds_gmc, pars$Ea_gmc,
-                              pars$Ed_gmc, pars$R, pars$T_leaf, T_ref,
-                              unitless = TRUE)
+    pars$Ed_gmc, pars$R, pars$T_leaf, T_ref,
+    unitless = TRUE
+  )
   leaf_par$gamma_star <- temp_resp1(pars$gamma_star25, pars$Ea_gammastar,
-                                    pars$R, pars$T_leaf, T_ref, unitless = TRUE)
-  leaf_par$J_max <- temp_resp2(pars$J_max25, pars$Ds_Jmax, pars$Ea_Jmax, 
-                               pars$Ed_Jmax, pars$R, pars$T_leaf, T_ref, 
-                               unitless = TRUE)
-  leaf_par$K_C <- temp_resp1(pars$K_C25, pars$Ea_KC, pars$R, pars$T_leaf, 
-                             T_ref, unitless = TRUE)
-  leaf_par$K_O <- temp_resp1(pars$K_O25, pars$Ea_KO, pars$R, pars$T_leaf, 
-                             T_ref, unitless = TRUE)
-  leaf_par$R_d <- temp_resp1(pars$R_d25, pars$Ea_Rd, pars$R, pars$T_leaf, 
-                             T_ref, unitless = TRUE)
-  leaf_par$V_cmax <- temp_resp1(pars$V_cmax25, pars$Ea_Vcmax, pars$R, 
-                                pars$T_leaf, T_ref, unitless = TRUE)
-  leaf_par$V_tpu <- temp_resp1(pars$V_tpu25, pars$Ea_Vtpu, pars$R, pars$T_leaf, 
-                               T_ref, unitless = TRUE)
+    pars$R, pars$T_leaf, T_ref,
+    unitless = TRUE
+  )
+  leaf_par$J_max <- temp_resp2(pars$J_max25, pars$Ds_Jmax, pars$Ea_Jmax,
+    pars$Ed_Jmax, pars$R, pars$T_leaf, T_ref,
+    unitless = TRUE
+  )
+  leaf_par$K_C <- temp_resp1(pars$K_C25, pars$Ea_KC, pars$R, pars$T_leaf,
+    T_ref,
+    unitless = TRUE
+  )
+  leaf_par$K_O <- temp_resp1(pars$K_O25, pars$Ea_KO, pars$R, pars$T_leaf,
+    T_ref,
+    unitless = TRUE
+  )
+  leaf_par$R_d <- temp_resp1(pars$R_d25, pars$Ea_Rd, pars$R, pars$T_leaf,
+    T_ref,
+    unitless = TRUE
+  )
+  leaf_par$V_cmax <- temp_resp1(pars$V_cmax25, pars$Ea_Vcmax, pars$R,
+    pars$T_leaf, T_ref,
+    unitless = TRUE
+  )
+  leaf_par$V_tpu <- temp_resp1(pars$V_tpu25, pars$Ea_Vtpu, pars$R, pars$T_leaf,
+    T_ref,
+    unitless = TRUE
+  )
   # Set units ----
   if (assert_units) {
-    leaf_par$g_mc %<>% set_units(umol/m^2/s/Pa)
+    leaf_par$g_mc %<>% set_units(umol / m^2 / s / Pa)
     leaf_par$gamma_star %<>% set_units(Pa)
     leaf_par$J_max %<>% set_units(umol / (m^2 * s))
     leaf_par$K_C %<>% set_units(Pa)
@@ -101,7 +126,7 @@ bake <- function(leaf_par, bake_par, constants, assert_units = TRUE) {
 
   # Check values ----
   if (assert_units) {
-    stopifnot(leaf_par$g_mc >= set_units(0, umol/m^2/s/Pa))
+    stopifnot(leaf_par$g_mc >= set_units(0, umol / m^2 / s / Pa))
     stopifnot(leaf_par$gamma_star >= set_units(0, Pa))
     stopifnot(leaf_par$J_max >= set_units(0, umol / (m^2 * s)))
     stopifnot(leaf_par$K_C >= set_units(0, Pa))
@@ -123,7 +148,6 @@ bake <- function(leaf_par, bake_par, constants, assert_units = TRUE) {
   leaf_par %<>% structure(class = c("baked", "leaf_par", "list"))
 
   leaf_par
-
 }
 
 #' Temperature response function 1
@@ -142,15 +166,14 @@ bake <- function(leaf_par, bake_par, constants, assert_units = TRUE) {
 #' @export
 
 temp_resp1 <- function(par25, E_a, R, T_leaf, T_ref, unitless) {
-
   if (unitless) {
     T_leaf %<>% magrittr::subtract(273.15)
   } else {
     pars_unit <- units(par25)
     par25 %<>% drop_units()
 
-    E_a %<>% set_units(J/mol) %>% drop_units()
-    R %<>% set_units(J/K/mol) %>% drop_units()
+    E_a %<>% set_units(J / mol) %>% drop_units()
+    R %<>% set_units(J / K / mol) %>% drop_units()
     T_leaf %<>% set_units(degreeC) %>% drop_units()
     T_ref %<>% set_units(K) %>% drop_units()
   }
@@ -160,7 +183,6 @@ temp_resp1 <- function(par25, E_a, R, T_leaf, T_ref, unitless) {
   ret <- par25 * a1
   if (!unitless) units(ret) <- pars_unit
   ret
-
 }
 
 #' Temperature response function 2
@@ -176,24 +198,21 @@ temp_resp1 <- function(par25, E_a, R, T_leaf, T_ref, unitless) {
 #' @export
 
 temp_resp2 <- function(par25, D_s, E_a, E_d, R, T_leaf, T_ref, unitless) {
-
   a1 <- temp_resp1(par25, E_a, R, T_leaf, T_ref, unitless)
 
   if (unitless) {
     T_leaf %<>% magrittr::subtract(273.15)
   } else {
-
     pars_unit <- units(par25)
     par25 %<>% drop_units()
     a1 %<>% drop_units()
 
-    D_s %<>% set_units(J/mol/K) %>% drop_units()
-    E_a %<>% set_units(J/mol) %>% drop_units()
-    E_d %<>% set_units(J/mol) %>% drop_units()
-    R %<>% set_units(J/K/mol) %>% drop_units()
+    D_s %<>% set_units(J / mol / K) %>% drop_units()
+    E_a %<>% set_units(J / mol) %>% drop_units()
+    E_d %<>% set_units(J / mol) %>% drop_units()
+    R %<>% set_units(J / K / mol) %>% drop_units()
     T_leaf %<>% set_units(degreeC) %>% drop_units()
     T_ref %<>% set_units(K) %>% drop_units()
-
   }
 
   a2 <- (1 + exp((D_s / R - E_d / (R * T_ref)))) /
