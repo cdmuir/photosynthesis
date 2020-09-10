@@ -31,24 +31,24 @@ parameter_names <- function(which, use_tealeaves) {
 
   if (use_tealeaves) {
     leafpar_names <- leafpar_names[-which(leafpar_names == "T_leaf")]
-    which %>%
+    ret <- which %>%
       match.arg(c("bake", "constants", "enviro", "leaf")) %>%
       switch(
         bake = bakepar_names,
         constants = sort(c(constants_names, "c_p", "R_air")),
         enviro = sort(c(enviropar_names, "E_q", "f_par", "r", "T_air", "T_sky")),
         leaf = sort(c(leafpar_names, "abs_l", "abs_s"))
-      ) %>%
-      return()
+      )
+      return(ret)
   } else {
-    which %>%
+    ret <- which %>%
       match.arg(c("bake", "constants", "enviro", "leaf")) %>%
       switch(
         bake = bakepar_names,
         constants = constants_names,
         enviro = enviropar_names,
         leaf = leafpar_names
-      ) %>%
-      return()
+      )
+      return(ret)
   }
 }

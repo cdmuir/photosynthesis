@@ -1,0 +1,9 @@
+name,tealeaves,description,units
+g_mcFALSE,mesophyll conductance to CO2 at T_leaf,umol/m^2/s/Pa
+gamma_starFALSE,chloroplastic CO2 compensation point at T_leaf,Pa
+J_maxFALSE,potential electron transport at T_leaf,umol/m^2/s
+K_CFALSE,Michaelis constant for carboxylation at T_leaf,umol/mol
+K_OFALSE,Michaelis constant for oxygenation at T_leaf,umol/mol
+R_dFALSE,nonphotorespiratory CO2 release at T_leaf,umol/m^2/s
+V_cmaxFALSE,maximum rate of carboxylation at T_leaf,umol/m^2/s
+V_tpuFALSE,rate of triose phosphate utilization at T_leaf,umol/m^2/s
