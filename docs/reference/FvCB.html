@@ -83,7 +83,7 @@ TPU-limited assimilation rate" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -144,13 +144,13 @@ TPU-limited assimilation rate" />
 <p>TPU-limited assimilation rate</p>
     </div>
 
-    <pre class="usage"><span class='fu'>FvCB</span>(<span class='no'>C_chl</span>, <span class='no'>pars</span>, <span class='kw'>unitless</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>FvCB</span>(<span class='kw'>C_chl</span>, <span class='kw'>pars</span>, unitless = <span class='fl'>FALSE</span>)
 
-<span class='fu'>W_carbox</span>(<span class='no'>C_chl</span>, <span class='no'>pars</span>, <span class='kw'>unitless</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>W_carbox</span>(<span class='kw'>C_chl</span>, <span class='kw'>pars</span>, unitless = <span class='fl'>FALSE</span>)
 
-<span class='fu'>W_regen</span>(<span class='no'>C_chl</span>, <span class='no'>pars</span>, <span class='kw'>unitless</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>W_regen</span>(<span class='kw'>C_chl</span>, <span class='kw'>pars</span>, unitless = <span class='fl'>FALSE</span>)
 
-<span class='fu'>W_tpu</span>(<span class='no'>C_chl</span>, <span class='no'>pars</span>, <span class='kw'>unitless</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>W_tpu</span>(<span class='kw'>C_chl</span>, <span class='kw'>pars</span>, unitless = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -219,15 +219,16 @@ rate into contributions from different variables. Plant, Cell &amp; Environment
 photosynthetic CO2 assimilation in leaves of C3 species. Planta 149: 78–90.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>bake_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span>()
-<span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>enviro_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bake.html'>bake</a></span>(<span class='no'>leaf_par</span>, <span class='no'>bake_par</span>, <span class='no'>constants</span>)
+    <pre class="examples"><div class='input'><span class='kw'>bake_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span>()
+<span class='kw'>constants</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span>(use_tealeaves = <span class='fl'>FALSE</span>)
+<span class='kw'>enviro_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>(use_tealeaves = <span class='fl'>FALSE</span>)
+<span class='kw'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(use_tealeaves = <span class='fl'>FALSE</span>)
+<span class='kw'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bake.html'>bake</a></span>(<span class='kw'>leaf_par</span>, <span class='kw'>bake_par</span>, <span class='kw'>constants</span>)
 
-<span class='no'>pars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>constants</span>)
-<span class='no'>C_chl</span> <span class='kw'>&lt;-</span> <span class='fu'>set_units</span>(<span class='fl'>24.28</span>, <span class='st'>"Pa"</span>)
-<span class='fu'>FvCB</span>(<span class='no'>C_chl</span>, <span class='no'>pars</span>)</div><div class='output co'>#&gt; $W_carbox
+<span class='kw'>pars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>leaf_par</span>, <span class='kw'>enviro_par</span>, <span class='kw'>constants</span>)
+<span class='kw'>C_chl</span> <span class='op'>&lt;-</span> <span class='fu'>set_units</span>(<span class='fl'>24.28</span>, <span class='st'>"Pa"</span>)
+<span class='fu'>FvCB</span>(<span class='kw'>C_chl</span>, <span class='kw'>pars</span>)
+</div><div class='output co'>#&gt; $W_carbox
 #&gt; 42.12065 [umol/m^2/s]
 #&gt; 
 #&gt; $W_regen
@@ -238,8 +239,7 @@ photosynthetic CO2 assimilation in leaves of C3 species. Planta 149: 78–90.</p
 #&gt; 
 #&gt; $A
 #&gt; 34.71203 [umol/m^2/s]
-#&gt; </div><div class='input'>
-</div></pre>
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -255,7 +255,7 @@ photosynthetic CO2 assimilation in leaves of C3 species. Planta 149: 78–90.</p
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

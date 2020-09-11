@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -139,15 +139,15 @@
     </div>
 
     <pre class="usage"><span class='fu'>fit_g_mc_variableJ</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A_net"</span>, <span class='kw'>J_etr</span> <span class='kw'>=</span> <span class='st'>"J_etr"</span>, <span class='kw'>C_i</span> <span class='kw'>=</span> <span class='st'>"C_i"</span>, <span class='kw'>PPFD</span> <span class='kw'>=</span> <span class='st'>"PPFD"</span>,
-    <span class='kw'>phi_PSII</span> <span class='kw'>=</span> <span class='st'>"phi_PSII"</span>),
-  <span class='kw'>usealpha_Q</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>alpha_Q</span> <span class='kw'>=</span> <span class='fl'>0.84</span>,
-  <span class='kw'>beta_Q</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='no'>gamma_star</span>,
-  <span class='no'>R_d</span>,
-  <span class='kw'>P</span> <span class='kw'>=</span> <span class='fl'>100</span>
+  <span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(A_net = <span class='st'>"A_net"</span>, J_etr = <span class='st'>"J_etr"</span>, C_i = <span class='st'>"C_i"</span>, PPFD = <span class='st'>"PPFD"</span>,
+    phi_PSII = <span class='st'>"phi_PSII"</span>),
+  usealpha_Q = <span class='fl'>FALSE</span>,
+  alpha_Q = <span class='fl'>0.84</span>,
+  beta_Q = <span class='fl'>0.5</span>,
+  <span class='kw'>gamma_star</span>,
+  <span class='kw'>R_d</span>,
+  P = <span class='fl'>100</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -161,7 +161,7 @@
       <th>varnames</th>
       <td><p>Variable names to fit g_mc. varnames = list(A_net = "A_net",
 J_etr = "J_etr", C_i = "C_i", PPFD = "PPFD", phi_PSII = "phi_PSII"), where
-A_net is net CO2 assimilation in umol m-2 s-1, J_etr is linear electron 
+A_net is net CO2 assimilation in umol m-2 s-1, J_etr is linear electron
 transport flux in umol m-2 s-1, C_i is intercellular CO2 concentration in
 umol mol-1, PPFD is incident irradiance in umol m-2 s-1, phi_PSII is
 the operating efficiency of photosystem II.</p></td>
@@ -207,44 +207,67 @@ by analysis of the response of photosynthesis to CO2. Plant Physiol
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'>#Read in your data</span>
-<span class='co'>#Note that this data is coming from data supplied by the package</span>
-<span class='co'>#hence the complicated argument in read.csv()</span>
-<span class='co'>#This dataset is a CO2 by light response curve for a single sunflower</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_Q_data_1.csv"</span>,
-                             <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"photosynthesis"</span>))
+<span class='co'># Read in your data</span>
+<span class='co'># Note that this data is coming from data supplied by the package</span>
+<span class='co'># hence the complicated argument in read.csv()</span>
+<span class='co'># This dataset is a CO2 by light response curve for a single sunflower</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_Q_data_1.csv"</span>,
+  package = <span class='st'>"photosynthesis"</span>
+))
 
-<span class='co'>#Note: there will be issues here if the alpha value used</span>
-<span class='co'>#for calculating ETR is off, if gamma_star is incorrect,</span>
-<span class='co'>#if R_d is incorrect.</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_g_mc_variableJ</span>(<span class='no'>data</span>,
-                         <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A"</span>,
-                                         <span class='kw'>J_etr</span> <span class='kw'>=</span> <span class='st'>"ETR"</span>,
-                                         <span class='kw'>C_i</span> <span class='kw'>=</span> <span class='st'>"Ci"</span>,
-                                         <span class='kw'>PPFD</span> <span class='kw'>=</span> <span class='st'>"Qin"</span>,
-                                         <span class='kw'>phi_PSII</span> <span class='kw'>=</span> <span class='st'>"PhiPS2"</span>),
-                         <span class='kw'>gamma_star</span> <span class='kw'>=</span> <span class='fl'>46</span>,
-                         <span class='kw'>R_d</span> <span class='kw'>=</span> <span class='fl'>0.153</span>,
-                         <span class='kw'>usealpha_Q</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-                         <span class='kw'>alpha_Q</span> <span class='kw'>=</span> <span class='fl'>0.84</span>,
-                         <span class='kw'>beta_Q</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-                         <span class='kw'>P</span> <span class='kw'>=</span> <span class='fl'>84</span>)
+<span class='co'># Note: there will be issues here if the alpha value used</span>
+<span class='co'># for calculating ETR is off, if gamma_star is incorrect,</span>
+<span class='co'># if R_d is incorrect.</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'>fit_g_mc_variableJ</span>(<span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    A_net = <span class='st'>"A"</span>,
+    J_etr = <span class='st'>"ETR"</span>,
+    C_i = <span class='st'>"Ci"</span>,
+    PPFD = <span class='st'>"Qin"</span>,
+    phi_PSII = <span class='st'>"PhiPS2"</span>
+  ),
+  gamma_star = <span class='fl'>46</span>,
+  R_d = <span class='fl'>0.153</span>,
+  usealpha_Q = <span class='fl'>TRUE</span>,
+  alpha_Q = <span class='fl'>0.84</span>,
+  beta_Q = <span class='fl'>0.5</span>,
+  P = <span class='fl'>84</span>
+)
 
-<span class='co'>#Note that many g_mc values from this method can be unreliable</span>
-<span class='fu'>ggplot</span>(<span class='no'>data</span>, <span class='fu'>aes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>CO2_s</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>g_mc</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>reliable</span>)) +
-  <span class='fu'>labs</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span>(<span class='no'>CO</span>[<span class='fl'>2</span>]~<span class='st'>"("</span>*<span class='no'>mu</span>*<span class='no'>mol</span>~<span class='no'>mol</span>^{-<span class='fl'>1</span>}*<span class='st'>")"</span>),
-       <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span>(<span class='no'>g</span>[<span class='no'>m</span>]~<span class='st'>"(mol"</span>~<span class='no'>m</span>^{-<span class='fl'>2</span>}~<span class='no'>s</span>^{-<span class='fl'>1</span>}~<span class='no'>Pa</span>^{-<span class='fl'>1</span>}*<span class='st'>")"</span>)) +
-  <span class='fu'>geom_point</span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>) +
-  <span class='fu'>theme_bw</span>() +
-  <span class='fu'>theme</span>(<span class='kw'>legend.position</span> <span class='kw'>=</span> <span class='st'>'bottom'</span>)</div><div class='img'><img src='fit_g_mc_variableJ-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>#Plot QAQC graph according to Harley et al. 1992</span>
-<span class='fu'>ggplot</span>(<span class='no'>data</span>, <span class='fu'>aes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>CO2_s</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>dCcdA</span>, <span class='kw'>colour</span> <span class='kw'>=</span> <span class='no'>reliable</span>)) +
-  <span class='fu'>labs</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span>(<span class='no'>CO</span>[<span class='fl'>2</span>]~<span class='st'>"("</span>*<span class='no'>mu</span>*<span class='no'>mol</span>~<span class='no'>mol</span>^{-<span class='fl'>1</span>}*<span class='st'>")"</span>),
-       <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span>(<span class='no'>delta</span>*<span class='no'>C</span>[<span class='no'>chl</span>]*<span class='st'>"/"</span>*<span class='no'>delta</span>*<span class='no'>A</span>)) +
-  <span class='fu'>geom_hline</span>(<span class='kw'>yintercept</span> <span class='kw'>=</span> <span class='fl'>10</span>) +
-  <span class='fu'>geom_point</span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>) +
-  <span class='fu'>theme_bw</span>() +
-  <span class='fu'>theme</span>(<span class='kw'>legend.position</span> <span class='kw'>=</span> <span class='st'>'bottom'</span>)</div><div class='img'><img src='fit_g_mc_variableJ-2.png' alt='' width='700' height='433' /></div><div class='input'># }
+<span class='co'># Note that many g_mc values from this method can be unreliable</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(x = <span class='kw'>CO2_s</span>, y = <span class='kw'>g_mc</span>, colour = <span class='kw'>reliable</span>)) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(
+    x = <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span>(<span class='kw'>CO</span>[<span class='fl'>2</span>] <span class='op'>~</span> <span class='st'>"("</span> <span class='op'>*</span> <span class='kw'>mu</span> <span class='op'>*</span> <span class='kw'>mol</span> <span class='op'>~</span> <span class='kw'>mol</span><span class='op'>^</span>
+      {
+        <span class='op'>-</span><span class='fl'>1</span>
+      } <span class='op'>*</span> <span class='st'>")"</span>),
+    y = <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span>(<span class='kw'>g</span>[<span class='kw'>m</span>] <span class='op'>~</span> <span class='st'>"(mol"</span> <span class='op'>~</span> <span class='kw'>m</span><span class='op'>^</span>{
+      <span class='op'>-</span><span class='fl'>2</span>
+    } <span class='op'>~</span> <span class='kw'>s</span><span class='op'>^</span>{
+      <span class='op'>-</span><span class='fl'>1</span>
+    } <span class='op'>~</span> <span class='kw'>Pa</span><span class='op'>^</span>
+      {
+        <span class='op'>-</span><span class='fl'>1</span>
+      } <span class='op'>*</span> <span class='st'>")"</span>)
+  ) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(size = <span class='fl'>2</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>() <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span>(legend.position = <span class='st'>"bottom"</span>)
+</div><div class='output co'>#&gt; <span class='error'>Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,     resolveHJust(x$just, x$hjust), resolveVJust(x$just, x$vjust),     x$rot, 0): polygon edge not found (zero-width or zero-height?)</span></div><div class='img'><img src='fit_g_mc_variableJ-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Plot QAQC graph according to Harley et al. 1992</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(x = <span class='kw'>CO2_s</span>, y = <span class='kw'>dCcdA</span>, colour = <span class='kw'>reliable</span>)) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(
+    x = <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span>(<span class='kw'>CO</span>[<span class='fl'>2</span>] <span class='op'>~</span> <span class='st'>"("</span> <span class='op'>*</span> <span class='kw'>mu</span> <span class='op'>*</span> <span class='kw'>mol</span> <span class='op'>~</span> <span class='kw'>mol</span><span class='op'>^</span>
+      {
+        <span class='op'>-</span><span class='fl'>1</span>
+      } <span class='op'>*</span> <span class='st'>")"</span>),
+    y = <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span>(<span class='kw'>delta</span> <span class='op'>*</span> <span class='kw'>C</span>[<span class='kw'>chl</span>] <span class='op'>*</span> <span class='st'>"/"</span> <span class='op'>*</span> <span class='kw'>delta</span> <span class='op'>*</span> <span class='kw'>A</span>)
+  ) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_hline</a></span>(yintercept = <span class='fl'>10</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(size = <span class='fl'>2</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>() <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span>(legend.position = <span class='st'>"bottom"</span>)
+<span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -261,7 +284,7 @@ by analysis of the response of photosynthesis to CO2. Plant Physiol
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

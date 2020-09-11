@@ -81,7 +81,7 @@ Convert g_c (umol CO2/m^2/s/Pa) to g_w (umol H2O /m^2/s/Pa)" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -140,9 +140,9 @@ Convert g_c (umol CO2/m^2/s/Pa) to g_w (umol H2O /m^2/s/Pa)" />
 <p>Convert g_c (umol CO2/m^2/s/Pa) to g_w (umol H2O /m^2/s/Pa)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gw2gc</span>(<span class='no'>g_w</span>, <span class='no'>D_c</span>, <span class='no'>D_w</span>, <span class='no'>unitless</span>)
+    <pre class="usage"><span class='fu'>gw2gc</span>(<span class='kw'>g_w</span>, <span class='kw'>D_c</span>, <span class='kw'>D_w</span>, <span class='kw'>unitless</span>)
 
-<span class='fu'>gc2gw</span>(<span class='no'>g_c</span>, <span class='no'>D_c</span>, <span class='no'>D_w</span>, <span class='no'>unitless</span>)</pre>
+<span class='fu'>gc2gw</span>(<span class='kw'>g_c</span>, <span class='kw'>D_c</span>, <span class='kw'>D_w</span>, <span class='kw'>unitless</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -188,13 +188,14 @@ $$g_\mathrm{w} = g_\mathrm{c} D_\mathrm{w} / D_\mathrm{c}$$</p>
     <p>This function will soon be moving to the standalone gunit package.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>D_c</span> <span class='kw'>&lt;-</span> <span class='fu'>set_units</span>(<span class='fl'>1.29e-05</span>, <span class='st'>"m^2/s"</span>)
-<span class='no'>D_w</span> <span class='kw'>&lt;-</span> <span class='fu'>set_units</span>(<span class='fl'>2.12e-05</span>, <span class='st'>"m^2/s"</span>)
-<span class='no'>g_c</span> <span class='kw'>&lt;-</span> <span class='fu'>set_units</span>(<span class='fl'>3</span>, <span class='st'>"umol/m^2/s/Pa"</span>)
-<span class='no'>g_w</span> <span class='kw'>&lt;-</span> <span class='fu'>gc2gw</span>(<span class='no'>g_c</span>, <span class='no'>D_c</span>, <span class='no'>D_w</span>, <span class='kw'>unitless</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>g_w</span></div><div class='output co'>#&gt; 4.930233 [umol/m^2/Pa/s]</div><div class='input'>
-<span class='fu'>gw2gc</span>(<span class='no'>g_w</span>, <span class='no'>D_c</span>, <span class='no'>D_w</span>, <span class='kw'>unitles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; 3 [umol/m^2/Pa/s]</div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>D_c</span> <span class='op'>&lt;-</span> <span class='fu'>set_units</span>(<span class='fl'>1.29e-05</span>, <span class='st'>"m^2/s"</span>)
+<span class='kw'>D_w</span> <span class='op'>&lt;-</span> <span class='fu'>set_units</span>(<span class='fl'>2.12e-05</span>, <span class='st'>"m^2/s"</span>)
+<span class='kw'>g_c</span> <span class='op'>&lt;-</span> <span class='fu'>set_units</span>(<span class='fl'>3</span>, <span class='st'>"umol/m^2/s/Pa"</span>)
+<span class='kw'>g_w</span> <span class='op'>&lt;-</span> <span class='fu'>gc2gw</span>(<span class='kw'>g_c</span>, <span class='kw'>D_c</span>, <span class='kw'>D_w</span>, unitless = <span class='fl'>FALSE</span>)
+<span class='kw'>g_w</span>
+</div><div class='output co'>#&gt; 4.930233 [umol/m^2/Pa/s]</div><div class='input'>
+<span class='fu'>gw2gc</span>(<span class='kw'>g_w</span>, <span class='kw'>D_c</span>, <span class='kw'>D_w</span>, unitles = <span class='fl'>FALSE</span>)
+</div><div class='output co'>#&gt; 3 [umol/m^2/Pa/s]</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -210,7 +211,7 @@ $$g_\mathrm{w} = g_\mathrm{c} D_\mathrm{w} / D_\mathrm{c}$$</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

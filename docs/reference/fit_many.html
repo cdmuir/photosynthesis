@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -138,7 +138,7 @@
     <p>Fitting many functions across groups</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fit_many</span>(<span class='no'>data</span>, <span class='no'>funct</span>, <span class='no'>group</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>fit_many</span>(<span class='kw'>data</span>, <span class='kw'>funct</span>, <span class='kw'>group</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -169,32 +169,39 @@ a grouping variable.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'>#Read in your data</span>
-<span class='co'>#Note that this data is coming from data supplied by the package</span>
-<span class='co'>#hence the complicated argument in read.csv()</span>
-<span class='co'>#This dataset is a CO2 by light response curve for a single sunflower</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_Q_data_1.csv"</span>,
-                             <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"photosynthesis"</span>))
+<span class='co'># Read in your data</span>
+<span class='co'># Note that this data is coming from data supplied by the package</span>
+<span class='co'># hence the complicated argument in read.csv()</span>
+<span class='co'># This dataset is a CO2 by light response curve for a single sunflower</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_Q_data_1.csv"</span>,
+  package = <span class='st'>"photosynthesis"</span>
+))
 
-<span class='co'>#Define a grouping factor based on light intensity to split the ACi</span>
-<span class='co'>#curves</span>
-<span class='no'>data</span>$<span class='no'>Q_2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>((<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>data</span>$<span class='no'>Qin</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>0</span>)))
+<span class='co'># Define a grouping factor based on light intensity to split the ACi</span>
+<span class='co'># curves</span>
+<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Q_2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>((<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Qin</span>, digits = <span class='fl'>0</span>)))
 
-<span class='co'>#Convert leaf temperature to K</span>
-<span class='no'>data</span>$<span class='no'>T_leaf</span> <span class='kw'>&lt;-</span> <span class='no'>data</span>$<span class='no'>Tleaf</span> + <span class='fl'>273.15</span>
+<span class='co'># Convert leaf temperature to K</span>
+<span class='kw'>data</span><span class='op'>$</span><span class='kw'>T_leaf</span> <span class='op'>&lt;-</span> <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Tleaf</span> <span class='op'>+</span> <span class='fl'>273.15</span>
 
-<span class='co'>#Fit many curves</span>
-<span class='no'>fits</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_many</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>,
-                 <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A"</span>,
-                                 <span class='kw'>T_leaf</span> <span class='kw'>=</span> <span class='st'>"T_leaf"</span>,
-                                 <span class='kw'>C_i</span> <span class='kw'>=</span> <span class='st'>"Ci"</span>,
-                                 <span class='kw'>PPFD</span> <span class='kw'>=</span> <span class='st'>"Qin"</span>),
-                 <span class='kw'>funct</span> <span class='kw'>=</span> <span class='no'>fit_aci_response</span>,
-                 <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Q_2"</span>)</div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=========                                                             |  12%  |                                                                              |==================                                                    |  25%  |                                                                              |==========================                                            |  38%  |                                                                              |===================================                                   |  50%  |                                                                              |============================================                          |  62%  |                                                                              |====================================================                  |  75%  |                                                                              |=============================================================         |  88%  |                                                                              |======================================================================| 100%</div><div class='input'>
-<span class='co'>#Print the parameters</span>
-<span class='co'>#First set of double parentheses selects an individual group value</span>
-<span class='co'>#Second set selects an element of the sublist</span>
-<span class='no'>fits</span><span class='kw'>[[</span><span class='fl'>3</span>]]<span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt;   Num  V_cmax V_cmax_se    J_max        J       J_se V_TPU V_TPU_se        R_d
+<span class='co'># Fit many curves</span>
+<span class='kw'>fits</span> <span class='op'>&lt;-</span> <span class='fu'>fit_many</span>(
+  data = <span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    A_net = <span class='st'>"A"</span>,
+    T_leaf = <span class='st'>"T_leaf"</span>,
+    C_i = <span class='st'>"Ci"</span>,
+    PPFD = <span class='st'>"Qin"</span>
+  ),
+  funct = <span class='kw'>fit_aci_response</span>,
+  group = <span class='st'>"Q_2"</span>
+)
+</div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=========                                                             |  12%  |                                                                              |==================                                                    |  25%  |                                                                              |==========================                                            |  38%  |                                                                              |===================================                                   |  50%  |                                                                              |============================================                          |  62%  |                                                                              |====================================================                  |  75%  |                                                                              |=============================================================         |  88%  |                                                                              |======================================================================| 100%</div><div class='input'>
+<span class='co'># Print the parameters</span>
+<span class='co'># First set of double parentheses selects an individual group value</span>
+<span class='co'># Second set selects an element of the sublist</span>
+<span class='kw'>fits</span>[[<span class='fl'>3</span>]][[<span class='fl'>1</span>]]
+</div><div class='output co'>#&gt;   Num  V_cmax V_cmax_se    J_max        J       J_se V_TPU V_TPU_se        R_d
 #&gt; 6   0 8.94862 0.5509706 47.01527 16.63315 0.08692268  1000       NA -0.1565895
 #&gt;      R_d_se      cost citransition1 citransition2 V_cmax_pts J_max_pts
 #&gt; 6 0.1264438 0.1194886      441.2967      1442.493          8         4
@@ -202,19 +209,22 @@ a grouping variable.</p>
 #&gt; 6         0  0.24       0        42.75         37830 718.4 65508.28 0.08701
 #&gt;   Ea_g_mc Oconc theta_J
 #&gt; 6       0    21    0.85</div><div class='input'>
-<span class='co'>#Print the graph</span>
-<span class='no'>fits</span><span class='kw'>[[</span><span class='fl'>3</span>]]<span class='kw'>[[</span><span class='fl'>2</span>]]</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 12 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='fit_many-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>#Compile graphs into a list for plotting</span>
-<span class='no'>fits_graphs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='no'>fits</span>,
-                            <span class='kw'>list_element</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='co'># Print the graph</span>
+<span class='kw'>fits</span>[[<span class='fl'>3</span>]][[<span class='fl'>2</span>]]
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 12 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='fit_many-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Compile graphs into a list for plotting</span>
+<span class='kw'>fits_graphs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='kw'>fits</span>,
+  list_element = <span class='fl'>2</span>
+)
 
 
-<span class='co'>#Compile parameters into dataframe for analysis</span>
-<span class='no'>fits_pars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='no'>fits</span>,
-                          <span class='kw'>output_type</span> <span class='kw'>=</span> <span class='st'>"dataframe"</span>,
-                          <span class='kw'>list_element</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-
-<span class='co'># }</span></div></pre>
+<span class='co'># Compile parameters into dataframe for analysis</span>
+<span class='kw'>fits_pars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='kw'>fits</span>,
+  output_type = <span class='st'>"dataframe"</span>,
+  list_element = <span class='fl'>1</span>
+)
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -230,7 +240,7 @@ a grouping variable.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -139,24 +139,24 @@
     </div>
 
     <pre class="usage"><span class='fu'>fit_r_light_kok</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A_net"</span>, <span class='kw'>PPFD</span> <span class='kw'>=</span> <span class='st'>"PPFD"</span>),
-  <span class='kw'>PPFD_lower</span> <span class='kw'>=</span> <span class='fl'>40</span>,
-  <span class='kw'>PPFD_upper</span> <span class='kw'>=</span> <span class='fl'>100</span>
+  <span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(A_net = <span class='st'>"A_net"</span>, PPFD = <span class='st'>"PPFD"</span>),
+  PPFD_lower = <span class='fl'>40</span>,
+  PPFD_upper = <span class='fl'>100</span>
 )
 
 <span class='fu'>fit_r_light_WalkerOrt</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A_net"</span>, <span class='kw'>C_i</span> <span class='kw'>=</span> <span class='st'>"C_i"</span>, <span class='kw'>PPFD</span> <span class='kw'>=</span> <span class='st'>"PPFD"</span>),
-  <span class='kw'>P</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>C_i_threshold</span> <span class='kw'>=</span> <span class='fl'>300</span>
+  <span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(A_net = <span class='st'>"A_net"</span>, C_i = <span class='st'>"C_i"</span>, PPFD = <span class='st'>"PPFD"</span>),
+  P = <span class='fl'>100</span>,
+  C_i_threshold = <span class='fl'>300</span>
 )
 
 <span class='fu'>fit_r_light_yin</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A_net"</span>, <span class='kw'>PPFD</span> <span class='kw'>=</span> <span class='st'>"PPFD"</span>, <span class='kw'>phi_PSII</span> <span class='kw'>=</span> <span class='st'>"phi_PSII"</span>),
-  <span class='kw'>PPFD_lower</span> <span class='kw'>=</span> <span class='fl'>40</span>,
-  <span class='kw'>PPFD_upper</span> <span class='kw'>=</span> <span class='fl'>100</span>
+  <span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(A_net = <span class='st'>"A_net"</span>, PPFD = <span class='st'>"PPFD"</span>, phi_PSII = <span class='st'>"phi_PSII"</span>),
+  PPFD_lower = <span class='fl'>40</span>,
+  PPFD_upper = <span class='fl'>100</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -238,38 +238,49 @@ Journal of Experimental Botany 62: 3489–3499</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'>#FITTING KOK METHOD</span>
-<span class='co'>#Read in your data</span>
-<span class='co'>#Note that this data is coming from data supplied by the package</span>
-<span class='co'>#hence the complicated argument in read.csv()</span>
-<span class='co'>#This dataset is a CO2 by light response curve for a single sunflower</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_Q_data_1.csv"</span>,
-                             <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"photosynthesis"</span>))
+<span class='co'># FITTING KOK METHOD</span>
+<span class='co'># Read in your data</span>
+<span class='co'># Note that this data is coming from data supplied by the package</span>
+<span class='co'># hence the complicated argument in read.csv()</span>
+<span class='co'># This dataset is a CO2 by light response curve for a single sunflower</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_Q_data_1.csv"</span>,
+  package = <span class='st'>"photosynthesis"</span>
+))
 
-<span class='co'>#Fit light respiration with Kok method</span>
-<span class='no'>r_light</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_r_light_kok</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>,
-                           <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A"</span>,
-                                           <span class='kw'>PPFD</span> <span class='kw'>=</span> <span class='st'>"Qin"</span>),
-                           <span class='kw'>PPFD_lower</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-                           <span class='kw'>PPFD_upper</span> <span class='kw'>=</span> <span class='fl'>150</span>)
-<span class='co'>#Return r_light</span>
-<span class='no'>r_light</span></div><div class='output co'>#&gt; (Intercept) 
+<span class='co'># Fit light respiration with Kok method</span>
+<span class='kw'>r_light</span> <span class='op'>&lt;-</span> <span class='fu'>fit_r_light_kok</span>(
+  data = <span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    A_net = <span class='st'>"A"</span>,
+    PPFD = <span class='st'>"Qin"</span>
+  ),
+  PPFD_lower = <span class='fl'>20</span>,
+  PPFD_upper = <span class='fl'>150</span>
+)
+<span class='co'># Return r_light</span>
+<span class='kw'>r_light</span>
+</div><div class='output co'>#&gt; (Intercept) 
 #&gt;  -0.5237011 </div><div class='input'>
-<span class='co'>#FITTING WALKER-ORT METHOD</span>
-<span class='co'>#Read in your data</span>
-<span class='co'>#Note that this data is coming from data supplied by the package</span>
-<span class='co'>#hence the complicated argument in read.csv()</span>
-<span class='co'>#This dataset is a CO2 by light response curve for a single sunflower</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_Q_data_1.csv"</span>,
-                             <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"photosynthesis"</span>))
+<span class='co'># FITTING WALKER-ORT METHOD</span>
+<span class='co'># Read in your data</span>
+<span class='co'># Note that this data is coming from data supplied by the package</span>
+<span class='co'># hence the complicated argument in read.csv()</span>
+<span class='co'># This dataset is a CO2 by light response curve for a single sunflower</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_Q_data_1.csv"</span>,
+  package = <span class='st'>"photosynthesis"</span>
+))
 
-<span class='co'>#Fit the Walker-Ort method for GammaStar and light respiration</span>
-<span class='no'>walker_ort</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_r_light_WalkerOrt</span>(<span class='no'>data</span>,
-                                    <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A"</span>,
-                                                    <span class='kw'>C_i</span> <span class='kw'>=</span> <span class='st'>"Ci"</span>,
-                                                    <span class='kw'>PPFD</span> <span class='kw'>=</span> <span class='st'>"Qin"</span>))
-<span class='co'>#Extract model</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>walker_ort</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; 
+<span class='co'># Fit the Walker-Ort method for GammaStar and light respiration</span>
+<span class='kw'>walker_ort</span> <span class='op'>&lt;-</span> <span class='fu'>fit_r_light_WalkerOrt</span>(<span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    A_net = <span class='st'>"A"</span>,
+    C_i = <span class='st'>"Ci"</span>,
+    PPFD = <span class='st'>"Qin"</span>
+  )
+)
+<span class='co'># Extract model</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>walker_ort</span>[[<span class='fl'>1</span>]])
+</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = Intercept ~ Slope, data = coefs)
 #&gt; 
@@ -288,27 +299,36 @@ Journal of Experimental Botany 62: 3489–3499</p>
 #&gt; Multiple R-squared:  0.9275,	Adjusted R-squared:  0.9202 
 #&gt; F-statistic: 127.8 on 1 and 10 DF,  p-value: 5.103e-07
 #&gt; </div><div class='input'>
-<span class='co'>#View graph</span>
-<span class='no'>walker_ort</span><span class='kw'>[[</span><span class='fl'>2</span>]]</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='fit_r_light-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>#View coefficients</span>
-<span class='no'>walker_ort</span><span class='kw'>[[</span><span class='fl'>3</span>]]</div><div class='output co'>#&gt;       GammaStar   r_light
+<span class='co'># View graph</span>
+<span class='kw'>walker_ort</span>[[<span class='fl'>2</span>]]
+</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='fit_r_light-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># View coefficients</span>
+<span class='kw'>walker_ort</span>[[<span class='fl'>3</span>]]
+</div><div class='output co'>#&gt;       GammaStar   r_light
 #&gt; Slope  46.00427 -0.152643</div><div class='input'>
-<span class='co'>#FITTING THE YIN METHOD</span>
-<span class='co'>#Read in your data</span>
-<span class='co'>#Note that this data is coming from data supplied by the package</span>
-<span class='co'>#hence the complicated argument in read.csv()</span>
-<span class='co'>#This dataset is a CO2 by light response curve for a single sunflower</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_Q_data_1.csv"</span>,
-                             <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"photosynthesis"</span>))
+<span class='co'># FITTING THE YIN METHOD</span>
+<span class='co'># Read in your data</span>
+<span class='co'># Note that this data is coming from data supplied by the package</span>
+<span class='co'># hence the complicated argument in read.csv()</span>
+<span class='co'># This dataset is a CO2 by light response curve for a single sunflower</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_Q_data_1.csv"</span>,
+  package = <span class='st'>"photosynthesis"</span>
+))
 
-<span class='co'>#Fit light respiration with Yin method</span>
-<span class='no'>r_light</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_r_light_yin</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>,
-                           <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A"</span>,
-                                           <span class='kw'>PPFD</span> <span class='kw'>=</span> <span class='st'>"Qin"</span>,
-                                           <span class='kw'>phi_PSII</span> <span class='kw'>=</span> <span class='st'>"PhiPS2"</span>),
-                           <span class='kw'>PPFD_lower</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-                           <span class='kw'>PPFD_upper</span> <span class='kw'>=</span> <span class='fl'>250</span>)
-<span class='co'># }</span></div></pre>
+<span class='co'># Fit light respiration with Yin method</span>
+<span class='kw'>r_light</span> <span class='op'>&lt;-</span> <span class='fu'>fit_r_light_yin</span>(
+  data = <span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    A_net = <span class='st'>"A"</span>,
+    PPFD = <span class='st'>"Qin"</span>,
+    phi_PSII = <span class='st'>"PhiPS2"</span>
+  ),
+  PPFD_lower = <span class='fl'>20</span>,
+  PPFD_upper = <span class='fl'>250</span>
+)
+<span class='co'># }</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -324,7 +344,7 @@ Journal of Experimental Botany 62: 3489–3499</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

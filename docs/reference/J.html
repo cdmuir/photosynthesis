@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -138,7 +138,7 @@
     <p>Calculate the rate of electron transport as a function of photosynthetic photon flux density (PPFD).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>J</span>(<span class='no'>pars</span>, <span class='kw'>unitless</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>J</span>(<span class='kw'>pars</span>, unitless = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,19 +172,19 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>magrittr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>photosynthesis</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>magrittr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>photosynthesis</span>)
 
-<span class='no'>bake_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span>()
-<span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>enviro_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>enviro_par</span>$<span class='no'>T_air</span> <span class='kw'>&lt;-</span> <span class='no'>leaf_par</span>$<span class='no'>T_leaf</span>
-<span class='no'>leaf_par</span> <span class='kw'>%&lt;&gt;%</span> <span class='fu'><a href='bake.html'>bake</a></span>(<span class='no'>bake_par</span>, <span class='no'>constants</span>)
+<span class='kw'>bake_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span>()
+<span class='kw'>constants</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span>(use_tealeaves = <span class='fl'>FALSE</span>)
+<span class='kw'>enviro_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>(use_tealeaves = <span class='fl'>FALSE</span>)
+<span class='kw'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(use_tealeaves = <span class='fl'>FALSE</span>)
+<span class='kw'>enviro_par</span><span class='op'>$</span><span class='kw'>T_air</span> <span class='op'>&lt;-</span> <span class='kw'>leaf_par</span><span class='op'>$</span><span class='kw'>T_leaf</span>
+<span class='kw'>leaf_par</span> <span class='op'>%&lt;&gt;%</span> <span class='fu'><a href='bake.html'>bake</a></span>(<span class='kw'>bake_par</span>, <span class='kw'>constants</span>)
 
-<span class='no'>pars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>leaf_par</span>, <span class='no'>enviro_par</span>, <span class='no'>constants</span>)
-<span class='fu'>J</span>(<span class='no'>pars</span>, <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; 181.6577 [umol/m^2/s]</div><div class='input'>
-</div></pre>
+<span class='kw'>pars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>leaf_par</span>, <span class='kw'>enviro_par</span>, <span class='kw'>constants</span>)
+<span class='fu'>J</span>(<span class='kw'>pars</span>, <span class='fl'>FALSE</span>)
+</div><div class='output co'>#&gt; 181.6577 [umol/m^2/s]</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -200,7 +200,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

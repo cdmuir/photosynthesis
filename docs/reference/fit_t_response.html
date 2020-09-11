@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -139,16 +139,16 @@
     </div>
 
     <pre class="usage"><span class='fu'>fit_t_response</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>Par</span> <span class='kw'>=</span> <span class='st'>"Par"</span>, <span class='kw'>T_leaf</span> <span class='kw'>=</span> <span class='st'>"T_leaf"</span>),
-  <span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Arrhenius"</span>, <span class='st'>"Kruse"</span>, <span class='st'>"Heskel"</span>, <span class='st'>"Medlyn"</span>, <span class='st'>"MMRT"</span>, <span class='st'>"Quadratic"</span>, <span class='st'>"Topt"</span>),
-  <span class='kw'>start</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dEa</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>Ea_ref</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>Par_ref</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>Ea</span> <span class='kw'>=</span> <span class='fl'>40000</span>, <span class='kw'>Par25</span>
-    <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>Hd</span> <span class='kw'>=</span> <span class='fl'>2e+05</span>, <span class='kw'>dS</span> <span class='kw'>=</span> <span class='fl'>650</span>, <span class='kw'>dCp</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dG</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dH</span> <span class='kw'>=</span> <span class='fl'>1</span>),
-  <span class='kw'>setvar</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
-  <span class='kw'>hdset</span> <span class='kw'>=</span> <span class='fl'>2e+05</span>,
-  <span class='kw'>dSset</span> <span class='kw'>=</span> <span class='fl'>650</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>
+  <span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(Par = <span class='st'>"Par"</span>, T_leaf = <span class='st'>"T_leaf"</span>),
+  model = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Arrhenius"</span>, <span class='st'>"Kruse"</span>, <span class='st'>"Heskel"</span>, <span class='st'>"Medlyn"</span>, <span class='st'>"MMRT"</span>, <span class='st'>"Quadratic"</span>, <span class='st'>"Topt"</span>),
+  start = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(a = <span class='fl'>1</span>, b = <span class='fl'>1</span>, c = <span class='fl'>1</span>, dEa = <span class='fl'>1</span>, Ea_ref = <span class='fl'>1</span>, Par_ref = <span class='fl'>1</span>, Ea = <span class='fl'>40000</span>, Par25
+    = <span class='fl'>50</span>, Hd = <span class='fl'>2e+05</span>, dS = <span class='fl'>650</span>, dCp = <span class='fl'>1</span>, dG = <span class='fl'>1</span>, dH = <span class='fl'>1</span>),
+  setvar = <span class='st'>"none"</span>,
+  hdset = <span class='fl'>2e+05</span>,
+  dSset = <span class='fl'>650</span>,
+  title = <span class='kw'>NULL</span>,
+  <span class='kw'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -236,110 +236,142 @@ experimental data. Plant Cell Environ 25:1167-1179</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'>#Read in data</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_T_data.csv"</span>,
-                             <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"photosynthesis"</span>),
-                 <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='co'># Read in data</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_T_data.csv"</span>,
+  package = <span class='st'>"photosynthesis"</span>
+),
+stringsAsFactors = <span class='fl'>FALSE</span>
+)
 
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://tidyr.tidyverse.org'>tidyr</a></span>)
+</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘tidyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:magrittr’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    extract</span></div><div class='input'>
-<span class='co'>#Round temperatures to group them appropriately</span>
-<span class='co'>#Use sequential rounding</span>
-<span class='no'>data</span>$<span class='no'>T2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>data</span>$<span class='no'>Tleaf</span>, <span class='fl'>1</span>)
-<span class='no'>data</span>$<span class='no'>T2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>data</span>$<span class='no'>Tleaf</span>, <span class='fl'>0</span>)
+<span class='co'># Round temperatures to group them appropriately</span>
+<span class='co'># Use sequential rounding</span>
+<span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Tleaf</span>, <span class='fl'>1</span>)
+<span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Tleaf</span>, <span class='fl'>0</span>)
 
-<span class='co'>#Look at unique values to detect rounding issues</span>
-<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>data</span>$<span class='no'>T2</span>)</div><div class='output co'>#&gt;  [1] 17 18 20 22 23 25 28 27 30 33 32 35 37 38 40</div><div class='input'>
-<span class='co'>#Some still did not round correctly,</span>
-<span class='co'>#manually correct</span>
-<span class='kw'>for</span>(<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>data</span>)){
-  <span class='kw'>if</span>(<span class='no'>data</span>$<span class='no'>T2</span>[<span class='no'>i</span>] <span class='kw'>==</span> <span class='fl'>18</span>){
-    <span class='no'>data</span>$<span class='no'>T2</span>[<span class='no'>i</span>] <span class='kw'>&lt;-</span> <span class='fl'>17</span>
+<span class='co'># Look at unique values to detect rounding issues</span>
+<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span>)
+</div><div class='output co'>#&gt;  [1] 17 18 20 22 23 25 28 27 30 33 32 35 37 38 40</div><div class='input'>
+<span class='co'># Some still did not round correctly,</span>
+<span class='co'># manually correct</span>
+<span class='co'>for</span> (<span class='kw'>i</span> <span class='co'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>data</span>)) {
+  <span class='co'>if</span> (<span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span>[<span class='kw'>i</span>] <span class='op'>==</span> <span class='fl'>18</span>) {
+    <span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span>[<span class='kw'>i</span>] <span class='op'>&lt;-</span> <span class='fl'>17</span>
   }
-  <span class='kw'>if</span>(<span class='no'>data</span>$<span class='no'>T2</span>[<span class='no'>i</span>] <span class='kw'>==</span> <span class='fl'>23</span>){
-    <span class='no'>data</span>$<span class='no'>T2</span>[<span class='no'>i</span>] <span class='kw'>&lt;-</span> <span class='fl'>22</span>
+  <span class='co'>if</span> (<span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span>[<span class='kw'>i</span>] <span class='op'>==</span> <span class='fl'>23</span>) {
+    <span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span>[<span class='kw'>i</span>] <span class='op'>&lt;-</span> <span class='fl'>22</span>
   }
-  <span class='kw'>if</span>(<span class='no'>data</span>$<span class='no'>T2</span>[<span class='no'>i</span>] <span class='kw'>==</span> <span class='fl'>28</span>){
-    <span class='no'>data</span>$<span class='no'>T2</span>[<span class='no'>i</span>] <span class='kw'>&lt;-</span> <span class='fl'>27</span>
+  <span class='co'>if</span> (<span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span>[<span class='kw'>i</span>] <span class='op'>==</span> <span class='fl'>28</span>) {
+    <span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span>[<span class='kw'>i</span>] <span class='op'>&lt;-</span> <span class='fl'>27</span>
   }
-  <span class='kw'>if</span>(<span class='no'>data</span>$<span class='no'>T2</span>[<span class='no'>i</span>] <span class='kw'>==</span> <span class='fl'>33</span>){
-    <span class='no'>data</span>$<span class='no'>T2</span>[<span class='no'>i</span>] <span class='kw'>&lt;-</span> <span class='fl'>32</span>
+  <span class='co'>if</span> (<span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span>[<span class='kw'>i</span>] <span class='op'>==</span> <span class='fl'>33</span>) {
+    <span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span>[<span class='kw'>i</span>] <span class='op'>&lt;-</span> <span class='fl'>32</span>
   }
-  <span class='kw'>if</span>(<span class='no'>data</span>$<span class='no'>T2</span>[<span class='no'>i</span>] <span class='kw'>==</span> <span class='fl'>38</span>){
-    <span class='no'>data</span>$<span class='no'>T2</span>[<span class='no'>i</span>] <span class='kw'>&lt;-</span> <span class='fl'>37</span>
+  <span class='co'>if</span> (<span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span>[<span class='kw'>i</span>] <span class='op'>==</span> <span class='fl'>38</span>) {
+    <span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span>[<span class='kw'>i</span>] <span class='op'>&lt;-</span> <span class='fl'>37</span>
   }
 }
 
-<span class='co'>#Make sure it is a character string for grouping</span>
-<span class='no'>data</span>$<span class='no'>T2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>data</span>$<span class='no'>T2</span>)
+<span class='co'># Make sure it is a character string for grouping</span>
+<span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>T2</span>)
 
-<span class='co'>#Create grouping variable by ID and measurement temperature</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/unite.html'>unite</a></span>(<span class='no'>data</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"ID2"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ID"</span>, <span class='st'>"T2"</span>),
-              <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"_"</span>)
+<span class='co'># Create grouping variable by ID and measurement temperature</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/unite.html'>unite</a></span>(<span class='kw'>data</span>,
+  col = <span class='st'>"ID2"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ID"</span>, <span class='st'>"T2"</span>),
+  sep = <span class='st'>"_"</span>
+)
 
-<span class='co'>#Split by temperature group</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='no'>data</span>, <span class='no'>data</span>$<span class='no'>ID2</span>)
+<span class='co'># Split by temperature group</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span>(<span class='kw'>data</span>, <span class='kw'>data</span><span class='op'>$</span><span class='kw'>ID2</span>)
 
-<span class='co'>#Obtain mean temperature for group so temperature</span>
-<span class='co'>#response fitting is acceptable later, round to</span>
-<span class='co'>#2 decimal places</span>
-<span class='kw'>for</span>(<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>data</span>)){
-  <span class='no'>data</span><span class='kw'>[[</span><span class='no'>i</span>]]$<span class='no'>Curve_Tleaf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>data</span><span class='kw'>[[</span><span class='no'>i</span>]]$<span class='no'>Tleaf</span>), <span class='fl'>2</span>)
+<span class='co'># Obtain mean temperature for group so temperature</span>
+<span class='co'># response fitting is acceptable later, round to</span>
+<span class='co'># 2 decimal places</span>
+<span class='co'>for</span> (<span class='kw'>i</span> <span class='co'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='kw'>data</span>)) {
+  <span class='kw'>data</span>[[<span class='kw'>i</span>]]<span class='op'>$</span><span class='kw'>Curve_Tleaf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>data</span>[[<span class='kw'>i</span>]]<span class='op'>$</span><span class='kw'>Tleaf</span>), <span class='fl'>2</span>)
 }
 
-<span class='co'>#Convert from list back to dataframe</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='st'>"rbind"</span>, <span class='no'>data</span>)
+<span class='co'># Convert from list back to dataframe</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='st'>"rbind"</span>, <span class='kw'>data</span>)
 
-<span class='co'>#Parse grouping variable by ID and measurement temperature</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/separate.html'>separate</a></span>(<span class='no'>data</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"ID2"</span>, <span class='kw'>into</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ID"</span>, <span class='st'>"T2"</span>),
-                 <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"_"</span>)
+<span class='co'># Parse grouping variable by ID and measurement temperature</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/separate.html'>separate</a></span>(<span class='kw'>data</span>,
+  col = <span class='st'>"ID2"</span>, into = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ID"</span>, <span class='st'>"T2"</span>),
+  sep = <span class='st'>"_"</span>
+)
 
-<span class='co'>#Make sure number of values matches number of measurement</span>
-<span class='co'>#temperatures. May vary slightly if plants had slightly</span>
-<span class='co'>#different leaf temperatures during the measurements</span>
-<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>data</span>$<span class='no'>Curve_Tleaf</span>)</div><div class='output co'>#&gt;  [1] 17.51 20.01 22.50 25.01 27.51 30.01 32.50 34.99 37.50 39.99 20.00 22.51
+<span class='co'># Make sure number of values matches number of measurement</span>
+<span class='co'># temperatures. May vary slightly if plants had slightly</span>
+<span class='co'># different leaf temperatures during the measurements</span>
+<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Curve_Tleaf</span>)
+</div><div class='output co'>#&gt;  [1] 17.51 20.01 22.50 25.01 27.51 30.01 32.50 34.99 37.50 39.99 20.00 22.51
 #&gt; [13] 25.02 40.01</div><div class='input'>
-<span class='co'>#Create ID column to curve fit by ID and temperature</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/unite.html'>unite</a></span>(<span class='no'>data</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"ID2"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ID"</span>, <span class='st'>"Curve_Tleaf"</span>),
-              <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"_"</span>)
+<span class='co'># Create ID column to curve fit by ID and temperature</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/unite.html'>unite</a></span>(<span class='kw'>data</span>,
+  col = <span class='st'>"ID2"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ID"</span>, <span class='st'>"Curve_Tleaf"</span>),
+  sep = <span class='st'>"_"</span>
+)
 
-<span class='co'>#Convert leaf temperature to K</span>
-<span class='no'>data</span>$<span class='no'>T_leaf</span> <span class='kw'>&lt;-</span> <span class='no'>data</span>$<span class='no'>Tleaf</span> + <span class='fl'>273.15</span>
+<span class='co'># Convert leaf temperature to K</span>
+<span class='kw'>data</span><span class='op'>$</span><span class='kw'>T_leaf</span> <span class='op'>&lt;-</span> <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Tleaf</span> <span class='op'>+</span> <span class='fl'>273.15</span>
 
-<span class='co'>#Fit many CO2 response curves</span>
-<span class='no'>fits2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_many.html'>fit_many</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>,
-                  <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"ID2"</span>,
-                  <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A"</span>,
-                                  <span class='kw'>C_i</span> <span class='kw'>=</span> <span class='st'>"Ci"</span>,
-                                  <span class='kw'>T_leaf</span> <span class='kw'>=</span> <span class='st'>"T_leaf"</span>,
-                                  <span class='kw'>PPFD</span> <span class='kw'>=</span> <span class='st'>"Qin"</span>,
-                                  <span class='kw'>g_mc</span> <span class='kw'>=</span> <span class='st'>"g_mc"</span>),
-                  <span class='kw'>funct</span> <span class='kw'>=</span> <span class='no'>fit_aci_response</span>,
-                  <span class='kw'>alphag</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |====                                                                  |   5%  |                                                                              |=======                                                               |  10%  |                                                                              |==========                                                            |  15%  |                                                                              |==============                                                        |  20%  |                                                                              |==================                                                    |  25%  |                                                                              |=====================                                                 |  30%  |                                                                              |========================                                              |  35%  |                                                                              |============================                                          |  40%  |                                                                              |================================                                      |  45%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================                                |  55%  |                                                                              |==========================================                            |  60%  |                                                                              |==============================================                        |  65%  |                                                                              |=================================================                     |  70%  |                                                                              |====================================================                  |  75%  |                                                                              |========================================================              |  80%  |                                                                              |============================================================          |  85%  |                                                                              |===============================================================       |  90%  |                                                                              |==================================================================    |  95%  |                                                                              |======================================================================| 100%</div><div class='input'>
-<span class='co'>#Extract ACi parameters</span>
-<span class='no'>pars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='no'>fits2</span>, <span class='kw'>output_type</span> <span class='kw'>=</span> <span class='st'>"dataframe"</span>,
-                     <span class='kw'>list_element</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='co'># Fit many CO2 response curves</span>
+<span class='kw'>fits2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fit_many.html'>fit_many</a></span>(
+  data = <span class='kw'>data</span>,
+  group = <span class='st'>"ID2"</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    A_net = <span class='st'>"A"</span>,
+    C_i = <span class='st'>"Ci"</span>,
+    T_leaf = <span class='st'>"T_leaf"</span>,
+    PPFD = <span class='st'>"Qin"</span>,
+    g_mc = <span class='st'>"g_mc"</span>
+  ),
+  funct = <span class='kw'>fit_aci_response</span>,
+  alphag = <span class='fl'>0</span>
+)
+</div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |====                                                                  |   5%  |                                                                              |=======                                                               |  10%  |                                                                              |==========                                                            |  15%  |                                                                              |==============                                                        |  20%  |                                                                              |==================                                                    |  25%  |                                                                              |=====================                                                 |  30%  |                                                                              |========================                                              |  35%  |                                                                              |============================                                          |  40%  |                                                                              |================================                                      |  45%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================                                |  55%  |                                                                              |==========================================                            |  60%  |                                                                              |==============================================                        |  65%  |                                                                              |=================================================                     |  70%  |                                                                              |====================================================                  |  75%  |                                                                              |========================================================              |  80%  |                                                                              |============================================================          |  85%  |                                                                              |===============================================================       |  90%  |                                                                              |==================================================================    |  95%  |                                                                              |======================================================================| 100%</div><div class='input'>
+<span class='co'># Extract ACi parameters</span>
+<span class='kw'>pars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='kw'>fits2</span>,
+  output_type = <span class='st'>"dataframe"</span>,
+  list_element = <span class='fl'>1</span>
+)
 
-<span class='co'>#Extract ACi graphs</span>
-<span class='no'>graphs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='no'>fits2</span>, <span class='kw'>output_type</span> <span class='kw'>=</span> <span class='st'>"list"</span>,
-                       <span class='kw'>list_element</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='co'># Extract ACi graphs</span>
+<span class='kw'>graphs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='kw'>fits2</span>,
+  output_type = <span class='st'>"list"</span>,
+  list_element = <span class='fl'>2</span>
+)
 
-<span class='co'>#Parse the ID variable</span>
-<span class='no'>pars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/separate.html'>separate</a></span>(<span class='no'>pars</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"ID"</span>, <span class='kw'>into</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ID"</span>, <span class='st'>"Curve_Tleaf"</span>), <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"_"</span>)
+<span class='co'># Parse the ID variable</span>
+<span class='kw'>pars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/separate.html'>separate</a></span>(<span class='kw'>pars</span>, col = <span class='st'>"ID"</span>, into = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ID"</span>, <span class='st'>"Curve_Tleaf"</span>), sep = <span class='st'>"_"</span>)
 
-<span class='co'>#Make sure curve leaf temperature is numeric</span>
-<span class='no'>pars</span>$<span class='no'>Curve_Tleaf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>pars</span>$<span class='no'>Curve_Tleaf</span>)
-<span class='no'>pars</span>$<span class='no'>T_leaf</span> <span class='kw'>&lt;-</span> <span class='no'>pars</span>$<span class='no'>Curve_Tleaf</span> + <span class='fl'>273.15</span>
+<span class='co'># Make sure curve leaf temperature is numeric</span>
+<span class='kw'>pars</span><span class='op'>$</span><span class='kw'>Curve_Tleaf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>pars</span><span class='op'>$</span><span class='kw'>Curve_Tleaf</span>)
+<span class='kw'>pars</span><span class='op'>$</span><span class='kw'>T_leaf</span> <span class='op'>&lt;-</span> <span class='kw'>pars</span><span class='op'>$</span><span class='kw'>Curve_Tleaf</span> <span class='op'>+</span> <span class='fl'>273.15</span>
 
-<span class='co'>#Fit all models, set Hd to constant in Medlyn model</span>
-<span class='no'>out</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_t_response</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>pars</span>[<span class='no'>pars</span>$<span class='no'>ID</span> <span class='kw'>==</span> <span class='st'>"S2"</span>,],
-                      <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>Par</span> <span class='kw'>=</span> <span class='st'>"V_cmax"</span>,
-                                      <span class='kw'>T_leaf</span> <span class='kw'>=</span> <span class='st'>"T_leaf"</span>),
-                      <span class='kw'>setvar</span> <span class='kw'>=</span> <span class='st'>"Hd"</span>,
-                      <span class='kw'>hdset</span> <span class='kw'>=</span> <span class='fl'>200000</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='input'>
-<span class='no'>out</span><span class='kw'>[[</span><span class='st'>"Arrhenius"</span>]]<span class='kw'>[[</span><span class='st'>"Graph"</span>]]</div><div class='img'><img src='fit_t_response-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>out</span><span class='kw'>[[</span><span class='st'>"Heskel"</span>]]<span class='kw'>[[</span><span class='st'>"Graph"</span>]]</div><div class='img'><img src='fit_t_response-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>out</span><span class='kw'>[[</span><span class='st'>"Kruse"</span>]]<span class='kw'>[[</span><span class='st'>"Graph"</span>]]</div><div class='img'><img src='fit_t_response-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>out</span><span class='kw'>[[</span><span class='st'>"Medlyn"</span>]]<span class='kw'>[[</span><span class='st'>"Graph"</span>]]</div><div class='img'><img src='fit_t_response-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>out</span><span class='kw'>[[</span><span class='st'>"MMRT"</span>]]<span class='kw'>[[</span><span class='st'>"Graph"</span>]]</div><div class='img'><img src='fit_t_response-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>out</span><span class='kw'>[[</span><span class='st'>"Quadratic"</span>]]<span class='kw'>[[</span><span class='st'>"Graph"</span>]]</div><div class='img'><img src='fit_t_response-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>out</span><span class='kw'>[[</span><span class='st'>"Topt"</span>]]<span class='kw'>[[</span><span class='st'>"Graph"</span>]]</div><div class='img'><img src='fit_t_response-7.png' alt='' width='700' height='433' /></div><div class='input'># }
+<span class='co'># Fit all models, set Hd to constant in Medlyn model</span>
+<span class='kw'>out</span> <span class='op'>&lt;-</span> <span class='fu'>fit_t_response</span>(
+  data = <span class='kw'>pars</span>[<span class='kw'>pars</span><span class='op'>$</span><span class='kw'>ID</span> <span class='op'>==</span> <span class='st'>"S2"</span>, ],
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    Par = <span class='st'>"V_cmax"</span>,
+    T_leaf = <span class='st'>"T_leaf"</span>
+  ),
+  setvar = <span class='st'>"Hd"</span>,
+  hdset = <span class='fl'>200000</span>
+)
+</div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NAs introduced by coercion</span></div><div class='input'>
+<span class='kw'>out</span>[[<span class='st'>"Arrhenius"</span>]][[<span class='st'>"Graph"</span>]]
+</div><div class='img'><img src='fit_t_response-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>out</span>[[<span class='st'>"Heskel"</span>]][[<span class='st'>"Graph"</span>]]
+</div><div class='img'><img src='fit_t_response-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>out</span>[[<span class='st'>"Kruse"</span>]][[<span class='st'>"Graph"</span>]]
+</div><div class='img'><img src='fit_t_response-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>out</span>[[<span class='st'>"Medlyn"</span>]][[<span class='st'>"Graph"</span>]]
+</div><div class='img'><img src='fit_t_response-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>out</span>[[<span class='st'>"MMRT"</span>]][[<span class='st'>"Graph"</span>]]
+</div><div class='img'><img src='fit_t_response-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>out</span>[[<span class='st'>"Quadratic"</span>]][[<span class='st'>"Graph"</span>]]
+</div><div class='img'><img src='fit_t_response-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>out</span>[[<span class='st'>"Topt"</span>]][[<span class='st'>"Graph"</span>]]
+</div><div class='img'><img src='fit_t_response-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -356,7 +388,7 @@ experimental data. Plant Cell Environ 25:1167-1179</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

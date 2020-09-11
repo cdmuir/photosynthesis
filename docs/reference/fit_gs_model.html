@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -139,12 +139,12 @@
     </div>
 
     <pre class="usage"><span class='fu'>fit_gs_model</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A_net"</span>, <span class='kw'>C_air</span> <span class='kw'>=</span> <span class='st'>"C_air"</span>, <span class='kw'>g_sw</span> <span class='kw'>=</span> <span class='st'>"g_sw"</span>, <span class='kw'>RH</span> <span class='kw'>=</span> <span class='st'>"RH"</span>, <span class='kw'>VPD</span> <span class='kw'>=</span>
+  <span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(A_net = <span class='st'>"A_net"</span>, C_air = <span class='st'>"C_air"</span>, g_sw = <span class='st'>"g_sw"</span>, RH = <span class='st'>"RH"</span>, VPD =
     <span class='st'>"VPD"</span>),
-  <span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"BallBerry"</span>, <span class='st'>"Leuning"</span>, <span class='st'>"Medlyn_partial"</span>, <span class='st'>"Medlyn_full"</span>),
-  <span class='kw'>D0</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='no'>...</span>
+  model = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"BallBerry"</span>, <span class='st'>"Leuning"</span>, <span class='st'>"Medlyn_partial"</span>, <span class='st'>"Medlyn_full"</span>),
+  D0 = <span class='fl'>3</span>,
+  <span class='kw'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -196,47 +196,55 @@ while the second level contains the Model, Parameters, and Graph, in that
 order.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Ball JT, Woodrow IE, Berry JA. 1987. A model predicting stomatal 
+    <p>Ball JT, Woodrow IE, Berry JA. 1987. A model predicting stomatal
 conductance and its contribution to the control of photosynthesis
-under different environmental conditions, in Progress in 
-Photosynthesis Research, Proceedings of the VII International 
-Congress on Photosynthesis, vol. 4, edited by I. Biggins, pp. 
+under different environmental conditions, in Progress in
+Photosynthesis Research, Proceedings of the VII International
+Congress on Photosynthesis, vol. 4, edited by I. Biggins, pp.
 221–224, Martinus Nijhoff, Dordrecht, Netherlands.</p>
 <p>Leuning R. 1995. A critical appraisal of a coupled stomatal-
 photosynthesis model for C3 plants. Plant Cell Environ 18:339-357</p>
 <p>Medlyn BE, Duursma RA, Eamus D, Ellsworth DS, Prentice IC, Barton
 CVM, Crous KY, Angelis PD, Freeman M, Wingate L. 2011. Reconciling
-the optimal and empirical approaches to modelling stomatal 
+the optimal and empirical approaches to modelling stomatal
 conductance. Glob Chang Biol 17:2134-2144</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'>#Read in your data</span>
-<span class='co'>#Note that this data is coming from data supplied by the package</span>
-<span class='co'>#hence the complicated argument in read.csv()</span>
-<span class='co'>#This dataset is a CO2 by light response curve for a single sunflower</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_Q_data_1.csv"</span>,
-                             <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"photosynthesis"</span>))
+<span class='co'># Read in your data</span>
+<span class='co'># Note that this data is coming from data supplied by the package</span>
+<span class='co'># hence the complicated argument in read.csv()</span>
+<span class='co'># This dataset is a CO2 by light response curve for a single sunflower</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_Q_data_1.csv"</span>,
+  package = <span class='st'>"photosynthesis"</span>
+))
 
-<span class='co'>#Convert RH to a proportion</span>
-<span class='no'>data</span>$<span class='no'>RH</span> <span class='kw'>&lt;-</span> <span class='no'>data</span>$<span class='no'>RHcham</span> / <span class='fl'>100</span>
+<span class='co'># Convert RH to a proportion</span>
+<span class='kw'>data</span><span class='op'>$</span><span class='kw'>RH</span> <span class='op'>&lt;-</span> <span class='kw'>data</span><span class='op'>$</span><span class='kw'>RHcham</span> <span class='op'>/</span> <span class='fl'>100</span>
 
-<span class='co'>#Fit stomatal conductance models</span>
-<span class='co'>#Can specify a single model, or all as below</span>
-<span class='no'>fits</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_gs_model</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>,
-                     <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A"</span>,
-                                     <span class='kw'>C_air</span> <span class='kw'>=</span> <span class='st'>"Ca"</span>,
-                                     <span class='kw'>g_sw</span> <span class='kw'>=</span> <span class='st'>"gsw"</span>,
-                                     <span class='kw'>RH</span> <span class='kw'>=</span> <span class='st'>"RH"</span>,
-                                     <span class='kw'>VPD</span> <span class='kw'>=</span> <span class='st'>"VPDleaf"</span>),
-                     <span class='kw'>model</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"BallBerry"</span>,
-                               <span class='st'>"Leuning"</span>,
-                               <span class='st'>"Medlyn_partial"</span>,
-                               <span class='st'>"Medlyn_full"</span>),
-                     <span class='kw'>D0</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='co'># Fit stomatal conductance models</span>
+<span class='co'># Can specify a single model, or all as below</span>
+<span class='kw'>fits</span> <span class='op'>&lt;-</span> <span class='fu'>fit_gs_model</span>(
+  data = <span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    A_net = <span class='st'>"A"</span>,
+    C_air = <span class='st'>"Ca"</span>,
+    g_sw = <span class='st'>"gsw"</span>,
+    RH = <span class='st'>"RH"</span>,
+    VPD = <span class='st'>"VPDleaf"</span>
+  ),
+  model = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
+    <span class='st'>"BallBerry"</span>,
+    <span class='st'>"Leuning"</span>,
+    <span class='st'>"Medlyn_partial"</span>,
+    <span class='st'>"Medlyn_full"</span>
+  ),
+  D0 = <span class='fl'>3</span>
+)
 
-<span class='co'>#Look at BallBerry model summary:</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>fits</span><span class='kw'>[[</span><span class='st'>"BallBerry"</span>]]<span class='kw'>[[</span><span class='st'>"Model"</span>]])</div><div class='output co'>#&gt; 
+<span class='co'># Look at BallBerry model summary:</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>fits</span>[[<span class='st'>"BallBerry"</span>]][[<span class='st'>"Model"</span>]])
+</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = g_sw ~ gs_mod_ballberry(A_net = A_net, C_air = C_air, 
 #&gt;     RH = RH), data = data)
@@ -259,29 +267,36 @@ conductance. Glob Chang Biol 17:2134-2144</p>
 #&gt; Multiple R-squared:  0.2598,	Adjusted R-squared:  0.2519 
 #&gt; F-statistic: 32.99 on 1 and 94 DF,  p-value: 1.132e-07
 #&gt; </div><div class='input'>
-<span class='co'>#Look at BallBerry parameters</span>
-<span class='no'>fits</span><span class='kw'>[[</span><span class='st'>"BallBerry"</span>]]<span class='kw'>[[</span><span class='st'>"Parameters"</span>]]</div><div class='output co'>#&gt;          g0          g1
+<span class='co'># Look at BallBerry parameters</span>
+<span class='kw'>fits</span>[[<span class='st'>"BallBerry"</span>]][[<span class='st'>"Parameters"</span>]]
+</div><div class='output co'>#&gt;          g0          g1
 #&gt; 1 0.1480627 1.62664e-05</div><div class='input'>
-<span class='co'>#Look at BallBerry plot</span>
-<span class='no'>fits</span><span class='kw'>[[</span><span class='st'>"BallBerry"</span>]]<span class='kw'>[[</span><span class='st'>"Graph"</span>]]</div><div class='img'><img src='fit_gs_model-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>#Fit many g_sw models</span>
-<span class='co'>#Set your grouping variable</span>
-<span class='co'>#Here we are grouping by Qin and individual</span>
-<span class='no'>data</span>$<span class='no'>Q_2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>((<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>data</span>$<span class='no'>Qin</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>0</span>)))
+<span class='co'># Look at BallBerry plot</span>
+<span class='kw'>fits</span>[[<span class='st'>"BallBerry"</span>]][[<span class='st'>"Graph"</span>]]
+</div><div class='img'><img src='fit_gs_model-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Fit many g_sw models</span>
+<span class='co'># Set your grouping variable</span>
+<span class='co'># Here we are grouping by Qin and individual</span>
+<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Q_2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>((<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Qin</span>, digits = <span class='fl'>0</span>)))
 
-<span class='no'>fits</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_many.html'>fit_many</a></span>(<span class='no'>data</span>,
-                 <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A"</span>,
-                                 <span class='kw'>C_air</span> <span class='kw'>=</span> <span class='st'>"Ca"</span>,
-                                 <span class='kw'>g_sw</span> <span class='kw'>=</span> <span class='st'>"gsw"</span>,
-                                 <span class='kw'>RH</span> <span class='kw'>=</span> <span class='st'>"RH"</span>,
-                                 <span class='kw'>VPD</span> <span class='kw'>=</span> <span class='st'>"VPDleaf"</span>),
-                 <span class='kw'>funct</span> <span class='kw'>=</span> <span class='no'>fit_gs_model</span>,
-                 <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Q_2"</span>)</div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%Error in nlsModel(formula, mf, start, wts) : 
+<span class='kw'>fits</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fit_many.html'>fit_many</a></span>(<span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    A_net = <span class='st'>"A"</span>,
+    C_air = <span class='st'>"Ca"</span>,
+    g_sw = <span class='st'>"gsw"</span>,
+    RH = <span class='st'>"RH"</span>,
+    VPD = <span class='st'>"VPDleaf"</span>
+  ),
+  funct = <span class='kw'>fit_gs_model</span>,
+  group = <span class='st'>"Q_2"</span>
+)
+</div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%Error in nlsModel(formula, mf, start, wts) : 
 #&gt;   singular gradient matrix at initial parameter estimates
 #&gt;   |                                                                              |=========                                                             |  12%  |                                                                              |==================                                                    |  25%  |                                                                              |==========================                                            |  38%  |                                                                              |===================================                                   |  50%  |                                                                              |============================================                          |  62%  |                                                                              |====================================================                  |  75%  |                                                                              |=============================================================         |  88%  |                                                                              |======================================================================| 100%</div><div class='input'>
-<span class='co'>#Look at the Medlyn_partial outputs at 750 PAR</span>
-<span class='co'>#Model summary</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>fits</span><span class='kw'>[[</span><span class='st'>"750"</span>]]<span class='kw'>[[</span><span class='st'>"Medlyn_partial"</span>]]<span class='kw'>[[</span><span class='st'>"Model"</span>]])</div><div class='output co'>#&gt; 
+<span class='co'># Look at the Medlyn_partial outputs at 750 PAR</span>
+<span class='co'># Model summary</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>fits</span>[[<span class='st'>"750"</span>]][[<span class='st'>"Medlyn_partial"</span>]][[<span class='st'>"Model"</span>]])
+</div><div class='output co'>#&gt; 
 #&gt; Formula: g_sw ~ gs_mod_opti(A_net = A_net, C_air = C_air, VPD = VPD, g0, 
 #&gt;     g1)
 #&gt; 
@@ -297,34 +312,44 @@ conductance. Glob Chang Biol 17:2134-2144</p>
 #&gt; Number of iterations to convergence: 2 
 #&gt; Achieved convergence tolerance: 1.49e-08
 #&gt; </div><div class='input'>
-<span class='co'>#Model parameters</span>
-<span class='no'>fits</span><span class='kw'>[[</span><span class='st'>"750"</span>]]<span class='kw'>[[</span><span class='st'>"Medlyn_partial"</span>]]<span class='kw'>[[</span><span class='st'>"Parameters"</span>]]</div><div class='output co'>#&gt;          g0        g1
+<span class='co'># Model parameters</span>
+<span class='kw'>fits</span>[[<span class='st'>"750"</span>]][[<span class='st'>"Medlyn_partial"</span>]][[<span class='st'>"Parameters"</span>]]
+</div><div class='output co'>#&gt;          g0        g1
 #&gt; 1 0.3877773 -1.097544</div><div class='input'>
-<span class='co'>#Graph</span>
-<span class='no'>fits</span><span class='kw'>[[</span><span class='st'>"750"</span>]]<span class='kw'>[[</span><span class='st'>"Medlyn_partial"</span>]]<span class='kw'>[[</span><span class='st'>"Graph"</span>]]</div><div class='img'><img src='fit_gs_model-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>#Compile parameter outputs for BallBerry model</span>
-<span class='co'>#Note that it's the first element for each PAR value</span>
-<span class='co'>#First compile list of BallBerry fits</span>
-<span class='no'>bbmods</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>fits</span>,
-                       <span class='kw'>output_type</span> <span class='kw'>=</span> <span class='st'>"list"</span>,
-                       <span class='kw'>list_element</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-<span class='co'>#Now compile the parameters (2nd element) into a dataframe</span>
-<span class='no'>bbpars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>bbmods</span>,
-                       <span class='kw'>output_type</span> <span class='kw'>=</span> <span class='st'>"dataframe"</span>,
-                       <span class='kw'>list_element</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='co'># Graph</span>
+<span class='kw'>fits</span>[[<span class='st'>"750"</span>]][[<span class='st'>"Medlyn_partial"</span>]][[<span class='st'>"Graph"</span>]]
+</div><div class='img'><img src='fit_gs_model-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Compile parameter outputs for BallBerry model</span>
+<span class='co'># Note that it's the first element for each PAR value</span>
+<span class='co'># First compile list of BallBerry fits</span>
+<span class='kw'>bbmods</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(
+  data = <span class='kw'>fits</span>,
+  output_type = <span class='st'>"list"</span>,
+  list_element = <span class='fl'>1</span>
+)
+<span class='co'># Now compile the parameters (2nd element) into a dataframe</span>
+<span class='kw'>bbpars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(
+  data = <span class='kw'>bbmods</span>,
+  output_type = <span class='st'>"dataframe"</span>,
+  list_element = <span class='fl'>2</span>
+)
 
-<span class='co'>#Convert group variable back to numeric</span>
-<span class='no'>bbpars</span>$<span class='no'>ID</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>bbpars</span>$<span class='no'>ID</span>)
+<span class='co'># Convert group variable back to numeric</span>
+<span class='kw'>bbpars</span><span class='op'>$</span><span class='kw'>ID</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>bbpars</span><span class='op'>$</span><span class='kw'>ID</span>)
 
-<span class='co'>#Take quick look at light response of intercept parameters</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>g0</span> ~ <span class='no'>ID</span>, <span class='no'>bbpars</span>)</div><div class='img'><img src='fit_gs_model-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>#Compile graphs</span>
-<span class='no'>graphs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>bbmods</span>,
-                       <span class='kw'>output_type</span> <span class='kw'>=</span> <span class='st'>"list"</span>,
-                       <span class='kw'>list_element</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='co'># Take quick look at light response of intercept parameters</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>g0</span> <span class='op'>~</span> <span class='kw'>ID</span>, <span class='kw'>bbpars</span>)
+</div><div class='img'><img src='fit_gs_model-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Compile graphs</span>
+<span class='kw'>graphs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(
+  data = <span class='kw'>bbmods</span>,
+  output_type = <span class='st'>"list"</span>,
+  list_element = <span class='fl'>3</span>
+)
 
-<span class='co'>#Look at 3rd graph</span>
-<span class='no'>graphs</span><span class='kw'>[[</span><span class='fl'>3</span>]]</div><div class='img'><img src='fit_gs_model-4.png' alt='' width='700' height='433' /></div><div class='input'># }
+<span class='co'># Look at 3rd graph</span>
+<span class='kw'>graphs</span>[[<span class='fl'>3</span>]]
+</div><div class='img'><img src='fit_gs_model-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -341,7 +366,7 @@ conductance. Glob Chang Biol 17:2134-2144</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

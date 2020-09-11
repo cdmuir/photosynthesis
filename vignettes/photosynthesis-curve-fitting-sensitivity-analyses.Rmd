@@ -210,7 +210,7 @@ fit[[1]]
 #View graph
 fit[[2]]
 
-#View data with modelled parameters attached
+#View data with modeled parameters attached
 #fit[[3]]
 
 #Fit many curves
@@ -801,7 +801,7 @@ Congress on Photosynthesis, vol. 4, edited by I. Biggins, pp.
 221–224, Martinus Nijhoff, Dordrecht, Netherlands.
 
 Duursma R. 2015. Plantecophys - an R package for analysing and
-modelling leaf gas exchange data. PLoS ONE 10:e0143346
+modeling leaf gas exchange data. PLoS ONE 10:e0143346
 
 Erhardt EB. 2019. RLicor: Read Licor files. R package version 0.0.01.
 
@@ -862,7 +862,7 @@ experimental data. Plant Cell Environ 25:1167-1179
 
 Medlyn BE, Duursma RA, Eamus D, Ellsworth DS, Prentice IC, Barton
 CVM, Crous KY, Angelis PD, Freeman M, Wingate L. 2011. Reconciling
-the optimal and empirical approaches to modelling stomatal 
+the optimal and empirical approaches to modeling stomatal 
 conductance. Glob Chang Biol 17:2134-2144
 
 Ogle K, Barber JJ, Willson C, Thompson B. 2009. Hierarchical statistical 

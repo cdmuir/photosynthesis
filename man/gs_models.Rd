@@ -61,6 +61,6 @@ photosynthesis model for C3 plants. Plant Cell Environ 18:339-357
 
 Medlyn BE, Duursma RA, Eamus D, Ellsworth DS, Prentice IC, Barton
 CVM, Crous KY, Angelis PD, Freeman M, Wingate L. 2011. Reconciling
-the optimal and empirical approaches to modelling stomatal
+the optimal and empirical approaches to modeling stomatal
 conductance. Glob Chang Biol 17:2134-2144
 }

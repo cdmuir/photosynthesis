@@ -61,9 +61,9 @@ A data.frame with the following \code{units} columns \cr
 \bold{Input:} \tab \cr
 \cr
 \code{C_air} \tab atmospheric CO2 concentration (Pa) \cr
-\code{g_mc25} \tab mesophyll conductance to CO2 at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s Pa)) \cr
-\code{g_sc} \tab stomatal conductance to CO2 (\eqn{\mu}mol CO2 / (m\eqn{^2} s Pa)) \cr
-\code{g_uc} \tab cuticular conductance to CO2 (\eqn{\mu}mol CO2 / (m\eqn{^2} s Pa)) \cr
+\code{g_mc25} \tab mesophyll conductance to CO2 at 25 °C (\eqn{\mu}mol / (m\eqn{^2} s Pa)) \cr
+\code{g_sc} \tab stomatal conductance to CO2 (\eqn{\mu}mol / (m\eqn{^2} s Pa)) \cr
+\code{g_uc} \tab cuticular conductance to CO2 (\eqn{\mu}mol / (m\eqn{^2} s Pa)) \cr
 \code{gamma_star25} \tab chloroplastic CO2 compensation point at 25 °C (Pa) \cr
 \code{J_max25} \tab potential electron transport at 25 °C (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \cr
 \code{K_C25} \tab Michaelis constant for carboxylation at 25 °C (\eqn{\mu}mol / mol) \cr
@@ -87,12 +87,12 @@ A data.frame with the following \code{units} columns \cr
 \cr
 \bold{Baked Input:} \tab \cr
 \cr
-\code{g_mc} \tab mesophyll conductance to CO2 at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s Pa)) \cr
+\code{g_mc} \tab mesophyll conductance to CO2 at \code{T_leaf} (\eqn{\mu}mol / (m\eqn{^2} s Pa)) \cr
 \code{gamma_star} \tab chloroplastic CO2 compensation point at \code{T_leaf} (Pa) \cr
 \code{J_max} \tab potential electron transport at \code{T_leaf} (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \cr
 \code{K_C} \tab Michaelis constant for carboxylation at \code{T_leaf} (\eqn{\mu}mol / mol) \cr
 \code{K_O} \tab Michaelis constant for oxygenation at \code{T_leaf}(\eqn{\mu}mol / mol) \cr
-\code{R_d} \tab nonphotorespiratory CO2 release  at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
+\code{R_d} \tab nonphotorespiratory CO2 release at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
 \code{V_cmax} \tab maximum rate of carboxylation at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
 \code{V_tpu} \tab rate of triose phosphate utilisation at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
 \cr
@@ -101,7 +101,7 @@ A data.frame with the following \code{units} columns \cr
 \code{A} \tab photosynthetic rate at \code{C_chl} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
 \code{C_chl} \tab chloroplastic CO2 concentration where \code{A_supply} intersects \code{A_demand} (Pa) \cr
 \code{g_tc} \tab total conductance to CO2 at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s Pa)) \cr
-\code{value} \tab \code{A_supply} - \code{A_demand} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) at \code{C_chl} \cr
+\code{value} \tab \code{A_supply} - \code{A_demand} (\eqn{\mu}mol / (m\eqn{^2} s)) at \code{C_chl} \cr
 \code{convergence} \tab convergence code (0 = converged)
 }
 }

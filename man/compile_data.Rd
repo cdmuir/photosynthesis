@@ -16,7 +16,7 @@ for parameters, use "dataframe".}
 }
 \value{
 compile_data converts the outputs of fit_many into a form more
-readily useable for analysis. Can be used to create dataframe of all
+readily usable for analysis. Can be used to create dataframe of all
 fitted parameters, a list of model outputs, a list of graphs for plotting.
 This function is NOT restricted to compiling outputs from plantecophystools
 but could be used to compile elements from ANY list of lists.
