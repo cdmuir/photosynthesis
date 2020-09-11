@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -139,10 +139,10 @@
     </div>
 
     <pre class="usage"><span class='fu'>fit_hydra_vuln_curve</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>psi</span> <span class='kw'>=</span> <span class='st'>"psi"</span>, <span class='kw'>PLC</span> <span class='kw'>=</span> <span class='st'>"PLC"</span>),
-  <span class='kw'>start_weibull</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>),
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(psi = <span class='st'>"psi"</span>, PLC = <span class='st'>"PLC"</span>),
+  start_weibull = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(a = <span class='fl'>2</span>, b = <span class='fl'>2</span>),
+  title = <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -190,18 +190,23 @@ Tree Physiology 18:589-593</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'>#Read in data</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"hydraulic_vulnerability.csv"</span>,
-                             <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"photosynthesis"</span>))
+<span class='co'># Read in data</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"hydraulic_vulnerability.csv"</span>,
+  package = <span class='st'>"photosynthesis"</span>
+))
 
-<span class='co'>#Fit hydraulic vulnerability curve</span>
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_hydra_vuln_curve</span>(<span class='no'>data</span>[<span class='no'>data</span>$<span class='no'>Tree</span> <span class='kw'>==</span> <span class='fl'>4</span> <span class='kw'>&amp;</span> <span class='no'>data</span>$<span class='no'>Plot</span> <span class='kw'>==</span> <span class='st'>"Control"</span>,],
-                            <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>psi</span> <span class='kw'>=</span> <span class='st'>"P"</span>,
-                                            <span class='kw'>PLC</span> <span class='kw'>=</span> <span class='st'>"PLC"</span>),
-                            <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Control 4"</span>)
+<span class='co'># Fit hydraulic vulnerability curve</span>
+<span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'>fit_hydra_vuln_curve</span>(<span class='kw'>data</span>[<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Tree</span> <span class='op'>==</span> <span class='fl'>4</span> <span class='op'>&amp;</span> <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Plot</span> <span class='op'>==</span> <span class='st'>"Control"</span>, ],
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    psi = <span class='st'>"P"</span>,
+    PLC = <span class='st'>"PLC"</span>
+  ),
+  title = <span class='st'>"Control 4"</span>
+)
 
-<span class='co'>#Return Sigmoidal model summary</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>fit</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; 
+<span class='co'># Return Sigmoidal model summary</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>fit</span>[[<span class='fl'>1</span>]])
+</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = H_log ~ psi, data = data[data$H_log &lt; Inf, ])
 #&gt; 
@@ -220,8 +225,9 @@ Tree Physiology 18:589-593</p>
 #&gt; Multiple R-squared:  0.996,	Adjusted R-squared:  0.9947 
 #&gt; F-statistic: 751.1 on 1 and 3 DF,  p-value: 0.0001066
 #&gt; </div><div class='input'>
-<span class='co'>#Return Weibull model summary</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>fit</span><span class='kw'>[[</span><span class='fl'>4</span>]])</div><div class='output co'>#&gt; 
+<span class='co'># Return Weibull model summary</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>fit</span>[[<span class='fl'>4</span>]])
+</div><div class='output co'>#&gt; 
 #&gt; Formula: K.Kmax ~ exp(-((psi/a)^b))
 #&gt; 
 #&gt; Parameters:
@@ -236,30 +242,39 @@ Tree Physiology 18:589-593</p>
 #&gt; Number of iterations to convergence: 8 
 #&gt; Achieved convergence tolerance: 1.49e-08
 #&gt; </div><div class='input'>
-<span class='co'>#Return model parameters with 95% confidence intervals</span>
-<span class='no'>fit</span><span class='kw'>[[</span><span class='fl'>2</span>]]</div><div class='output co'>#&gt;           Value Parameter     Curve
+<span class='co'># Return model parameters with 95\% confidence intervals</span>
+<span class='kw'>fit</span>[[<span class='fl'>2</span>]]
+</div><div class='output co'>#&gt;           Value Parameter     Curve
 #&gt; b...1  4.466238         b Sigmoidal
 #&gt; a...2 -1.093052         a Sigmoidal
 #&gt; b...3  3.228068         b   Weibull
 #&gt; a...4  4.991601         a   Weibull</div><div class='input'>
-<span class='co'>#Return hydraulic parameters</span>
-<span class='no'>fit</span><span class='kw'>[[</span><span class='fl'>3</span>]]</div><div class='output co'>#&gt;        P25      P50      P88      P95      S50       Pe     Pmax      DSI
+<span class='co'># Return hydraulic parameters</span>
+<span class='kw'>fit</span>[[<span class='fl'>3</span>]]
+</div><div class='output co'>#&gt;        P25      P50      P88      P95      S50       Pe     Pmax      DSI
 #&gt; 1 3.461151 4.466238 6.289053 7.160017 27.32629 2.636498 6.295978 3.659480
 #&gt; 2 3.393285 4.455847 6.300135 7.012168 25.10775 2.464430 6.447264 3.982834
 #&gt;       Curve
 #&gt; 1 Sigmoidal
 #&gt; 2   Weibull</div><div class='input'>
-<span class='co'>#Return graph</span>
-<span class='no'>fit</span><span class='kw'>[[</span><span class='fl'>5</span>]]</div><div class='img'><img src='fit_hydra_vuln_curve-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>#Fit many curves</span>
-<span class='no'>fits</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_many.html'>fit_many</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>,
-                 <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>psi</span> <span class='kw'>=</span> <span class='st'>"P"</span>,
-                                 <span class='kw'>PLC</span> <span class='kw'>=</span> <span class='st'>"PLC"</span>),
-                 <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Tree"</span>,
-                 <span class='kw'>funct</span> <span class='kw'>=</span> <span class='no'>fit_hydra_vuln_curve</span>)</div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |==============                                                        |  20%  |                                                                              |============================                                          |  40%  |                                                                              |==========================================                            |  60%  |                                                                              |========================================================              |  80%  |                                                                              |======================================================================| 100%</div><div class='input'>
-<span class='co'>#To select individuals from the many fits</span>
-<span class='co'>#Return model summary</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>fits</span><span class='kw'>[[</span><span class='fl'>1</span>]]<span class='kw'>[[</span><span class='fl'>1</span>]]) <span class='co'>#Returns model summary</span></div><div class='output co'>#&gt; 
+<span class='co'># Return graph</span>
+<span class='kw'>fit</span>[[<span class='fl'>5</span>]]
+</div><div class='img'><img src='fit_hydra_vuln_curve-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Fit many curves</span>
+<span class='kw'>fits</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fit_many.html'>fit_many</a></span>(
+  data = <span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    psi = <span class='st'>"P"</span>,
+    PLC = <span class='st'>"PLC"</span>
+  ),
+  group = <span class='st'>"Tree"</span>,
+  funct = <span class='kw'>fit_hydra_vuln_curve</span>
+)
+</div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |==============                                                        |  20%  |                                                                              |============================                                          |  40%  |                                                                              |==========================================                            |  60%  |                                                                              |========================================================              |  80%  |                                                                              |======================================================================| 100%</div><div class='input'>
+<span class='co'># To select individuals from the many fits</span>
+<span class='co'># Return model summary</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>fits</span>[[<span class='fl'>1</span>]][[<span class='fl'>1</span>]]) <span class='co'># Returns model summary</span>
+</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = H_log ~ psi, data = data[data$H_log &lt; Inf, ])
 #&gt; 
@@ -278,31 +293,39 @@ Tree Physiology 18:589-593</p>
 #&gt; Multiple R-squared:  0.9304,	Adjusted R-squared:  0.9217 
 #&gt; F-statistic: 106.9 on 1 and 8 DF,  p-value: 6.607e-06
 #&gt; </div><div class='input'>
-<span class='co'>#Return sigmoidal model output</span>
-<span class='no'>fits</span><span class='kw'>[[</span><span class='fl'>1</span>]]<span class='kw'>[[</span><span class='fl'>2</span>]]</div><div class='output co'>#&gt;           Value Parameter     Curve
+<span class='co'># Return sigmoidal model output</span>
+<span class='kw'>fits</span>[[<span class='fl'>1</span>]][[<span class='fl'>2</span>]]
+</div><div class='output co'>#&gt;           Value Parameter     Curve
 #&gt; b...1  4.661514         b Sigmoidal
 #&gt; a...2 -1.043902         a Sigmoidal
 #&gt; b...3  3.433237         b   Weibull
 #&gt; a...4  5.297359         a   Weibull</div><div class='input'>
-<span class='co'>#Return hydraulic parameters</span>
-<span class='no'>fits</span><span class='kw'>[[</span><span class='fl'>1</span>]]<span class='kw'>[[</span><span class='fl'>3</span>]]</div><div class='output co'>#&gt;        P25      P50      P88      P95      S50       Pe     Pmax      DSI
+<span class='co'># Return hydraulic parameters</span>
+<span class='kw'>fits</span>[[<span class='fl'>1</span>]][[<span class='fl'>3</span>]]
+</div><div class='output co'>#&gt;        P25      P50      P88      P95      S50       Pe     Pmax      DSI
 #&gt; 1 3.609104 4.661514 6.570151 7.482123 26.09754 2.745624 6.577403 3.831778
 #&gt; 2 3.685164 4.760983 6.593668 7.292066 24.99209 2.760350 6.761615 4.001265
 #&gt;       Curve
 #&gt; 1 Sigmoidal
 #&gt; 2   Weibull</div><div class='input'>
-<span class='co'>#Return graph</span>
-<span class='no'>fits</span><span class='kw'>[[</span><span class='fl'>1</span>]]<span class='kw'>[[</span><span class='fl'>5</span>]]</div><div class='img'><img src='fit_hydra_vuln_curve-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>#Compile parameter outputs</span>
-<span class='no'>pars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>fits</span>,
-                     <span class='kw'>output_type</span> <span class='kw'>=</span> <span class='st'>"dataframe"</span>,
-                     <span class='kw'>list_element</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='co'># Return graph</span>
+<span class='kw'>fits</span>[[<span class='fl'>1</span>]][[<span class='fl'>5</span>]]
+</div><div class='img'><img src='fit_hydra_vuln_curve-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Compile parameter outputs</span>
+<span class='kw'>pars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(
+  data = <span class='kw'>fits</span>,
+  output_type = <span class='st'>"dataframe"</span>,
+  list_element = <span class='fl'>3</span>
+)
 
-<span class='co'>#Compile graphs</span>
-<span class='no'>graphs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>fits</span>,
-                       <span class='kw'>output_type</span> <span class='kw'>=</span> <span class='st'>"list"</span>,
-                       <span class='kw'>list_element</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='co'># }</span></div></pre>
+<span class='co'># Compile graphs</span>
+<span class='kw'>graphs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(
+  data = <span class='kw'>fits</span>,
+  output_type = <span class='st'>"list"</span>,
+  list_element = <span class='fl'>5</span>
+)
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -318,7 +341,7 @@ Tree Physiology 18:589-593</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

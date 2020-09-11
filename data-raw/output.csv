@@ -1,4 +1,0 @@
-name,description,units
-A,photosynthetic rate at C_chl,umol/m^2/s
-C_chl,chloroplastic CO2 concentration where A_supply intersects A_demand,Pa
-g_tc,total conductance to CO2 at T_leaf,umol/m^2/s/Pa

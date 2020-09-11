@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -139,15 +139,15 @@
     </div>
 
     <pre class="usage"><span class='fu'>print_graphs</span>(
-  <span class='no'>data</span>,
-  <span class='no'>path</span>,
-  <span class='kw'>output_type</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>,
-  <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>600</span>,
-  <span class='kw'>units</span> <span class='kw'>=</span> <span class='st'>"in"</span>,
-  <span class='no'>pdf_filename</span>,
-  <span class='no'>...</span>
+  <span class='kw'>data</span>,
+  <span class='kw'>path</span>,
+  output_type = <span class='st'>"jpeg"</span>,
+  height = <span class='fl'>5</span>,
+  width = <span class='fl'>5</span>,
+  res = <span class='fl'>600</span>,
+  units = <span class='st'>"in"</span>,
+  <span class='kw'>pdf_filename</span>,
+  <span class='kw'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -199,28 +199,33 @@ from a list of graphs</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'>#Read in your data</span>
-<span class='co'>#Note that this data is coming from data supplied by the package</span>
-<span class='co'>#hence the complicated argument in read.csv()</span>
-<span class='co'>#This dataset is a CO2 by light response curve for a single sunflower</span>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_Q_data_1.csv"</span>,
-                             <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"photosynthesis"</span>))
+<span class='co'># Read in your data</span>
+<span class='co'># Note that this data is coming from data supplied by the package</span>
+<span class='co'># hence the complicated argument in read.csv()</span>
+<span class='co'># This dataset is a CO2 by light response curve for a single sunflower</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"A_Ci_Q_data_1.csv"</span>,
+  package = <span class='st'>"photosynthesis"</span>
+))
 
-<span class='co'>#Fit many AQ curves</span>
-<span class='co'>#Set your grouping variable</span>
-<span class='co'>#Here we are grouping by CO2_s and individual</span>
-<span class='no'>data</span>$<span class='no'>C_s</span> <span class='kw'>&lt;-</span>(<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>data</span>$<span class='no'>CO2_s</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>0</span>))
+<span class='co'># Fit many AQ curves</span>
+<span class='co'># Set your grouping variable</span>
+<span class='co'># Here we are grouping by CO2_s and individual</span>
+<span class='kw'>data</span><span class='op'>$</span><span class='kw'>C_s</span> <span class='op'>&lt;-</span> (<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>CO2_s</span>, digits = <span class='fl'>0</span>))
 
-<span class='co'>#For this example we need to round sequentially due to CO2_s setpoints</span>
-<span class='no'>data</span>$<span class='no'>C_s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>data</span>$<span class='no'>C_s</span>, <span class='kw'>digits</span> <span class='kw'>=</span> -<span class='fl'>1</span>))
+<span class='co'># For this example we need to round sequentially due to CO2_s setpoints</span>
+<span class='kw'>data</span><span class='op'>$</span><span class='kw'>C_s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>C_s</span>, digits = <span class='op'>-</span><span class='fl'>1</span>))
 
-<span class='co'>#To fit one AQ curve</span>
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_aq_response.html'>fit_aq_response</a></span>(<span class='no'>data</span>[<span class='no'>data</span>$<span class='no'>C_s</span> <span class='kw'>==</span> <span class='fl'>600</span>,],
-                       <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A"</span>,
-                                       <span class='kw'>PPFD</span> <span class='kw'>=</span> <span class='st'>"Qin"</span>))
+<span class='co'># To fit one AQ curve</span>
+<span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fit_aq_response.html'>fit_aq_response</a></span>(<span class='kw'>data</span>[<span class='kw'>data</span><span class='op'>$</span><span class='kw'>C_s</span> <span class='op'>==</span> <span class='fl'>600</span>, ],
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    A_net = <span class='st'>"A"</span>,
+    PPFD = <span class='st'>"Qin"</span>
+  )
+)
 
-<span class='co'>#Print model summary</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>fit</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; 
+<span class='co'># Print model summary</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>fit</span>[[<span class='fl'>1</span>]])
+</div><div class='output co'>#&gt; 
 #&gt; Formula: A_net ~ aq_response(k_sat, phi_J, Q_abs = data$Q_abs, theta_J) - 
 #&gt;     Rd
 #&gt; 
@@ -238,22 +243,30 @@ from a list of graphs</p>
 #&gt; Number of iterations to convergence: 5 
 #&gt; Achieved convergence tolerance: 1.49e-08
 #&gt; </div><div class='input'>
-<span class='co'>#Print fitted parameters</span>
-<span class='no'>fit</span><span class='kw'>[[</span><span class='fl'>2</span>]]</div><div class='output co'>#&gt;         A_sat      phi_J   theta_J        Rd      LCP  resid_SSs
+<span class='co'># Print fitted parameters</span>
+<span class='kw'>fit</span>[[<span class='fl'>2</span>]]
+</div><div class='output co'>#&gt;         A_sat      phi_J   theta_J        Rd      LCP  resid_SSs
 #&gt; k_sat 21.1672 0.05190746 0.7754836 0.6684953 12.97289 0.01225491</div><div class='input'>
-<span class='co'>#Print graph</span>
-<span class='no'>fit</span><span class='kw'>[[</span><span class='fl'>3</span>]]</div><div class='img'><img src='print_graphs-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>#Fit many curves</span>
-<span class='no'>fits</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_many.html'>fit_many</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>,
-                 <span class='kw'>varnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A_net</span> <span class='kw'>=</span> <span class='st'>"A"</span>,
-                                 <span class='kw'>PPFD</span> <span class='kw'>=</span> <span class='st'>"Qin"</span>,
-                                 <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"C_s"</span>),
-                 <span class='kw'>funct</span> <span class='kw'>=</span> <span class='no'>fit_aq_response</span>,
-                 <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"C_s"</span>)</div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |========                                                              |  11%  |                                                                              |================                                                      |  22%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================                                       |  44%  |                                                                              |=======================================                               |  56%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================                |  78%  |                                                                              |==============================================================        |  89%  |                                                                              |======================================================================| 100%</div><div class='input'>
-<span class='co'>#Look at model summary for a given fit</span>
-<span class='co'>#First set of double parentheses selects an individual group value</span>
-<span class='co'>#Second set selects an element of the sublist</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>fits</span><span class='kw'>[[</span><span class='fl'>3</span>]]<span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; 
+<span class='co'># Print graph</span>
+<span class='kw'>fit</span>[[<span class='fl'>3</span>]]
+</div><div class='output co'>#&gt; <span class='error'>Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,     resolveHJust(x$just, x$hjust), resolveVJust(x$just, x$vjust),     x$rot, 0): polygon edge not found (zero-width or zero-height?)</span></div><div class='img'><img src='print_graphs-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Fit many curves</span>
+<span class='kw'>fits</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fit_many.html'>fit_many</a></span>(
+  data = <span class='kw'>data</span>,
+  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    A_net = <span class='st'>"A"</span>,
+    PPFD = <span class='st'>"Qin"</span>,
+    group = <span class='st'>"C_s"</span>
+  ),
+  funct = <span class='kw'>fit_aq_response</span>,
+  group = <span class='st'>"C_s"</span>
+)
+</div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |========                                                              |  11%  |                                                                              |================                                                      |  22%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================                                       |  44%  |                                                                              |=======================================                               |  56%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================                |  78%  |                                                                              |==============================================================        |  89%  |                                                                              |======================================================================| 100%</div><div class='input'>
+<span class='co'># Look at model summary for a given fit</span>
+<span class='co'># First set of double parentheses selects an individual group value</span>
+<span class='co'># Second set selects an element of the sublist</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>fits</span>[[<span class='fl'>3</span>]][[<span class='fl'>1</span>]])
+</div><div class='output co'>#&gt; 
 #&gt; Formula: A_net ~ aq_response(k_sat, phi_J, Q_abs = data$Q_abs, theta_J) - 
 #&gt;     Rd
 #&gt; 
@@ -271,22 +284,26 @@ from a list of graphs</p>
 #&gt; Number of iterations to convergence: 4 
 #&gt; Achieved convergence tolerance: 1.49e-08
 #&gt; </div><div class='input'>
-<span class='co'>#Print the parameters</span>
-<span class='no'>fits</span><span class='kw'>[[</span><span class='fl'>3</span>]]<span class='kw'>[[</span><span class='fl'>2</span>]]</div><div class='output co'>#&gt;          A_sat      phi_J   theta_J        Rd      LCP  resid_SSs
+<span class='co'># Print the parameters</span>
+<span class='kw'>fits</span>[[<span class='fl'>3</span>]][[<span class='fl'>2</span>]]
+</div><div class='output co'>#&gt;          A_sat      phi_J   theta_J        Rd      LCP  resid_SSs
 #&gt; k_sat 7.347423 0.02719153 0.8377781 0.6152826 22.96322 0.01849038</div><div class='input'>
-<span class='co'>#Print the graph</span>
-<span class='no'>fits</span><span class='kw'>[[</span><span class='fl'>3</span>]]<span class='kw'>[[</span><span class='fl'>3</span>]]</div><div class='img'><img src='print_graphs-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>#Compile graphs into a list for plotting</span>
-<span class='no'>fits_graphs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='no'>fits</span>,
-                            <span class='kw'>list_element</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='co'># Print the graph</span>
+<span class='kw'>fits</span>[[<span class='fl'>3</span>]][[<span class='fl'>3</span>]]
+</div><div class='output co'>#&gt; <span class='error'>Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,     resolveHJust(x$just, x$hjust), resolveVJust(x$just, x$vjust),     x$rot, 0): polygon edge not found (zero-width or zero-height?)</span></div><div class='input'>
+<span class='co'># Compile graphs into a list for plotting</span>
+<span class='kw'>fits_graphs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(<span class='kw'>fits</span>,
+  list_element = <span class='fl'>3</span>
+)
 
-<span class='co'>#Print graphs to pdf</span>
-<span class='co'>#Uncomment to run</span>
-<span class='co'>#print_graphs(data = fits_graphs,</span>
+<span class='co'># Print graphs to pdf</span>
+<span class='co'># Uncomment to run</span>
+<span class='co'># print_graphs(data = fits_graphs,</span>
 <span class='co'>#            output_type = "pdf",</span>
 <span class='co'>#            path = tempdir(),</span>
 <span class='co'>#            pdf_filename = "mygraphs.pdf")</span>
-<span class='co'># }</span></div></pre>
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -302,7 +319,7 @@ from a list of graphs</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

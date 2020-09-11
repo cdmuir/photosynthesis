@@ -46,10 +46,18 @@ to °C.}
 \description{
 'bake' leaf parameters using temperature response functions
 
-Constructor function for \code{baked} class. This will also inherit class \code{\link{leaf_par}}. This function ensures that temperature is "baked in" to leaf parameter calculations \code{T_leaf} using temperature response functions detailed below.
+Constructor function for \code{baked} class. This will also inherit class
+\code{\link{leaf_par}}. This function ensures that temperature is "baked in"
+to leaf parameter calculations \code{T_leaf} using temperature response
+functions detailed below.
 }
 \details{
-Several leaf parameters (\code{\link{leaf_par}}) are temperature sensitive. Temperature-sensitive parameters are input at a reference temperature of 25 °C. These parameters are provided as \code{par_name25} and then "baked" using the appropriate temperature response function and parameters in \code{\link{bake_par}}. The "baked" parameter will have the name without "25" appended (\code{par_name}). E.g. \code{V_cmax25} becomes \code{V_cmax}. \cr
+Several leaf parameters (\code{\link{leaf_par}}) are temperature sensitive.
+Temperature-sensitive parameters are input at a reference temperature of 
+25 °C. These parameters are provided as \code{par_name25} and then "baked"
+using the appropriate temperature response function and parameters in
+\code{\link{bake_par}}. The "baked" parameter will have the name without "25"
+appended (\code{par_name}). E.g. \code{V_cmax25} becomes \code{V_cmax}. \cr
 \cr
 Temperature response functions following Bernacchi et al. 2002. \cr
 \cr
@@ -79,5 +87,8 @@ baked_leafpar$V_cmax25
 baked_leafpar$V_cmax
 }
 \references{
-Bernacchi CJ, Portis AR, Nakano H, von Caemmerer S, Long SP. 2002. Temperature response of mesophyll conductance. Implications for the determination of Rubisco enzyme kinetics and for limitations to photosynthesis in vivo. Plant Physiology 130: 1992-8.
+Bernacchi CJ, Portis AR, Nakano H, von Caemmerer S, Long SP. 2002. 
+Temperature response of mesophyll conductance. Implications for the
+determination of Rubisco enzyme kinetics and for limitations to 
+photosynthesis in vivo. Plant Physiology 130: 1992-8.
 }

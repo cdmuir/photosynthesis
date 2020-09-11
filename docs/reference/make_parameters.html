@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make lists of parameters for <code>photosynthesis</code> — make_parameters • photosynthesis</title>
+<title>Make lists of parameters for photosynthesis — make_parameters • photosynthesis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="Make lists of parameters for <code>photosynthesis</code> — make_parameters" />
+<meta property="og:title" content="Make lists of parameters for photosynthesis — make_parameters" />
 <meta property="og:description" content="Make lists of parameters for photosynthesis
 make_leafpar
 make_enviropar
@@ -84,7 +84,7 @@ make_constants" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -146,13 +146,13 @@ make_constants" />
 <p>make_constants</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_leafpar</span>(<span class='kw'>replace</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>use_tealeaves</span>)
+    <pre class="usage"><span class='fu'>make_leafpar</span>(replace = <span class='kw'>NULL</span>, <span class='kw'>use_tealeaves</span>)
 
-<span class='fu'>make_enviropar</span>(<span class='kw'>replace</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>use_tealeaves</span>)
+<span class='fu'>make_enviropar</span>(replace = <span class='kw'>NULL</span>, <span class='kw'>use_tealeaves</span>)
 
-<span class='fu'>make_bakepar</span>(<span class='kw'>replace</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>make_bakepar</span>(replace = <span class='kw'>NULL</span>)
 
-<span class='fu'>make_constants</span>(<span class='kw'>replace</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>use_tealeaves</span>)</pre>
+<span class='fu'>make_constants</span>(replace = <span class='kw'>NULL</span>, <span class='kw'>use_tealeaves</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -286,17 +286,18 @@ rate into contributions from different variables. Plant, Cell &amp; Environment
 38: 1200-11.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>bake_par</span> <span class='kw'>&lt;-</span> <span class='fu'>make_bakepar</span>()
-<span class='no'>constants</span> <span class='kw'>&lt;-</span> <span class='fu'>make_constants</span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>enviro_par</span> <span class='kw'>&lt;-</span> <span class='fu'>make_enviropar</span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'>make_leafpar</span>(<span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="examples"><div class='input'><span class='kw'>bake_par</span> <span class='op'>&lt;-</span> <span class='fu'>make_bakepar</span>()
+<span class='kw'>constants</span> <span class='op'>&lt;-</span> <span class='fu'>make_constants</span>(use_tealeaves = <span class='fl'>FALSE</span>)
+<span class='kw'>enviro_par</span> <span class='op'>&lt;-</span> <span class='fu'>make_enviropar</span>(use_tealeaves = <span class='fl'>FALSE</span>)
+<span class='kw'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'>make_leafpar</span>(use_tealeaves = <span class='fl'>FALSE</span>)
 
-<span class='no'>leaf_par</span> <span class='kw'>&lt;-</span> <span class='fu'>make_leafpar</span>(
-  <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-    <span class='kw'>g_sc</span> <span class='kw'>=</span> <span class='fu'>set_units</span>(<span class='fl'>3</span>, <span class='st'>"umol/m^2/s/Pa"</span>),
-    <span class='kw'>V_cmax25</span> <span class='kw'>=</span> <span class='fu'>set_units</span>(<span class='fl'>100</span>, <span class='st'>"umol/m^2/s"</span>)
-  ), <span class='kw'>use_tealeaves</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</div></pre>
+<span class='kw'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'>make_leafpar</span>(
+  replace = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    g_sc = <span class='fu'>set_units</span>(<span class='fl'>3</span>, <span class='st'>"umol/m^2/s/Pa"</span>),
+    V_cmax25 = <span class='fu'>set_units</span>(<span class='fl'>100</span>, <span class='st'>"umol/m^2/s"</span>)
+  ), use_tealeaves = <span class='fl'>FALSE</span>
+)
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -312,7 +313,7 @@ rate into contributions from different variables. Plant, Cell &amp; Environment
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
