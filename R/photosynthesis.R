@@ -108,7 +108,7 @@ photosynthesis <- function(leaf_par, enviro_par, bake_par, constants,
                            use_tealeaves, progress = TRUE, quiet = FALSE,
                            assert_units = TRUE, parallel = FALSE) {
   T_air <- NULL
-  if (!use_tealeaves & !is.null(enviro_par$T_air)) {
+  if (!use_tealeaves && !is.null(enviro_par$T_air)) {
     if (!quiet) {
       message(glue::glue("Both air and leaf temperature are provided and fixed: T_air = {T_air}; T_leaf = {T_leaf}",
         T_air = enviro_par$T_air,
@@ -247,7 +247,7 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
 
   if (parallel) future::plan("multisession")
 
-  if (progress & !parallel) pb <- dplyr::progress_estimated(nrow(par_sets))
+  if (progress && !parallel) pb <- dplyr::progress_estimated(nrow(par_sets))
 
   soln <- suppressWarnings(
     par_sets %>%
@@ -259,7 +259,7 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
           constants = constants, use_tealeaves = FALSE, quiet = TRUE,
           assert_units = FALSE, check = FALSE, prepare_for_tleaf = FALSE
         )
-        if (progress & !parallel) pb$tick()$print()
+        if (progress && !parallel) pb$tick()$print()
         ret
       }, .progress = progress) %>%
       dplyr::select_at(
@@ -316,7 +316,7 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
   }
 
   T_air <- NULL
-  if (!use_tealeaves & !is.null(enviro_par$T_air)) {
+  if (!use_tealeaves && !is.null(enviro_par$T_air)) {
     if (!quiet) {
       message(glue::glue("Both air and leaf temperature are provided and fixed: T_air = {T_air}; T_leaf = {T_leaf}",
         T_air = enviro_par$T_air,
@@ -368,7 +368,7 @@ photo <- function(leaf_par, enviro_par, bake_par, constants,
 
   pars <- c(leaf_par, enviro_par, constants) %>%
     purrr::map_if(~ inherits(.x, "units"), drop_units)
-  if (!use_tealeaves & is.null(pars$T_air)) pars$T_air <- pars$T_leaf
+  if (!use_tealeaves && is.null(pars$T_air)) pars$T_air <- pars$T_leaf
 
   # Find intersection between photosynthetic supply and demand curves -----
   soln <- find_A(pars, quiet)
