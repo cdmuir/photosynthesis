@@ -84,7 +84,7 @@ functions detailed below." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9999</span>
       </span>
     </div>
 
@@ -119,7 +119,12 @@ functions detailed below." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/cdmuir/photosynthesis/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -134,7 +139,7 @@ functions detailed below." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Leaf parameter temperature responses</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/cdmuir/photosynthesis/blob/master/R/bake.R'><code>R/bake.R</code></a></small>
     <div class="hidden name"><code>bake.Rd</code></div>
     </div>
 
@@ -146,11 +151,11 @@ to leaf parameter calculations <code>T_leaf</code> using temperature response
 functions detailed below.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bake</span>(<span class='kw'>leaf_par</span>, <span class='kw'>bake_par</span>, <span class='kw'>constants</span>, assert_units = <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>bake</span><span class='op'>(</span><span class='va'>leaf_par</span>, <span class='va'>bake_par</span>, <span class='va'>constants</span>, assert_units <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>temp_resp1</span>(<span class='kw'>par25</span>, <span class='kw'>E_a</span>, <span class='kw'>R</span>, <span class='kw'>T_leaf</span>, <span class='kw'>T_ref</span>, <span class='kw'>unitless</span>)
+<span class='fu'>temp_resp1</span><span class='op'>(</span><span class='va'>par25</span>, <span class='va'>E_a</span>, <span class='va'>R</span>, <span class='va'>T_leaf</span>, <span class='va'>T_ref</span>, <span class='va'>unitless</span><span class='op'>)</span>
 
-<span class='fu'>temp_resp2</span>(<span class='kw'>par25</span>, <span class='kw'>D_s</span>, <span class='kw'>E_a</span>, <span class='kw'>E_d</span>, <span class='kw'>R</span>, <span class='kw'>T_leaf</span>, <span class='kw'>T_ref</span>, <span class='kw'>unitless</span>)</pre>
+<span class='fu'>temp_resp2</span><span class='op'>(</span><span class='va'>par25</span>, <span class='va'>D_s</span>, <span class='va'>E_a</span>, <span class='va'>E_d</span>, <span class='va'>R</span>, <span class='va'>T_leaf</span>, <span class='va'>T_ref</span>, <span class='va'>unitless</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -237,16 +242,16 @@ determination of Rubisco enzyme kinetics and for limitations to
 photosynthesis in vivo. Plant Physiology 130: 1992-8.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>bake_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span>()
-<span class='kw'>constants</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span>(use_tealeaves = <span class='fl'>FALSE</span>)
-<span class='kw'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(
-  replace = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(T_leaf = <span class='fu'>set_units</span>(<span class='fl'>293.15</span>, <span class='st'>"K"</span>)),
-  use_tealeaves = <span class='fl'>FALSE</span>
-)
-<span class='kw'>baked_leafpar</span> <span class='op'>&lt;-</span> <span class='fu'>bake</span>(<span class='kw'>leaf_par</span>, <span class='kw'>bake_par</span>, <span class='kw'>constants</span>)
+    <pre class="examples"><div class='input'><span class='va'>bake_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>constants</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span><span class='op'>(</span>use_tealeaves <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span><span class='op'>(</span>
+  replace <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>T_leaf <span class='op'>=</span> <span class='fu'>set_units</span><span class='op'>(</span><span class='fl'>293.15</span>, <span class='st'>"K"</span><span class='op'>)</span><span class='op'>)</span>,
+  use_tealeaves <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
+<span class='va'>baked_leafpar</span> <span class='op'>&lt;-</span> <span class='fu'>bake</span><span class='op'>(</span><span class='va'>leaf_par</span>, <span class='va'>bake_par</span>, <span class='va'>constants</span><span class='op'>)</span>
 
-<span class='kw'>baked_leafpar</span><span class='op'>$</span><span class='kw'>V_cmax25</span>
-</div><div class='output co'>#&gt; 150 [umol/m^2/s]</div><div class='input'><span class='kw'>baked_leafpar</span><span class='op'>$</span><span class='kw'>V_cmax</span>
+<span class='va'>baked_leafpar</span><span class='op'>$</span><span class='va'>V_cmax25</span>
+</div><div class='output co'>#&gt; 150 [umol/m^2/s]</div><div class='input'><span class='va'>baked_leafpar</span><span class='op'>$</span><span class='va'>V_cmax</span>
 </div><div class='output co'>#&gt; 104.7069 [umol/m^2/s]</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -263,7 +268,7 @@ photosynthesis in vivo. Plant Physiology 130: 1992-8.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

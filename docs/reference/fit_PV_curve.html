@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9999</span>
       </span>
     </div>
 
@@ -115,7 +115,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/cdmuir/photosynthesis/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -130,7 +135,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Fitting pressure-volume curves</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/cdmuir/photosynthesis/blob/master/R/fit_PV_curve.R'><code>R/fit_PV_curve.R</code></a></small>
     <div class="hidden name"><code>fit_PV_curve.Rd</code></div>
     </div>
 
@@ -138,12 +143,12 @@
     <p>Fitting pressure-volume curves</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fit_PV_curve</span>(
-  <span class='kw'>data</span>,
-  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(psi = <span class='st'>"psi"</span>, mass = <span class='st'>"mass"</span>, leaf_mass = <span class='st'>"leaf_mass"</span>, bag_mass =
-    <span class='st'>"bag_mass"</span>, leaf_area = <span class='st'>"leaf_area"</span>),
-  title = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>fit_PV_curve</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  varnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>psi <span class='op'>=</span> <span class='st'>"psi"</span>, mass <span class='op'>=</span> <span class='st'>"mass"</span>, leaf_mass <span class='op'>=</span> <span class='st'>"leaf_mass"</span>, bag_mass <span class='op'>=</span>
+    <span class='st'>"bag_mass"</span>, leaf_area <span class='op'>=</span> <span class='st'>"leaf_area"</span><span class='op'>)</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,74 +200,74 @@ Botany, 23, 267</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># Read in data</span>
-<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"PV_curve.csv"</span>,
-  package = <span class='st'>"photosynthesis"</span>
-))
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"PV_curve.csv"</span>,
+  package <span class='op'>=</span> <span class='st'>"photosynthesis"</span>
+<span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># Fit one PV curve</span>
-<span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'>fit_PV_curve</span>(<span class='kw'>data</span>[<span class='kw'>data</span><span class='op'>$</span><span class='kw'>ID</span> <span class='op'>==</span> <span class='st'>"L2"</span>, ],
-  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-    psi = <span class='st'>"psi"</span>,
-    mass = <span class='st'>"mass"</span>,
-    leaf_mass = <span class='st'>"leaf_mass"</span>,
-    bag_mass = <span class='st'>"bag_mass"</span>,
-    leaf_area = <span class='st'>"leaf_area"</span>
-  )
-)
+<span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'>fit_PV_curve</span><span class='op'>(</span><span class='va'>data</span><span class='op'>[</span><span class='va'>data</span><span class='op'>$</span><span class='va'>ID</span> <span class='op'>==</span> <span class='st'>"L2"</span>, <span class='op'>]</span>,
+  varnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    psi <span class='op'>=</span> <span class='st'>"psi"</span>,
+    mass <span class='op'>=</span> <span class='st'>"mass"</span>,
+    leaf_mass <span class='op'>=</span> <span class='st'>"leaf_mass"</span>,
+    bag_mass <span class='op'>=</span> <span class='st'>"bag_mass"</span>,
+    leaf_area <span class='op'>=</span> <span class='st'>"leaf_area"</span>
+  <span class='op'>)</span>
+<span class='op'>)</span>
 
 <span class='co'># See fitted parameters</span>
-<span class='kw'>fit</span>[[<span class='fl'>1</span>]]
+<span class='va'>fit</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
 </div><div class='output co'>#&gt;        SWC      PI_o psi_TLP  RWC_TLP      eps       C_FT      C_TLP  C_FTStar
 #&gt; 1 2.438935 -1.399302   -1.75 88.67684 12.20175 0.06456207 0.09923338 0.5161476</div><div class='input'>
 <span class='co'># Plot water mass graph</span>
-<span class='kw'>fit</span>[[<span class='fl'>2</span>]]
+<span class='va'>fit</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
 </div><div class='img'><img src='fit_PV_curve-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Plot PV Curve</span>
-<span class='kw'>fit</span>[[<span class='fl'>3</span>]]
-</div><div class='output co'>#&gt; <span class='error'>Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,     resolveHJust(x$just, x$hjust), resolveVJust(x$just, x$vjust),     x$rot, 0): polygon edge not found (zero-width or zero-height?)</span></div><div class='img'><img src='fit_PV_curve-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>fit</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span>
+</div><div class='img'><img src='fit_PV_curve-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Fit all PV curves in a file</span>
-<span class='kw'>fits</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fit_many.html'>fit_many</a></span>(<span class='kw'>data</span>,
-  group = <span class='st'>"ID"</span>,
-  funct = <span class='kw'>fit_PV_curve</span>,
-  varnames = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-    psi = <span class='st'>"psi"</span>,
-    mass = <span class='st'>"mass"</span>,
-    leaf_mass = <span class='st'>"leaf_mass"</span>,
-    bag_mass = <span class='st'>"bag_mass"</span>,
-    leaf_area = <span class='st'>"leaf_area"</span>
-  )
-)
+<span class='va'>fits</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fit_many.html'>fit_many</a></span><span class='op'>(</span><span class='va'>data</span>,
+  group <span class='op'>=</span> <span class='st'>"ID"</span>,
+  funct <span class='op'>=</span> <span class='va'>fit_PV_curve</span>,
+  varnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    psi <span class='op'>=</span> <span class='st'>"psi"</span>,
+    mass <span class='op'>=</span> <span class='st'>"mass"</span>,
+    leaf_mass <span class='op'>=</span> <span class='st'>"leaf_mass"</span>,
+    bag_mass <span class='op'>=</span> <span class='st'>"bag_mass"</span>,
+    leaf_area <span class='op'>=</span> <span class='st'>"leaf_area"</span>
+  <span class='op'>)</span>
+<span class='op'>)</span>
 </div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</div><div class='input'>
 <span class='co'># See parameters</span>
-<span class='kw'>fits</span>[[<span class='fl'>1</span>]][[<span class='fl'>1</span>]]
+<span class='va'>fits</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
 </div><div class='output co'>#&gt;        SWC      PI_o psi_TLP  RWC_TLP      eps       C_FT      C_TLP  C_FTStar
 #&gt; 1 2.438935 -1.399302   -1.75 88.67684 12.20175 0.06456207 0.09923338 0.5161476</div><div class='input'>
 <span class='co'># See water mass - water potential graph</span>
-<span class='kw'>fits</span>[[<span class='fl'>1</span>]][[<span class='fl'>2</span>]]
-
+<span class='va'>fits</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
+</div><div class='img'><img src='fit_PV_curve-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># See PV curve</span>
-<span class='kw'>fits</span>[[<span class='fl'>1</span>]][[<span class='fl'>3</span>]]
-</div><div class='output co'>#&gt; <span class='error'>Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,     resolveHJust(x$just, x$hjust), resolveVJust(x$just, x$vjust),     x$rot, 0): polygon edge not found (zero-width or zero-height?)</span></div><div class='input'>
+<span class='va'>fits</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span>
+</div><div class='img'><img src='fit_PV_curve-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Compile parameter outputs</span>
-<span class='kw'>pars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(
-  data = <span class='kw'>fits</span>,
-  output_type = <span class='st'>"dataframe"</span>,
-  list_element = <span class='fl'>1</span>
-)
+<span class='va'>pars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span><span class='op'>(</span>
+  data <span class='op'>=</span> <span class='va'>fits</span>,
+  output_type <span class='op'>=</span> <span class='st'>"dataframe"</span>,
+  list_element <span class='op'>=</span> <span class='fl'>1</span>
+<span class='op'>)</span>
 
 <span class='co'># Compile the water mass - water potential graphs</span>
-<span class='kw'>graphs1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(
-  data = <span class='kw'>fits</span>,
-  output_type = <span class='st'>"list"</span>,
-  list_element = <span class='fl'>2</span>
-)
+<span class='va'>graphs1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span><span class='op'>(</span>
+  data <span class='op'>=</span> <span class='va'>fits</span>,
+  output_type <span class='op'>=</span> <span class='st'>"list"</span>,
+  list_element <span class='op'>=</span> <span class='fl'>2</span>
+<span class='op'>)</span>
 
 <span class='co'># Compile the PV graphs</span>
-<span class='kw'>graphs2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span>(
-  data = <span class='kw'>fits</span>,
-  output_type = <span class='st'>"list"</span>,
-  list_element = <span class='fl'>3</span>
-)
+<span class='va'>graphs2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compile_data.html'>compile_data</a></span><span class='op'>(</span>
+  data <span class='op'>=</span> <span class='va'>fits</span>,
+  output_type <span class='op'>=</span> <span class='st'>"list"</span>,
+  list_element <span class='op'>=</span> <span class='fl'>3</span>
+<span class='op'>)</span>
 <span class='co'># }</span>
 </div></pre>
   </div>
@@ -280,7 +285,7 @@ Botany, 23, 267</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

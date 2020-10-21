@@ -1,6 +1,8 @@
-pandoc: 2.7.3
-pkgdown: 1.6.0
+pandoc: 2.10.1
+pkgdown: 1.6.1
 pkgdown_sha: ~
-articles: []
-last_built: 2020-09-11T08:01Z
+articles:
+  photosynthesis-curve-fitting-sensitivity-analyses: photosynthesis-curve-fitting-sensitivity-analyses.html
+  photosynthesis-introduction: photosynthesis-introduction.html
+last_built: 2020-10-21T17:00Z
 

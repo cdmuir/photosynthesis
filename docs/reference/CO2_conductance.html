@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9999</span>
       </span>
     </div>
 
@@ -120,7 +120,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/cdmuir/photosynthesis/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -135,7 +140,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Conductance to CO2 (umol / (m^2 s Pa))</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/cdmuir/photosynthesis/blob/master/R/conductance.R'><code>R/conductance.R</code></a></small>
     <div class="hidden name"><code>CO2_conductance.Rd</code></div>
     </div>
 
@@ -148,15 +153,15 @@
 <p>- g_sc: stomatal conductance to CO2</p>
     </div>
 
-    <pre class="usage"><span class='fu'>.get_gtc</span>(<span class='kw'>pars</span>, <span class='kw'>unitless</span>)
+    <pre class="usage"><span class='fu'>.get_gtc</span><span class='op'>(</span><span class='va'>pars</span>, <span class='va'>unitless</span><span class='op'>)</span>
 
-<span class='fu'>.get_guc</span>(<span class='kw'>pars</span>, <span class='kw'>surface</span>, <span class='kw'>unitless</span>)
+<span class='fu'>.get_guc</span><span class='op'>(</span><span class='va'>pars</span>, <span class='va'>surface</span>, <span class='va'>unitless</span><span class='op'>)</span>
 
-<span class='fu'>.get_gbc</span>(<span class='kw'>pars</span>, <span class='kw'>surface</span>, <span class='kw'>unitless</span>)
+<span class='fu'>.get_gbc</span><span class='op'>(</span><span class='va'>pars</span>, <span class='va'>surface</span>, <span class='va'>unitless</span><span class='op'>)</span>
 
-<span class='fu'>.get_gmc</span>(<span class='kw'>pars</span>, <span class='kw'>surface</span>, <span class='kw'>unitless</span>)
+<span class='fu'>.get_gmc</span><span class='op'>(</span><span class='va'>pars</span>, <span class='va'>surface</span>, <span class='va'>unitless</span><span class='op'>)</span>
 
-<span class='fu'>.get_gsc</span>(<span class='kw'>pars</span>, <span class='kw'>surface</span>, <span class='kw'>unitless</span>)</pre>
+<span class='fu'>.get_gsc</span><span class='op'>(</span><span class='va'>pars</span>, <span class='va'>surface</span>, <span class='va'>unitless</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -228,7 +233,7 @@ $$g_x = g_{x,\mathrm{lower}} + g_{x,\mathrm{upper}}$$</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

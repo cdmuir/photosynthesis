@@ -81,7 +81,7 @@ photo: simulate C3 photosynthesis over a single parameter set" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9999</span>
       </span>
     </div>
 
@@ -116,7 +116,12 @@ photo: simulate C3 photosynthesis over a single parameter set" />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/cdmuir/photosynthesis/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -131,7 +136,7 @@ photo: simulate C3 photosynthesis over a single parameter set" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Simulate C3 photosynthesis</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/cdmuir/photosynthesis/blob/master/R/photosynthesis.R'><code>R/photosynthesis.R</code></a></small>
     <div class="hidden name"><code>photosynthesis.Rd</code></div>
     </div>
 
@@ -140,29 +145,29 @@ photo: simulate C3 photosynthesis over a single parameter set" />
 <p><code>photo</code>: simulate C3 photosynthesis over a single parameter set</p>
     </div>
 
-    <pre class="usage"><span class='fu'>photosynthesis</span>(
-  <span class='kw'>leaf_par</span>,
-  <span class='kw'>enviro_par</span>,
-  <span class='kw'>bake_par</span>,
-  <span class='kw'>constants</span>,
-  <span class='kw'>use_tealeaves</span>,
-  progress = <span class='fl'>TRUE</span>,
-  quiet = <span class='fl'>FALSE</span>,
-  assert_units = <span class='fl'>TRUE</span>,
-  parallel = <span class='fl'>FALSE</span>
-)
+    <pre class="usage"><span class='fu'>photosynthesis</span><span class='op'>(</span>
+  <span class='va'>leaf_par</span>,
+  <span class='va'>enviro_par</span>,
+  <span class='va'>bake_par</span>,
+  <span class='va'>constants</span>,
+  <span class='va'>use_tealeaves</span>,
+  progress <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  quiet <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  assert_units <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  parallel <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
-<span class='fu'>photo</span>(
-  <span class='kw'>leaf_par</span>,
-  <span class='kw'>enviro_par</span>,
-  <span class='kw'>bake_par</span>,
-  <span class='kw'>constants</span>,
-  <span class='kw'>use_tealeaves</span>,
-  quiet = <span class='fl'>FALSE</span>,
-  assert_units = <span class='fl'>TRUE</span>,
-  check = <span class='fl'>TRUE</span>,
-  prepare_for_tleaf = <span class='kw'>use_tealeaves</span>
-)</pre>
+<span class='fu'>photo</span><span class='op'>(</span>
+  <span class='va'>leaf_par</span>,
+  <span class='va'>enviro_par</span>,
+  <span class='va'>bake_par</span>,
+  <span class='va'>constants</span>,
+  <span class='va'>use_tealeaves</span>,
+  quiet <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  assert_units <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  check <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  prepare_for_tleaf <span class='op'>=</span> <span class='va'>use_tealeaves</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -271,13 +276,13 @@ photo: simulate C3 photosynthesis over a single parameter set" />
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Single parameter set with 'photo'</span>
 
-<span class='kw'>bake_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span>()
-<span class='kw'>constants</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span>(use_tealeaves = <span class='fl'>FALSE</span>)
-<span class='kw'>enviro_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>(use_tealeaves = <span class='fl'>FALSE</span>)
-<span class='kw'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(use_tealeaves = <span class='fl'>FALSE</span>)
-<span class='fu'>photo</span>(<span class='kw'>leaf_par</span>, <span class='kw'>enviro_par</span>, <span class='kw'>bake_par</span>, <span class='kw'>constants</span>,
-  use_tealeaves = <span class='fl'>FALSE</span>
-)
+<span class='va'>bake_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>constants</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span><span class='op'>(</span>use_tealeaves <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>enviro_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span><span class='op'>(</span>use_tealeaves <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span><span class='op'>(</span>use_tealeaves <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'>photo</span><span class='op'>(</span><span class='va'>leaf_par</span>, <span class='va'>enviro_par</span>, <span class='va'>bake_par</span>, <span class='va'>constants</span>,
+  use_tealeaves <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'></span>
 #&gt; <span class='message'>Solving for C_chl ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'> done</span><span></span></div><div class='output co'>#&gt;           C_chl        value convergence                     g_tc
 #&gt; 1 24.52925 [Pa] -1.09648e-06           0 1.668765 [umol/m^2/Pa/s]
@@ -293,14 +298,14 @@ photo: simulate C3 photosynthesis over a single parameter set" />
 #&gt; 1 21.27565 [kPa] 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 2 [m/s]</div><div class='input'>
 <span class='co'># Multiple parameter sets with 'photosynthesis'</span>
 
-<span class='kw'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(
-  replace = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-    T_leaf = <span class='fu'>set_units</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>293.14</span>, <span class='fl'>298.15</span>), <span class='st'>"K"</span>)
-  ), use_tealeaves = <span class='fl'>FALSE</span>
-)
-<span class='fu'>photosynthesis</span>(<span class='kw'>leaf_par</span>, <span class='kw'>enviro_par</span>, <span class='kw'>bake_par</span>, <span class='kw'>constants</span>,
-  use_tealeaves = <span class='fl'>FALSE</span>
-)
+<span class='va'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span><span class='op'>(</span>
+  replace <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    T_leaf <span class='op'>=</span> <span class='fu'>set_units</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>293.14</span>, <span class='fl'>298.15</span><span class='op'>)</span>, <span class='st'>"K"</span><span class='op'>)</span>
+  <span class='op'>)</span>, use_tealeaves <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
+<span class='fu'>photosynthesis</span><span class='op'>(</span><span class='va'>leaf_par</span>, <span class='va'>enviro_par</span>, <span class='va'>bake_par</span>, <span class='va'>constants</span>,
+  use_tealeaves <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>Solving for photosynthetic rate from 2 parameter sets ...</span><span></span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘purrr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:magrittr’:</span>
 #&gt; <span class='message'></span>
@@ -343,7 +348,7 @@ photo: simulate C3 photosynthesis over a single parameter set" />
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

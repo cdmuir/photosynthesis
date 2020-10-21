@@ -245,8 +245,6 @@ find_As <- function(par_sets, bake_par, constants, par_units, progress, quiet,
       message(appendLF = FALSE)
   }
 
-  if (parallel) future::plan("multisession")
-
   if (progress && !parallel) pb <- dplyr::progress_estimated(nrow(par_sets))
 
   soln <- suppressWarnings(

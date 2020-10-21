@@ -130,9 +130,11 @@ ph %>%
 
 ## Parallel processing
 
-It can take a little while to simulate many different parameter sets. If you have multiple processors available, you can speed things up by running simulations in parallel. In the `photosynthesis` function, simply use the `parallel = TRUE` argument to simulate in parallel. Here I'll provide an example simulating an A-Cc curve.
+It can take a little while to simulate many different parameter sets. If you have multiple processors available, you can speed things up by running simulations in parallel. In the `photosynthesis` function, simply use the `parallel = TRUE` argument to simulate in parallel. You'll need to set up a **future** `plan()`. See `?future::plan` for more detail. Here I'll provide an example simulating an $A-C_c$ curve.
 
 ```{r, parallel-example}
+
+future::plan("multisession") # Set up plan
 
 # We'll use the `replace` argument to enter multiple atmospheric CO2 concentrations
 

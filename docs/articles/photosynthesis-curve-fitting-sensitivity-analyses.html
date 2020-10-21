@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9999</span>
       </span>
     </div>
 
@@ -72,7 +72,14 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/cdmuir/photosynthesis/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -82,15 +89,15 @@
 
       
 
-      </header><script src="photosynthesis-curve-fitting-sensitivity-analyses_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="photosynthesis-curve-fitting-sensitivity-analyses_files/header-attrs-2.4/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>photosynthesis-curve-fitting-sensitivity-analyses</h1>
                         <h4 class="author">Joseph R. Stinziano</h4>
             
-            <h4 class="date">2020-09-10</h4>
+            <h4 class="date">2020-10-21</h4>
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/cdmuir/photosynthesis/blob/master/vignettes/photosynthesis-curve-fitting-sensitivity-analyses.Rmd"><code>vignettes/photosynthesis-curve-fitting-sensitivity-analyses.Rmd</code></a></small>
       <div class="hidden name"><code>photosynthesis-curve-fitting-sensitivity-analyses.Rmd</code></div>
 
     </div>
@@ -133,16 +140,14 @@
 <span class="co">#install_github("jstinzi/photosynthesis")</span>
 
 <span class="co">#Load package</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">photosynthesis</span>)
-</pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cdmuir/photosynthesis">photosynthesis</a></span><span class="op">)</span></pre></div>
 <pre><code>## Loading required package: ggplot2</code></pre>
 <pre><code>## Loading required package: minpack.lm</code></pre>
 <pre><code>## Loading required package: units</code></pre>
 <pre><code>## udunits system database from /usr/local/share/udunits</code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="co">#To cite, use:</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="st">"photosynthesis"</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">"photosynthesis"</span><span class="op">)</span></pre></div>
 <pre><code>## It is recommended to use 'given' instead of 'middle'.</code></pre>
 <pre><code>## It is recommended to use 'given' instead of 'middle'.</code></pre>
 <pre><code>## 
@@ -164,8 +169,7 @@
 ##   }</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="co">#Load tidyr - needed for vignette manipulations</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://tidyr.tidyverse.org">tidyr</a></span>)
-</pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span></pre></div>
 <p>#Reading Li-Cor data</p>
 <p>If you are trying to read in the raw data files of the Li-Cor 6400 or 6800 models, you can use the package RLicor by Erik Erhardt available on Github.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
@@ -177,8 +181,7 @@
 <span class="co">#?read_Licor</span>
 
 <span class="co">#To cite, use:</span>
-<span class="co">#citation("RLicor")</span>
-</pre></div>
+<span class="co">#citation("RLicor")</span></pre></div>
 <p>#1. Fitting light response curves</p>
 <p>This package currently only implements the Marshall et al. 1980 non-rectangular hyperbola model of the photosynthetic light response.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
@@ -188,26 +191,25 @@
 <span class="co">#This dataset is a CO2 by light response curve for a single sunflower</span>
 <span class="co">#Note that to read in your own data, you will need to delete the</span>
 <span class="co">#system.file() function, otherwise you will get an error</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"A_Ci_Q_data_1.csv"</span>,
-                             package = <span class="st">"photosynthesis"</span>))
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"A_Ci_Q_data_1.csv"</span>,
+                             package <span class="op">=</span> <span class="st">"photosynthesis"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#Fit many AQ curves</span>
 <span class="co">#Set your grouping variable</span>
 <span class="co">#Here we are grouping by CO2_s and individual</span>
-<span class="kw">data</span><span class="op">$</span><span class="kw">C_s</span> <span class="op">&lt;-</span>(<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">data</span><span class="op">$</span><span class="kw">CO2_s</span>, digits = <span class="fl">0</span>))
+<span class="va">data</span><span class="op">$</span><span class="va">C_s</span> <span class="op">&lt;-</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">CO2_s</span>, digits <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#For this example we need to round sequentially due to CO2_s setpoints</span>
-<span class="kw">data</span><span class="op">$</span><span class="kw">C_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">data</span><span class="op">$</span><span class="kw">C_s</span>, digits = <span class="op">-</span><span class="fl">1</span>))
+<span class="va">data</span><span class="op">$</span><span class="va">C_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">C_s</span>, digits <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#To fit one AQ curve</span>
-<span class="kw">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_aq_response.html">fit_aq_response</a></span>(<span class="kw">data</span>[<span class="kw">data</span><span class="op">$</span><span class="kw">C_s</span> <span class="op">==</span> <span class="fl">600</span>,],
-                       varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(A_net = <span class="st">"A"</span>,
-                                         PPFD = <span class="st">"Qin"</span>,
-                                       Q_cut = <span class="fl">250</span>))
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_aq_response.html">fit_aq_response</a></span><span class="op">(</span><span class="va">data</span><span class="op">[</span><span class="va">data</span><span class="op">$</span><span class="va">C_s</span> <span class="op">==</span> <span class="fl">600</span>,<span class="op">]</span>,
+                       varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>A_net <span class="op">=</span> <span class="st">"A"</span>,
+                                         PPFD <span class="op">=</span> <span class="st">"Qin"</span>,
+                                       Q_cut <span class="op">=</span> <span class="fl">250</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#Print model summary</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">fit</span>[[<span class="fl">1</span>]])
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></pre></div>
 <pre><code>## 
 ## Formula: A_net ~ aq_response(k_sat, phi_J, Q_abs = data$Q_abs, theta_J) - 
 ##     Rd
@@ -227,24 +229,21 @@
 ## Achieved convergence tolerance: 1.49e-08</code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="co">#Print fitted parameters</span>
-<span class="kw">fit</span>[[<span class="fl">2</span>]]
-</pre></div>
+<span class="va">fit</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></pre></div>
 <pre><code>##         A_sat      phi_J   theta_J        Rd      LCP  resid_SSs
 ## k_sat 21.1672 0.05190746 0.7754836 0.6684953 12.97289 0.01225491</code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit">
 <span class="co">#Print graph</span>
-<span class="kw">fit</span>[[<span class="fl">3</span>]]
-</pre></div>
+<span class="va">fit</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <div class="sourceCode" id="cb17"><pre class="downlit">
 <span class="co">#Fit many curves</span>
-<span class="kw">fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span>(data = <span class="kw">data</span>,
-                 varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(A_net = <span class="st">"A"</span>,
-                                         PPFD = <span class="st">"Qin"</span>,
-                                         group = <span class="st">"C_s"</span>),
-                 funct = <span class="kw">fit_aq_response</span>,
-                 group = <span class="st">"C_s"</span>)
-</pre></div>
+<span class="va">fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
+                 varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>A_net <span class="op">=</span> <span class="st">"A"</span>,
+                                         PPFD <span class="op">=</span> <span class="st">"Qin"</span>,
+                                         group <span class="op">=</span> <span class="st">"C_s"</span><span class="op">)</span>,
+                 funct <span class="op">=</span> <span class="va">fit_aq_response</span>,
+                 group <span class="op">=</span> <span class="st">"C_s"</span><span class="op">)</span></pre></div>
 <pre><code>## 
   |                                                                            
   |                                                                      |   0%
@@ -270,8 +269,7 @@
 <span class="co">#Look at model summary for a given fit</span>
 <span class="co">#First set of double parentheses selects an individual group value</span>
 <span class="co">#Second set selects an element of the sublist</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">fits</span>[[<span class="fl">3</span>]][[<span class="fl">1</span>]])
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fits</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></pre></div>
 <pre><code>## 
 ## Formula: A_net ~ aq_response(k_sat, phi_J, Q_abs = data$Q_abs, theta_J) - 
 ##     Rd
@@ -291,19 +289,17 @@
 ## Achieved convergence tolerance: 1.49e-08</code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit">
 <span class="co">#Print the parameters</span>
-<span class="kw">fits</span>[[<span class="fl">2</span>]][[<span class="fl">2</span>]]
-</pre></div>
+<span class="va">fits</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></pre></div>
 <pre><code>##          A_sat      phi_J   theta_J        Rd      LCP  resid_SSs
 ## k_sat 2.637157 0.01458002 0.8858892 0.5951635 42.17813 0.02446394</code></pre>
 <div class="sourceCode" id="cb23"><pre class="downlit">
 <span class="co">#Print the graph</span>
-<span class="kw">fits</span>[[<span class="fl">3</span>]][[<span class="fl">3</span>]]
-</pre></div>
+<span class="va">fits</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-3-2.png" width="700"></p>
 <div class="sourceCode" id="cb24"><pre class="downlit">
 <span class="co">#Compile graphs into a list for plotting</span>
-<span class="kw">fits_graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span>(<span class="kw">fits</span>,
-                            list_element = <span class="fl">3</span>)
+<span class="va">fits_graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span><span class="va">fits</span>,
+                            list_element <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 
 <span class="co">#Print graphs to jpeg</span>
 <span class="co">#print_graphs(data = fits_graphs,</span>
@@ -311,10 +307,9 @@
 <span class="co">#             output_type = "jpeg")</span>
 
 <span class="co">#Compile parameters into dataframe for analysis</span>
-<span class="kw">fits_pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span>(<span class="kw">fits</span>,
-                          output_type = <span class="st">"dataframe"</span>,
-                          list_element = <span class="fl">2</span>)
-</pre></div>
+<span class="va">fits_pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span><span class="va">fits</span>,
+                          output_type <span class="op">=</span> <span class="st">"dataframe"</span>,
+                          list_element <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
 <p>#2. Fitting CO2 response curves</p>
 <p>This package currently implements a Gu-type fitting procedure for CO2 response curves similar to the Duursma (2015) implementation. There is ongoing work to implement a full Gu-type method whereby mesophyll conductance, Km, and GammaStar could all be fit (Gu et al 2010). There is also ongoing work to implement a procedure to fit alphag for the TPU-limited region and to incorporate the Sharkey (2019) suggestion of using chlorophyll fluorescence data to inform TPU limitations.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit">
@@ -322,27 +317,26 @@
 <span class="co">#Note that this data is coming from data supplied by the package</span>
 <span class="co">#hence the complicated argument in read.csv()</span>
 <span class="co">#This dataset is a CO2 by light response curve for a single sunflower</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"A_Ci_Q_data_1.csv"</span>, 
-                             package = <span class="st">"photosynthesis"</span>))
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"A_Ci_Q_data_1.csv"</span>, 
+                             package <span class="op">=</span> <span class="st">"photosynthesis"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#Define a grouping factor based on light intensity to split the ACi</span>
 <span class="co">#curves</span>
-<span class="kw">data</span><span class="op">$</span><span class="kw">Q_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>((<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">data</span><span class="op">$</span><span class="kw">Qin</span>, digits = <span class="fl">0</span>)))
+<span class="va">data</span><span class="op">$</span><span class="va">Q_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">Qin</span>, digits <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#Convert data temperature to K</span>
-<span class="kw">data</span><span class="op">$</span><span class="kw">T_leaf</span> <span class="op">&lt;-</span> <span class="kw">data</span><span class="op">$</span><span class="kw">Tleaf</span> <span class="op">+</span> <span class="fl">273.15</span>
+<span class="va">data</span><span class="op">$</span><span class="va">T_leaf</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">Tleaf</span> <span class="op">+</span> <span class="fl">273.15</span>
 
 <span class="co">#Fit ACi curve. Note that we are subsetting the dataframe</span>
 <span class="co">#here to fit for a single value of Q_2</span>
-<span class="kw">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_aci_response.html">fit_aci_response</a></span>(<span class="kw">data</span>[<span class="kw">data</span><span class="op">$</span><span class="kw">Q_2</span> <span class="op">==</span> <span class="fl">1500</span>, ],
-                        varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(A_net = <span class="st">"A"</span>,
-                                      T_leaf = <span class="st">"T_leaf"</span>,
-                                      C_i = <span class="st">"Ci"</span>,
-                                      PPFD = <span class="st">"Qin"</span>))
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_aci_response.html">fit_aci_response</a></span><span class="op">(</span><span class="va">data</span><span class="op">[</span><span class="va">data</span><span class="op">$</span><span class="va">Q_2</span> <span class="op">==</span> <span class="fl">1500</span>, <span class="op">]</span>,
+                        varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>A_net <span class="op">=</span> <span class="st">"A"</span>,
+                                      T_leaf <span class="op">=</span> <span class="st">"T_leaf"</span>,
+                                      C_i <span class="op">=</span> <span class="st">"Ci"</span>,
+                                      PPFD <span class="op">=</span> <span class="st">"Qin"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#View fitted parameters</span>
-<span class="kw">fit</span>[[<span class="fl">1</span>]]
-</pre></div>
+<span class="va">fit</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></pre></div>
 <pre><code>##   Num V_cmax V_cmax_se    J_max        J      J_se V_TPU V_TPU_se        R_d
 ## 6   0 62.797  2.176227 110.3051 103.9718 0.1847135  1000       NA -0.3470509
 ##      R_d_se     cost citransition1 citransition2 V_cmax_pts J_max_pts V_TPU_pts
@@ -353,24 +347,22 @@
 ## 6    0.85</code></pre>
 <div class="sourceCode" id="cb27"><pre class="downlit">
 <span class="co">#View graph</span>
-<span class="kw">fit</span>[[<span class="fl">2</span>]]
-</pre></div>
+<span class="va">fit</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></pre></div>
 <pre><code>## Warning: Removed 2 row(s) containing missing values (geom_path).</code></pre>
 <pre><code>## Warning: Removed 12 row(s) containing missing values (geom_path).</code></pre>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <div class="sourceCode" id="cb30"><pre class="downlit">
-<span class="co">#View data with modelled parameters attached</span>
+<span class="co">#View data with modeled parameters attached</span>
 <span class="co">#fit[[3]]</span>
 
 <span class="co">#Fit many curves</span>
-<span class="kw">fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span>(data = <span class="kw">data</span>,
-                 varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(A_net = <span class="st">"A"</span>,
-                                      T_leaf = <span class="st">"T_leaf"</span>,
-                                      C_i = <span class="st">"Ci"</span>,
-                                      PPFD = <span class="st">"Qin"</span>),
-                 funct = <span class="kw">fit_aci_response</span>,
-                 group = <span class="st">"Q_2"</span>)
-</pre></div>
+<span class="va">fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
+                 varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>A_net <span class="op">=</span> <span class="st">"A"</span>,
+                                      T_leaf <span class="op">=</span> <span class="st">"T_leaf"</span>,
+                                      C_i <span class="op">=</span> <span class="st">"Ci"</span>,
+                                      PPFD <span class="op">=</span> <span class="st">"Qin"</span><span class="op">)</span>,
+                 funct <span class="op">=</span> <span class="va">fit_aci_response</span>,
+                 group <span class="op">=</span> <span class="st">"Q_2"</span><span class="op">)</span></pre></div>
 <pre><code>## 
   |                                                                            
   |                                                                      |   0%
@@ -394,8 +386,7 @@
 <span class="co">#Print the parameters</span>
 <span class="co">#First set of double parentheses selects an individual group value</span>
 <span class="co">#Second set selects an element of the sublist</span>
-<span class="kw">fits</span>[[<span class="fl">3</span>]][[<span class="fl">1</span>]]
-</pre></div>
+<span class="va">fits</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></pre></div>
 <pre><code>##   Num  V_cmax V_cmax_se    J_max        J       J_se V_TPU V_TPU_se        R_d
 ## 6   0 8.94862 0.5509706 47.01527 16.63315 0.08692268  1000       NA -0.1565895
 ##      R_d_se      cost citransition1 citransition2 V_cmax_pts J_max_pts
@@ -406,14 +397,13 @@
 ## 6       0    21    0.85</code></pre>
 <div class="sourceCode" id="cb34"><pre class="downlit">
 <span class="co">#Print the graph</span>
-<span class="kw">fits</span>[[<span class="fl">3</span>]][[<span class="fl">2</span>]]
-</pre></div>
+<span class="va">fits</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></pre></div>
 <pre><code>## Warning: Removed 12 row(s) containing missing values (geom_path).</code></pre>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-4-2.png" width="700"></p>
 <div class="sourceCode" id="cb36"><pre class="downlit">
 <span class="co">#Compile graphs into a list for plotting</span>
-<span class="kw">fits_graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span>(<span class="kw">fits</span>,
-                            list_element = <span class="fl">2</span>)
+<span class="va">fits_graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span><span class="va">fits</span>,
+                            list_element <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 
 <span class="co">#Print graphs to pdf.</span>
 <span class="co">#print_graphs(data = fits_graphs,</span>
@@ -422,98 +412,94 @@
 <span class="co">#             pdf_filename = "mygraphs.pdf")</span>
 
 <span class="co">#Compile parameters into dataframe for analysis</span>
-<span class="kw">fits_pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span>(<span class="kw">fits</span>,
-                          output_type = <span class="st">"dataframe"</span>,
-                          list_element = <span class="fl">1</span>)
-</pre></div>
+<span class="va">fits_pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span><span class="va">fits</span>,
+                          output_type <span class="op">=</span> <span class="st">"dataframe"</span>,
+                          list_element <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></pre></div>
 <p>#3. Fitting temperature response curves</p>
 <p>This package provides support for multiple temperature response functions (Arrhenius 1915; Medlyn et al. 2002; Kruse &amp; Adams. 2006; Heskel et al. 2016; Liang et al. 2018).</p>
 <div class="sourceCode" id="cb37"><pre class="downlit">
 <span class="co">#Read in data</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"A_Ci_T_data.csv"</span>, 
-                             package = <span class="st">"photosynthesis"</span>),
-                 stringsAsFactors = <span class="fl">FALSE</span>)
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"A_Ci_T_data.csv"</span>, 
+                             package <span class="op">=</span> <span class="st">"photosynthesis"</span><span class="op">)</span>,
+                 stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="co">#Round temperatures to group them appropriately</span>
 <span class="co">#Use sequential rounding</span>
-<span class="kw">data</span><span class="op">$</span><span class="kw">T2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">data</span><span class="op">$</span><span class="kw">Tleaf</span>, <span class="fl">1</span>)
-<span class="kw">data</span><span class="op">$</span><span class="kw">T2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">data</span><span class="op">$</span><span class="kw">Tleaf</span>, <span class="fl">0</span>)
+<span class="va">data</span><span class="op">$</span><span class="va">T2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">Tleaf</span>, <span class="fl">1</span><span class="op">)</span>
+<span class="va">data</span><span class="op">$</span><span class="va">T2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">Tleaf</span>, <span class="fl">0</span><span class="op">)</span>
 
 <span class="co">#Look at unique values to detect rounding issues</span>
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="kw">data</span><span class="op">$</span><span class="kw">T2</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">T2</span><span class="op">)</span></pre></div>
 <pre><code>##  [1] 17 18 20 22 23 25 28 27 30 33 32 35 37 38 40</code></pre>
 <div class="sourceCode" id="cb39"><pre class="downlit">
 <span class="co">#Some still did not round correctly,</span>
 <span class="co">#manually correct</span>
-<span class="co">for</span>(<span class="kw">i</span> <span class="co">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">data</span>)){
-  <span class="co">if</span>(<span class="kw">data</span><span class="op">$</span><span class="kw">T2</span>[<span class="kw">i</span>] <span class="op">==</span> <span class="fl">18</span>){
-    <span class="kw">data</span><span class="op">$</span><span class="kw">T2</span>[<span class="kw">i</span>] <span class="op">&lt;-</span> <span class="fl">17</span>
-  }
-  <span class="co">if</span>(<span class="kw">data</span><span class="op">$</span><span class="kw">T2</span>[<span class="kw">i</span>] <span class="op">==</span> <span class="fl">23</span>){
-    <span class="kw">data</span><span class="op">$</span><span class="kw">T2</span>[<span class="kw">i</span>] <span class="op">&lt;-</span> <span class="fl">22</span>
-  }
-  <span class="co">if</span>(<span class="kw">data</span><span class="op">$</span><span class="kw">T2</span>[<span class="kw">i</span>] <span class="op">==</span> <span class="fl">28</span>){
-    <span class="kw">data</span><span class="op">$</span><span class="kw">T2</span>[<span class="kw">i</span>] <span class="op">&lt;-</span> <span class="fl">27</span>
-  }
-  <span class="co">if</span>(<span class="kw">data</span><span class="op">$</span><span class="kw">T2</span>[<span class="kw">i</span>] <span class="op">==</span> <span class="fl">33</span>){
-    <span class="kw">data</span><span class="op">$</span><span class="kw">T2</span>[<span class="kw">i</span>] <span class="op">&lt;-</span> <span class="fl">32</span>
-  }
-  <span class="co">if</span>(<span class="kw">data</span><span class="op">$</span><span class="kw">T2</span>[<span class="kw">i</span>] <span class="op">==</span> <span class="fl">38</span>){
-    <span class="kw">data</span><span class="op">$</span><span class="kw">T2</span>[<span class="kw">i</span>] <span class="op">&lt;-</span> <span class="fl">37</span>
-  }
-}
+<span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+  <span class="kw">if</span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">T2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">==</span> <span class="fl">18</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">data</span><span class="op">$</span><span class="va">T2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">17</span>
+  <span class="op">}</span>
+  <span class="kw">if</span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">T2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">==</span> <span class="fl">23</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">data</span><span class="op">$</span><span class="va">T2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">22</span>
+  <span class="op">}</span>
+  <span class="kw">if</span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">T2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">==</span> <span class="fl">28</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">data</span><span class="op">$</span><span class="va">T2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">27</span>
+  <span class="op">}</span>
+  <span class="kw">if</span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">T2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">==</span> <span class="fl">33</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">data</span><span class="op">$</span><span class="va">T2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">32</span>
+  <span class="op">}</span>
+  <span class="kw">if</span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">T2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">==</span> <span class="fl">38</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">data</span><span class="op">$</span><span class="va">T2</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">37</span>
+  <span class="op">}</span>
+<span class="op">}</span>
 
 <span class="co">#Make sure it is a character string for grouping</span>
-<span class="kw">data</span><span class="op">$</span><span class="kw">T2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(<span class="kw">data</span><span class="op">$</span><span class="kw">T2</span>)
+<span class="va">data</span><span class="op">$</span><span class="va">T2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">T2</span><span class="op">)</span>
 
 <span class="co">#Create grouping variable by ID and measurement temperature</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unite.html">unite</a></span>(<span class="kw">data</span>, col = <span class="st">"ID2"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"ID"</span>, <span class="st">"T2"</span>),
-                 sep = <span class="st">"_"</span>)
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unite.html">unite</a></span><span class="op">(</span><span class="va">data</span>, col <span class="op">=</span> <span class="st">"ID2"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"T2"</span><span class="op">)</span>,
+                 sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span>
 
 <span class="co">#Split by temperature group</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span>(<span class="kw">data</span>, <span class="kw">data</span><span class="op">$</span><span class="kw">ID2</span>)
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">data</span><span class="op">$</span><span class="va">ID2</span><span class="op">)</span>
 
 <span class="co">#Obtain mean temperature for group so temperature</span>
 <span class="co">#response fitting is acceptable later, round to</span>
 <span class="co">#2 decimal places</span>
-<span class="co">for</span>(<span class="kw">i</span> <span class="co">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw">data</span>)){
-  <span class="kw">data</span>[[<span class="kw">i</span>]]<span class="op">$</span><span class="kw">Curve_Tleaf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw">data</span>[[<span class="kw">i</span>]]<span class="op">$</span><span class="kw">Tleaf</span>), <span class="fl">2</span>)
-}
+<span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+  <span class="va">data</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">Curve_Tleaf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">data</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">Tleaf</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>
+<span class="op">}</span>
 
 <span class="co">#Convert from list back to dataframe</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(<span class="st">"rbind"</span>, <span class="kw">data</span>)
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="st">"rbind"</span>, <span class="va">data</span><span class="op">)</span>
 
 <span class="co">#Parse grouping variable by ID and measurement temperature</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span>(<span class="kw">data</span>, col = <span class="st">"ID2"</span>, into = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"ID"</span>, <span class="st">"T2"</span>),
-                 sep = <span class="st">"_"</span>)
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">data</span>, col <span class="op">=</span> <span class="st">"ID2"</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"T2"</span><span class="op">)</span>,
+                 sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span>
 
 <span class="co">#Make sure number of values matches number of measurement</span>
 <span class="co">#temperatures. May vary slightly if plants had slightly</span>
 <span class="co">#different leaf temperatures during the measurements</span>
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="kw">data</span><span class="op">$</span><span class="kw">Curve_Tleaf</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">Curve_Tleaf</span><span class="op">)</span></pre></div>
 <pre><code>##  [1] 17.51 20.01 22.50 25.01 27.51 30.01 32.50 34.99 37.50 39.99 20.00 22.51
 ## [13] 25.02 40.01</code></pre>
 <div class="sourceCode" id="cb41"><pre class="downlit">
 <span class="co">#Create ID column to curve fit by ID and temperature</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unite.html">unite</a></span>(<span class="kw">data</span>, col = <span class="st">"ID2"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"ID"</span>, <span class="st">"Curve_Tleaf"</span>),
-                 sep = <span class="st">"_"</span>)
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unite.html">unite</a></span><span class="op">(</span><span class="va">data</span>, col <span class="op">=</span> <span class="st">"ID2"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Curve_Tleaf"</span><span class="op">)</span>,
+                 sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span>
 
 <span class="co">#Convert data temperature to K</span>
-<span class="kw">data</span><span class="op">$</span><span class="kw">T_leaf</span> <span class="op">&lt;-</span> <span class="kw">data</span><span class="op">$</span><span class="kw">Tleaf</span> <span class="op">+</span> <span class="fl">273.15</span>
+<span class="va">data</span><span class="op">$</span><span class="va">T_leaf</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">Tleaf</span> <span class="op">+</span> <span class="fl">273.15</span>
 
 <span class="co">#Fit many CO2 response curves</span>
-<span class="kw">fits2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span>(data = <span class="kw">data</span>,
-                 group = <span class="st">"ID2"</span>,
-                 varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(A_net = <span class="st">"A"</span>,
-                                 C_i = <span class="st">"Ci"</span>,
-                                 T_leaf = <span class="st">"T_leaf"</span>,
-                                 PPFD = <span class="st">"Qin"</span>,
-                                 g_mc = <span class="st">"g_mc"</span>),
-                 funct = <span class="kw">fit_aci_response</span>,
-                 alphag = <span class="fl">0</span>)
-</pre></div>
+<span class="va">fits2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
+                 group <span class="op">=</span> <span class="st">"ID2"</span>,
+                 varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>A_net <span class="op">=</span> <span class="st">"A"</span>,
+                                 C_i <span class="op">=</span> <span class="st">"Ci"</span>,
+                                 T_leaf <span class="op">=</span> <span class="st">"T_leaf"</span>,
+                                 PPFD <span class="op">=</span> <span class="st">"Qin"</span>,
+                                 g_mc <span class="op">=</span> <span class="st">"g_mc"</span><span class="op">)</span>,
+                 funct <span class="op">=</span> <span class="va">fit_aci_response</span>,
+                 alphag <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></pre></div>
 <pre><code>## 
   |                                                                            
   |                                                                      |   0%
@@ -559,24 +545,23 @@
   |======================================================================| 100%</code></pre>
 <div class="sourceCode" id="cb43"><pre class="downlit">
 <span class="co">#Extract ACi parameters</span>
-<span class="kw">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span>(<span class="kw">fits2</span>, output_type = <span class="st">"dataframe"</span>,
-                     list_element = <span class="fl">1</span>)
+<span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span><span class="va">fits2</span>, output_type <span class="op">=</span> <span class="st">"dataframe"</span>,
+                     list_element <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 
 <span class="co">#Extract ACi graphs</span>
-<span class="kw">graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span>(<span class="kw">fits2</span>, output_type = <span class="st">"list"</span>,
-                     list_element = <span class="fl">2</span>)
+<span class="va">graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span><span class="va">fits2</span>, output_type <span class="op">=</span> <span class="st">"list"</span>,
+                     list_element <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 
 <span class="co">#Parse the ID variable</span>
-<span class="kw">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span>(<span class="kw">pars</span>, col = <span class="st">"ID"</span>, into = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"ID"</span>, <span class="st">"Curve_Tleaf"</span>), sep = <span class="st">"_"</span>)
+<span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html">separate</a></span><span class="op">(</span><span class="va">pars</span>, col <span class="op">=</span> <span class="st">"ID"</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Curve_Tleaf"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span>
 
 <span class="co">#Make sure curve leaf temperature is numeric</span>
-<span class="kw">pars</span><span class="op">$</span><span class="kw">Curve_Tleaf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="kw">pars</span><span class="op">$</span><span class="kw">Curve_Tleaf</span>)
-<span class="kw">pars</span><span class="op">$</span><span class="kw">T_leaf</span> <span class="op">&lt;-</span> <span class="kw">pars</span><span class="op">$</span><span class="kw">Curve_Tleaf</span> <span class="op">+</span> <span class="fl">273.15</span>
-<span class="kw">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_t_response.html">fit_t_response</a></span>(data = <span class="kw">pars</span>[<span class="kw">pars</span><span class="op">$</span><span class="kw">ID</span> <span class="op">==</span> <span class="st">"S2"</span>,],
-                      varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(Par = <span class="st">"V_cmax"</span>,
-                                      T_leaf = <span class="st">"T_leaf"</span>),
-                      setvar = <span class="st">"Hd"</span>)
-</pre></div>
+<span class="va">pars</span><span class="op">$</span><span class="va">Curve_Tleaf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">pars</span><span class="op">$</span><span class="va">Curve_Tleaf</span><span class="op">)</span>
+<span class="va">pars</span><span class="op">$</span><span class="va">T_leaf</span> <span class="op">&lt;-</span> <span class="va">pars</span><span class="op">$</span><span class="va">Curve_Tleaf</span> <span class="op">+</span> <span class="fl">273.15</span>
+<span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_t_response.html">fit_t_response</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">pars</span><span class="op">[</span><span class="va">pars</span><span class="op">$</span><span class="va">ID</span> <span class="op">==</span> <span class="st">"S2"</span>,<span class="op">]</span>,
+                      varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Par <span class="op">=</span> <span class="st">"V_cmax"</span>,
+                                      T_leaf <span class="op">=</span> <span class="st">"T_leaf"</span><span class="op">)</span>,
+                      setvar <span class="op">=</span> <span class="st">"Hd"</span><span class="op">)</span></pre></div>
 <pre><code>## Warning in fit_t_response(data = pars[pars$ID == "S2", ], varnames = list(Par =
 ## "V_cmax", : NAs introduced by coercion
 
@@ -604,32 +589,25 @@
 ## Warning in fit_t_response(data = pars[pars$ID == "S2", ], varnames = list(Par =
 ## "V_cmax", : NAs introduced by coercion</code></pre>
 <div class="sourceCode" id="cb45"><pre class="downlit">
-<span class="kw">out</span>[[<span class="st">"Arrhenius"</span>]][[<span class="st">"Graph"</span>]]
-</pre></div>
+<span class="va">out</span><span class="op">[[</span><span class="st">"Arrhenius"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <div class="sourceCode" id="cb46"><pre class="downlit">
-<span class="kw">out</span>[[<span class="st">"Heskel"</span>]][[<span class="st">"Graph"</span>]]
-</pre></div>
+<span class="va">out</span><span class="op">[[</span><span class="st">"Heskel"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
 <div class="sourceCode" id="cb47"><pre class="downlit">
-<span class="kw">out</span>[[<span class="st">"Kruse"</span>]][[<span class="st">"Graph"</span>]]
-</pre></div>
+<span class="va">out</span><span class="op">[[</span><span class="st">"Kruse"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-5-3.png" width="700"></p>
 <div class="sourceCode" id="cb48"><pre class="downlit">
-<span class="kw">out</span>[[<span class="st">"Medlyn"</span>]][[<span class="st">"Graph"</span>]]
-</pre></div>
+<span class="va">out</span><span class="op">[[</span><span class="st">"Medlyn"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-5-4.png" width="700"></p>
 <div class="sourceCode" id="cb49"><pre class="downlit">
-<span class="kw">out</span>[[<span class="st">"MMRT"</span>]][[<span class="st">"Graph"</span>]]
-</pre></div>
+<span class="va">out</span><span class="op">[[</span><span class="st">"MMRT"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-5-5.png" width="700"></p>
 <div class="sourceCode" id="cb50"><pre class="downlit">
-<span class="kw">out</span>[[<span class="st">"Quadratic"</span>]][[<span class="st">"Graph"</span>]]
-</pre></div>
+<span class="va">out</span><span class="op">[[</span><span class="st">"Quadratic"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-5-6.png" width="700"></p>
 <div class="sourceCode" id="cb51"><pre class="downlit">
-<span class="kw">out</span>[[<span class="st">"Topt"</span>]][[<span class="st">"Graph"</span>]]
-</pre></div>
+<span class="va">out</span><span class="op">[[</span><span class="st">"Topt"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-5-7.png" width="700"></p>
 <p>#4. Fitting stomatal conductance models</p>
 <p>The package currently supports three varieties of stomatal conductance models (Ball et al. 1987; Leuning 1995; Medlyn et al. 2011).</p>
@@ -638,29 +616,28 @@
 <span class="co">#Note that this data is coming from data supplied by the package</span>
 <span class="co">#hence the complicated argument in read.csv()</span>
 <span class="co">#This dataset is a CO2 by light response curve for a single sunflower</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"A_Ci_Q_data_1.csv"</span>, 
-                             package = <span class="st">"photosynthesis"</span>))
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"A_Ci_Q_data_1.csv"</span>, 
+                             package <span class="op">=</span> <span class="st">"photosynthesis"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#Convert RH to a proportion</span>
-<span class="kw">data</span><span class="op">$</span><span class="kw">RH</span> <span class="op">&lt;-</span> <span class="kw">data</span><span class="op">$</span><span class="kw">RHcham</span> <span class="op">/</span> <span class="fl">100</span>
+<span class="va">data</span><span class="op">$</span><span class="va">RH</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">RHcham</span> <span class="op">/</span> <span class="fl">100</span>
 
 <span class="co">#Fit stomatal conductance models</span>
 <span class="co">#Can specify a single model, or all as below</span>
-<span class="kw">fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_gs_model.html">fit_gs_model</a></span>(data = <span class="kw">data</span>,
-                     varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(A_net = <span class="st">"A"</span>,
-                                     C_air = <span class="st">"Ca"</span>,
-                                     g_sw = <span class="st">"gsw"</span>,
-                                     RH = <span class="st">"RH"</span>,
-                                     VPD = <span class="st">"VPDleaf"</span>),
-                     model = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"BallBerry"</span>,
+<span class="va">fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_gs_model.html">fit_gs_model</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
+                     varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>A_net <span class="op">=</span> <span class="st">"A"</span>,
+                                     C_air <span class="op">=</span> <span class="st">"Ca"</span>,
+                                     g_sw <span class="op">=</span> <span class="st">"gsw"</span>,
+                                     RH <span class="op">=</span> <span class="st">"RH"</span>,
+                                     VPD <span class="op">=</span> <span class="st">"VPDleaf"</span><span class="op">)</span>,
+                     model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"BallBerry"</span>,
                                <span class="st">"Leuning"</span>,
                                <span class="st">"Medlyn_partial"</span>,
-                               <span class="st">"Medlyn_full"</span>),
-                         D0 = <span class="fl">3</span>)
+                               <span class="st">"Medlyn_full"</span><span class="op">)</span>,
+                         D0 <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 
 <span class="co">#Look at BallBerry model summary:</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">fits</span>[[<span class="st">"BallBerry"</span>]][[<span class="st">"Model"</span>]])
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fits</span><span class="op">[[</span><span class="st">"BallBerry"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Model"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = g_sw ~ gs_mod_ballberry(A_net = A_net, C_air = C_air, 
@@ -685,30 +662,27 @@
 ## F-statistic: 32.99 on 1 and 94 DF,  p-value: 1.132e-07</code></pre>
 <div class="sourceCode" id="cb54"><pre class="downlit">
 <span class="co">#Look at BallBerry parameters</span>
-<span class="kw">fits</span>[[<span class="st">"BallBerry"</span>]][[<span class="st">"Parameters"</span>]]
-</pre></div>
+<span class="va">fits</span><span class="op">[[</span><span class="st">"BallBerry"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Parameters"</span><span class="op">]</span><span class="op">]</span></pre></div>
 <pre><code>##          g0          g1
 ## 1 0.1480627 1.62664e-05</code></pre>
 <div class="sourceCode" id="cb56"><pre class="downlit">
 <span class="co">#Look at BallBerry plot</span>
-<span class="kw">fits</span>[[<span class="st">"BallBerry"</span>]][[<span class="st">"Graph"</span>]]
-</pre></div>
+<span class="va">fits</span><span class="op">[[</span><span class="st">"BallBerry"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <div class="sourceCode" id="cb57"><pre class="downlit">
 <span class="co">#Fit many g_sw models</span>
 <span class="co">#Set your grouping variable</span>
 <span class="co">#Here we are grouping by Qin and individual</span>
-<span class="kw">data</span><span class="op">$</span><span class="kw">Q_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>((<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">data</span><span class="op">$</span><span class="kw">Qin</span>, digits = <span class="fl">0</span>)))
+<span class="va">data</span><span class="op">$</span><span class="va">Q_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">Qin</span>, digits <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
-<span class="kw">fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span>(<span class="kw">data</span>,
-                 varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(A_net = <span class="st">"A"</span>,
-                                 C_air = <span class="st">"Ca"</span>,
-                                 g_sw = <span class="st">"gsw"</span>,
-                                 RH = <span class="st">"RH"</span>,
-                                 VPD = <span class="st">"VPDleaf"</span>),
-                 funct = <span class="kw">fit_gs_model</span>,
-                 group = <span class="st">"Q_2"</span>)
-</pre></div>
+<span class="va">fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span><span class="op">(</span><span class="va">data</span>,
+                 varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>A_net <span class="op">=</span> <span class="st">"A"</span>,
+                                 C_air <span class="op">=</span> <span class="st">"Ca"</span>,
+                                 g_sw <span class="op">=</span> <span class="st">"gsw"</span>,
+                                 RH <span class="op">=</span> <span class="st">"RH"</span>,
+                                 VPD <span class="op">=</span> <span class="st">"VPDleaf"</span><span class="op">)</span>,
+                 funct <span class="op">=</span> <span class="va">fit_gs_model</span>,
+                 group <span class="op">=</span> <span class="st">"Q_2"</span><span class="op">)</span></pre></div>
 <pre><code>## 
   |                                                                            
   |                                                                      |   0%Error in nlsModel(formula, mf, start, wts) : 
@@ -733,8 +707,7 @@
 <div class="sourceCode" id="cb59"><pre class="downlit">
 <span class="co">#Look at the Medlyn_partial outputs at 750 PAR</span>
 <span class="co">#Model summary</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">fits</span>[[<span class="st">"750"</span>]][[<span class="st">"Medlyn_partial"</span>]][[<span class="st">"Model"</span>]])
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fits</span><span class="op">[[</span><span class="st">"750"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Medlyn_partial"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Model"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></pre></div>
 <pre><code>## 
 ## Formula: g_sw ~ gs_mod_opti(A_net = A_net, C_air = C_air, VPD = VPD, g0, 
 ##     g1)
@@ -752,43 +725,39 @@
 ## Achieved convergence tolerance: 1.49e-08</code></pre>
 <div class="sourceCode" id="cb61"><pre class="downlit">
 <span class="co">#Model parameters</span>
-<span class="kw">fits</span>[[<span class="st">"750"</span>]][[<span class="st">"Medlyn_partial"</span>]][[<span class="st">"Parameters"</span>]]
-</pre></div>
+<span class="va">fits</span><span class="op">[[</span><span class="st">"750"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Medlyn_partial"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Parameters"</span><span class="op">]</span><span class="op">]</span></pre></div>
 <pre><code>##          g0        g1
 ## 1 0.3877773 -1.097544</code></pre>
 <div class="sourceCode" id="cb63"><pre class="downlit">
 <span class="co">#Graph</span>
-<span class="kw">fits</span>[[<span class="st">"750"</span>]][[<span class="st">"Medlyn_partial"</span>]][[<span class="st">"Graph"</span>]]
-</pre></div>
+<span class="va">fits</span><span class="op">[[</span><span class="st">"750"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Medlyn_partial"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
 <div class="sourceCode" id="cb64"><pre class="downlit">
 <span class="co">#Compile parameter outputs for BallBerry model</span>
 <span class="co">#Note that it's the first element for each PAR value</span>
 <span class="co">#First compile list of BallBerry fits</span>
-<span class="kw">bbmods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span>(data = <span class="kw">fits</span>,
-                     output_type = <span class="st">"list"</span>,
-                     list_element = <span class="fl">1</span>)
+<span class="va">bbmods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">fits</span>,
+                     output_type <span class="op">=</span> <span class="st">"list"</span>,
+                     list_element <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="co">#Now compile the parameters (2nd element) into a dataframe</span>
-<span class="kw">bbpars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span>(data = <span class="kw">bbmods</span>,
-                     output_type = <span class="st">"dataframe"</span>,
-                     list_element = <span class="fl">2</span>)
+<span class="va">bbpars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">bbmods</span>,
+                     output_type <span class="op">=</span> <span class="st">"dataframe"</span>,
+                     list_element <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 
 <span class="co">#Convert group variable back to numeric</span>
-<span class="kw">bbpars</span><span class="op">$</span><span class="kw">ID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="kw">bbpars</span><span class="op">$</span><span class="kw">ID</span>)
+<span class="va">bbpars</span><span class="op">$</span><span class="va">ID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">bbpars</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span>
 
 <span class="co">#Take quick look at light response of intercept parameters</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">g0</span> <span class="op">~</span> <span class="kw">ID</span>, <span class="kw">bbpars</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">g0</span> <span class="op">~</span> <span class="va">ID</span>, <span class="va">bbpars</span><span class="op">)</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-6-3.png" width="700"></p>
 <div class="sourceCode" id="cb65"><pre class="downlit">
 <span class="co">#Compile graphs</span>
-<span class="kw">graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span>(data = <span class="kw">bbmods</span>,
-                       output_type = <span class="st">"list"</span>,
-                       list_element = <span class="fl">3</span>)
+<span class="va">graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">bbmods</span>,
+                       output_type <span class="op">=</span> <span class="st">"list"</span>,
+                       list_element <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 
 <span class="co">#Look at 3rd graph</span>
-<span class="kw">graphs</span>[[<span class="fl">3</span>]]
-</pre></div>
+<span class="va">graphs</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-6-4.png" width="700"></p>
 <p>#5. Fitting light respiration</p>
 <p>The package currently supports fitting light respiration according to the slope-intercept regression extension of the Laisk method (Laisk 1977; Walker &amp; Ort 2015), the Kok method (Kok 1956), and the Yin modification of the Kok method (Yin et al. 2009, 2011)</p>
@@ -797,41 +766,40 @@
 <span class="co">#Note that this data is coming from data supplied by the package</span>
 <span class="co">#hence the complicated argument in read.csv()</span>
 <span class="co">#This dataset is a CO2 by light response curve for a single sunflower</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"A_Ci_Q_data_1.csv"</span>, 
-                             package = <span class="st">"photosynthesis"</span>))
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"A_Ci_Q_data_1.csv"</span>, 
+                             package <span class="op">=</span> <span class="st">"photosynthesis"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#Fit light respiration with Yin method</span>
-<span class="kw">r_light</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_r_light_kok.html">fit_r_light_yin</a></span>(data = <span class="kw">data</span>,
-                           varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(A_net = <span class="st">"A"</span>,
-                                           PPFD = <span class="st">"Qin"</span>,
-                                           phi_PSII = <span class="st">"PhiPS2"</span>),
-                           PPFD_lower = <span class="fl">20</span>,
-                           PPFD_upper = <span class="fl">250</span>)
+<span class="va">r_light</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_r_light_kok.html">fit_r_light_yin</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
+                           varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>A_net <span class="op">=</span> <span class="st">"A"</span>,
+                                           PPFD <span class="op">=</span> <span class="st">"Qin"</span>,
+                                           phi_PSII <span class="op">=</span> <span class="st">"PhiPS2"</span><span class="op">)</span>,
+                           PPFD_lower <span class="op">=</span> <span class="fl">20</span>,
+                           PPFD_upper <span class="op">=</span> <span class="fl">250</span><span class="op">)</span>
 
 <span class="co">#Fit light respiration with Kok method</span>
-<span class="kw">r_light</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_r_light_kok.html">fit_r_light_kok</a></span>(data = <span class="kw">data</span>,
-                           varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(A_net = <span class="st">"A"</span>,
-                                           PPFD = <span class="st">"Qin"</span>),
-                           PPFD_lower = <span class="fl">20</span>,
-                           PPFD_upper = <span class="fl">150</span>)
+<span class="va">r_light</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_r_light_kok.html">fit_r_light_kok</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
+                           varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>A_net <span class="op">=</span> <span class="st">"A"</span>,
+                                           PPFD <span class="op">=</span> <span class="st">"Qin"</span><span class="op">)</span>,
+                           PPFD_lower <span class="op">=</span> <span class="fl">20</span>,
+                           PPFD_upper <span class="op">=</span> <span class="fl">150</span><span class="op">)</span>
 
 <span class="co">#Set your grouping variable</span>
 <span class="co">#Here we are grouping by CO2_s and individual</span>
-<span class="kw">data</span><span class="op">$</span><span class="kw">C_s</span> <span class="op">&lt;-</span>(<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">data</span><span class="op">$</span><span class="kw">CO2_s</span>, digits = <span class="fl">0</span>))
+<span class="va">data</span><span class="op">$</span><span class="va">C_s</span> <span class="op">&lt;-</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">CO2_s</span>, digits <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#For this example we need to round sequentially due to CO2_s setpoints</span>
-<span class="kw">data</span><span class="op">$</span><span class="kw">C_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">data</span><span class="op">$</span><span class="kw">C_s</span>, digits = <span class="op">-</span><span class="fl">1</span>))
+<span class="va">data</span><span class="op">$</span><span class="va">C_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">C_s</span>, digits <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#Fit light respiration across groups with Yin method</span>
-<span class="kw">r_lights</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span>(data = <span class="kw">data</span>,
-                     funct = <span class="kw">fit_r_light_yin</span>,
-                     group = <span class="st">"C_s"</span>,
-                     varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(A_net = <span class="st">"A"</span>,
-                                           PPFD = <span class="st">"Qin"</span>,
-                                           phi_PSII = <span class="st">"PhiPS2"</span>),
-                           PPFD_lower = <span class="fl">20</span>,
-                           PPFD_upper = <span class="fl">250</span>)
-</pre></div>
+<span class="va">r_lights</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
+                     funct <span class="op">=</span> <span class="va">fit_r_light_yin</span>,
+                     group <span class="op">=</span> <span class="st">"C_s"</span>,
+                     varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>A_net <span class="op">=</span> <span class="st">"A"</span>,
+                                           PPFD <span class="op">=</span> <span class="st">"Qin"</span>,
+                                           phi_PSII <span class="op">=</span> <span class="st">"PhiPS2"</span><span class="op">)</span>,
+                           PPFD_lower <span class="op">=</span> <span class="fl">20</span>,
+                           PPFD_upper <span class="op">=</span> <span class="fl">250</span><span class="op">)</span></pre></div>
 <pre><code>## 
   |                                                                            
   |                                                                      |   0%
@@ -856,21 +824,20 @@
 <div class="sourceCode" id="cb68"><pre class="downlit">
 <span class="co">#Compile the outputs - note this is slightly more complex because the</span>
 <span class="co">#output of the fit_many above is a list of atomic vectors, not dataframes.</span>
-<span class="kw">group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">r_lights</span>)
-<span class="kw">r_lights</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(<span class="st">"c"</span>, <span class="kw">r_lights</span>)
-<span class="kw">r_light_yin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(x = <span class="kw">group</span>, y = <span class="kw">r_lights</span>, stringsAsFactors = <span class="fl">FALSE</span>)
-<span class="kw">r_light_yin</span><span class="op">$</span><span class="kw">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="kw">r_light_yin</span><span class="op">$</span><span class="kw">x</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="kw">r_light_yin</span>) <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"C_s"</span>, <span class="st">"r_light"</span>)
+<span class="va">group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">r_lights</span><span class="op">)</span>
+<span class="va">r_lights</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="va">r_lights</span><span class="op">)</span>
+<span class="va">r_light_yin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">group</span>, y <span class="op">=</span> <span class="va">r_lights</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">r_light_yin</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">r_light_yin</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">r_light_yin</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"C_s"</span>, <span class="st">"r_light"</span><span class="op">)</span>
 
 <span class="co">#Fit the Walker-Ort method for GammaStar and light respiration</span>
-<span class="kw">walker_ort</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_r_light_kok.html">fit_r_light_WalkerOrt</a></span>(<span class="kw">data</span>,
-                      varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(A_net = <span class="st">"A"</span>,
-                                      C_i = <span class="st">"Ci"</span>,
-                                      PPFD = <span class="st">"Qin"</span>))
+<span class="va">walker_ort</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_r_light_kok.html">fit_r_light_WalkerOrt</a></span><span class="op">(</span><span class="va">data</span>,
+                      varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>A_net <span class="op">=</span> <span class="st">"A"</span>,
+                                      C_i <span class="op">=</span> <span class="st">"Ci"</span>,
+                                      PPFD <span class="op">=</span> <span class="st">"Qin"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#View model output</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">walker_ort</span>[[<span class="fl">1</span>]])
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">walker_ort</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Intercept ~ Slope, data = coefs)
@@ -891,14 +858,12 @@
 ## F-statistic: 127.8 on 1 and 10 DF,  p-value: 5.103e-07</code></pre>
 <div class="sourceCode" id="cb70"><pre class="downlit">
 <span class="co">#View graph</span>
-<span class="kw">walker_ort</span>[[<span class="fl">2</span>]]
-</pre></div>
+<span class="va">walker_ort</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></pre></div>
 <pre><code>## `geom_smooth()` using formula 'y ~ x'</code></pre>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <div class="sourceCode" id="cb72"><pre class="downlit">
 <span class="co">#View coeffients</span>
-<span class="kw">walker_ort</span>[[<span class="fl">3</span>]]
-</pre></div>
+<span class="va">walker_ort</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></pre></div>
 <pre><code>##       GammaStar   r_light
 ## Slope  46.00427 -0.152643</code></pre>
 <p>#6. Fitting mesophyll conductance</p>
@@ -908,53 +873,50 @@
 <span class="co">#Note that this data is coming from data supplied by the package</span>
 <span class="co">#hence the complicated argument in read.csv()</span>
 <span class="co">#This dataset is a CO2 by light response curve for a single sunflower</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"A_Ci_Q_data_1.csv"</span>, 
-                             package = <span class="st">"photosynthesis"</span>))
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"A_Ci_Q_data_1.csv"</span>, 
+                             package <span class="op">=</span> <span class="st">"photosynthesis"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#Note: there will be issues here if the alpha value used</span>
 <span class="co">#for calculating ETR is off, if GammaStar is incorrect,</span>
 <span class="co">#if Rd is incorrect.</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_g_mc_variableJ.html">fit_g_mc_variableJ</a></span>(<span class="kw">data</span>,
-                         varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(A_net = <span class="st">"A"</span>,
-                                         J_etr = <span class="st">"ETR"</span>,
-                                         C_i = <span class="st">"Ci"</span>,
-                                         PPFD = <span class="st">"Qin"</span>,
-                                         phi_PSII = <span class="st">"PhiPS2"</span>),
-                                         gamma_star = <span class="fl">46</span>,
-                                         R_d = <span class="fl">0.153</span>,
-                         usealpha_Q = <span class="fl">TRUE</span>,
-                         alpha_Q = <span class="fl">0.84</span>,
-                         beta_Q = <span class="fl">0.5</span>,
-                         P = <span class="fl">84</span>)
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_g_mc_variableJ.html">fit_g_mc_variableJ</a></span><span class="op">(</span><span class="va">data</span>,
+                         varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>A_net <span class="op">=</span> <span class="st">"A"</span>,
+                                         J_etr <span class="op">=</span> <span class="st">"ETR"</span>,
+                                         C_i <span class="op">=</span> <span class="st">"Ci"</span>,
+                                         PPFD <span class="op">=</span> <span class="st">"Qin"</span>,
+                                         phi_PSII <span class="op">=</span> <span class="st">"PhiPS2"</span><span class="op">)</span>,
+                                         gamma_star <span class="op">=</span> <span class="fl">46</span>,
+                                         R_d <span class="op">=</span> <span class="fl">0.153</span>,
+                         usealpha_Q <span class="op">=</span> <span class="cn">TRUE</span>,
+                         alpha_Q <span class="op">=</span> <span class="fl">0.84</span>,
+                         beta_Q <span class="op">=</span> <span class="fl">0.5</span>,
+                         P <span class="op">=</span> <span class="fl">84</span><span class="op">)</span>
 
 <span class="co">#Note that many g_mc values from this method can be unreliable</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x = <span class="kw">CO2_s</span>, y = <span class="kw">g_mc</span>, colour = <span class="kw">reliable</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(x = <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="kw">CO</span>[<span class="fl">2</span>]<span class="op">~</span><span class="st">"("</span><span class="op">*</span><span class="kw">mu</span><span class="op">*</span><span class="kw">mol</span><span class="op">~</span><span class="kw">mol</span><span class="op">^</span>{<span class="op">-</span><span class="fl">1</span>}<span class="op">*</span><span class="st">")"</span>),
-       y = <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="kw">g</span>[<span class="kw">m</span>]<span class="op">~</span><span class="st">"(mol"</span><span class="op">~</span><span class="kw">m</span><span class="op">^</span>{<span class="op">-</span><span class="fl">2</span>}<span class="op">~</span><span class="kw">s</span><span class="op">^</span>{<span class="op">-</span><span class="fl">1</span>}<span class="op">~</span><span class="kw">Pa</span><span class="op">^</span>{<span class="op">-</span><span class="fl">1</span>}<span class="op">*</span><span class="st">")"</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(size = <span class="fl">2</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(legend.position = <span class="st">'bottom'</span>)
-</pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">CO2_s</span>, y <span class="op">=</span> <span class="va">g_mc</span>, colour <span class="op">=</span> <span class="va">reliable</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">CO</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">~</span><span class="st">"("</span><span class="op">*</span><span class="va">mu</span><span class="op">*</span><span class="va">mol</span><span class="op">~</span><span class="va">mol</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">}</span><span class="op">*</span><span class="st">")"</span><span class="op">)</span>,
+       y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">g</span><span class="op">[</span><span class="va">m</span><span class="op">]</span><span class="op">~</span><span class="st">"(mol"</span><span class="op">~</span><span class="va">m</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">2</span><span class="op">}</span><span class="op">~</span><span class="va">s</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">}</span><span class="op">~</span><span class="va">Pa</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">}</span><span class="op">*</span><span class="st">")"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">'bottom'</span><span class="op">)</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <div class="sourceCode" id="cb75"><pre class="downlit">
 <span class="co">#Plot QAQC graph according to Harley et al. 1992</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x = <span class="kw">CO2_s</span>, y = <span class="kw">dCcdA</span>, colour = <span class="kw">reliable</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(x = <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="kw">CO</span>[<span class="fl">2</span>]<span class="op">~</span><span class="st">"("</span><span class="op">*</span><span class="kw">mu</span><span class="op">*</span><span class="kw">mol</span><span class="op">~</span><span class="kw">mol</span><span class="op">^</span>{<span class="op">-</span><span class="fl">1</span>}<span class="op">*</span><span class="st">")"</span>),
-       y = <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="kw">delta</span><span class="op">*</span><span class="kw">C</span>[<span class="kw">c</span>]<span class="op">*</span><span class="st">"/"</span><span class="op">*</span><span class="kw">delta</span><span class="op">*</span><span class="kw">A</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span>(yintercept = <span class="fl">10</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(size = <span class="fl">2</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(legend.position = <span class="st">'bottom'</span>)
-</pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">CO2_s</span>, y <span class="op">=</span> <span class="va">dCcdA</span>, colour <span class="op">=</span> <span class="va">reliable</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">CO</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">~</span><span class="st">"("</span><span class="op">*</span><span class="va">mu</span><span class="op">*</span><span class="va">mol</span><span class="op">~</span><span class="va">mol</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">}</span><span class="op">*</span><span class="st">")"</span><span class="op">)</span>,
+       y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">delta</span><span class="op">*</span><span class="va">C</span><span class="op">[</span><span class="va">c</span><span class="op">]</span><span class="op">*</span><span class="st">"/"</span><span class="op">*</span><span class="va">delta</span><span class="op">*</span><span class="va">A</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">'bottom'</span><span class="op">)</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-8-2.png" width="700"></p>
 <div class="sourceCode" id="cb76"><pre class="downlit">
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x = <span class="kw">dCcdA</span>, y = <span class="kw">g_mc</span>, colour = <span class="kw">reliable</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(x = <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="kw">delta</span><span class="op">*</span><span class="kw">C</span>[<span class="kw">c</span>]<span class="op">*</span><span class="st">"/"</span><span class="op">*</span><span class="kw">delta</span><span class="op">*</span><span class="kw">A</span>),
-       y = <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="kw">g</span>[<span class="kw">m</span>]<span class="op">~</span><span class="st">"(mol"</span><span class="op">~</span><span class="kw">m</span><span class="op">^</span>{<span class="op">-</span><span class="fl">2</span>}<span class="op">~</span><span class="kw">s</span><span class="op">^</span>{<span class="op">-</span><span class="fl">1</span>}<span class="op">~</span><span class="kw">Pa</span><span class="op">^</span>{<span class="op">-</span><span class="fl">1</span>}<span class="op">*</span><span class="st">")"</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(size = <span class="fl">2</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(legend.position = <span class="st">'bottom'</span>)
-</pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">dCcdA</span>, y <span class="op">=</span> <span class="va">g_mc</span>, colour <span class="op">=</span> <span class="va">reliable</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">delta</span><span class="op">*</span><span class="va">C</span><span class="op">[</span><span class="va">c</span><span class="op">]</span><span class="op">*</span><span class="st">"/"</span><span class="op">*</span><span class="va">delta</span><span class="op">*</span><span class="va">A</span><span class="op">)</span>,
+       y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">g</span><span class="op">[</span><span class="va">m</span><span class="op">]</span><span class="op">~</span><span class="st">"(mol"</span><span class="op">~</span><span class="va">m</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">2</span><span class="op">}</span><span class="op">~</span><span class="va">s</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">}</span><span class="op">~</span><span class="va">Pa</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">}</span><span class="op">*</span><span class="st">")"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">'bottom'</span><span class="op">)</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-8-3.png" width="700"></p>
 <p>#7. Fitting pressure-volume curves</p>
 <p>This package follows the Prometheus wiki spreadsheet from Sack and Pasquet-Kok at:</p>
@@ -962,43 +924,39 @@
 <p>For references, see Koide et al. 2000, Sack et al. 2003, and Tyree &amp; Hammel 1972.</p>
 <div class="sourceCode" id="cb77"><pre class="downlit">
 <span class="co">#Read in data</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"PV_curve.csv"</span>, 
-                             package = <span class="st">"photosynthesis"</span>))
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"PV_curve.csv"</span>, 
+                             package <span class="op">=</span> <span class="st">"photosynthesis"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#Fit one PV curve</span>
-<span class="kw">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_PV_curve.html">fit_PV_curve</a></span>(<span class="kw">data</span>[<span class="kw">data</span><span class="op">$</span><span class="kw">ID</span> <span class="op">==</span> <span class="st">"L2"</span>, ],
-                    varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(psi = <span class="st">"psi"</span>, 
-                                    mass = <span class="st">"mass"</span>, 
-                                    leaf_mass = <span class="st">"leaf_mass"</span>, 
-                                    bag_mass = <span class="st">"bag_mass"</span>, 
-                                    leaf_area = <span class="st">"leaf_area"</span>))
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_PV_curve.html">fit_PV_curve</a></span><span class="op">(</span><span class="va">data</span><span class="op">[</span><span class="va">data</span><span class="op">$</span><span class="va">ID</span> <span class="op">==</span> <span class="st">"L2"</span>, <span class="op">]</span>,
+                    varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>psi <span class="op">=</span> <span class="st">"psi"</span>, 
+                                    mass <span class="op">=</span> <span class="st">"mass"</span>, 
+                                    leaf_mass <span class="op">=</span> <span class="st">"leaf_mass"</span>, 
+                                    bag_mass <span class="op">=</span> <span class="st">"bag_mass"</span>, 
+                                    leaf_area <span class="op">=</span> <span class="st">"leaf_area"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#See fitted parameters</span>
-<span class="kw">fit</span>[[<span class="fl">1</span>]]
-</pre></div>
+<span class="va">fit</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></pre></div>
 <pre><code>##        SWC      PI_o psi_TLP  RWC_TLP      eps       C_FT      C_TLP  C_FTStar
 ## 1 2.438935 -1.399302   -1.75 88.67684 12.20175 0.06456207 0.09923338 0.5161476</code></pre>
 <div class="sourceCode" id="cb79"><pre class="downlit">
 <span class="co">#Plot water mass graph</span>
-<span class="kw">fit</span>[[<span class="fl">2</span>]]
-</pre></div>
+<span class="va">fit</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <div class="sourceCode" id="cb80"><pre class="downlit">
 <span class="co">#Plot PV Curve</span>
-<span class="kw">fit</span>[[<span class="fl">3</span>]]
-</pre></div>
+<span class="va">fit</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-9-2.png" width="700"></p>
 <div class="sourceCode" id="cb81"><pre class="downlit">
 <span class="co">#Fit all PV curves in a file</span>
-<span class="kw">fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span>(<span class="kw">data</span>,
-                 group = <span class="st">"ID"</span>,
-                 funct = <span class="kw">fit_PV_curve</span>,
-                 varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(psi = <span class="st">"psi"</span>, 
-                                    mass = <span class="st">"mass"</span>, 
-                                    leaf_mass = <span class="st">"leaf_mass"</span>, 
-                                    bag_mass = <span class="st">"bag_mass"</span>, 
-                                    leaf_area = <span class="st">"leaf_area"</span>))
-</pre></div>
+<span class="va">fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span><span class="op">(</span><span class="va">data</span>,
+                 group <span class="op">=</span> <span class="st">"ID"</span>,
+                 funct <span class="op">=</span> <span class="va">fit_PV_curve</span>,
+                 varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>psi <span class="op">=</span> <span class="st">"psi"</span>, 
+                                    mass <span class="op">=</span> <span class="st">"mass"</span>, 
+                                    leaf_mass <span class="op">=</span> <span class="st">"leaf_mass"</span>, 
+                                    bag_mass <span class="op">=</span> <span class="st">"bag_mass"</span>, 
+                                    leaf_area <span class="op">=</span> <span class="st">"leaf_area"</span><span class="op">)</span><span class="op">)</span></pre></div>
 <pre><code>## 
   |                                                                            
   |                                                                      |   0%
@@ -1010,53 +968,48 @@
   |======================================================================| 100%</code></pre>
 <div class="sourceCode" id="cb83"><pre class="downlit">
 <span class="co">#See parameters</span>
-<span class="kw">fits</span>[[<span class="fl">1</span>]][[<span class="fl">1</span>]]
-</pre></div>
+<span class="va">fits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></pre></div>
 <pre><code>##        SWC      PI_o psi_TLP  RWC_TLP      eps       C_FT      C_TLP  C_FTStar
 ## 1 2.438935 -1.399302   -1.75 88.67684 12.20175 0.06456207 0.09923338 0.5161476</code></pre>
 <div class="sourceCode" id="cb85"><pre class="downlit">
 <span class="co">#See water mass - water potential graph</span>
-<span class="kw">fits</span>[[<span class="fl">1</span>]][[<span class="fl">2</span>]]
-</pre></div>
+<span class="va">fits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-9-3.png" width="700"></p>
 <div class="sourceCode" id="cb86"><pre class="downlit">
 <span class="co">#See PV curve</span>
-<span class="kw">fits</span>[[<span class="fl">1</span>]][[<span class="fl">3</span>]]
-</pre></div>
+<span class="va">fits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-9-4.png" width="700"></p>
 <div class="sourceCode" id="cb87"><pre class="downlit">
 <span class="co">#Compile parameter outputs</span>
-<span class="kw">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span>(data = <span class="kw">fits</span>,
-                     output_type = <span class="st">"dataframe"</span>,
-                     list_element = <span class="fl">1</span>)
+<span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">fits</span>,
+                     output_type <span class="op">=</span> <span class="st">"dataframe"</span>,
+                     list_element <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 
 <span class="co">#Compile the water mass - water potential graphs</span>
-<span class="kw">graphs1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span>(data = <span class="kw">fits</span>,
-                     output_type = <span class="st">"list"</span>,
-                     list_element = <span class="fl">2</span>)
+<span class="va">graphs1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">fits</span>,
+                     output_type <span class="op">=</span> <span class="st">"list"</span>,
+                     list_element <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 
 <span class="co">#Compile the PV graphs</span>
-<span class="kw">graphs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span>(data = <span class="kw">fits</span>,
-                     output_type = <span class="st">"list"</span>,
-                     list_element = <span class="fl">3</span>)
-</pre></div>
+<span class="va">graphs2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">fits</span>,
+                     output_type <span class="op">=</span> <span class="st">"list"</span>,
+                     list_element <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></pre></div>
 <p>#8. Fitting hydraulic vulnerability curves</p>
 <p>Current approach fits a sigmoidal model and calculates hydraulic parameters from the curve fit. See Pammenter &amp; Van der Willigen, 1998 and Ogle et al. 2009.</p>
 <div class="sourceCode" id="cb88"><pre class="downlit">
 <span class="co">#Read in data</span>
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"hydraulic_vulnerability.csv"</span>, 
-                             package = <span class="st">"photosynthesis"</span>))
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"hydraulic_vulnerability.csv"</span>, 
+                             package <span class="op">=</span> <span class="st">"photosynthesis"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">#Fit hydraulic vulnerability curve</span>
-<span class="kw">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_hydra_vuln_curve.html">fit_hydra_vuln_curve</a></span>(<span class="kw">data</span>[<span class="kw">data</span><span class="op">$</span><span class="kw">Tree</span> <span class="op">==</span> <span class="fl">5</span> <span class="op">&amp;</span> <span class="kw">data</span><span class="op">$</span><span class="kw">Plot</span> <span class="op">==</span> <span class="st">"Irrigation"</span>,],
-                            varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(psi = <span class="st">"P"</span>,
-                                            PLC = <span class="st">"PLC"</span>),
-                            start_weibull = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(a = <span class="fl">2</span>, b = <span class="fl">1</span>),
-                            title = <span class="st">"Irrigation 5"</span>)
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_hydra_vuln_curve.html">fit_hydra_vuln_curve</a></span><span class="op">(</span><span class="va">data</span><span class="op">[</span><span class="va">data</span><span class="op">$</span><span class="va">Tree</span> <span class="op">==</span> <span class="fl">5</span> <span class="op">&amp;</span> <span class="va">data</span><span class="op">$</span><span class="va">Plot</span> <span class="op">==</span> <span class="st">"Irrigation"</span>,<span class="op">]</span>,
+                            varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>psi <span class="op">=</span> <span class="st">"P"</span>,
+                                            PLC <span class="op">=</span> <span class="st">"PLC"</span><span class="op">)</span>,
+                            start_weibull <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">2</span>, b <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,
+                            title <span class="op">=</span> <span class="st">"Irrigation 5"</span><span class="op">)</span>
 
 <span class="co">#Return Sigmoidal model summary</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">fit</span>[[<span class="fl">1</span>]]) 
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> </pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = H_log ~ psi, data = data[data$H_log &lt; Inf, ])
@@ -1077,8 +1030,7 @@
 ## F-statistic: 80.68 on 1 and 3 DF,  p-value: 0.002912</code></pre>
 <div class="sourceCode" id="cb90"><pre class="downlit">
 <span class="co">#Return Weibull model summary</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">fit</span>[[<span class="fl">4</span>]]) <span class="co">#expecting a = 4.99, b = 3.22</span>
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">[[</span><span class="fl">4</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="co">#expecting a = 4.99, b = 3.22</span></pre></div>
 <pre><code>## 
 ## Formula: K.Kmax ~ exp(-((psi/a)^b))
 ## 
@@ -1095,8 +1047,7 @@
 ## Achieved convergence tolerance: 1.49e-08</code></pre>
 <div class="sourceCode" id="cb92"><pre class="downlit">
 <span class="co">#Return model parameters with 95% confidence intervals</span>
-<span class="kw">fit</span>[[<span class="fl">2</span>]] 
-</pre></div>
+<span class="va">fit</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span> </pre></div>
 <pre><code>##           Value Parameter     Curve
 ## b...1  4.749922         b Sigmoidal
 ## a...2 -1.088445         a Sigmoidal
@@ -1104,8 +1055,7 @@
 ## a...4  5.315979         a   Weibull</code></pre>
 <div class="sourceCode" id="cb94"><pre class="downlit">
 <span class="co">#Return hydraulic parameters</span>
-<span class="kw">fit</span>[[<span class="fl">3</span>]] 
-</pre></div>
+<span class="va">fit</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span> </pre></div>
 <pre><code>##        P25      P50      P88      P95      S50       Pe     Pmax      DSI
 ## 1 3.740581 4.749922 6.580451 7.455102 27.21113 2.912439 6.587406 3.674967
 ## 2 3.394637 4.658873 6.967591 7.890836 20.66405 2.239211 7.078534 4.839322
@@ -1116,17 +1066,16 @@
 <span class="co">#Return graph</span>
 <span class="co">#fit[[5]] </span>
 
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unite.html">unite</a></span>(<span class="kw">data</span>, col = <span class="st">"ID"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Plot"</span>, <span class="st">"Tree"</span>), sep = <span class="st">"_"</span>)
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unite.html">unite</a></span><span class="op">(</span><span class="va">data</span>, col <span class="op">=</span> <span class="st">"ID"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Plot"</span>, <span class="st">"Tree"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span>
 <span class="co">#fit many function check to make sure it works for weibull</span>
 <span class="co">#Fit many curves</span>
-<span class="kw">fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span>(data = <span class="kw">data</span>,
-                  varnames = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(psi = <span class="st">"P"</span>,
-                                            PLC = <span class="st">"PLC"</span>),
-                 group = <span class="st">"ID"</span>,
-                 start_weibull = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(a = <span class="fl">4</span>, b = <span class="fl">2</span>),
+<span class="va">fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
+                  varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>psi <span class="op">=</span> <span class="st">"P"</span>,
+                                            PLC <span class="op">=</span> <span class="st">"PLC"</span><span class="op">)</span>,
+                 group <span class="op">=</span> <span class="st">"ID"</span>,
+                 start_weibull <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">4</span>, b <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,
                   <span class="co">#group = "Tree",</span>
-                  funct = <span class="kw">fit_hydra_vuln_curve</span>)
-</pre></div>
+                  funct <span class="op">=</span> <span class="va">fit_hydra_vuln_curve</span><span class="op">)</span></pre></div>
 <pre><code>## 
   |                                                                            
   |                                                                      |   0%
@@ -1151,8 +1100,7 @@
 <div class="sourceCode" id="cb98"><pre class="downlit">
 <span class="co">#To select individuals from the many fits</span>
 <span class="co">#Return model summary</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">fits</span>[[<span class="fl">1</span>]][[<span class="fl">1</span>]]) <span class="co">#Returns model summary</span>
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="co">#Returns model summary</span></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = H_log ~ psi, data = data[data$H_log &lt; Inf, ])
@@ -1173,8 +1121,7 @@
 ## F-statistic: 324.4 on 1 and 3 DF,  p-value: 0.0003733</code></pre>
 <div class="sourceCode" id="cb100"><pre class="downlit">
 <span class="co">#Return sigmoidal model output</span>
-<span class="kw">fits</span>[[<span class="fl">1</span>]][[<span class="fl">2</span>]] 
-</pre></div>
+<span class="va">fits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span> </pre></div>
 <pre><code>##           Value Parameter     Curve
 ## b...1  4.044964         b Sigmoidal
 ## a...2 -1.415905         a Sigmoidal
@@ -1182,8 +1129,7 @@
 ## a...4  4.580836         a   Weibull</code></pre>
 <div class="sourceCode" id="cb102"><pre class="downlit">
 <span class="co">#Return hydraulic parameters</span>
-<span class="kw">fits</span>[[<span class="fl">1</span>]][[<span class="fl">3</span>]] 
-</pre></div>
+<span class="va">fits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span> </pre></div>
 <pre><code>##        P25      P50      P88      P95      S50       Pe     Pmax      DSI
 ## 1 3.269056 4.044964 5.452141 6.124509 35.39764 2.632440 5.457488 2.825047
 ## 2 3.329677 4.170508 5.552841 6.066678 32.45566 2.629945 5.711071 3.081127
@@ -1192,20 +1138,18 @@
 ## 2   Weibull</code></pre>
 <div class="sourceCode" id="cb104"><pre class="downlit">
 <span class="co">#Return graph</span>
-<span class="kw">fits</span>[[<span class="fl">1</span>]][[<span class="fl">5</span>]] 
-</pre></div>
+<span class="va">fits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">5</span><span class="op">]</span><span class="op">]</span> </pre></div>
 <p><img src="photosynthesis-curve-fitting-sensitivity-analyses_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <div class="sourceCode" id="cb105"><pre class="downlit">
 <span class="co">#Compile parameter outputs</span>
-<span class="kw">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span>(data = <span class="kw">fits</span>,
-                     output_type = <span class="st">"dataframe"</span>,
-                     list_element = <span class="fl">3</span>)
+<span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">fits</span>,
+                     output_type <span class="op">=</span> <span class="st">"dataframe"</span>,
+                     list_element <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 
 <span class="co">#Compile graphs</span>
-<span class="kw">graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span>(data = <span class="kw">fits</span>,
-                     output_type = <span class="st">"list"</span>,
-                     list_element = <span class="fl">5</span>)
-</pre></div>
+<span class="va">graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">fits</span>,
+                     output_type <span class="op">=</span> <span class="st">"list"</span>,
+                     list_element <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></pre></div>
 <p>#9. Sensitivity analyses</p>
 <p>This segment outlines a set of functions that can be used to assess the sensitivity of data outputs to assumed parameters. For example, assuming different values of GammaStar, mesophyll conductance, and light absorbance on fitted gas exchange parameters.</p>
 <p>Uncomment the chunk below to run - it takes awhile. #```{r} #Read in your data #Note that this data is coming from data supplied by the package #hence the complicated argument in read.csv() #This dataset is a CO2 by light response curve for a single sunflower data &lt;- read.csv(system.file(“extdata”, “A_Ci_Q_data_1.csv”, package = “photosynthesis”))</p>
@@ -1218,12 +1162,11 @@
 <p>#10. Dependency checking</p>
 <p>A function can be used to generate an html file that assesses the dependencies within and between packages</p>
 <div class="sourceCode" id="cb106"><pre class="downlit">
-<span class="co">#check_dependencies()</span>
-</pre></div>
+<span class="co">#check_dependencies()</span></pre></div>
 <p>#References</p>
 <p>Arrhenius S. 1915. Quantitative laws in biological chemistry. Bell.</p>
 <p>Ball JT, Woodrow IE, Berry JA. 1987. A model predicting stomatal conductance and its contribution to the control of photosynthesis under different environmental conditions, in Progress in Photosynthesis Research, Proceedings of the VII International Congress on Photosynthesis, vol. 4, edited by I. Biggins, pp.  221–224, Martinus Nijhoff, Dordrecht, Netherlands.</p>
-<p>Duursma R. 2015. Plantecophys - an R package for analysing and modelling leaf gas exchange data. PLoS ONE 10:e0143346</p>
+<p>Duursma R. 2015. Plantecophys - an R package for analysing and modeling leaf gas exchange data. PLoS ONE 10:e0143346</p>
 <p>Erhardt EB. 2019. RLicor: Read Licor files. R package version 0.0.01.</p>
 <p>Gu L, Pallardy SG, Tu K, Law BE, Wullschleger SD. 2010. Reliable estimation of biochemical parameters from C3 leaf photosynthesis- intercellular carbon dioxide response curves. Plant Cell Environ 33:1582-1874.</p>
 <p>Harley PC, Loreto F, Di Marco G, Sharkey TD. 1992. Theoretical considerations when estimating mesophyll conductance to CO2 flux by analysis of the response of photosynthesis to CO2. Plant Physiol 98:1429 - 1436.</p>
@@ -1237,7 +1180,7 @@
 <p>Liang LL, Arcus VL, Heskel MA, O’Sullivan OS, Weerasinghe LK, Creek D, Egerton JJG, Tjoelker MG, Atkin OK, Schipper LA. 2018. Macromolecular rate theory (MMRT) provides a thermodynamics rationale to underpin the convergent temperature response in plant leaf respiration. Glob Chang Biol 24:1538-1547</p>
 <p>Marshall B, Biscoe P. 1980. A model for C3 leaves describing the dependence of net photosynthesis on irradiance. J Ex Bot 31:29-39</p>
 <p>Medlyn BE, Dreyer E, Ellsworth D, Forstreuter M, Harley PC, Kirschbaum MUF, Le Roux X, Montpied P, Strassemeyer J, Walcroft A, Wang K, Loutstau D. 2002. Temperature response of parameters of a biochemically based model of photosynthesis. II. A review of experimental data. Plant Cell Environ 25:1167-1179</p>
-<p>Medlyn BE, Duursma RA, Eamus D, Ellsworth DS, Prentice IC, Barton CVM, Crous KY, Angelis PD, Freeman M, Wingate L. 2011. Reconciling the optimal and empirical approaches to modelling stomatal conductance. Glob Chang Biol 17:2134-2144</p>
+<p>Medlyn BE, Duursma RA, Eamus D, Ellsworth DS, Prentice IC, Barton CVM, Crous KY, Angelis PD, Freeman M, Wingate L. 2011. Reconciling the optimal and empirical approaches to modeling stomatal conductance. Glob Chang Biol 17:2134-2144</p>
 <p>Ogle K, Barber JJ, Willson C, Thompson B. 2009. Hierarchical statistical modeling of xylem vulnerability to cavitation. New Phytologist 182:541-554</p>
 <p>Pammenter NW, Van der Willigen CV. 1998. A mathematical and statistical analysis of the curves illustrating vulnerability of xylem to cavitation. Tree Physiology 18:589-593</p>
 <p>Sack L, Cowan PD, Jaikumar N, Holbrook NM. 2003. The ‘hydrology’ of leaves: co-ordination of structure and function in temperate woody species. Plant, Cell and Environment, 26, 1343-1356</p>
@@ -1261,7 +1204,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

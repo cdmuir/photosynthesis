@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9999</span>
       </span>
     </div>
 
@@ -72,7 +72,14 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/cdmuir/photosynthesis/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -82,15 +89,15 @@
 
       
 
-      </header><script src="photosynthesis-introduction_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="photosynthesis-introduction_files/header-attrs-2.4/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to the photosynthesis package</h1>
                         <h4 class="author">Chris Muir</h4>
             
-            <h4 class="date">2020-09-10</h4>
+            <h4 class="date">2020-10-21</h4>
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/cdmuir/photosynthesis/blob/master/vignettes/photosynthesis-introduction.Rmd"><code>vignettes/photosynthesis-introduction.Rmd</code></a></small>
       <div class="hidden name"><code>photosynthesis-introduction.Rmd</code></div>
 
     </div>
@@ -114,19 +121,19 @@
 <p>You can use the default parameter settings and simulate photosynthetic rate in a single leaf using the <code>make_*()</code> functions and <code><a href="../reference/photosynthesis.html">photo()</a></code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
 
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">magrittr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">photosynthesis</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">magrittr</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cdmuir/photosynthesis">photosynthesis</a></span><span class="op">)</span>
 
 <span class="co"># Leaving the make_* functions empty will automatically default to defaults</span>
 <span class="co"># parameters.</span>
-<span class="kw">bake_par</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_bakepar</a></span>()                       <span class="co"># temperature response parameters</span>
-<span class="kw">constants</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_constants</a></span>(use_tealeaves = <span class="fl">FALSE</span>) <span class="co"># physical constants</span>
-<span class="kw">leaf_par</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_leafpar</a></span>(use_tealeaves = <span class="fl">FALSE</span>)   <span class="co"># leaf parameters</span>
-<span class="kw">enviro_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_enviropar</a></span>(use_tealeaves = <span class="fl">FALSE</span>) <span class="co"># environmental parameters</span>
+<span class="va">bake_par</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_bakepar</a></span><span class="op">(</span><span class="op">)</span>                       <span class="co"># temperature response parameters</span>
+<span class="va">constants</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_constants</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># physical constants</span>
+<span class="va">leaf_par</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_leafpar</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>   <span class="co"># leaf parameters</span>
+<span class="va">enviro_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_enviropar</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># environmental parameters</span>
 
-<span class="fu"><a href="../reference/photosynthesis.html">photo</a></span>(<span class="kw">leaf_par</span>, <span class="kw">enviro_par</span>, <span class="kw">bake_par</span>, <span class="kw">constants</span>, quiet = <span class="fl">TRUE</span>,
-      use_tealeaves = <span class="fl">FALSE</span>)
+<span class="fu"><a href="../reference/photosynthesis.html">photo</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">bake_par</span>, <span class="va">constants</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>,
+      use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt;           C_chl        value convergence                     g_tc</span>
 <span class="co">#&gt; 1 24.52925 [Pa] -1.09648e-06           0 1.668765 [umol/m^2/Pa/s]</span>
 <span class="co">#&gt;                       A            g_mc25              g_sc                g_uc</span>
@@ -138,8 +145,7 @@
 <span class="co">#&gt;            V_tpu25 g_mc gamma_star J_max    K_C    K_O R_d V_cmax V_tpu   C_air</span>
 <span class="co">#&gt; 1 200 [umol/m^2/s]    4      3.743   200 27.238 16.582   2    150   200 41 [Pa]</span>
 <span class="co">#&gt;                O              P              PPFD      RH    wind</span>
-<span class="co">#&gt; 1 21.27565 [kPa] 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 2 [m/s]</span>
-</pre></div>
+<span class="co">#&gt; 1 21.27565 [kPa] 101.3246 [kPa] 1500 [umol/m^2/s] 0.5 [1] 2 [m/s]</span></pre></div>
 </div>
 <div id="replace-default-parameters" class="section level2">
 <h2 class="hasAnchor">
@@ -152,33 +158,32 @@
 <span class="co"># for all parameter names and proper units.</span>
 
 <span class="co"># Temperature response parameters can be updated (but we won't do that here)</span>
-<span class="kw">bake_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_bakepar</a></span>()
+<span class="va">bake_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_bakepar</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># Physical constants probably do not need to be replaced in most cases,</span>
 <span class="co"># that's why we call them 'constants'!</span>
-<span class="kw">constants</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_constants</a></span>(use_tealeaves = <span class="fl">FALSE</span>)
+<span class="va">constants</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_constants</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="co"># First, we'll change photosynthetic photon flux density to 1000 umol / (m^2 s)</span>
-<span class="kw">enviro_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_enviropar</a></span>(
-  replace = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    PPFD = <span class="fu">set_units</span>(<span class="fl">1000</span>, <span class="st">"umol/m^2/s"</span>)
-    ), use_tealeaves = <span class="fl">FALSE</span>
-  )
+<span class="va">enviro_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_enviropar</a></span><span class="op">(</span>
+  replace <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    PPFD <span class="op">=</span> <span class="fu">set_units</span><span class="op">(</span><span class="fl">1000</span>, <span class="st">"umol/m^2/s"</span><span class="op">)</span>
+    <span class="op">)</span>, use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span>
+  <span class="op">)</span>
 
 <span class="co"># Next, we'll change stomatal conductance to 3 umol / (m^2 s Pa)</span>
-<span class="kw">leaf_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_leafpar</a></span>(
-  replace = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    g_sc = <span class="fu">set_units</span>(<span class="fl">3</span>, <span class="st">"umol/m^2/s/Pa"</span>)
-    ), use_tealeaves = <span class="fl">FALSE</span>
-  )
+<span class="va">leaf_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_leafpar</a></span><span class="op">(</span>
+  replace <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    g_sc <span class="op">=</span> <span class="fu">set_units</span><span class="op">(</span><span class="fl">3</span>, <span class="st">"umol/m^2/s/Pa"</span><span class="op">)</span>
+    <span class="op">)</span>, use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span>
+  <span class="op">)</span>
 
-<span class="kw">photo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/photosynthesis.html">photo</a></span>(<span class="kw">leaf_par</span>, <span class="kw">enviro_par</span>, <span class="kw">bake_par</span>, <span class="kw">constants</span>, quiet = <span class="fl">TRUE</span>,
-               use_tealeaves = <span class="fl">FALSE</span>)
+<span class="va">photo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/photosynthesis.html">photo</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">bake_par</span>, <span class="va">constants</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>,
+               use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="kw">photo</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">PPFD</span>, <span class="kw">C_chl</span>, <span class="kw">A</span>) <span class="op">%&gt;%</span>
-  <span class="kw">knitr</span>::<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()
-</pre></div>
+<span class="va">photo</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">PPFD</span>, <span class="va">C_chl</span>, <span class="va">A</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">PPFD</th>
@@ -201,31 +206,30 @@
 <span class="co"># As before, use the `replace` argument to replace defaults, but this time we</span>
 <span class="co"># enter multiple values</span>
 
-<span class="kw">bake_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_bakepar</a></span>()
-<span class="kw">constants</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_constants</a></span>(use_tealeaves = <span class="fl">FALSE</span>)
+<span class="va">bake_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_bakepar</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">constants</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_constants</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="co"># First, we'll change the PPFD to 1000 and 1500 umol / (m^2 s)</span>
-<span class="kw">enviro_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_enviropar</a></span>(
-  replace = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    PPFD = <span class="fu">set_units</span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1000</span>, <span class="fl">1500</span>), <span class="st">"umol/m^2/s"</span>)
-    ), use_tealeaves = <span class="fl">FALSE</span>
-  )
+<span class="va">enviro_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_enviropar</a></span><span class="op">(</span>
+  replace <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    PPFD <span class="op">=</span> <span class="fu">set_units</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">1500</span><span class="op">)</span>, <span class="st">"umol/m^2/s"</span><span class="op">)</span>
+    <span class="op">)</span>, use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span>
+  <span class="op">)</span>
 
 <span class="co"># Next, we'll change stomatal conductance to to 2 and 4 umol / (m^2 s Pa)</span>
-<span class="kw">leaf_par</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_leafpar</a></span>(
-  replace = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    g_sc = <span class="fu">set_units</span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">4</span>), <span class="st">"umol/m^2/s/Pa"</span>)
-    ), use_tealeaves = <span class="fl">FALSE</span>
-  )
+<span class="va">leaf_par</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_leafpar</a></span><span class="op">(</span>
+  replace <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    g_sc <span class="op">=</span> <span class="fu">set_units</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span>, <span class="st">"umol/m^2/s/Pa"</span><span class="op">)</span>
+    <span class="op">)</span>, use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span>
+  <span class="op">)</span>
 
 <span class="co"># Now there should be 4 combinations (high and low g_sc crossed with high and low PPFD)</span>
-<span class="kw">ph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/photosynthesis.html">photosynthesis</a></span>(<span class="kw">leaf_par</span>, <span class="kw">enviro_par</span>, <span class="kw">bake_par</span>, <span class="kw">constants</span>, 
-                     use_tealeaves = <span class="fl">FALSE</span>, progress = <span class="fl">FALSE</span>, quiet = <span class="fl">TRUE</span>)
+<span class="va">ph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/photosynthesis.html">photosynthesis</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">bake_par</span>, <span class="va">constants</span>, 
+                     use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span>, progress <span class="op">=</span> <span class="cn">FALSE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="kw">ph</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">g_sc</span>, <span class="kw">PPFD</span>, <span class="kw">A</span>) <span class="op">%&gt;%</span>
-  <span class="kw">knitr</span>::<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()
-</pre></div>
+<span class="va">ph</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">g_sc</span>, <span class="va">PPFD</span>, <span class="va">A</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">g_sc</th>
@@ -259,38 +263,39 @@
 <div id="parallel-processing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#parallel-processing" class="anchor"></a>Parallel processing</h2>
-<p>It can take a little while to simulate many different parameter sets. If you have multiple processors available, you can speed things up by running simulations in parallel. In the <code>photosynthesis</code> function, simply use the <code>parallel = TRUE</code> argument to simulate in parallel. Here I’ll provide an example simulating an A-Cc curve.</p>
+<p>It can take a little while to simulate many different parameter sets. If you have multiple processors available, you can speed things up by running simulations in parallel. In the <code>photosynthesis</code> function, simply use the <code>parallel = TRUE</code> argument to simulate in parallel. You’ll need to set up a <strong>future</strong> <code>plan()</code>. See <code><a href="https://rdrr.io/pkg/future/man/plan.html">?future::plan</a></code> for more detail. Here I’ll provide an example simulating an <span class="math inline">\(A-C_c\)</span> curve.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
+
+<span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/future/man/plan.html">plan</a></span><span class="op">(</span><span class="st">"multisession"</span><span class="op">)</span> <span class="co"># Set up plan</span>
 
 <span class="co"># We'll use the `replace` argument to enter multiple atmospheric CO2 concentrations</span>
 
-<span class="kw">bake_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_bakepar</a></span>()
-<span class="kw">constants</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_constants</a></span>(use_tealeaves = <span class="fl">FALSE</span>)
+<span class="va">bake_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_bakepar</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">constants</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_constants</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="kw">enviro_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_enviropar</a></span>(
-  replace = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    C_air = <span class="fu">set_units</span>(<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">1</span>, <span class="fl">200</span>, length.out = <span class="fl">20</span>), <span class="st">"Pa"</span>)
-    ), use_tealeaves = <span class="fl">FALSE</span>
-  )
+<span class="va">enviro_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_enviropar</a></span><span class="op">(</span>
+  replace <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    C_air <span class="op">=</span> <span class="fu">set_units</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">200</span>, length.out <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>, <span class="st">"Pa"</span><span class="op">)</span>
+    <span class="op">)</span>, use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span>
+  <span class="op">)</span>
 
-<span class="kw">leaf_par</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_leafpar</a></span>(use_tealeaves = <span class="fl">FALSE</span>)
+<span class="va">leaf_par</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_leafpar</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="kw">ph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/photosynthesis.html">photosynthesis</a></span>(<span class="kw">leaf_par</span>, <span class="kw">enviro_par</span>, <span class="kw">bake_par</span>, <span class="kw">constants</span>, 
-                     use_tealeaves = <span class="fl">FALSE</span>, progress = <span class="fl">FALSE</span>, 
-                     quiet = <span class="fl">TRUE</span>, parallel = <span class="fl">TRUE</span>)
+<span class="va">ph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/photosynthesis.html">photosynthesis</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">bake_par</span>, <span class="va">constants</span>, 
+                     use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span>, progress <span class="op">=</span> <span class="cn">FALSE</span>, 
+                     quiet <span class="op">=</span> <span class="cn">TRUE</span>, parallel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co"># Plot C_c versus A</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
 <span class="co">## Drop units for plotting</span>
-<span class="kw">ph</span> <span class="op">%&lt;&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_if</a></span>(<span class="op">~</span> <span class="fu">is</span>(<span class="kw">.x</span>, <span class="st">"units"</span>), <span class="kw">drop_units</span>)
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">ph</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">C_chl</span>, <span class="kw">A</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>(size = <span class="fl">2</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="kw">C</span>[<span class="kw">chl</span>], <span class="st">" [Pa]"</span>))) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"A ["</span>, <span class="kw">mu</span>, <span class="st">"mol "</span>, <span class="kw">m</span><span class="op">^</span><span class="op">-</span><span class="fl">2</span><span class="op">~</span><span class="kw">s</span><span class="op">^</span><span class="op">-</span><span class="fl">1</span>, <span class="st">"]"</span>))) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() <span class="op">+</span>
-  <span class="kw">NULL</span>
-</pre></div>
+<span class="va">ph</span> <span class="op">%&lt;&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_if</a></span><span class="op">(</span><span class="op">~</span> <span class="fu">is</span><span class="op">(</span><span class="va">.x</span>, <span class="st">"units"</span><span class="op">)</span>, <span class="va">drop_units</span><span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">ph</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">C_chl</span>, <span class="va">A</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">C</span><span class="op">[</span><span class="va">chl</span><span class="op">]</span>, <span class="st">" [Pa]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"A ["</span>, <span class="va">mu</span>, <span class="st">"mol "</span>, <span class="va">m</span><span class="op">^</span><span class="op">-</span><span class="fl">2</span><span class="op">~</span><span class="va">s</span><span class="op">^</span><span class="op">-</span><span class="fl">1</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="cn">NULL</span></pre></div>
 <p><img src="photosynthesis-introduction_files/figure-html/parallel-example-1.png" width="700"></p>
 </div>
 <div id="incorporating-leaf-temperature-using-tealeaves" class="section level2">
@@ -302,52 +307,50 @@
 
 <span class="co"># You will need to set use_tealeaves = TRUE when making parameters because additional parameters are needed for tealeaves.</span>
 
-<span class="kw">bake_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_bakepar</a></span>()
-<span class="kw">constants</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_constants</a></span>(use_tealeaves = <span class="fl">TRUE</span>)
+<span class="va">bake_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_bakepar</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">constants</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_constants</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="kw">enviro_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_enviropar</a></span>(
-  replace = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    T_air = <span class="fu">set_units</span>(<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">288.15</span>, <span class="fl">313.15</span>, <span class="fl">1</span>), <span class="kw">K</span>)
-    ), use_tealeaves = <span class="fl">TRUE</span>
-  )
+<span class="va">enviro_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_enviropar</a></span><span class="op">(</span>
+  replace <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    T_air <span class="op">=</span> <span class="fu">set_units</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">288.15</span>, <span class="fl">313.15</span>, <span class="fl">1</span><span class="op">)</span>, <span class="va">K</span><span class="op">)</span>
+    <span class="op">)</span>, use_tealeaves <span class="op">=</span> <span class="cn">TRUE</span>
+  <span class="op">)</span>
 
-<span class="kw">leaf_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_leafpar</a></span>(replace = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    g_sc = <span class="fu">set_units</span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">4</span>), <span class="kw">umol</span><span class="op">/</span><span class="kw">m</span><span class="op">^</span><span class="fl">2</span><span class="op">/</span><span class="kw">s</span><span class="op">/</span><span class="kw">Pa</span>)
-    ), use_tealeaves = <span class="fl">TRUE</span>
-  )
+<span class="va">leaf_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_leafpar</a></span><span class="op">(</span>replace <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    g_sc <span class="op">=</span> <span class="fu">set_units</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span>, <span class="va">umol</span><span class="op">/</span><span class="va">m</span><span class="op">^</span><span class="fl">2</span><span class="op">/</span><span class="va">s</span><span class="op">/</span><span class="va">Pa</span><span class="op">)</span>
+    <span class="op">)</span>, use_tealeaves <span class="op">=</span> <span class="cn">TRUE</span>
+  <span class="op">)</span>
 
-<span class="kw">ph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/photosynthesis.html">photosynthesis</a></span>(<span class="kw">leaf_par</span>, <span class="kw">enviro_par</span>, <span class="kw">bake_par</span>, <span class="kw">constants</span>, 
-                     use_tealeaves = <span class="fl">TRUE</span>, progress = <span class="fl">FALSE</span>, 
-                   quiet = <span class="fl">TRUE</span>, parallel = <span class="fl">TRUE</span>)
+<span class="va">ph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/photosynthesis.html">photosynthesis</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">bake_par</span>, <span class="va">constants</span>, 
+                     use_tealeaves <span class="op">=</span> <span class="cn">TRUE</span>, progress <span class="op">=</span> <span class="cn">FALSE</span>, 
+                   quiet <span class="op">=</span> <span class="cn">TRUE</span>, parallel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co"># Plot temperature and photosynthesis</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
 <span class="co">## Drop units for plotting</span>
-<span class="kw">ph</span> <span class="op">%&lt;&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_if</a></span>(<span class="op">~</span> <span class="fu">is</span>(<span class="kw">.x</span>, <span class="st">"units"</span>), <span class="kw">drop_units</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(`g[s]` = <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="kw">g_sc</span> <span class="op">==</span> <span class="fl">2</span>, <span class="st">"low"</span>, <span class="st">"high"</span>))
+<span class="va">ph</span> <span class="op">%&lt;&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_if</a></span><span class="op">(</span><span class="op">~</span> <span class="fu">is</span><span class="op">(</span><span class="va">.x</span>, <span class="st">"units"</span><span class="op">)</span>, <span class="va">drop_units</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>`g[s]` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">g_sc</span> <span class="op">==</span> <span class="fl">2</span>, <span class="st">"low"</span>, <span class="st">"high"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">ph</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">T_air</span>, <span class="kw">T_leaf</span>, color = <span class="kw">`g[s]`</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>(size = <span class="fl">2</span>, lineend = <span class="st">"round"</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_abline</a></span>(slope = <span class="fl">1</span>, intercept = <span class="fl">0</span>, linetype = <span class="st">"dotted"</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_hue.html">scale_color_discrete</a></span>(name = <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="kw">g</span>[<span class="kw">s</span>])) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="kw">T</span>[<span class="kw">air</span>], <span class="st">" [K]"</span>))) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="kw">T</span>[<span class="kw">leaf</span>], <span class="st">" [K]"</span>))) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() <span class="op">+</span>
-  <span class="kw">NULL</span>
-</pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">ph</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">T_air</span>, <span class="va">T_leaf</span>, color <span class="op">=</span> <span class="va">`g[s]`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span>, lineend <span class="op">=</span> <span class="st">"round"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_abline</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">1</span>, intercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dotted"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_hue.html">scale_color_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">g</span><span class="op">[</span><span class="va">s</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="cn">T</span><span class="op">[</span><span class="va">air</span><span class="op">]</span>, <span class="st">" [K]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="cn">T</span><span class="op">[</span><span class="va">leaf</span><span class="op">]</span>, <span class="st">" [K]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="cn">NULL</span></pre></div>
 <p><img src="photosynthesis-introduction_files/figure-html/use-tealeaves-example-1.png" width="700"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">ph</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">T_air</span>, <span class="kw">A</span>, color = <span class="kw">`g[s]`</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>(size = <span class="fl">2</span>, lineend = <span class="st">"round"</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_hue.html">scale_color_discrete</a></span>(name = <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="kw">g</span>[<span class="kw">s</span>])) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="kw">T</span>[<span class="kw">leaf</span>], <span class="st">" [K]"</span>))) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"A ["</span>, <span class="kw">mu</span>, <span class="st">"mol "</span>, <span class="kw">m</span><span class="op">^</span><span class="op">-</span><span class="fl">2</span><span class="op">~</span><span class="kw">s</span><span class="op">^</span><span class="op">-</span><span class="fl">1</span>, <span class="st">"]"</span>))) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() <span class="op">+</span>
-  <span class="kw">NULL</span>
-</pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">ph</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">T_air</span>, <span class="va">A</span>, color <span class="op">=</span> <span class="va">`g[s]`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span>, lineend <span class="op">=</span> <span class="st">"round"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_hue.html">scale_color_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="va">g</span><span class="op">[</span><span class="va">s</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="cn">T</span><span class="op">[</span><span class="va">leaf</span><span class="op">]</span>, <span class="st">" [K]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"A ["</span>, <span class="va">mu</span>, <span class="st">"mol "</span>, <span class="va">m</span><span class="op">^</span><span class="op">-</span><span class="fl">2</span><span class="op">~</span><span class="va">s</span><span class="op">^</span><span class="op">-</span><span class="fl">1</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="cn">NULL</span></pre></div>
 <p><img src="photosynthesis-introduction_files/figure-html/use-tealeaves-example-2.png" width="700"></p>
 </div>
 <div class="footnotes">
@@ -373,7 +376,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

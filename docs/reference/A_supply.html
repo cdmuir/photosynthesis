@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9999</span>
       </span>
     </div>
 
@@ -115,7 +115,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/cdmuir/photosynthesis/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -130,7 +135,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>CO2 supply and demand function (mol / m^2 s)</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/cdmuir/photosynthesis/blob/master/R/photosynthesis.R'><code>R/photosynthesis.R</code></a></small>
     <div class="hidden name"><code>A_supply.Rd</code></div>
     </div>
 
@@ -138,9 +143,9 @@
     <p>This function is not intended to be called by users directly.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>A_supply</span>(<span class='kw'>C_chl</span>, <span class='kw'>pars</span>, unitless = <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>A_supply</span><span class='op'>(</span><span class='va'>C_chl</span>, <span class='va'>pars</span>, unitless <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>A_demand</span>(<span class='kw'>C_chl</span>, <span class='kw'>pars</span>, unitless = <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>A_demand</span><span class='op'>(</span><span class='va'>C_chl</span>, <span class='va'>pars</span>, unitless <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -183,21 +188,21 @@ $$A = (1 - \Gamma* / C_\mathrm{chl}) \mathrm{min}(W_\mathrm{carbox}, W_\mathrm{r
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>bake_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span>()
-<span class='kw'>constants</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span>(use_tealeaves = <span class='fl'>FALSE</span>)
-<span class='kw'>enviro_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span>(use_tealeaves = <span class='fl'>FALSE</span>)
-<span class='kw'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span>(use_tealeaves = <span class='fl'>FALSE</span>)
-<span class='kw'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bake.html'>bake</a></span>(<span class='kw'>leaf_par</span>, <span class='kw'>bake_par</span>, <span class='kw'>constants</span>)
+    <pre class="examples"><div class='input'><span class='va'>bake_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>constants</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_constants</a></span><span class='op'>(</span>use_tealeaves <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>enviro_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_enviropar</a></span><span class='op'>(</span>use_tealeaves <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_leafpar</a></span><span class='op'>(</span>use_tealeaves <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>leaf_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bake.html'>bake</a></span><span class='op'>(</span><span class='va'>leaf_par</span>, <span class='va'>bake_par</span>, <span class='va'>constants</span><span class='op'>)</span>
 <span class='co'># Or bake with piping (need library(magrittr))</span>
 <span class='co'># leaf_par %&lt;&gt;% bake(bake_par, constants)</span>
-<span class='kw'>enviro_par</span><span class='op'>$</span><span class='kw'>T_air</span> <span class='op'>&lt;-</span> <span class='kw'>leaf_par</span><span class='op'>$</span><span class='kw'>T_leaf</span>
+<span class='va'>enviro_par</span><span class='op'>$</span><span class='va'>T_air</span> <span class='op'>&lt;-</span> <span class='va'>leaf_par</span><span class='op'>$</span><span class='va'>T_leaf</span>
 
-<span class='kw'>pars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>leaf_par</span>, <span class='kw'>enviro_par</span>, <span class='kw'>constants</span>)
-<span class='kw'>C_chl</span> <span class='op'>&lt;-</span> <span class='fu'>set_units</span>(<span class='fl'>35</span>, <span class='st'>"Pa"</span>)
+<span class='va'>pars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>leaf_par</span>, <span class='va'>enviro_par</span>, <span class='va'>constants</span><span class='op'>)</span>
+<span class='va'>C_chl</span> <span class='op'>&lt;-</span> <span class='fu'>set_units</span><span class='op'>(</span><span class='fl'>35</span>, <span class='st'>"Pa"</span><span class='op'>)</span>
 
-<span class='fu'>A_supply</span>(<span class='kw'>C_chl</span>, <span class='kw'>pars</span>)
+<span class='fu'>A_supply</span><span class='op'>(</span><span class='va'>C_chl</span>, <span class='va'>pars</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 10.01259 [umol/m^2/s]</div><div class='input'>
-<span class='fu'>A_demand</span>(<span class='kw'>C_chl</span>, <span class='kw'>pars</span>)
+<span class='fu'>A_demand</span><span class='op'>(</span><span class='va'>C_chl</span>, <span class='va'>pars</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 31.41145 [umol/m^2/s]</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -214,7 +219,7 @@ $$A = (1 - \Gamma* / C_\mathrm{chl}) \mathrm{min}(W_\mathrm{carbox}, W_\mathrm{r
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
