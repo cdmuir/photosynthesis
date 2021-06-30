@@ -1,12 +1,12 @@
 Package: photosynthesis
-Version: 2.0.0.9999
-Date: 2020-10-21
+Version: 2.0.1
+Date: 2021-06-30
 Title: Tools for Plant Ecophysiology & Modeling
 Authors@R: c(
     person("Joseph", "Stinziano", email = "josephstinziano@gmail.com", role = "aut", comment = c(ORCID = "0000-0002-7628-4201")),
     person("Cassaundra", "Roback", email = "croback@unm.edu", role = "aut"),
-    person("Demi", "Gamble", email = "Demi.Gamble@csiro.au", role = "aut"),
-    person("Bridget", "Murphy", email = "bmurph26@uwo.ca", role = "aut"),
+    person("Demi", "Sargent", email = "d.sargent@westernsydney.edu.au", role = "aut"),
+    person("Bridget", "Murphy", email = "bridget.murphy@mail.utoronto.ca", role = "aut"),
     person("Patrick", "Hudson", email = "hudson.patrick.j@gmail.com", role = c("aut", "dtc")), 
     person("Chris", "Muir", email = "cdmuir@hawaii.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-2555-3878"))
     )

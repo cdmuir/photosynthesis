@@ -1,5 +1,9 @@
 # photosynthesis (development version)
 
+# photosynthesis 2.0.1
+
+* for `temp_resp1` and `temp_resp2`, corrected reference. (#6)
+
 # photosynthesis 2.0.0
 
 * Added analytical tools for plant ecophysiology, including fitting stomatal
