@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
-[![Build Status](https://travis-ci.org/cdmuir/photosynthesis.svg?branch=master)](https://travis-ci.org/cdmuir/photosynthesis)
+[![Build Status](https://www.travis-ci.com/cdmuir/photosynthesis.svg?branch=master)](https://travis-ci.com/cdmuir/photosynthesis)
 [![](https://cranlogs.r-pkg.org/badges/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
@@ -63,10 +63,10 @@ library("photosynthesis")
 
 * [Joseph Stinziano](https://github.com/jstinzi)
 * [Chris Muir](https://github.com/cdmuir)
-* [Cassaundra Roback]
-* [Demi Gamble]
-* [Bridget Murphy]
-* [Patrick Hudson]
+* Cassaundra Roback
+* Demi Sargent
+* Bridget Murphy
+* Patrick Hudson
 
 ## Comments and contributions
 
