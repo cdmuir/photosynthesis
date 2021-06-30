@@ -84,7 +84,7 @@ functions detailed below." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0.9999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
       </span>
     </div>
 
@@ -92,7 +92,7 @@ functions detailed below." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -121,7 +121,7 @@ functions detailed below." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/cdmuir/photosynthesis/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -224,7 +224,7 @@ using the appropriate temperature response function and parameters in
 <code><a href='bake_par.html'>bake_par</a></code>. The "baked" parameter will have the name without "25"
 appended (<code>par_name</code>). E.g. <code>V_cmax25</code> becomes <code>V_cmax</code>. <br />
 <br />
-Temperature response functions following Bernacchi et al. 2002. <br />
+Temperature response functions following Buckley and  Diaz-Espejo (2015) <br />
 <br />
 Temperature response function 1 (<code>temp_response1</code>): <br /></p>
 <p>$$\mathrm{par}(T_\mathrm{leaf}) = \mathrm{par25}~\mathrm{exp}(E_\mathrm{a} / (R T_\mathrm{ref}) (T_\mathrm{leaf} - 25) / (T_\mathrm{leaf} + 273.15))$$</p>
@@ -236,10 +236,9 @@ Temperature response function 2 (<code>temp_response2</code>) is the above equat
 <p>Function 1 increases exponentially with temperature; Function 2 peaks a particular temperature.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Bernacchi CJ, Portis AR, Nakano H, von Caemmerer S, Long SP. 2002. 
-Temperature response of mesophyll conductance. Implications for the
-determination of Rubisco enzyme kinetics and for limitations to 
-photosynthesis in vivo. Plant Physiology 130: 1992-8.</p>
+    <p>Buckley TN, Diaz-Espejo A. 2015. Partitioning changes in photosynthetic rate 
+into contributions from different variables. Plant, Cell and Environment 38:
+1200-1211.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>bake_par</span> <span class='op'>&lt;-</span> <span class='fu'><a href='make_parameters.html'>make_bakepar</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -264,7 +263,7 @@ photosynthesis in vivo. Plant Physiology 130: 1992-8.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Joseph Stinziano, Cassaundra Roback, Demi Gamble, Bridget Murphy, Patrick Hudson, Chris Muir.</p>
+  <p>Developed by Joseph Stinziano, Cassaundra Roback, Demi Sargent, Bridget Murphy, Patrick Hudson, Chris Muir.</p>
 </div>
 
 <div class="pkgdown">
