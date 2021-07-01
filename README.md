@@ -11,7 +11,7 @@ status](https://www.r-pkg.org/badges/version/photosynthesis)](https://cran.r-pro
 Status](https://www.travis-ci.com/cdmuir/photosynthesis.svg?branch=master)](https://travis-ci.com/cdmuir/photosynthesis)
 [![](https://cranlogs.r-pkg.org/badges/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 ## Model C3 Photosynthesis

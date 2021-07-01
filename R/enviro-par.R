@@ -1,5 +1,4 @@
 #' S3 class enviro_par
-#' @exportClass enviro_par
 #
 
 #' @inheritParams photosynthesis

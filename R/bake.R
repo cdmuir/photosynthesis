@@ -1,5 +1,4 @@
 #' S3 class baked
-#' @exportClass baked
 #' @name baked-class
 #' @description See \code{\link{bake}}
 

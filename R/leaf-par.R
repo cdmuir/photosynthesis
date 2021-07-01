@@ -1,6 +1,6 @@
 #' S3 class leaf_par
-#' @exportClass leaf_par
 #
+
 #' @inheritParams photosynthesis
 #' @param .x A list to be constructed into \strong{leaf_par}.
 #'

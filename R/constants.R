@@ -1,5 +1,4 @@
 #' S3 class constants
-#' @exportClass constants
 #' @inheritParams photosynthesis
 #' @param .x A list to be constructed into \strong{constants}.
 #'

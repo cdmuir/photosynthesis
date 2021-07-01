@@ -1,5 +1,4 @@
 #' S3 class bake_par
-#' @exportClass bake_par
 #
 
 #' @param .x A list to be constructed into \strong{bake_par}.
