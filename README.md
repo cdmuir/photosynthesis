@@ -7,8 +7,6 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
-[![Build
-Status](https://www.travis-ci.com/cdmuir/photosynthesis.svg?branch=master)](https://travis-ci.com/cdmuir/photosynthesis)
 [![](https://cranlogs.r-pkg.org/badges/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
@@ -62,8 +60,11 @@ In this vignette, I’ll show you how to:
 
 -   run a minimum worked example using default parameters
 -   replace default parameters
--   simulate photosynthetic rate along a gradient of CO<sub>2</sub>
-    concentrations (*A* − *C*<sub>*c*</sub> curve)
+-   simulate photosynthetic rate along a gradient of
+    CO![\_2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;_2 "_2")
+    concentrations
+    (![A-C\_\\mathrm{c}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;A-C_%5Cmathrm%7Bc%7D "A-C_\mathrm{c}")
+    curve)
 
 ## Minimum worked example
 
@@ -141,7 +142,7 @@ photo %>%
   knitr::kable()
 ```
 
-|                PPFD |         C\_chl |                       A |
+|                PPFD |          C_chl |                       A |
 |--------------------:|---------------:|------------------------:|
 | 1000 \[umol/m^2/s\] | 24.0449 \[Pa\] | 25.21885 \[umol/m^2/s\] |
 
@@ -153,7 +154,7 @@ parameter sets. The function `photosynthesis` generalizes `photo` and
 makes it easy to solve for multiple parameter sets using the same
 argument structure. All you need to do is specify multiple values for
 one or more leaf or environmental parameters and `photosynthesis` uses
-the `purrr::cross` function to fit all combinations[1].
+the `purrr::cross` function to fit all combinations[^1].
 
 ``` r
 # As before, use the `replace` argument to replace defaults, but this time we
@@ -185,7 +186,7 @@ ph %>%
   knitr::kable()
 ```
 
-|               g\_sc |                PPFD |                       A |
+|                g_sc |                PPFD |                       A |
 |--------------------:|--------------------:|------------------------:|
 | 2 \[umol/m^2/Pa/s\] | 1000 \[umol/m^2/s\] | 23.90532 \[umol/m^2/s\] |
 | 4 \[umol/m^2/Pa/s\] | 1000 \[umol/m^2/s\] | 25.87941 \[umol/m^2/s\] |
@@ -200,10 +201,12 @@ running simulations in parallel. In the `photosynthesis` function,
 simply use the `parallel = TRUE` argument to simulate in parallel.
 You’ll need to set up a **future** `plan()`. See `?future::plan` for
 more detail. Here I’ll provide an example simulating an
-*A* − *C*<sub>*c*</sub> curve.
+![A-C_c](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;A-C_c "A-C_c")
+curve.
 
 ``` r
-future::plan("multisession") # Set up plan
+library(future)
+plan("multisession") # Set up plan
 
 # We'll use the `replace` argument to enter multiple atmospheric CO2 concentrations
 
@@ -519,7 +522,7 @@ fits_graphs <- compile_data(fits,
                             list_element = 3)
 
 #Print graphs to jpeg
-#print_graphs(data = fits_graphs,
+# print_graphs(data = fits_graphs,
 #             path = tempdir(),
 #             output_type = "jpeg")
 
@@ -617,11 +620,10 @@ fits[[3]][[2]]
 fits_graphs <- compile_data(fits,
                             list_element = 2)
 
-#Print graphs to pdf.
-#print_graphs(data = fits_graphs,
+#Print graphs to jpeg
+# print_graphs(data = fits_graphs,
 #             path = tempdir(),
-#             output_type = "pdf",
-#             pdf_filename = "mygraphs.pdf")
+#             output_type = "jpeg")
 
 #Compile parameters into dataframe for analysis
 fits_pars <- compile_data(fits,
@@ -1331,47 +1333,46 @@ absorbance on fitted gas exchange parameters.
 Uncomment the chunk below to run - it takes awhile. \#\`\`\`{r} \#Read
 in your data \#Note that this data is coming from data supplied by the
 package \#hence the complicated argument in read.csv() \#This dataset is
-a CO2 by light response curve for a single sunflower data &lt;-
-read.csv(system.file(“extdata”, “A\_Ci\_Q\_data\_1.csv”, package =
+a CO2 by light response curve for a single sunflower data \<-
+read.csv(system.file(“extdata”, “A_Ci_Q\_data_1.csv”, package =
 “photosynthesis”))
 
 \#Define a grouping factor based on light intensity to split the ACi
 \#curves
-data*Q*<sub>2</sub> &lt;  − *a**s*.*f**a**c**t**o**r*((*r**o**u**n**d*(*d**a**t**a*Qin,
+data![Q_2 \<- as.factor((round(data](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;Q_2%20%3C-%20as.factor%28%28round%28data "Q_2 <- as.factor((round(data")Qin,
 digits = 0)))
 
 \#Convert data temperature to K
-data*T*<sub>*l*</sub>*e**a**f* &lt;  − *d**a**t**a*Tleaf + 273.15
+data![T_leaf \<- data](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;T_leaf%20%3C-%20data "T_leaf <- data")Tleaf +
+273.15
 
 \#Run a sensitivity analysis on GammaStar and mesophyll conductance \#at
-25 Celsius for one individual curve pars &lt;- analyze\_sensitivity(data
-= data\[data$Q\_2 == 1500, \], funct = fit\_aci\_response, varnames =
-list(A\_net = “A”, T\_leaf = “T\_leaf”, C\_i = “Ci”, PPFD = “Qin”),
-useg\_mct = TRUE, test1 = “gamma\_star25”, element\_out = 1, test2 =
-“g\_mc25”, fitTPU = TRUE, Ea\_gamma\_star = 0, Ea\_g\_mc = 0, values1 =
-seq(from = 20, to = 60, by = 4), values2 = seq(from = 0.2, to = 2, by =
-0.1))
+25 Celsius for one individual curve pars \<- analyze_sensitivity(data =
+data\[data$Q_2 == 1500, \], funct = fit_aci_response, varnames =
+list(A_net = “A”, T_leaf = “T_leaf”, C_i = “Ci”, PPFD = “Qin”), useg_mct
+= TRUE, test1 = “gamma_star25”, element_out = 1, test2 = “g_mc25”,
+fitTPU = TRUE, Ea_gamma_star = 0, Ea_g\_mc = 0, values1 = seq(from = 20,
+to = 60, by = 4), values2 = seq(from = 0.2, to = 2, by = 0.1))
 
-\#Compute measures of sensitivity par2 &lt;- compute\_sensitivity(data =
-pars, varnames = list(Par = “V\_cmax”, test1 = “gamma\_star25”, test2 =
-“g\_mc25”), test1\_ref = 40, test2\_ref = 1) \#Plot sensitivity
-ggplot(par2, aes(y = CE\_gamma\_star25, x = CE\_g\_mc25, colour =
-V\_cmax))+ labs(x = expression(g\_mc\[25\]\~“Control Coefficient”), y =
-expression(Gamma\[25\]\~“Control Coefficient”)) + geom\_point() +
-theme\_bw()
+\#Compute measures of sensitivity par2 \<- compute_sensitivity(data =
+pars, varnames = list(Par = “V_cmax”, test1 = “gamma_star25”, test2 =
+“g_mc25”), test1_ref = 40, test2_ref = 1) \#Plot sensitivity
+ggplot(par2, aes(y = CE_gamma_star25, x = CE_g\_mc25, colour = V_cmax))+
+labs(x = expression(g_mc\[25\]\~“Control Coefficient”), y =
+expression(Gamma\[25\]\~“Control Coefficient”)) + geom_point() +
+theme_bw()
 
-ggplot(par2, aes(y = CE\_gamma\_star25, x = V\_cmax, colour =
-gamma\_star25))+ geom\_point() + theme\_bw() \#Note that in this case a
+ggplot(par2, aes(y = CE_gamma_star25, x = V_cmax, colour =
+gamma_star25))+ geom_point() + theme_bw() \#Note that in this case a
 missing point appears due to an infinity \#Can also plot sensitivity
-measures in 2 dimensions ggplot(par2, aes(x = gamma\_star25, y =
-g\_mc25, z = CE\_gamma\_star25))+ geom\_tile(aes(fill =
-CE\_gamma\_star25)) + labs(x =
-expression(Gamma*“*"\[25\]<sub>"("*mu*mol</sub>mol^{-1}*”)"), y =
-expression(g\[m\]\[25\]<sub>“(”*mu*mol</sub>m<sup>{-2}\~s</sup>{-1}\~Pa^{-1}*“)”))+
-scale\_fill\_distiller(palette = “Greys”) + geom\_contour(colour =
-“Black”, size = 1) + theme\_bw()
+measures in 2 dimensions ggplot(par2, aes(x = gamma_star25, y = g_mc25,
+z = CE_gamma_star25))+ geom_tile(aes(fill = CE_gamma_star25)) + labs(x =
+expression(Gamma*“*”\[25\]<sub>”(”*mu*mol</sub>mol^{-1}*”)“), y =
+expression(g\[m\]\[25\]<sub>“(”*mu*mol</sub>m<sup>{-2}\~s</sup>{-1}\~Pa^{-1}*”)“))+
+scale_fill_distiller(palette =”Greys”) + geom_contour(colour = “Black”,
+size = 1) + theme_bw()
 
-plot(PE\_gamma\_star25 \~ gamma\_star25, par2) \#\`\`\`
+plot(PE_gamma_star25 \~ gamma_star25, par2) \#\`\`\`
 
 \#10. Dependency checking
 
@@ -1405,8 +1406,8 @@ intercellular carbon dioxide response curves. Plant Cell Environ
 
 Harley PC, Loreto F, Di Marco G, Sharkey TD. 1992. Theoretical
 considerations when estimating mesophyll conductance to CO2 flux by
-analysis of the response of photosynthesis to CO2. Plant Physiol 98:1429
-- 1436.
+analysis of the response of photosynthesis to CO2. Plant Physiol
+98:1429 - 1436.
 
 Heskel MA, O’Sullivan OS, Reich PB, Tjoelker MG, Weerasinghe LK,
 Penillard A, Egerton JJG, Creek D, Bloomfield KJ, Xiang J, Sinca F,
@@ -1523,6 +1524,6 @@ new features. You can submit issues here:
     Conduct](https://github.com/cdmuir/photosynthesis/blob/master/CONDUCT.md).
     By participating in this project you agree to abide by its terms.
 
-[1] Since optimization is somewhat time-consuming, be careful about
-crossing too many combinations. Use `progress = TRUE` to show progress
-bar with estimated time remaining.
+[^1]: Since optimization is somewhat time-consuming, be careful about
+    crossing too many combinations. Use `progress = TRUE` to show
+    progress bar with estimated time remaining.

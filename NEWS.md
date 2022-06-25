@@ -1,5 +1,9 @@
 # photosynthesis (development version)
 
+# photosynthesis 2.0.3
+
+* Fixed tests that failed because of update to dependency.
+
 # photosynthesis 2.0.1
 
 * for `temp_resp1` and `temp_resp2`, corrected reference. (#6)
