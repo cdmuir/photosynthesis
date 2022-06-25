@@ -91,11 +91,11 @@ PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab umol quanta /
 \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
 \eqn{d} \tab \code{leafsize} \tab leaf characteristic dimension \tab m \tab 0.1 \cr
 \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point (T_leaf) \tab Pa \tab \link[=bake]{calculated} \cr
-\eqn{\Gamma*_{25}}{\Gamma_25*} \tab \code{gamma_star25} \tab chloroplastic CO2 compensation point (25 °C) \tab Pa \tab 3.743 \cr
-\eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc} \tab mesophyll conductance to CO2 (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab \link[=bake]{calculated} \cr
-\eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc25} \tab mesophyll conductance to CO2 (25 °C) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab 4 \cr
-\eqn{g_\mathrm{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab 4 \cr
-\eqn{g_\mathrm{uc}}{g_uc} \tab \code{g_uc} \tab cuticular conductance to CO2 \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab 0.1 \cr
+\eqn{\Gamma*_{25}}{\Gamma*_25} \tab \code{gamma_star25} \tab chloroplastic CO2 compensation point (25 °C) \tab Pa \tab 3.743 \cr
+\eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc} \tab mesophyll conductance to CO2 (T_leaf) \tab \eqn{\mu}mol / (m\eqn{^2} s Pa) \tab \link[=bake]{calculated} \cr
+\eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc25} \tab mesophyll conductance to CO2 (25 °C) \tab \eqn{\mu}mol / (m\eqn{^2} s Pa) \tab 4 \cr
+\eqn{g_\mathrm{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab \eqn{\mu}mol / (m\eqn{^2} s Pa) \tab 4 \cr
+\eqn{g_\mathrm{uc}}{g_uc} \tab \code{g_uc} \tab cuticular conductance to CO2 \tab \eqn{\mu}mol / (m\eqn{^2} s Pa) \tab 0.1 \cr
 \eqn{J_\mathrm{max25}}{J_max25} \tab \code{J_max25} \tab potential electron transport (25 °C) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 200 \cr
 \eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
 \eqn{k_\mathrm{mc}}{k_mc} \tab \code{k_mc} \tab partition of \eqn{g_\mathrm{mc}}{g_mc} to lower mesophyll \tab none \tab 1 \cr
@@ -128,7 +128,7 @@ If \code{use_tealeaves = TRUE}, additional parameters are:
 \bold{Environmental parameters:}
 \tabular{lllll}{
 \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
-\eqn{E_q} \tab \code{E_q} \tab energy per mole quanta \tab kJ / mol\eqn{^2} \tab 220 \cr
+\eqn{E_q} \tab \code{E_q} \tab energy per mole quanta \tab kJ / mol \tab 220 \cr
 \eqn{f_\mathrm{PAR}}{f_PAR} \tab \code{f_par} \tab fraction of incoming shortwave radiation that is photosynthetically active radiation (PAR) \tab none \tab 0.5 \cr
 \eqn{r} \tab \code{r} \tab reflectance for shortwave irradiance (albedo) \tab none \tab 0.2 \cr
 \eqn{T_\mathrm{air}}{T_air} \tab \code{T_air} \tab air temperature \tab K \tab 298.15 \cr
@@ -140,8 +140,8 @@ If \code{use_tealeaves = TRUE}, additional parameters are:
 \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
 \eqn{\alpha_\mathrm{l}}{\alpha_l} \tab \code{abs_l} \tab absorbtivity of longwave radiation (4 - 80 \eqn{\mu}m) \tab none \tab 0.97 \cr
 \eqn{\alpha_\mathrm{s}}{\alpha_s} \tab \code{abs_s} \tab absorbtivity of shortwave radiation (0.3 - 4 \eqn{\mu}m) \tab none \tab 0.50 \cr
-\eqn{g_\mathrm{sw}}{g_sw} \tab \code{g_sw} \tab stomatal conductance to H2O \tab (\eqn{\mu}mol H2O) / (m\eqn{^2} s Pa) \tab converted from \eqn{g_\mathrm{sc}}{g_sc} \cr
-\eqn{g_\mathrm{uw}}{g_uw} \tab \code{g_uw} \tab cuticular conductance to H2O \tab (\eqn{\mu}mol H2O) / (m\eqn{^2} s Pa) \tab converted from \eqn{g_\mathrm{uc}}{g_uc} \cr
+\eqn{g_\mathrm{sw}}{g_sw} \tab \code{g_sw} \tab stomatal conductance to H2O \tab (\eqn{\mu}mol) / (m\eqn{^2} s Pa) \tab converted from \eqn{g_\mathrm{sc}}{g_sc} \cr
+\eqn{g_\mathrm{uw}}{g_uw} \tab \code{g_uw} \tab cuticular conductance to H2O \tab (\eqn{\mu}mol) / (m\eqn{^2} s Pa) \tab converted from \eqn{g_\mathrm{uc}}{g_uc} \cr
 \eqn{\mathrm{logit}(sr)}{logit(sr)} \tab \code{logit_sr} \tab stomatal ratio (logit transformed) \tab none \tab converted from \eqn{k_\mathrm{sc}}{k_sc}
 }
 }
