@@ -53,11 +53,11 @@ test_that("unitless values match unit-ed values", {
 
   Ad1 <- A_demand(C_chl, pars1, unitless = FALSE)
   Ad2 <- A_demand(drop_units(C_chl), pars2, unitless = TRUE)
-  expect_equal(Ad1, Ad2)
+  expect_equal(drop_units(Ad1), Ad2)
 
   As1 <- A_supply(C_chl, pars1, unitless = FALSE)
   As2 <- A_supply(drop_units(C_chl), pars2, unitless = TRUE)
-  expect_equal(As1, As2)
+  expect_equal(drop_units(As1), As2)
 
   gbc1 <- drop_units(.get_gbc(pars1, "lower", unitless = FALSE))
   gbc2 <- .get_gbc(pars2, "lower", unitless = TRUE)
@@ -103,19 +103,19 @@ test_that("unitless values match unit-ed values", {
   FvCB2 <- FvCB(drop_units(C_chl), pars2, unitless = TRUE)
   expect_equal(drop_units(FvCB1$A), FvCB2$A)
 
-  J1 <- J(pars1, unitless = FALSE)
+  J1 <- drop_units(J(pars1, unitless = FALSE))
   J2 <- J(pars2, unitless = TRUE)
   expect_equal(J1, J2)
 
-  Wc1 <- W_carbox(C_chl, pars1, unitless = FALSE)
+  Wc1 <- drop_units(W_carbox(C_chl, pars1, unitless = FALSE))
   Wc2 <- W_carbox(drop_units(C_chl), pars2, unitless = TRUE)
   expect_equal(Wc1, Wc2)
 
-  Wr1 <- W_regen(C_chl, pars1, unitless = FALSE)
+  Wr1 <- drop_units(W_regen(C_chl, pars1, unitless = FALSE))
   Wr2 <- W_regen(drop_units(C_chl), pars2, unitless = TRUE)
   expect_equal(Wr1, Wr2)
 
-  Wt1 <- W_tpu(C_chl, pars1, unitless = FALSE)
+  Wt1 <- drop_units(W_tpu(C_chl, pars1, unitless = FALSE))
   Wt2 <- W_tpu(drop_units(C_chl), pars2, unitless = TRUE)
   expect_equal(Wt1, Wt2)
 })
