@@ -8,8 +8,8 @@ fit_t_response(
   data,
   varnames = list(Par = "Par", T_leaf = "T_leaf"),
   model = c("Arrhenius", "Kruse", "Heskel", "Medlyn", "MMRT", "Quadratic", "Topt"),
-  start = list(a = 1, b = 1, c = 1, dEa = 1, Ea_ref = 1, Par_ref = 1, Ea = 40000, Par25
-    = 50, Hd = 2e+05, dS = 650, dCp = 1, dG = 1, dH = 1),
+  start = list(a = 1, b = 1, c = 1, dEa = 1, Ea_ref = 1, Par_ref = 1, Ea = 40000, Par25 =
+    50, Hd = 2e+05, dS = 650, dCp = 1, dG = 1, dH = 1),
   setvar = "none",
   hdset = 2e+05,
   dSset = 650,

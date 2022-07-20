@@ -6,8 +6,8 @@
 \usage{
 fit_g_mc_variableJ(
   data,
-  varnames = list(A_net = "A_net", J_etr = "J_etr", C_i = "C_i", PPFD = "PPFD",
-    phi_PSII = "phi_PSII"),
+  varnames = list(A_net = "A_net", J_etr = "J_etr", C_i = "C_i", PPFD = "PPFD", phi_PSII
+    = "phi_PSII"),
   usealpha_Q = FALSE,
   alpha_Q = 0.84,
   beta_Q = 0.5,
