@@ -1,10 +1,11 @@
 ## Summary of new changes
 
+* Updated link to Prometheus protocols in vignette
+* Stopped evaluating parallel example in vignette
 * Fixed tests that failed because of update to dependency.
 
 ## Test environments
-* local R installation, R 4.2.0
-* Ubuntu Linux 20.04.1 LTS, R-release, GCC
+* local R installation, R 4.2.1
 * win-builder (release)
 * win-builder (devel)
 * win-builder (oldrelease)

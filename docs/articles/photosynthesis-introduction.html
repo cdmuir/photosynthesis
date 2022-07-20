@@ -91,7 +91,7 @@
       <h1 data-toc-skip>Introduction to the photosynthesis package</h1>
                         <h4 data-toc-skip class="author">Chris Muir</h4>
             
-            <h4 data-toc-skip class="date">2022-06-25</h4>
+            <h4 data-toc-skip class="date">2022-07-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/cdmuir/photosynthesis/blob/HEAD/vignettes/photosynthesis-introduction.Rmd" class="external-link"><code>vignettes/photosynthesis-introduction.Rmd</code></a></small>
       <div class="hidden name"><code>photosynthesis-introduction.Rmd</code></div>
@@ -288,6 +288,8 @@ simulate in parallel. You’ll need to set up a <strong>future</strong>
 Here I’ll provide an example simulating an <span class="math inline">\(A-C_c\)</span> curve.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
+<span><span class="co"># NOTE: parallel example is not evaluated because it was causing an issue with CRAN, but you can copy-and-paste the code to run on your own machine.</span></span>
+<span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="st">"multisession"</span><span class="op">)</span> <span class="co"># Set up plan</span></span>
 <span></span>
@@ -319,7 +321,6 @@ Here I’ll provide an example simulating an <span class="math inline">\(A-C_c\)
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"A ["</span>, <span class="va">mu</span>, <span class="st">"mol "</span>, <span class="va">m</span><span class="op">^</span><span class="op">-</span><span class="fl">2</span><span class="op">~</span><span class="va">s</span><span class="op">^</span><span class="op">-</span><span class="fl">1</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="cn">NULL</span></span></code></pre></div>
-<p><img src="photosynthesis-introduction_files/figure-html/parallel-example-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="incorporating-leaf-temperature-using-tealeaves">Incorporating leaf temperature using <strong>tealeaves</strong><a class="anchor" aria-label="anchor" href="#incorporating-leaf-temperature-using-tealeaves"></a>
@@ -333,6 +334,8 @@ and leaf parameters. If <code>use_tealeaves = TRUE</code>,
 package to calculate leaf temperature using an energy balance model.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
+<span><span class="co"># NOTE: parallel example is not evaluated because it was causing an issue with CRAN, but you can copy-and-paste the code to run on your own machine.</span></span>
+<span></span>
 <span><span class="co"># You will need to set use_tealeaves = TRUE when making parameters because additional parameters are needed for tealeaves.</span></span>
 <span></span>
 <span><span class="va">bake_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_parameters.html">make_bakepar</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -368,10 +371,8 @@ package to calculate leaf temperature using an energy balance model.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="cn">T</span><span class="op">[</span><span class="va">air</span><span class="op">]</span>, <span class="st">" [K]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="cn">T</span><span class="op">[</span><span class="va">leaf</span><span class="op">]</span>, <span class="st">" [K]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="cn">NULL</span></span></code></pre></div>
-<p><img src="photosynthesis-introduction_files/figure-html/use-tealeaves-example-1.png" width="700"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span>  <span class="cn">NULL</span></span>
+<span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">ph</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">T_air</span>, <span class="va">A</span>, color <span class="op">=</span> <span class="va">`g[s]`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span>, lineend <span class="op">=</span> <span class="st">"round"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html" class="external-link">scale_color_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">g</span><span class="op">[</span><span class="va">s</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -379,7 +380,6 @@ package to calculate leaf temperature using an energy balance model.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"A ["</span>, <span class="va">mu</span>, <span class="st">"mol "</span>, <span class="va">m</span><span class="op">^</span><span class="op">-</span><span class="fl">2</span><span class="op">~</span><span class="va">s</span><span class="op">^</span><span class="op">-</span><span class="fl">1</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="cn">NULL</span></span></code></pre></div>
-<p><img src="photosynthesis-introduction_files/figure-html/use-tealeaves-example-2.png" width="700"></p>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr>
@@ -409,7 +409,7 @@ remaining.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

@@ -14,3 +14,4 @@ R/scratch.R
 ^CRAN-RELEASE$
 ^_pkgdown\.yml$
 ^pkgdown$
+^CRAN-SUBMISSION$
