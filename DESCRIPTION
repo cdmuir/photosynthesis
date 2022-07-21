@@ -1,6 +1,6 @@
 Package: photosynthesis
 Version: 2.0.3
-Date: 2022-06-24
+Date: 2022-07-21
 Title: Tools for Plant Ecophysiology & Modeling
 Authors@R: c(
     person("Joseph", "Stinziano", email = "josephstinziano@gmail.com", role = "aut", comment = c(ORCID = "0000-0002-7628-4201")),
@@ -52,27 +52,27 @@ Description: Contains modeling and analytical tools for plant ecophysiology.
     simulate photosynthesis over environmental gradients such as Photosynthetic
     Photon Flux Density (PPFD) and leaf temperature, or over trait gradients
     such as CO2 conductance or photochemistry. 
-    ANALYTICAL TOOLS: Fit ACi (Farquhar et al. 1980 <doi:10.1007/BF00386231>)
-    and AQ curves (Marshall & Biscoe 1980 <doi:10.1093/jxb/31.1.29>),
-    temperature responses (Heskel et al. 2016 <doi:10.1073/pnas.1520282113>;
-    Kruse et al. 2008 <doi:10.1111/j.1365-3040.2008.01809.x>, Medlyn et al.
-    2002 <doi:10.1046/j.1365-3040.2002.00891.x>, Hobbs et al. 2013
-    <doi:10.1021/cb4005029>), respiration in the light (Kok 1956
-    <doi:10.1016/0006-3002(56)90003-8>, Walker & Ort 2015 <doi:10.1111/pce.12562>,
-    Yin et al. 2009 <doi:10.1111/j.1365-3040.2009.01934.x>, Yin et al. 2011
-    <doi:10.1093/jxb/err038>), mesophyll conductance (Harley et al. 1992
-    <doi:10.1104/pp.98.4.1429>), pressure-volume curves (Koide et al. 2000
-    <doi:10.1007/978-94-009-2221-1_9>, Sack et al. 2003
-    <doi:10.1046/j.0016-8025.2003.01058.x>, Tyree et al. 1972
-    <doi:10.1093/jxb/23.1.267>), hydraulic vulnerability curves (Ogle et al. 2009
-    <doi:10.1111/j.1469-8137.2008.02760.x>, Pammenter et al. 1998
+    ANALYTICAL TOOLS: Fit ACi (Farquhar et al. (1980) <doi:10.1007/BF00386231>)
+    and AQ curves (Marshall & Biscoe (1980) <doi:10.1093/jxb/31.1.29>),
+    temperature responses (Heskel et al. (2016) <doi:10.1073/pnas.1520282113>;
+    Kruse et al. (2008) <doi:10.1111/j.1365-3040.2008.01809.x>, Medlyn et al.
+    (2002) <doi:10.1046/j.1365-3040.2002.00891.x>, Hobbs et al. (2013)
+    <doi:10.1021/cb4005029>), respiration in the light (Kok (1956)
+    <doi:10.1016/0006-3002(56)90003-8>, Walker & Ort (2015) <doi:10.1111/pce.12562>,
+    Yin et al. (2009) <doi:10.1111/j.1365-3040.2009.01934.x>, Yin et al. (2011)
+    <doi:10.1093/jxb/err038>), mesophyll conductance (Harley et al. (1992)
+    <doi:10.1104/pp.98.4.1429>), pressure-volume curves (Koide et al. (2000)
+    <doi:10.1007/978-94-009-2221-1_9>, Sack et al. (2003)
+    <doi:10.1046/j.0016-8025.2003.01058.x>, Tyree et al. (1972)
+    <doi:10.1093/jxb/23.1.267>), hydraulic vulnerability curves (Ogle et al. (2009)
+    <doi:10.1111/j.1469-8137.2008.02760.x>, Pammenter et al. (1998)
     <doi:10.1093/treephys/18.8-9.589>), and tools for running sensitivity
-    analyses particularly for variables with uncertainty (e.g. g_mc, gamma_star,
-    R_d).
+    analyses particularly for variables with uncertainty (e.g. g_mc(), gamma_star(),
+    R_d()).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 VignetteBuilder: knitr
 URL: https://github.com/cdmuir/photosynthesis
 BugReports: https://github.com/cdmuir/photosynthesis/issues

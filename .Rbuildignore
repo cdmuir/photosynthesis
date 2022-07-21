@@ -8,7 +8,6 @@
 CONDUCT.md
 README.Rmd
 README_files/*
-.travis.yml
 R/scratch.R
 ^cran-comments\.md$
 ^CRAN-RELEASE$
@@ -16,3 +15,4 @@ R/scratch.R
 ^pkgdown$
 ^CRAN-SUBMISSION$
 \.github/*
+^\.github$

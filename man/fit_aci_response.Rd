@@ -6,8 +6,8 @@
 \usage{
 fit_aci_response(
   data,
-  varnames = list(A_net = "A_net", T_leaf = "T_leaf", C_i = "C_i", PPFD = "PPFD", g_mc
-    = "g_mc"),
+  varnames = list(A_net = "A_net", T_leaf = "T_leaf", C_i = "C_i", PPFD = "PPFD", g_mc =
+    "g_mc"),
   P = 100,
   fitTPU = TRUE,
   alpha_g = 0,

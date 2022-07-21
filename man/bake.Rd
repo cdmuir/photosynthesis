@@ -43,13 +43,16 @@ to °C.}
 \item{E_d}{Empirical temperature response value in J/mol of class
 \code{units}.}
 }
+\value{
+Constructor function for \code{baked} class. This will also inherit class
+\code{\link{leaf_par}} and \code{\link{list}}. This function ensures that 
+temperature is "baked in" to leaf parameter calculations \code{T_leaf} using 
+temperature response functions detailed below.
+}
 \description{
 'bake' leaf parameters using temperature response functions
 
-Constructor function for \code{baked} class. This will also inherit class
-\code{\link{leaf_par}}. This function ensures that temperature is "baked in"
-to leaf parameter calculations \code{T_leaf} using temperature response
-functions detailed below.
+this is the description
 }
 \details{
 Several leaf parameters (\code{\link{leaf_par}}) are temperature sensitive.

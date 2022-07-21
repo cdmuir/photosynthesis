@@ -132,7 +132,9 @@ ph %>%
 
 It can take a little while to simulate many different parameter sets. If you have multiple processors available, you can speed things up by running simulations in parallel. In the `photosynthesis` function, simply use the `parallel = TRUE` argument to simulate in parallel. You'll need to set up a **future** `plan()`. See `?future::plan` for more detail. Here I'll provide an example simulating an $A-C_c$ curve.
 
-```{r, parallel-example}
+```{r, parallel-example, eval = FALSE}
+
+# NOTE: parallel example is not evaluated because it was causing an issue with CRAN, but you can copy-and-paste the code to run on your own machine.
 
 library(future)
 plan("multisession") # Set up plan
@@ -172,7 +174,9 @@ ggplot(ph, aes(C_chl, A)) +
 
 In experiments, leaf temperature can be kept close to air temperature, but in nature, leaf temperature can be quite a bit different than air temperature in the shade depending on environmental and leaf parameters. If `use_tealeaves = TRUE`, `photo()` and `photosynthesis()` will call on the [**tealeaves**](https://CRAN.R-project.org/package=tealeaves) package to calculate leaf temperature using an energy balance model. 
 
-```{r, use-tealeaves-example}
+```{r, use-tealeaves-example, eval = FALSE}
+
+# NOTE: parallel example is not evaluated because it was causing an issue with CRAN, but you can copy-and-paste the code to run on your own machine.
 
 # You will need to set use_tealeaves = TRUE when making parameters because additional parameters are needed for tealeaves.
 

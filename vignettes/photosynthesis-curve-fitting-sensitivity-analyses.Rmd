@@ -577,7 +577,7 @@ ggplot(data, aes(x = dCcdA, y = g_mc, colour = reliable)) +
 
 This package follows the Prometheus wiki spreadsheet from Sack and Pasquet-Kok at:
 
-http://prometheuswiki.org/tiki-index.php?page=Leaf+pressure-volume+curve+parameters. 
+https://prometheusprotocols.net/function/water-relations/pressure-volume-curves/leaf-pressure-volume-curve-parameters/
 
 For references, see Koide et al. 2000, Sack et al. 2003, and Tyree & Hammel 1972.
 ```{r}

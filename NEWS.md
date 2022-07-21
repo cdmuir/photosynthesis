@@ -2,6 +2,8 @@
 
 # photosynthesis 2.0.3
 
+* Updated link to Prometheus protocols in vignette
+* Stopped evaluating parallel example in vignette
 * Fixed tests that failed because of update to dependency **units** 0.8-0. (#7)
 
 # photosynthesis 2.0.1
