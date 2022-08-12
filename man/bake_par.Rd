@@ -9,7 +9,10 @@ bake_par(.x)
 \arguments{
 \item{.x}{A list to be constructed into \strong{bake_par}.}
 }
-\description{
+\value{
 Constructor function for bake_par class. This function ensures that leaf
 temperature gets properly "baked" into leaf parameters.
+}
+\description{
+S3 class bake_par
 }

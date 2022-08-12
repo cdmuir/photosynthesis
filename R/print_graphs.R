@@ -101,7 +101,7 @@ print_graphs <- function(data,
                          ...) {
   # Is output_type compatible with options?
   if (!output_type %in% c("pdf", "jpeg")) {
-    print("Error: Output type not found. Use pdf or jpeg")
+    stop("Output type not found. Use pdf or jpeg")
   }
   if (!missing(path)) {
     # Print out individual jpeg files
@@ -118,13 +118,15 @@ print_graphs <- function(data,
     # Print out pdf with all graphs
     if (output_type == "pdf") {
       pdf(pdf_filename, ...)
+      old_mfrow = par()$mfrow
       par(mfrow = c(2, 2))
+      on.exit(par(mfrow = old_mfrow))
       for (i in 1:length(data)) {
         plot(data[[i]], main = names(data[i]))
       }
       dev.off()
     }
   } else {
-    print("Graphs not printed. 'path' argument required.")
+    message("Graphs not printed. 'path' argument required.")
   }
 }

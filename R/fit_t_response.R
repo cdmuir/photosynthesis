@@ -245,9 +245,8 @@ fit_t_response <- function(data,
     "Quadratic",
     "Topt"
   ))) {
-    print("Specified model is not available. Current supported models are
+    stop("Specified model is not available. Current supported models are
           Arrhenius, Kruse, Heskel, Medlyn, MMRT, Quadratic, and Topt.")
-    stop()
   }
   # Locally bind variables - avoids notes on check package
   Par <- NULL

@@ -4,7 +4,7 @@
 #' @inheritParams photosynthesis
 #' @param .x A list to be constructed into \strong{enviro_par}.
 #'
-#' @description
+#' @returns 
 #'
 #' Constructor function for enviro_par class. This function ensures that environmental parameter inputs are properly formatted.
 #'

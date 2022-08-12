@@ -2,7 +2,7 @@
 #' @inheritParams photosynthesis
 #' @param .x A list to be constructed into \strong{constants}.
 #'
-#' @description
+#' @returns
 #' Constructor function for constants class. This function ensures that
 #' physical constant inputs are properly formatted.
 #'

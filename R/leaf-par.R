@@ -4,7 +4,7 @@
 #' @inheritParams photosynthesis
 #' @param .x A list to be constructed into \strong{leaf_par}.
 #'
-#' @description
+#' @returns 
 #'
 #' Constructor function for leaf_par class. This function ensures that leaf
 #' parameter inputs are properly formatted.

@@ -12,10 +12,6 @@ NULL
 #'
 #' @inheritParams photosynthesis
 #' @inheritParams A_supply
-#'
-#' @description 
-#' 
-#' this is the description
 #' 
 #' @returns 
 #'

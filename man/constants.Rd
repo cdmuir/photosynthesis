@@ -11,7 +11,10 @@ constants(.x, use_tealeaves)
 
 \item{use_tealeaves}{Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves:tleaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.}
 }
-\description{
+\value{
 Constructor function for constants class. This function ensures that
 physical constant inputs are properly formatted.
+}
+\description{
+S3 class constants
 }

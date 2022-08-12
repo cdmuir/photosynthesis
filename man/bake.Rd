@@ -51,8 +51,6 @@ temperature response functions detailed below.
 }
 \description{
 'bake' leaf parameters using temperature response functions
-
-this is the description
 }
 \details{
 Several leaf parameters (\code{\link{leaf_par}}) are temperature sensitive.

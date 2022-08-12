@@ -172,9 +172,8 @@ fit_gs_model <- function(data, varnames = list(
     "Medlyn_partial",
     "Medlyn_full"
   ))) {
-    print("Specified model is not available. Current supported models are
+    stop("Specified model is not available. Current supported models are
           BallBerry, Leuning, Medlyn_partial, and Medlyn_full.")
-    stop()
   }
   # Locally bind variables - avoids notes on check package
   A_net <- NULL

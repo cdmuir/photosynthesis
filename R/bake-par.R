@@ -3,7 +3,7 @@
 
 #' @param .x A list to be constructed into \strong{bake_par}.
 #'
-#' @description
+#' @returns
 #'
 #' Constructor function for bake_par class. This function ensures that leaf
 #' temperature gets properly "baked" into leaf parameters.

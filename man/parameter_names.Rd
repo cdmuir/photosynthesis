@@ -11,6 +11,9 @@ parameter_names(which, use_tealeaves)
 
 \item{use_tealeaves}{Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves:tleaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.}
 }
+\value{
+A character vector with parameter names associated with each type, "leaf", "enviro", "bake", or "constants".
+}
 \description{
 Get vector of parameter names
 }
