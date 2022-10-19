@@ -10,9 +10,9 @@
 #' parameter inputs are properly formatted.
 #'
 #' @export
-leaf_par <- function(.x, use_tealeaves) {
-  which <- "leaf"
-  nms <- photosynthesis::parameter_names(which, use_tealeaves)
+leaf_par = function(.x, use_tealeaves) {
+  which = "leaf"
+  nms = photosynthesis::parameter_names(which, use_tealeaves)
 
   stopifnot(is.list(.x))
 
@@ -28,9 +28,9 @@ leaf_par <- function(.x, use_tealeaves) {
   .x %<>% magrittr::extract(nms)
 
   # Set units ----
-  .x$g_mc25 %<>% set_units(umol / (m^2 * s * Pa))
-  .x$g_sc %<>% set_units(umol / (m^2 * s * Pa))
-  .x$g_uc %<>% set_units(umol / (m^2 * s * Pa))
+  .x$g_mc25 %<>% set_units(umol / m^2 / s)
+  .x$g_sc %<>% set_units(umol / m^2 / s)
+  .x$g_uc %<>% set_units(umol / m^2 / s)
   .x$gamma_star25 %<>% set_units(Pa)
   .x$J_max25 %<>% set_units(umol / (m^2 * s))
   .x$k_mc %<>% set_units()
@@ -52,9 +52,9 @@ leaf_par <- function(.x, use_tealeaves) {
   }
 
   # Check values ----
-  stopifnot(.x$g_mc25 >= set_units(0, umol / (m^2 * s * Pa)))
-  stopifnot(.x$g_sc >= set_units(0, umol / (m^2 * s * Pa)))
-  stopifnot(.x$g_uc >= set_units(0, umol / (m^2 * s * Pa)))
+  stopifnot(.x$g_mc25 >= set_units(0, umol / m^2 / s))
+  stopifnot(.x$g_sc >= set_units(0, umol / m^2 / s))
+  stopifnot(.x$g_uc >= set_units(0, umol / m^2 / s))
   stopifnot(.x$gamma_star25 >= set_units(0, Pa))
   stopifnot(.x$J_max25 >= set_units(0, umol / (m^2 * s)))
   stopifnot(.x$k_mc >= set_units(0))
