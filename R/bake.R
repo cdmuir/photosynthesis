@@ -112,7 +112,7 @@ bake <- function(leaf_par, bake_par, constants, assert_units = TRUE) {
   )
   # Set units ----
   if (assert_units) {
-    leaf_par$g_mc %<>% set_units(umol / m^2 / s / Pa)
+    leaf_par$g_mc %<>% set_units(mol / m^2 / s)
     leaf_par$gamma_star %<>% set_units(Pa)
     leaf_par$J_max %<>% set_units(umol / (m^2 * s))
     leaf_par$K_C %<>% set_units(Pa)
@@ -124,7 +124,7 @@ bake <- function(leaf_par, bake_par, constants, assert_units = TRUE) {
 
   # Check values ----
   if (assert_units) {
-    stopifnot(leaf_par$g_mc >= set_units(0, umol / m^2 / s / Pa))
+    stopifnot(leaf_par$g_mc >= set_units(0, mol / m^2 / s))
     stopifnot(leaf_par$gamma_star >= set_units(0, Pa))
     stopifnot(leaf_par$J_max >= set_units(0, umol / (m^2 * s)))
     stopifnot(leaf_par$K_C >= set_units(0, Pa))

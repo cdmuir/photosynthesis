@@ -28,9 +28,12 @@ leaf_par = function(.x, use_tealeaves) {
   .x %<>% magrittr::extract(nms)
 
   # Set units ----
-  .x$g_mc25 %<>% set_units(umol / m^2 / s)
-  .x$g_sc %<>% set_units(umol / m^2 / s)
-  .x$g_uc %<>% set_units(umol / m^2 / s)
+  # Message about change of conductance units in version 2.0.4
+  check_for_legacy_gunit(.x)
+  
+  .x$g_mc25 %<>% set_units(mol / m^2 / s)
+  .x$g_sc %<>% set_units(mol / m^2 / s)
+  .x$g_uc %<>% set_units(mol / m^2 / s)
   .x$gamma_star25 %<>% set_units(Pa)
   .x$J_max25 %<>% set_units(umol / (m^2 * s))
   .x$k_mc %<>% set_units()
@@ -75,4 +78,35 @@ leaf_par = function(.x, use_tealeaves) {
   }
 
   structure(.x, class = c(stringr::str_c(which, "_par"), "list"))
+}
+
+check_for_legacy_gunit = function(pars) {
+  
+  pars |>
+    purrr::map(units) |>
+    purrr::map_lgl(units::ud_are_convertible, y = "umol / m^2 / s / Pa") |>
+    any() %>%
+    purrr::when(. ~ {
+      
+      message(
+        "
+      It looks like one or more of the conductance values is provided in units 
+      of 'umol / m^2 / s / Pa' or a unit that can be converted to it. This was 
+      the default in photosynthesis (<= 2.0.3), but we switched to 
+      'mol / m^2 / s' because these units are morely widely used in plant 
+      ecophysiology. 
+      
+      To convert, use this code with your desired temperature and pressure:
+      g = units::set_units(1, umol / m^2 / s / Pa)   
+      P = units::set_units(101.3246, kPa)
+      Temp = set_units(298.15, K) 
+      gunit::convert_conductance(g, P = P, Temp = Temp)$`mol/m^2/s`
+      
+      "
+      )
+      stop("Incorrect conductance units in leaf_par()", call. = FALSE)
+    })
+  
+  invisible()
+  
 }

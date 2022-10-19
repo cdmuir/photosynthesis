@@ -150,7 +150,7 @@ NULL
 #'
 #' leaf_par = make_leafpar(
 #'   replace = list(
-#'     g_sc = set_units(3, "umol/m^2/s/Pa"),
+#'     g_sc = set_units(0.3, "umol/m^2/s"),
 #'     V_cmax25 = set_units(100, "umol/m^2/s")
 #'   ), use_tealeaves = FALSE
 #' )
@@ -160,42 +160,14 @@ make_leafpar = function(
     use_tealeaves
   ) {
 
-  # Defaults -----
-  obj = list(
-    g_mc25 = set_units(0.4, mol / m^2 / s),
-    g_sc = set_units(0.4, mol / m^2 / s),
-    g_uc = set_units(0.01, mol / m^2 / s),
-    gamma_star25 = set_units(3.743, Pa), # From Sharkey et al. 2007.
-    # Newer source? Check bayCi
-    J_max25 = set_units(200, umol / (m^2 * s)),
-    k_mc = set_units(1), 
-    k_sc = set_units(1),
-    k_uc = set_units(1),
-    K_C25 = set_units(27.238, Pa), # From Sharkey et al. 2007.
-    # Newer source? Check bayCi
-    K_O25 = set_units(16.582, kPa), # From Sharkey et al. 2007.
-    # Newer source? Check bayCi
-    leafsize = set_units(0.1, m),
-    phi_J = set_units(0.331),
-    theta_J = set_units(0.825),
-    R_d25 = set_units(2, umol / (m^2 * s)),
-    T_leaf = set_units(298.15, K),
-    V_cmax25 = set_units(150, umol / (m^2 * s)),
-    V_tpu25 = set_units(200, umol / (m^2 * s)),
-    
-    # Extra parameters for decomposing g_m into g_ias and g_liq
-    delta_ias_lower = set_units(numeric(0), um),
-    delta_ias_upper = set_units(numeric(0), um),
-    A_mes_A = set_units(numeric(0), 1),
-    g_liqc = set_units(numeric(0), umol / (m^2 * s * Pa))
-  )
+  # Message about new conductance model ----
+  message_experimental(replace)
 
-  if (use_tealeaves) {
-    obj = c(obj, list(
-      abs_l = set_units(0.97),
-      abs_s = set_units(0.5)
-    ))
-  }
+  # Defaults -----
+  obj = make_default_parameter_list(
+    which = "leaf",
+    use_tealeaves = use_tealeaves
+  )
 
   # Replace defaults ----
   if (!is.null(replace$T_leaf) & use_tealeaves) {
@@ -205,8 +177,7 @@ make_leafpar = function(
 
   par_equiv = data.frame(
     tl = c("g_sw", "g_uw", "logit_sr"),
-    ph = c("g_sc", "g_uc", "k_sc"),
-    stringsAsFactors = FALSE
+    ph = c("g_sc", "g_uc", "k_sc")
   )
 
   if (any(purrr::map_lgl(replace[par_equiv$tl], ~ !is.null(.x)))) {
@@ -237,27 +208,10 @@ make_leafpar = function(
 make_enviropar = function(replace = NULL, use_tealeaves) {
 
   # Defaults ----
-  obj = list(
-    C_air = set_units(41, Pa),
-    O = set_units(21.27565, kPa),
-    P = set_units(101.3246, kPa),
-    PPFD = set_units(1500, umol / m^2 / s),
-    RH = set_units(0.5),
-    wind = set_units(2, m / s)
+  obj = make_default_parameter_list(
+    which = "enviro", 
+    use_tealeaves = use_tealeaves
   )
-
-  # Add parameters for tealeaves ----
-  if (use_tealeaves) {
-    obj %<>% c(list(
-      E_q = set_units(220, kJ / mol),
-      f_par = set_units(0.5),
-      r = set_units(0.2),
-      T_air = set_units(298.15, K),
-      T_sky = function(pars) {
-        set_units(pars$T_air, K) - set_units(20, K) * set_units(pars$S_sw, W / m^2) / set_units(1000, W / m^2)
-      }
-    ))
-  }
 
   # Replace defaults ----
   if ("T_sky" %in% names(replace)) {
@@ -301,20 +255,7 @@ make_enviropar = function(replace = NULL, use_tealeaves) {
 make_bakepar = function(replace = NULL) {
 
   # Defaults -----
-  obj = list(
-    Ds_gmc = set_units(487.29, J / mol / K),
-    Ds_Jmax = set_units(388.04, J / mol / K),
-    Ea_gammastar = set_units(24459.97, J / mol),
-    Ea_gmc = set_units(68901.56, J / mol),
-    Ea_Jmax = set_units(56095.18, J / mol),
-    Ea_KC = set_units(80989.78, J / mol),
-    Ea_KO = set_units(23719.97, J / mol),
-    Ea_Rd = set_units(40446.75, J / mol),
-    Ea_Vcmax = set_units(52245.78, J / mol),
-    Ea_Vtpu = set_units(52245.78, J / mol),
-    Ed_gmc = set_units(148788.56, J / mol),
-    Ed_Jmax = set_units(121244.79, J / mol)
-  )
+  obj = make_default_parameter_list(which = "bake", use_tealeaves = FALSE)
 
   # Replace defaults -----
   obj %<>% replace_defaults(replace)
@@ -323,6 +264,7 @@ make_bakepar = function(replace = NULL) {
   obj %<>% photosynthesis::bake_par()
 
   obj
+  
 }
 
 #' make_constants
@@ -332,53 +274,9 @@ make_bakepar = function(replace = NULL) {
 make_constants = function(replace = NULL, use_tealeaves) {
 
   # Defaults -----
-  obj = list(
-    D_c0 = set_units(1.29e-5, m^2 / s),
-    D_h0 = set_units(1.90e-5, m^2 / s),
-    D_m0 = set_units(1.33e-5, m^2 / s),
-    D_w0 = set_units(2.12e-5, m^2 / s),
-    epsilon = set_units(0.622),
-    eT = set_units(1.75),
-    G = set_units(9.8, m / s^2),
-    nu_constant = function(Re, type, T_air, T_leaf, surface, unitless) {
-      if (!unitless) {
-        stopifnot(units(T_air)$numerator == "K" &
-          length(units(T_air)$denominator) == 0L)
-        stopifnot(units(T_leaf)$numerator == "K" &
-          length(units(T_leaf)$denominator) == 0L)
-      }
-
-      type %<>% match.arg(c("free", "forced"))
-
-      if (identical(type, "forced")) {
-        if (unitless) {
-          if (Re <= 4000) ret = list(a = 0.6, b = 0.5)
-          if (Re > 4000) ret = list(a = 0.032, b = 0.8)
-        } else {
-          if (Re <= set_units(4000)) ret = list(a = 0.6, b = 0.5)
-          if (Re > set_units(4000)) ret = list(a = 0.032, b = 0.8)
-        }
-        return(ret)
-      }
-
-      if (identical(type, "free")) {
-        surface %<>% match.arg(c("lower", "upper"))
-        if ((surface == "upper" & T_leaf > T_air) |
-          (surface == "lower" & T_leaf < T_air)) {
-          ret = list(a = 0.5, b = 0.25)
-        } else {
-          ret = list(a = 0.23, b = 0.25)
-        }
-        return(ret)
-      }
-    },
-    R = set_units(8.3144598, J / (mol * K)),
-    s = set_units(5.67e-08, W / (m^2 * K^4)),
-    sh_constant = function(type, unitless) {
-      type %>%
-        match.arg(c("free", "forced")) %>%
-        switch(forced = 0.33, free = 0.25)
-    }
+  obj = make_default_parameter_list(
+    which = "constants", 
+    use_tealeaves = use_tealeaves
   )
 
   # Replace defaults -----
@@ -394,21 +292,185 @@ make_constants = function(replace = NULL, use_tealeaves) {
     replace$sh_constant = NULL
   }
 
-  # Add parameters for tealeaves ----
-  if (use_tealeaves) {
-    obj %<>% c(list(
-      c_p = set_units(1.01, J / g / K),
-      R_air = set_units(287.058, J / kg / K)
-    ))
-  }
-
-  # Replace defaults -----
   obj %<>% replace_defaults(replace)
 
   # Assign class and return -----
   obj %<>% photosynthesis::constants(use_tealeaves)
 
   obj
+}
+
+#' Character vector of acceptable parameter types
+#' @noRd
+get_par_types = function() {
+  c("bake", "constants", "enviro", "leaf")
+}
+
+#' Make default parameter list
+#' @inheritParams parameter_names
+#' @noRd
+make_default_parameter_list = function(which, use_tealeaves) {
+  
+ default_parameter_list = which |>
+   match.arg(get_par_types()) |>
+   switch(
+     
+     bake = list(
+       Ds_gmc = set_units(487.29, J / mol / K),
+       Ds_Jmax = set_units(388.04, J / mol / K),
+       Ea_gammastar = set_units(24459.97, J / mol),
+       Ea_gmc = set_units(68901.56, J / mol),
+       Ea_Jmax = set_units(56095.18, J / mol),
+       Ea_KC = set_units(80989.78, J / mol),
+       Ea_KO = set_units(23719.97, J / mol),
+       Ea_Rd = set_units(40446.75, J / mol),
+       Ea_Vcmax = set_units(52245.78, J / mol),
+       Ea_Vtpu = set_units(52245.78, J / mol),
+       Ed_gmc = set_units(148788.56, J / mol),
+       Ed_Jmax = set_units(121244.79, J / mol)
+     ),
+     
+     constants = list(
+       D_c0 = set_units(1.29e-5, m^2 / s),
+       D_h0 = set_units(1.90e-5, m^2 / s),
+       D_m0 = set_units(1.33e-5, m^2 / s),
+       D_w0 = set_units(2.12e-5, m^2 / s),
+       epsilon = set_units(0.622),
+       eT = set_units(1.75),
+       G = set_units(9.8, m / s^2),
+       nu_constant = function(Re, type, T_air, T_leaf, surface, unitless) {
+         if (!unitless) {
+           stopifnot(units(T_air)$numerator == "K" &
+                       length(units(T_air)$denominator) == 0L)
+           stopifnot(units(T_leaf)$numerator == "K" &
+                       length(units(T_leaf)$denominator) == 0L)
+         }
+         
+         type %<>% match.arg(c("free", "forced"))
+         
+         if (identical(type, "forced")) {
+           if (unitless) {
+             if (Re <= 4000) ret = list(a = 0.6, b = 0.5)
+             if (Re > 4000) ret = list(a = 0.032, b = 0.8)
+           } else {
+             if (Re <= set_units(4000)) ret = list(a = 0.6, b = 0.5)
+             if (Re > set_units(4000)) ret = list(a = 0.032, b = 0.8)
+           }
+           return(ret)
+         }
+         
+         if (identical(type, "free")) {
+           surface %<>% match.arg(c("lower", "upper"))
+           if ((surface == "upper" & T_leaf > T_air) |
+               (surface == "lower" & T_leaf < T_air)) {
+             ret = list(a = 0.5, b = 0.25)
+           } else {
+             ret = list(a = 0.23, b = 0.25)
+           }
+           return(ret)
+         }
+       },
+       R = set_units(8.3144598, J / (mol * K)),
+       s = set_units(5.67e-08, W / (m^2 * K^4)),
+       sh_constant = function(type, unitless) {
+         type %>%
+           match.arg(c("free", "forced")) %>%
+           switch(forced = 0.33, free = 0.25)
+       }
+     ),
+     
+     enviro = list(
+       C_air = set_units(41, Pa),
+       O = set_units(21.27565, kPa),
+       P = set_units(101.3246, kPa),
+       PPFD = set_units(1500, umol / m^2 / s),
+       RH = set_units(0.5),
+       wind = set_units(2, m / s)
+     ),
+     
+     leaf = list(
+       g_mc25 = set_units(0.4, mol / m^2 / s),
+       g_sc = set_units(0.4, mol / m^2 / s),
+       g_uc = set_units(0.01, mol / m^2 / s),
+       gamma_star25 = set_units(3.743, Pa), # From Sharkey et al. 2007.
+       # Newer source? Check bayCi
+       J_max25 = set_units(200, umol / (m^2 * s)),
+       k_mc = set_units(1), 
+       k_sc = set_units(1),
+       k_uc = set_units(1),
+       K_C25 = set_units(27.238, Pa), # From Sharkey et al. 2007.
+       # Newer source? Check bayCi
+       K_O25 = set_units(16.582, kPa), # From Sharkey et al. 2007.
+       # Newer source? Check bayCi
+       leafsize = set_units(0.1, m),
+       phi_J = set_units(0.331),
+       theta_J = set_units(0.825),
+       R_d25 = set_units(2, umol / (m^2 * s)),
+       T_leaf = set_units(298.15, K),
+       V_cmax25 = set_units(150, umol / (m^2 * s)),
+       V_tpu25 = set_units(200, umol / (m^2 * s)),
+       
+       # Extra parameters for decomposing g_m into g_ias and g_liq
+       delta_ias_lower = set_units(numeric(0), um),
+       delta_ias_upper = set_units(numeric(0), um),
+       A_mes_A = set_units(numeric(0), 1),
+       g_liqc = set_units(numeric(0), umol / m^2 / s)
+     )
+     
+   )
+ 
+ if (use_tealeaves) {
+   default_parameter_list %<>%
+     c(which |>
+         match.arg(get_par_types()) |>
+         switch(
+           bake = NULL,
+           constants = list(
+             c_p = set_units(1.01, J / g / K),
+             R_air = set_units(287.058, J / kg / K)
+           ),
+           enviro = list(
+             E_q = set_units(220, kJ / mol),
+             f_par = set_units(0.5),
+             r = set_units(0.2),
+             T_air = set_units(298.15, K),
+             T_sky = function(pars) {
+               set_units(pars$T_air, K) - set_units(20, K) * 
+                 set_units(pars$S_sw, W / m^2) / set_units(1000, W / m^2)
+             }
+           ),
+           leaf = list(
+             abs_l = set_units(0.97),
+             abs_s = set_units(0.5)
+           )
+         )
+     )
+ }
+ 
+ default_parameter_list
+ 
+}
+
+#' Message about experimental parameters
+#' @inheritParams replace
+#' @noRd
+message_experimental = function(replace) {
+  experimental_leafpar = c(
+    "delta_ias_lower",
+    "delta_ias_upper",
+    "A_mes_A",
+    "g_liqc"
+  )
+  if (any(names(replace) %in% experimental_leafpar)) {
+    message(
+      "
+      It looks like you are using the new CO2 conductance model.
+      
+      As of version 2.0.4, the new CO2 conductance model is experimental and
+      may change in new releases. Use with caution.
+      ")
+  }
+  invisible()
 }
 
 #' Replace default parameters

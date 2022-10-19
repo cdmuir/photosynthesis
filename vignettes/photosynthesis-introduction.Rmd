@@ -42,10 +42,10 @@ library(photosynthesis)
 
 # Leaving the make_* functions empty will automatically default to defaults
 # parameters.
-bake_par   <- make_bakepar()                       # temperature response parameters
-constants  <- make_constants(use_tealeaves = FALSE) # physical constants
-leaf_par   <- make_leafpar(use_tealeaves = FALSE)   # leaf parameters
-enviro_par <- make_enviropar(use_tealeaves = FALSE) # environmental parameters
+bake_par   = make_bakepar()                       # temperature response parameters
+constants  = make_constants(use_tealeaves = FALSE) # physical constants
+leaf_par   = make_leafpar(use_tealeaves = FALSE)   # leaf parameters
+enviro_par = make_enviropar(use_tealeaves = FALSE) # environmental parameters
 
 photo(leaf_par, enviro_par, bake_par, constants, quiet = TRUE,
       use_tealeaves = FALSE)
