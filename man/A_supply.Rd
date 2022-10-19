@@ -5,7 +5,7 @@
 \alias{A_demand}
 \title{CO2 supply and demand function (mol / m^2 s)}
 \usage{
-A_supply(C_chl, pars, unitless = FALSE)
+A_supply(C_chl, pars, unitless = FALSE, use_legacy_version)
 
 A_demand(C_chl, pars, unitless = FALSE)
 }
@@ -15,6 +15,8 @@ A_demand(C_chl, pars, unitless = FALSE)
 \item{pars}{Concatenated parameters (\code{leaf_par}, \code{enviro_par}, and \code{constants})}
 
 \item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
+
+\item{use_legacy_version}{Logical. Should legacy model (<2.1.0) be used? See \href[NEWS]{https://github.com/cdmuir/photosynthesis/blob/master/NEWS.md} for further information. Default is FALSE.}
 }
 \value{
 Value in mol / (m^2 s) of class \code{units}
@@ -42,17 +44,17 @@ This function is not intended to be called by users directly.
 }
 }
 \examples{
-bake_par <- make_bakepar()
-constants <- make_constants(use_tealeaves = FALSE)
-enviro_par <- make_enviropar(use_tealeaves = FALSE)
-leaf_par <- make_leafpar(use_tealeaves = FALSE)
-leaf_par <- bake(leaf_par, bake_par, constants)
+bake_par = make_bakepar()
+constants = make_constants(use_tealeaves = FALSE)
+enviro_par = make_enviropar(use_tealeaves = FALSE)
+leaf_par = make_leafpar(use_tealeaves = FALSE)
+leaf_par = bake(leaf_par, bake_par, constants)
 # Or bake with piping (need library(magrittr))
 # leaf_par \%<>\% bake(bake_par, constants)
-enviro_par$T_air <- leaf_par$T_leaf
+enviro_par$T_air = leaf_par$T_leaf
 
-pars <- c(leaf_par, enviro_par, constants)
-C_chl <- set_units(35, "Pa")
+pars = c(leaf_par, enviro_par, constants)
+C_chl = set_units(35, "Pa")
 
 A_supply(C_chl, pars)
 

@@ -127,6 +127,15 @@ NULL
 #' \eqn{\mathrm{logit}(sr)}{logit(sr)} \tab \code{logit_sr} \tab stomatal ratio (logit transformed) \tab none \tab converted from \eqn{k_\mathrm{sc}}{k_sc}
 #' }
 #'
+#' \bold{Optional leaf parameters:}
+#'
+#' \tabular{llll}{
+#' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \cr
+#' \eqn{\delta_\mathrm{ias,lower}}{\delta_ias,lower} \tab \code{delta_ias_lower} \tab effective distance through lower internal airspace \tab \eqn{\mu}m \cr
+#' \eqn{\delta_\mathrm{ias,upper}}{\delta_ias,upper} \tab \code{delta_ias_upper} \tab effective distance through upper internal airspace \tab \eqn{\mu}m \cr
+#' \eqn{A_\mathrm{mes} / A}{A_mes / A} \tab \code{A_mes_A} \tab mesophyll surface area per unit leaf area \tab none \cr
+#' \eqn{g_\mathrm{liq,c}}{g_liq,c} \tab \code{g_liqc} \tab liquid-phase conductance to CO2 (25 °C) \tab \eqn{\mu}mol / (m\eqn{^2} s Pa) \cr
+#' }
 #' @references
 #'
 #' Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic
@@ -134,29 +143,32 @@ NULL
 #' 38: 1200-11.
 #'
 #' @examples
-#' bake_par <- make_bakepar()
-#' constants <- make_constants(use_tealeaves = FALSE)
-#' enviro_par <- make_enviropar(use_tealeaves = FALSE)
-#' leaf_par <- make_leafpar(use_tealeaves = FALSE)
+#' bake_par = make_bakepar()
+#' constants = make_constants(use_tealeaves = FALSE)
+#' enviro_par = make_enviropar(use_tealeaves = FALSE)
+#' leaf_par = make_leafpar(use_tealeaves = FALSE)
 #'
-#' leaf_par <- make_leafpar(
+#' leaf_par = make_leafpar(
 #'   replace = list(
 #'     g_sc = set_units(3, "umol/m^2/s/Pa"),
 #'     V_cmax25 = set_units(100, "umol/m^2/s")
 #'   ), use_tealeaves = FALSE
 #' )
 #' @export
-make_leafpar <- function(replace = NULL, use_tealeaves) {
+make_leafpar = function(
+    replace = NULL, 
+    use_tealeaves
+  ) {
 
   # Defaults -----
-  obj <- list(
+  obj = list(
     g_mc25 = set_units(4, umol / (m^2 * s * Pa)),
     g_sc = set_units(4, umol / (m^2 * s * Pa)),
     g_uc = set_units(0.1, umol / (m^2 * s * Pa)),
     gamma_star25 = set_units(3.743, Pa), # From Sharkey et al. 2007.
     # Newer source? Check bayCi
     J_max25 = set_units(200, umol / (m^2 * s)),
-    k_mc = set_units(1),
+    k_mc = set_units(1), 
     k_sc = set_units(1),
     k_uc = set_units(1),
     K_C25 = set_units(27.238, Pa), # From Sharkey et al. 2007.
@@ -169,11 +181,17 @@ make_leafpar <- function(replace = NULL, use_tealeaves) {
     R_d25 = set_units(2, umol / (m^2 * s)),
     T_leaf = set_units(298.15, K),
     V_cmax25 = set_units(150, umol / (m^2 * s)),
-    V_tpu25 = set_units(200, umol / (m^2 * s))
+    V_tpu25 = set_units(200, umol / (m^2 * s)),
+    
+    # Extra parameters for decomposing g_m into g_ias and g_liq
+    delta_ias_lower = set_units(numeric(0), um),
+    delta_ias_upper = set_units(numeric(0), um),
+    A_mes_A = set_units(numeric(0), 1)
+    g_liqc = set_units(numeric(0), )
   )
 
   if (use_tealeaves) {
-    obj <- c(obj, list(
+    obj = c(obj, list(
       abs_l = set_units(0.97),
       abs_s = set_units(0.5)
     ))
@@ -182,10 +200,10 @@ make_leafpar <- function(replace = NULL, use_tealeaves) {
   # Replace defaults ----
   if (!is.null(replace$T_leaf) & use_tealeaves) {
     warning("replace$T_leaf ignored when use_tealeaves is TRUE")
-    replace$T_leaf <- NULL
+    replace$T_leaf = NULL
   }
 
-  par_equiv <- data.frame(
+  par_equiv = data.frame(
     tl = c("g_sw", "g_uw", "logit_sr"),
     ph = c("g_sc", "g_uc", "k_sc"),
     stringsAsFactors = FALSE
@@ -216,10 +234,10 @@ make_leafpar <- function(replace = NULL, use_tealeaves) {
 #' @rdname make_parameters
 #' @export
 
-make_enviropar <- function(replace = NULL, use_tealeaves) {
+make_enviropar = function(replace = NULL, use_tealeaves) {
 
   # Defaults ----
-  obj <- list(
+  obj = list(
     C_air = set_units(41, Pa),
     O = set_units(21.27565, kPa),
     P = set_units(101.3246, kPa),
@@ -244,12 +262,12 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
   # Replace defaults ----
   if ("T_sky" %in% names(replace)) {
     if (is.function(replace$T_sky)) {
-      obj$T_sky <- replace$T_sky
-      replace$T_sky <- NULL
+      obj$T_sky = replace$T_sky
+      replace$T_sky = NULL
     }
   }
 
-  par_equiv <- data.frame(
+  par_equiv = data.frame(
     tl = c("S_sw"),
     ph = c("PPFD"),
     stringsAsFactors = FALSE
@@ -280,10 +298,10 @@ make_enviropar <- function(replace = NULL, use_tealeaves) {
 #' @rdname make_parameters
 #' @export
 
-make_bakepar <- function(replace = NULL) {
+make_bakepar = function(replace = NULL) {
 
   # Defaults -----
-  obj <- list(
+  obj = list(
     Ds_gmc = set_units(487.29, J / mol / K),
     Ds_Jmax = set_units(388.04, J / mol / K),
     Ea_gammastar = set_units(24459.97, J / mol),
@@ -311,10 +329,10 @@ make_bakepar <- function(replace = NULL) {
 #' @rdname make_parameters
 #' @export
 
-make_constants <- function(replace = NULL, use_tealeaves) {
+make_constants = function(replace = NULL, use_tealeaves) {
 
   # Defaults -----
-  obj <- list(
+  obj = list(
     D_c0 = set_units(1.29e-5, m^2 / s),
     D_h0 = set_units(1.90e-5, m^2 / s),
     D_m0 = set_units(1.33e-5, m^2 / s),
@@ -334,11 +352,11 @@ make_constants <- function(replace = NULL, use_tealeaves) {
 
       if (identical(type, "forced")) {
         if (unitless) {
-          if (Re <= 4000) ret <- list(a = 0.6, b = 0.5)
-          if (Re > 4000) ret <- list(a = 0.032, b = 0.8)
+          if (Re <= 4000) ret = list(a = 0.6, b = 0.5)
+          if (Re > 4000) ret = list(a = 0.032, b = 0.8)
         } else {
-          if (Re <= set_units(4000)) ret <- list(a = 0.6, b = 0.5)
-          if (Re > set_units(4000)) ret <- list(a = 0.032, b = 0.8)
+          if (Re <= set_units(4000)) ret = list(a = 0.6, b = 0.5)
+          if (Re > set_units(4000)) ret = list(a = 0.032, b = 0.8)
         }
         return(ret)
       }
@@ -347,9 +365,9 @@ make_constants <- function(replace = NULL, use_tealeaves) {
         surface %<>% match.arg(c("lower", "upper"))
         if ((surface == "upper" & T_leaf > T_air) |
           (surface == "lower" & T_leaf < T_air)) {
-          ret <- list(a = 0.5, b = 0.25)
+          ret = list(a = 0.5, b = 0.25)
         } else {
-          ret <- list(a = 0.23, b = 0.25)
+          ret = list(a = 0.23, b = 0.25)
         }
         return(ret)
       }
@@ -366,14 +384,14 @@ make_constants <- function(replace = NULL, use_tealeaves) {
   # Replace defaults -----
   if ("nu_constant" %in% names(replace)) {
     stopifnot(is.function(replace$nu_constant))
-    obj$nu_constant <- replace$nu_constant
-    replace$nu_constant <- NULL
+    obj$nu_constant = replace$nu_constant
+    replace$nu_constant = NULL
   }
 
   if ("sh_constant" %in% names(replace)) {
     stopifnot(is.function(replace$sh_constant))
-    obj$sh_constant <- replace$sh_constant
-    replace$sh_constant <- NULL
+    obj$sh_constant = replace$sh_constant
+    replace$sh_constant = NULL
   }
 
   # Add parameters for tealeaves ----
@@ -399,12 +417,12 @@ make_constants <- function(replace = NULL, use_tealeaves) {
 #' @param replace List of replacement values
 #' @noRd
 
-replace_defaults <- function(obj, replace) {
+replace_defaults = function(obj, replace) {
   if (!is.null(replace)) {
     stopifnot(is.list(replace))
     stopifnot(all(sapply(replace, inherits, what = "units")))
     stopifnot(all(sapply(replace, is.numeric)))
-    x <- names(replace)
+    x = names(replace)
     if (any(!x %in% names(obj))) {
       warning(sprintf("The following parameters in 'replace' were not
                       recognized:\n%s", paste0(x[!x %in% names(obj)],
@@ -412,7 +430,7 @@ replace_defaults <- function(obj, replace) {
       )))
       x %<>% .[. %in% names(obj)]
     }
-    obj[x] <- replace[x]
+    obj[x] = replace[x]
   }
 
   obj

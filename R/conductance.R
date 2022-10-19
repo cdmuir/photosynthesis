@@ -54,25 +54,25 @@ NULL
 #'  - g_tc: total conductance to CO2
 #'
 #' @rdname CO2_conductance
-.get_gtc <- function(pars, unitless) {
-  gbc_lower <- .get_gbc(pars, "lower", unitless)
-  gmc_lower <- .get_gmc(pars, "lower", unitless)
-  gsc_lower <- .get_gsc(pars, "lower", unitless)
-  guc_lower <- .get_guc(pars, "lower", unitless)
+.get_gtc = function(pars, unitless, use_legacy_version) {
+  gbc_lower = .get_gbc(pars, "lower", unitless, use_legacy_version)
+  gmc_lower = .get_gmc(pars, "lower", unitless, use_legacy_version)
+  gsc_lower = .get_gsc(pars, "lower", unitless)
+  guc_lower = .get_guc(pars, "lower", unitless)
 
-  gbc_upper <- .get_gbc(pars, "upper", unitless)
-  gmc_upper <- .get_gmc(pars, "upper", unitless)
-  gsc_upper <- .get_gsc(pars, "upper", unitless)
-  guc_upper <- .get_guc(pars, "upper", unitless)
+  gbc_upper = .get_gbc(pars, "upper", unitless, use_legacy_version)
+  gmc_upper = .get_gmc(pars, "upper", unitless, use_legacy_version)
+  gsc_upper = .get_gsc(pars, "upper", unitless)
+  guc_upper = .get_guc(pars, "upper", unitless)
 
-  rc_lower <- 1 / gmc_lower + 1 / gsc_lower + 1 / gbc_lower
-  gc_lower <- 1 / rc_lower
+  rc_lower = 1 / gmc_lower + 1 / gsc_lower + 1 / gbc_lower
+  gc_lower = 1 / rc_lower
   gc_lower %<>% magrittr::add(guc_lower)
-  rc_upper <- 1 / gmc_upper + 1 / gsc_upper + 1 / gbc_upper
-  gc_upper <- 1 / rc_upper
+  rc_upper = 1 / gmc_upper + 1 / gsc_upper + 1 / gbc_upper
+  gc_upper = 1 / rc_upper
   gc_upper %<>% magrittr::add(guc_upper)
 
-  g_tc <- gc_lower + gc_upper
+  g_tc = gc_lower + gc_upper
 
   if (!unitless) g_tc %<>% set_units(umol / m^2 / s / Pa)
 
@@ -84,17 +84,17 @@ NULL
 #' @param surface Leaf surface (lower or upper)
 #'
 #' @rdname CO2_conductance
-.get_guc <- function(pars, surface, unitless) {
+.get_guc = function(pars, surface, unitless) {
   surface %<>% match.arg(c("lower", "upper"))
 
   if (unitless) {
-    g_uc <- switch(
+    g_uc = switch(
       surface,
       lower = pars$g_uc * (1 / (1 + pars$k_uc)),
       upper = pars$g_uc * (pars$k_uc / (1 + pars$k_uc))
     )
   } else {
-    g_uc <- switch(
+    g_uc = switch(
       surface,
       lower = pars$g_uc * (set_units(1) / (set_units(1) + pars$k_uc)),
       upper = pars$g_uc * (pars$k_uc / (set_units(1) + pars$k_uc))
@@ -108,43 +108,48 @@ NULL
 #' @inheritParams .get_guc
 #'
 #' @rdname CO2_conductance
-.get_gbc <- function(pars, surface, unitless) {
+.get_gbc = function(pars, surface, unitless, use_legacy_version) {
   surface %<>% match.arg(c("lower", "upper"))
 
-  ret <- tealeaves:::.get_gbw(pars$T_leaf, surface, pars, unitless) %>%
-    set_units(m / s) %>%
-    gunit::convert_conductance(
-      P = set_units(pars$P, kPa),
-      R = set_units(pars$R, J / K / mol),
-      Temp = set_units((pars$T_air + pars$T_leaf) / 2, K)
-    ) %>%
-    dplyr::pull(.data$`umol/m^2/s/Pa`) %>%
-    gw2gc(D_c = pars$D_c0, D_w = pars$D_w0, unitless = unitless)
-
+  ret = tealeaves:::.get_gbw(pars$T_leaf, surface, pars, unitless) |>
+      set_units(m / s) |>
+      gunit::convert_conductance(
+        P = set_units(pars$P, kPa),
+        R = set_units(pars$R, J / K / mol),
+        Temp = set_units((pars$T_air + pars$T_leaf) / 2, K)
+      ) |>
+      dplyr::pull(.data$`umol/m^2/s/Pa`) |>
+      gunit::gw2gc(D_c = pars$D_c0, D_w = pars$D_w0, unitless = unitless,
+            a = ifelse(use_legacy_version, 1, 2/3))
   ret
+  
 }
 #'  - g_mc: mesophyll conductance to CO2
 #'
 #' @inheritParams .get_guc
 #'
 #' @rdname CO2_conductance
-.get_gmc <- function(pars, surface, unitless) {
+.get_gmc = function(pars, surface, unitless, use_legacy_version) {
   surface %<>% match.arg(c("lower", "upper"))
 
-  if (unitless) {
-    g_mc <- switch(
-      surface,
-      lower = pars$g_mc * (1 / (1 + pars$k_mc)),
-      upper = pars$g_mc * (pars$k_mc / (1 + pars$k_mc))
-    )
+  if (use_legacy_version) {
+    if (unitless) {
+      g_mc = switch(
+        surface,
+        lower = pars$g_mc * (1 / (1 + pars$k_mc)),
+        upper = pars$g_mc * (pars$k_mc / (1 + pars$k_mc))
+      )
+    } else {
+      g_mc = switch(
+        surface,
+        lower = pars$g_mc * (set_units(1) / (set_units(1) + pars$k_mc)),
+        upper = pars$g_mc * (pars$k_mc / (set_units(1) + pars$k_mc))
+      )
+    }
   } else {
-    g_mc <- switch(
-      surface,
-      lower = pars$g_mc * (set_units(1) / (set_units(1) + pars$k_mc)),
-      upper = pars$g_mc * (pars$k_mc / (set_units(1) + pars$k_mc))
-    )
+    
   }
-
+  
   g_mc
 }
 #'  - g_sc: stomatal conductance to CO2
@@ -152,16 +157,16 @@ NULL
 #' @inheritParams .get_guc
 #'
 #' @rdname CO2_conductance
-.get_gsc <- function(pars, surface, unitless) {
+.get_gsc = function(pars, surface, unitless) {
   surface %<>% match.arg(c("lower", "upper"))
   if (unitless) {
-    g_sc <- switch(
+    g_sc = switch(
       surface,
       lower = pars$g_sc * (1 / (1 + pars$k_sc)),
       upper = pars$g_sc * (pars$k_sc / (1 + pars$k_sc))
     )
   } else {
-    g_sc <- switch(
+    g_sc = switch(
       surface,
       lower = pars$g_sc * (set_units(1) / (set_units(1) + pars$k_sc)),
       upper = pars$g_sc * (pars$k_sc / (set_units(1) + pars$k_sc))

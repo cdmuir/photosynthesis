@@ -8,8 +8,7 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
 [![](https://cranlogs.r-pkg.org/badges/photosynthesis)](https://cran.r-project.org/package=photosynthesis)
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/cdmuir/photosynthesis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cdmuir/photosynthesis/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## Model C3 Photosynthesis
@@ -60,11 +59,8 @@ In this vignette, I’ll show you how to:
 
 -   run a minimum worked example using default parameters
 -   replace default parameters
--   simulate photosynthetic rate along a gradient of
-    CO![\_2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;_2 "_2")
-    concentrations
-    (![A-C\_\\mathrm{c}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;A-C_%5Cmathrm%7Bc%7D "A-C_\mathrm{c}")
-    curve)
+-   simulate photosynthetic rate along a gradient of CO$_2$
+    concentrations ($A-C_\mathrm{c}$ curve)
 
 ## Minimum worked example
 
@@ -72,6 +68,7 @@ You can use the default parameter settings and simulate photosynthetic
 rate in a single leaf using the `make_*()` functions and `photo()`.
 
 ``` r
+
 library(dplyr)
 library(magrittr)
 library(photosynthesis)
@@ -109,6 +106,7 @@ section, I’ll show you how to set up a gradient of parameter values over
 which to solve for leaf temperature.
 
 ``` r
+
 # Use the `replace` argument to replace defaults. This must be a named list, and
 # each named element must have the proper units specified. See `?make_parameters`
 # for all parameter names and proper units.
@@ -157,6 +155,7 @@ one or more leaf or environmental parameters and `photosynthesis` uses
 the `purrr::cross` function to fit all combinations[^1].
 
 ``` r
+
 # As before, use the `replace` argument to replace defaults, but this time we
 # enter multiple values
 
@@ -200,11 +199,12 @@ you have multiple processors available, you can speed things up by
 running simulations in parallel. In the `photosynthesis` function,
 simply use the `parallel = TRUE` argument to simulate in parallel.
 You’ll need to set up a **future** `plan()`. See `?future::plan` for
-more detail. Here I’ll provide an example simulating an
-![A-C_c](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;A-C_c "A-C_c")
-curve.
+more detail. Here I’ll provide an example simulating an $A-C_c$ curve.
 
 ``` r
+
+# NOTE: parallel example is not evaluated because it was causing an issue with CRAN, but you can copy-and-paste the code to run on your own machine.
+
 library(future)
 plan("multisession") # Set up plan
 
@@ -238,8 +238,6 @@ ggplot(ph, aes(C_chl, A)) +
   NULL
 ```
 
-<img src="man/figures/README-parallel-example-1.png" width="100%" />
-
 ## Incorporating leaf temperature using **tealeaves**
 
 In experiments, leaf temperature can be kept close to air temperature,
@@ -250,6 +248,9 @@ the [**tealeaves**](https://CRAN.R-project.org/package=tealeaves)
 package to calculate leaf temperature using an energy balance model.
 
 ``` r
+
+# NOTE: parallel example is not evaluated because it was causing an issue with CRAN, but you can copy-and-paste the code to run on your own machine.
+
 # You will need to set use_tealeaves = TRUE when making parameters because additional parameters are needed for tealeaves.
 
 bake_par <- make_bakepar()
@@ -286,11 +287,7 @@ ggplot(ph, aes(T_air, T_leaf, color = `g[s]`)) +
   ylab(expression(paste(T[leaf], " [K]"))) +
   theme_bw() +
   NULL
-```
 
-<img src="man/figures/README-use-tealeaves-example-1.png" width="100%" />
-
-``` r
 ggplot(ph, aes(T_air, A, color = `g[s]`)) +
   geom_line(size = 2, lineend = "round") +
   scale_color_discrete(name = expression(g[s])) +
@@ -299,8 +296,6 @@ ggplot(ph, aes(T_air, A, color = `g[s]`)) +
   theme_bw() +
   NULL
 ```
-
-<img src="man/figures/README-use-tealeaves-example-2.png" width="100%" />
 
 This vignette is designed to demonstrate how to use the curve fitting
 and sensitivity analysis tools Sections are named based on the set of
@@ -474,6 +469,7 @@ fit[[3]]
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
 ``` r
+
 #Fit many curves
 fits <- fit_many(data = data,
                  varnames = list(A_net = "A",
@@ -517,6 +513,7 @@ fits[[3]][[3]]
 <img src="man/figures/README-unnamed-chunk-6-2.png" width="100%" />
 
 ``` r
+
 #Compile graphs into a list for plotting
 fits_graphs <- compile_data(fits,
                             list_element = 3)
@@ -583,6 +580,7 @@ fit[[2]]
 <img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
 ``` r
+
 #View data with modeled parameters attached
 #fit[[3]]
 
@@ -616,6 +614,7 @@ fits[[3]][[2]]
 <img src="man/figures/README-unnamed-chunk-7-2.png" width="100%" />
 
 ``` r
+
 #Compile graphs into a list for plotting
 fits_graphs <- compile_data(fits,
                             list_element = 2)
@@ -850,6 +849,7 @@ fits[["BallBerry"]][["Graph"]]
 
 ``` r
 
+
 #Fit many g_sw models
 #Set your grouping variable
 #Here we are grouping by Qin and individual
@@ -898,6 +898,7 @@ fits[["750"]][["Medlyn_partial"]][["Graph"]]
 <img src="man/figures/README-unnamed-chunk-9-2.png" width="100%" />
 
 ``` r
+
 #Compile parameter outputs for BallBerry model
 #Note that it's the first element for each PAR value
 #First compile list of BallBerry fits
@@ -919,6 +920,7 @@ plot(g0 ~ ID, bbpars)
 <img src="man/figures/README-unnamed-chunk-9-3.png" width="100%" />
 
 ``` r
+
 #Compile graphs
 graphs <- compile_data(data = bbmods,
                        output_type = "list",
@@ -1020,6 +1022,7 @@ walker_ort[[2]]
 <img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
 
 ``` r
+
 #View coeffients
 walker_ort[[3]]
 #>       GammaStar   r_light
@@ -1067,6 +1070,7 @@ ggplot(data, aes(x = CO2_s, y = g_mc, colour = reliable)) +
 <img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
 
 ``` r
+
 #Plot QAQC graph according to Harley et al. 1992
 ggplot(data, aes(x = CO2_s, y = dCcdA, colour = reliable)) +
   labs(x = expression(CO[2]~"("*mu*mol~mol^{-1}*")"),
@@ -1080,6 +1084,7 @@ ggplot(data, aes(x = CO2_s, y = dCcdA, colour = reliable)) +
 <img src="man/figures/README-unnamed-chunk-11-2.png" width="100%" />
 
 ``` r
+
 ggplot(data, aes(x = dCcdA, y = g_mc, colour = reliable)) +
   labs(x = expression(delta*C[c]*"/"*delta*A),
        y = expression(g[m]~"(mol"~m^{-2}~s^{-1}~Pa^{-1}*")")) +
@@ -1095,7 +1100,7 @@ ggplot(data, aes(x = dCcdA, y = g_mc, colour = reliable)) +
 This package follows the Prometheus wiki spreadsheet from Sack and
 Pasquet-Kok at:
 
-<http://prometheuswiki.org/tiki-index.php?page=Leaf+pressure-volume+curve+parameters>.
+<https://prometheusprotocols.net/function/water-relations/pressure-volume-curves/leaf-pressure-volume-curve-parameters/>
 
 For references, see Koide et al. 2000, Sack et al. 2003, and Tyree &
 Hammel 1972.
@@ -1125,6 +1130,7 @@ fit[[2]]
 <img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
 
 ``` r
+
 #Plot PV Curve
 fit[[3]]
 ```
@@ -1132,6 +1138,7 @@ fit[[3]]
 <img src="man/figures/README-unnamed-chunk-12-2.png" width="100%" />
 
 ``` r
+
 #Fit all PV curves in a file
 fits <- fit_many(data,
                  group = "ID",
@@ -1155,6 +1162,7 @@ fits[[1]][[2]]
 <img src="man/figures/README-unnamed-chunk-12-3.png" width="100%" />
 
 ``` r
+
 #See PV curve
 fits[[1]][[3]]
 ```
@@ -1162,6 +1170,7 @@ fits[[1]][[3]]
 <img src="man/figures/README-unnamed-chunk-12-4.png" width="100%" />
 
 ``` r
+
 #Compile parameter outputs
 pars <- compile_data(data = fits,
                      output_type = "dataframe",
@@ -1312,6 +1321,7 @@ fits[[1]][[5]]
 <img src="man/figures/README-unnamed-chunk-13-1.png" width="100%" />
 
 ``` r
+
 #Compile parameter outputs
 pars <- compile_data(data = fits,
                      output_type = "dataframe",
@@ -1338,17 +1348,13 @@ read.csv(system.file(“extdata”, “A_Ci_Q\_data_1.csv”, package =
 “photosynthesis”))
 
 \#Define a grouping factor based on light intensity to split the ACi
-\#curves
-data![Q_2 \<- as.factor((round(data](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;Q_2%20%3C-%20as.factor%28%28round%28data "Q_2 <- as.factor((round(data")Qin,
-digits = 0)))
+\#curves data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
 
-\#Convert data temperature to K
-data![T_leaf \<- data](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;T_leaf%20%3C-%20data "T_leaf <- data")Tleaf +
-273.15
+\#Convert data temperature to K data$T_leaf <- data$Tleaf + 273.15
 
 \#Run a sensitivity analysis on GammaStar and mesophyll conductance \#at
 25 Celsius for one individual curve pars \<- analyze_sensitivity(data =
-data\[data$Q_2 == 1500, \], funct = fit_aci_response, varnames =
+data\[data\$Q_2 == 1500, \], funct = fit_aci_response, varnames =
 list(A_net = “A”, T_leaf = “T_leaf”, C_i = “Ci”, PPFD = “Qin”), useg_mct
 = TRUE, test1 = “gamma_star25”, element_out = 1, test2 = “g_mc25”,
 fitTPU = TRUE, Ea_gamma_star = 0, Ea_g\_mc = 0, values1 = seq(from = 20,

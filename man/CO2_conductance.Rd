@@ -10,13 +10,13 @@
 \alias{.get_gsc}
 \title{Conductance to CO2 (umol / (m^2 s Pa))}
 \usage{
-.get_gtc(pars, unitless)
+.get_gtc(pars, unitless, use_legacy_version)
 
 .get_guc(pars, surface, unitless)
 
-.get_gbc(pars, surface, unitless)
+.get_gbc(pars, surface, unitless, use_legacy_version)
 
-.get_gmc(pars, surface, unitless)
+.get_gmc(pars, surface, unitless, use_legacy_version)
 
 .get_gsc(pars, surface, unitless)
 }
@@ -24,6 +24,8 @@
 \item{pars}{Concatenated parameters (\code{leaf_par}, \code{enviro_par}, and \code{constants})}
 
 \item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
+
+\item{use_legacy_version}{Logical. Should legacy model (<2.1.0) be used? See \href[NEWS]{https://github.com/cdmuir/photosynthesis/blob/master/NEWS.md} for further information. Default is FALSE.}
 
 \item{surface}{Leaf surface (lower or upper)}
 }

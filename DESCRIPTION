@@ -1,6 +1,6 @@
 Package: photosynthesis
-Version: 2.0.3
-Date: 2022-08-11
+Version: 2.0.3.9000
+Date: 2022-10-18
 Title: Tools for Plant Ecophysiology & Modeling
 Authors@R: c(
     person("Joseph", "Stinziano", email = "josephstinziano@gmail.com", role = "aut", comment = c(ORCID = "0000-0002-7628-4201")),
@@ -21,7 +21,7 @@ Imports: checkmate (>= 2.0.0),
          glue (>= 1.4.0),
          graphics (>= 4.0.0),
          grDevices (>= 4.0.0),
-         gunit (>= 1.0.0),
+         gunit (>= 1.0.2),
          magrittr (>= 1.5.0),
          methods (>= 3.5.0),
          nlme (>= 3.1-147),

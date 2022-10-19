@@ -1,0 +1,61 @@
+---
+title: "Modeling C3 Photosynthesis: recommendations for common scenarios"
+author: "Chris Muir"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Modeling C3 Photosynthesis: recommendations for common scenarios}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+biblography: 
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(photosynthesis)
+```
+
+# 'Typical' hypostomatous leaf
+
+Here I show how to implement a model close to the most widely used ones, in which boundary layer conductances are high, cuticular conductance is 0, all stomatal conductance is through the lower (abaxial) leaf surface, and there is a single mesophyll conductance. The advantage of this approach are that is its simplicity. You can ignore several complexities such as:
+
+* Low boundary layer conductance that varies between surfaces (can happen in large leaves at low wind speed)
+* Large cuticular conductance (this can be happen in young leaves)
+* Stomatal conductance can occur through both surface in amphistomatous leaves (this is common in herbs, for example)
+* Mesophyll conductance can be partitioned into air and liquid phases
+
+If these complexities are important to you, consider more complex models you can implement with **photosynthesis**. But, if you don't care, here's how to make things simple:
+
+```{r, simple leaf, eval=FALSE}
+library(photosynthesis)
+bake_par   = make_bakepar()                       # temperature response parameters
+constants  = make_constants(use_tealeaves = FALSE) # physical constants
+# leaf parameters
+leaf_par   = make_leafpar(
+  replace = list(
+    # Set cuticular conductance to 0
+    g_uc = set_units(0, umol / (m^2 * s * Pa)),
+    # All conductance through lower stomata and mesophyll
+    k_sc = set_units(0),
+    k_sc = set_units(0)
+  ),
+  use_tealeaves = FALSE
+  )   
+enviro_par = make_enviropar(use_tealeaves = FALSE) # environmental parameters
+
+```
+
+
+# Amphistomatous leaf
+
+Most leaves, especially on woody plants, are hypostomatous (Muir 2015) meaning that all the stomatal conductance
+
+# References
+
+Muir CD. 2015. Making pore choices: repeated regime shifts in stomatal ratio. Proc Roy Soc B 282: 20151498.

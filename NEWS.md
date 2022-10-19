@@ -1,5 +1,9 @@
 # photosynthesis (development version)
 
+* Fixed error in `gc2gw()` and `gw2gc()` and migrated to **gunit** version 1.0.2. Legacy version used version for still air in boundary layer conductance conversions. The corrected version includes modification for laminar flow in the boundary layer. Legacy version can be obtained with option `use_legacy_version = TRUE`.
+* Changed `<-` to `=` in many instances
+* Changed `%>%` to `|>` in many instances
+
 # photosynthesis 2.0.3
 
 * In the DESCRIPTION file, rewrote references in the form authors (year) <doi:...>

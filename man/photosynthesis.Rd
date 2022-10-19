@@ -15,7 +15,9 @@ photosynthesis(
   progress = TRUE,
   quiet = FALSE,
   assert_units = TRUE,
-  parallel = FALSE
+  check = TRUE,
+  parallel = FALSE,
+  use_legacy_version = FALSE
 )
 
 photo(
@@ -27,7 +29,8 @@ photo(
   quiet = FALSE,
   assert_units = TRUE,
   check = TRUE,
-  prepare_for_tleaf = use_tealeaves
+  prepare_for_tleaf = use_tealeaves,
+  use_legacy_version = FALSE
 )
 }
 \arguments{
@@ -47,9 +50,11 @@ photo(
 
 \item{assert_units}{Logical. Should parameter \code{units} be checked? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 
+\item{check}{Logical. Should arguments checks be done? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}} Default is TRUE.}
+
 \item{parallel}{Logical. Should parallel processing be used via \code{\link[furrr]{future_map}}?}
 
-\item{check}{Logical. Should arguments checks be done? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}} Default is TRUE.}
+\item{use_legacy_version}{Logical. Should legacy model (<2.1.0) be used? See \href[NEWS]{https://github.com/cdmuir/photosynthesis/blob/master/NEWS.md} for further information. Default is FALSE.}
 
 \item{prepare_for_tleaf}{Logical. Should arguments additional calculations for \code{\link[tealeaves:tleaves]{tleaf}}? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}}. Default is \code{use_tealeaves}.}
 }
@@ -118,17 +123,17 @@ A data.frame with the following \code{units} columns \cr
 \examples{
 # Single parameter set with 'photo'
 
-bake_par <- make_bakepar()
-constants <- make_constants(use_tealeaves = FALSE)
-enviro_par <- make_enviropar(use_tealeaves = FALSE)
-leaf_par <- make_leafpar(use_tealeaves = FALSE)
+bake_par = make_bakepar()
+constants = make_constants(use_tealeaves = FALSE)
+enviro_par = make_enviropar(use_tealeaves = FALSE)
+leaf_par = make_leafpar(use_tealeaves = FALSE)
 photo(leaf_par, enviro_par, bake_par, constants,
   use_tealeaves = FALSE
 )
 
 # Multiple parameter sets with 'photosynthesis'
 
-leaf_par <- make_leafpar(
+leaf_par = make_leafpar(
   replace = list(
     T_leaf = set_units(c(293.14, 298.15), "K")
   ), use_tealeaves = FALSE
