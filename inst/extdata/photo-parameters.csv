@@ -1,2 +1,11 @@
-\emph{Symbol},\emph{R},\emph{Description},\emph{Units},\emph{Default}
-\eqn{D_{c,0}}{D_c0},\code{D_c0},diffusion coefficient for CO2 in air at 0 °C,m\eqn{^2} / s,1.29e-5
+symbol,R,description,units,default,type,tealeaves
+"D_{c,0}",D_c0,diffusion coefficient for CO2 in air at 0 °C,m^2 / s,1.29E-05,constants,FALSE
+"D_{h,0}",D_h0,diffusion coefficient for heat in air at 0 °C,m^2 / s,1.90E-05,constants,FALSE
+"D_{m,0}",D_m0,diffusion coefficient for momentum in air at 0 °C,m^2 / s,1.33e-5,constants,FALSE
+"D_{w,0}",D_w0,diffusion coefficient for water vapor in air at 0 °C,m^2 / s,2.12e-5,constants,FALSE
+"\epsilon",epsilon,ratio of water to air molar masses,none,0.622,constants,FALSE
+G,G,gravitational acceleration,m / s^2,9.8,constants,FALSE
+eT,eT,exponent for temperature dependence of diffusion,none,1.75,constants,FALSE
+R,R,ideal gas constant,J / mol / K,8.3144598,constants,FALSE
+"\sigma",sigma,Stephan-Boltzmann constant,W / m^2 / K^4,5.67e-08,constants,FALSE
+Sh,Sh,Sherwood number,none,calculated,constants,FALSE
