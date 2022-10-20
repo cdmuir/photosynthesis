@@ -1,5 +1,6 @@
 # photosynthesis (development version)
 
+* To avoid redundancy, XXX is single source of truth for all input parameters
 * Fixed error in `gc2gw()` and `gw2gc()` and migrated to **gunit** version 1.0.2. Legacy version used version for still air in boundary layer conductance conversions. The corrected version includes modification for laminar flow in the boundary layer. Legacy version can be obtained with option `use_legacy_version = TRUE`.
 * Changed default conductance units from `[umol / m ^ 2 / s / Pa]` to `[mol / m ^ 2 / s]`
 * Changed `<-` to `=` in many instances

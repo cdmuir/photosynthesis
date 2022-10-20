@@ -16,3 +16,4 @@ R/scratch.R
 ^CRAN-SUBMISSION$
 \.github/*
 ^\.github$
+^data-raw$

@@ -66,9 +66,10 @@ A data.frame with the following \code{units} columns \cr
 \bold{Input:} \tab \cr
 \cr
 \code{C_air} \tab atmospheric CO2 concentration (Pa) \cr
-\code{g_mc25} \tab mesophyll conductance to CO2 at 25 °C (\eqn{\mu}mol / (m\eqn{^2} s Pa)) \cr
-\code{g_sc} \tab stomatal conductance to CO2 (\eqn{\mu}mol / (m\eqn{^2} s Pa)) \cr
-\code{g_uc} \tab cuticular conductance to CO2 (\eqn{\mu}mol / (m\eqn{^2} s Pa)) \cr
+\code{g_liqc25} \tab liquid-phase conductance to CO2 at 25 °C (mol / (m\eqn{^2} s)) \cr
+\code{g_mc25} \tab mesophyll conductance to CO2 at 25 °C (mol / (m\eqn{^2} s)) \cr
+\code{g_sc} \tab stomatal conductance to CO2 (mol / (m\eqn{^2} s)) \cr
+\code{g_uc} \tab cuticular conductance to CO2 (mol / (m\eqn{^2} s)) \cr
 \code{gamma_star25} \tab chloroplastic CO2 compensation point at 25 °C (Pa) \cr
 \code{J_max25} \tab potential electron transport at 25 °C (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \cr
 \code{K_C25} \tab Michaelis constant for carboxylation at 25 °C (\eqn{\mu}mol / mol) \cr
@@ -92,7 +93,9 @@ A data.frame with the following \code{units} columns \cr
 \cr
 \bold{Baked Input:} \tab \cr
 \cr
-\code{g_mc} \tab mesophyll conductance to CO2 at \code{T_leaf} (\eqn{\mu}mol / (m\eqn{^2} s Pa)) \cr
+\code{g_iasc} \tab internal airspace conductance to CO2 at \code{T_leaf} (mol / (m\eqn{^2} s)) \cr
+\code{g_liqc} \tab liquid-phase conductance to CO2 at \code{T_leaf} (mol / (m\eqn{^2} s)) \cr
+\code{g_mc} \tab mesophyll conductance to CO2 at \code{T_leaf} (mol / (m\eqn{^2} s)) \cr
 \code{gamma_star} \tab chloroplastic CO2 compensation point at \code{T_leaf} (Pa) \cr
 \code{J_max} \tab potential electron transport at \code{T_leaf} (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \cr
 \code{K_C} \tab Michaelis constant for carboxylation at \code{T_leaf} (\eqn{\mu}mol / mol) \cr

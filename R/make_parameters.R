@@ -74,10 +74,10 @@ NULL
 #' \eqn{d} \tab \code{leafsize} \tab leaf characteristic dimension \tab m \tab 0.1 \cr
 #' \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point (T_leaf) \tab Pa \tab \link[=bake]{calculated} \cr
 #' \eqn{\Gamma*_{25}}{\Gamma*_25} \tab \code{gamma_star25} \tab chloroplastic CO2 compensation point (25 °C) \tab Pa \tab 3.743 \cr
-#' \eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc} \tab mesophyll conductance to CO2 (T_leaf) \tab \eqn{\mu}mol / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
-#' \eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc25} \tab mesophyll conductance to CO2 (25 °C) \tab \eqn{\mu}mol / (m\eqn{^2} s) \tab 4 \cr
-#' \eqn{g_\mathrm{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab \eqn{\mu}mol / (m\eqn{^2} s) \tab 4 \cr
-#' \eqn{g_\mathrm{uc}}{g_uc} \tab \code{g_uc} \tab cuticular conductance to CO2 \tab \eqn{\mu}mol / (m\eqn{^2} s) \tab 0.1 \cr
+#' \eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc} \tab mesophyll conductance to CO2 (T_leaf) \tab mol / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
+#' \eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc25} \tab mesophyll conductance to CO2 (25 °C) \tab mol / (m\eqn{^2} s) \tab 4 \cr
+#' \eqn{g_\mathrm{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab mol / (m\eqn{^2} s) \tab 4 \cr
+#' \eqn{g_\mathrm{uc}}{g_uc} \tab \code{g_uc} \tab cuticular conductance to CO2 \tab mol / (m\eqn{^2} s) \tab 0.1 \cr
 #' \eqn{J_\mathrm{max25}}{J_max25} \tab \code{J_max25} \tab potential electron transport (25 °C) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 200 \cr
 #' \eqn{J_\mathrm{max}}{J_max} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated} \cr
 #' \eqn{k_\mathrm{mc}}{k_mc} \tab \code{k_mc} \tab partition of \eqn{g_\mathrm{mc}}{g_mc} to lower mesophyll \tab none \tab 1 \cr
@@ -134,7 +134,7 @@ NULL
 #' \eqn{\delta_\mathrm{ias,lower}}{\delta_ias,lower} \tab \code{delta_ias_lower} \tab effective distance through lower internal airspace \tab \eqn{\mu}m \cr
 #' \eqn{\delta_\mathrm{ias,upper}}{\delta_ias,upper} \tab \code{delta_ias_upper} \tab effective distance through upper internal airspace \tab \eqn{\mu}m \cr
 #' \eqn{A_\mathrm{mes} / A}{A_mes / A} \tab \code{A_mes_A} \tab mesophyll surface area per unit leaf area \tab none \cr
-#' \eqn{g_\mathrm{liq,c}}{g_liq,c} \tab \code{g_liqc} \tab liquid-phase conductance to CO2 (25 °C) \tab \eqn{\mu}mol / (m\eqn{^2} s Pa) \cr
+#' \eqn{g_\mathrm{liq,c}}{g_liq,c} \tab \code{g_liqc} \tab liquid-phase conductance to CO2 (25 °C) \tab mol / (m\eqn{^2} s) \cr
 #' }
 #' @references
 #'
@@ -414,7 +414,7 @@ make_default_parameter_list = function(which, use_tealeaves) {
        delta_ias_lower = set_units(numeric(0), um),
        delta_ias_upper = set_units(numeric(0), um),
        A_mes_A = set_units(numeric(0), 1),
-       g_liqc = set_units(numeric(0), umol / m^2 / s)
+       g_liqc25 = set_units(numeric(0), umol / m^2 / s)
      )
      
    )
