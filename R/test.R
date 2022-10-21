@@ -6,7 +6,7 @@
 #'
 #' The table is: 
 #'
-#' ```{r, echo=FALSE}
+#' ```{r, eval=FALSE, echo=FALSE}
 #' # This block of code will be evaluated
 #' photo_parameters |>
 #'   knitr::kable()

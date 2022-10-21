@@ -1,4 +1,4 @@
-## code to prepare `photo-parameters` dataset goes here
-photo_parameters = readr::read_csv(system.file("extdata", "photo-parameters.csv", package = "photosynthesis"))
+## code to prepare `photo-parameters` data set goes here
+photo_parameters = readr::read_csv("inst/extdata/photo-parameters.csv")
             
 usethis::use_data(photo_parameters, overwrite = TRUE)

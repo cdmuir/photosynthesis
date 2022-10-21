@@ -10,17 +10,5 @@ test()
 test
 }
 \details{
-The table is:\tabular{lllllll}{
-   symbol \tab R \tab description \tab units \tab default \tab type \tab tealeaves \cr
-   D_{c,0} \tab D_c0 \tab diffusion coefficient for CO2 in air at 0 °C \tab m^2 / s \tab 1.29E-05 \tab constants \tab FALSE \cr
-   D_{h,0} \tab D_h0 \tab diffusion coefficient for heat in air at 0 °C \tab m^2 / s \tab 1.90E-05 \tab constants \tab FALSE \cr
-   D_{m,0} \tab D_m0 \tab diffusion coefficient for momentum in air at 0 °C \tab m^2 / s \tab 1.33e-5 \tab constants \tab FALSE \cr
-   D_{w,0} \tab D_w0 \tab diffusion coefficient for water vapor in air at 0 °C \tab m^2 / s \tab 2.12e-5 \tab constants \tab FALSE \cr
-   \epsilon \tab epsilon \tab ratio of water to air molar masses \tab none \tab 0.622 \tab constants \tab FALSE \cr
-   G \tab G \tab gravitational acceleration \tab m / s^2 \tab 9.8 \tab constants \tab FALSE \cr
-   eT \tab eT \tab exponent for temperature dependence of diffusion \tab none \tab 1.75 \tab constants \tab FALSE \cr
-   R \tab R \tab ideal gas constant \tab J / mol / K \tab 8.3144598 \tab constants \tab FALSE \cr
-   \sigma \tab sigma \tab Stephan-Boltzmann constant \tab W / m^2 / K^4 \tab 5.67e-08 \tab constants \tab FALSE \cr
-   Sh \tab Sh \tab Sherwood number \tab none \tab calculated \tab constants \tab FALSE \cr
-}
+The table is:
 }
