@@ -69,6 +69,12 @@ NULL
 
 bake = function(leaf_par, bake_par, constants, assert_units = TRUE) {
   
+  if (FALSE) {
+    library(photosynthesis)
+    library(magrittr)
+    assert_units = TRUE
+    leaf_par = make_leafpar(use_tealeaves = FALSE)
+  }
   # Assert units before baking ----
   if (assert_units) {
     leaf_par %<>% leaf_par(use_tealeaves = FALSE)
@@ -76,7 +82,7 @@ bake = function(leaf_par, bake_par, constants, assert_units = TRUE) {
     constants %<>% constants(use_tealeaves = FALSE)
   }
 
-  # Safely remove units prior to baking ----
+  # Remove units prior to baking ----
   pars = c(leaf_par, bake_par, constants) |>
     purrr::map_if(~ inherits(.x, "units"), drop_units)
   T_ref = 298.15
@@ -122,6 +128,8 @@ bake = function(leaf_par, bake_par, constants, assert_units = TRUE) {
   
   # Set units ----
   if (assert_units) {
+    # photo_parameters |>
+    #   dplyr::filter(type == "leaf", temperature_response)
     leaf_par$g_liqc %<>% set_units(mol / m^2 / s)
     leaf_par$g_mc %<>% set_units(mol / m^2 / s)
     leaf_par$gamma_star %<>% set_units(Pa)

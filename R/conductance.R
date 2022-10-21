@@ -74,7 +74,7 @@ NULL
 
   g_tc = gc_lower + gc_upper
 
-  if (!unitless) g_tc %<>% set_units(umol / m^2 / s / Pa)
+  if (!unitless) g_tc %<>% set_units(umol / m^2 / s)
 
   g_tc
 }
@@ -142,15 +142,32 @@ NULL
     } else {
       g_mc = switch(
         surface,
-        lower = pars$g_mc * (set_units(1) / (set_units(1) + pars$k_mc)),
+        lower = pars$g_mc * (1 / (set_units(1) + pars$k_mc)),
         upper = pars$g_mc * (pars$k_mc / (set_units(1) + pars$k_mc))
       )
     }
   } else {
-    
-  }
+    if (
+      length(pars$g_iasc_lower) > 0 &
+      length(pars$g_iasc_upper) > 0 &
+      length(pars$g_liqc) > 0
+    ) {
+      message(
+        "It looks like you provided parameters to calculate g_ias and g_liq.
+        The parameters g_mc and k_mc will be ignored and calculated from g_ias 
+        and g_liq. This is a new feature in version 2.1.0 and may change in the
+        near future. Inspect results carefully.
+        ")
+        g_mc = switch(
+          surface,
+          lower = 1 / (1 / pars$g_iasc_lower + 1 / pars$g_liqc),
+          upper = 1 / (1 / pars$g_iasc_upper + 1 / pars$g_liqc)
+        )
+      }
+    }
   
   g_mc
+  
 }
 #'  - g_sc: stomatal conductance to CO2
 #'

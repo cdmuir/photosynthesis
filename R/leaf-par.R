@@ -11,6 +11,7 @@
 #'
 #' @export
 leaf_par = function(.x, use_tealeaves) {
+  
   which = "leaf"
   nms = photosynthesis::parameter_names(which, use_tealeaves)
 
@@ -28,33 +29,16 @@ leaf_par = function(.x, use_tealeaves) {
   .x %<>% magrittr::extract(nms)
 
   # Set units ----
-  # Message about change of conductance units in version 2.0.4
+  # Message about change of conductance units in version 2.1.0
   check_for_legacy_gunit(.x)
   
-  .x$g_mc25 %<>% set_units(mol / m^2 / s)
-  .x$g_sc %<>% set_units(mol / m^2 / s)
-  .x$g_uc %<>% set_units(mol / m^2 / s)
-  .x$gamma_star25 %<>% set_units(Pa)
-  .x$J_max25 %<>% set_units(umol / (m^2 * s))
-  .x$k_mc %<>% set_units()
-  .x$k_sc %<>% set_units()
-  .x$k_uc %<>% set_units()
-  .x$K_C25 %<>% set_units(Pa)
-  .x$K_O25 %<>% set_units(kPa)
-  .x$phi_J %<>% set_units()
-  .x$R_d25 %<>% set_units(umol / (m^2 * s))
-  .x$theta_J %<>% set_units()
-  if (!use_tealeaves) .x$T_leaf %<>% set_units(K)
-  .x$V_cmax25 %<>% set_units(umol / (m^2 * s))
-  .x$V_tpu25 %<>% set_units(umol / (m^2 * s))
+  .x %<>% set_parameter_units(
+    type == which, 
+    !temperature_response,
+    if (!use_tealeaves) {!tealeaves} else TRUE
+  )
 
-  # If using tealeaves, convert conductance values ----
-  if (use_tealeaves) {
-    .x$abs_l %<>% set_units()
-    .x$abs_s %<>% set_units()
-  }
-
-  # Check values ----
+  # Assert bounds on values ----
   stopifnot(.x$g_mc25 >= set_units(0, umol / m^2 / s))
   stopifnot(.x$g_sc >= set_units(0, umol / m^2 / s))
   stopifnot(.x$g_uc >= set_units(0, umol / m^2 / s))
@@ -63,8 +47,8 @@ leaf_par = function(.x, use_tealeaves) {
   stopifnot(.x$k_mc >= set_units(0))
   stopifnot(.x$k_sc >= set_units(0))
   stopifnot(.x$k_uc >= set_units(0))
-  stopifnot(.x$K_C25 >= set_units(0, Pa))
-  stopifnot(.x$K_O25 >= set_units(0, kPa))
+  stopifnot(.x$K_C25 >= set_units(0, umol/mol))
+  stopifnot(.x$K_O25 >= set_units(0, umol/mol))
   stopifnot(.x$phi_J > set_units(0))
   stopifnot(.x$theta_J > set_units(0) & .x$theta_J < set_units(1))
   stopifnot(.x$R_d25 >= set_units(0, umol / (m^2 * s)))
@@ -78,6 +62,7 @@ leaf_par = function(.x, use_tealeaves) {
   }
 
   structure(.x, class = c(stringr::str_c(which, "_par"), "list"))
+  
 }
 
 check_for_legacy_gunit = function(pars) {

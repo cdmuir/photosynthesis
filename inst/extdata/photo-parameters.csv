@@ -67,4 +67,5 @@ R,R,ideal gas constant,J / mol / K,8.3144598,constants,FALSE,FALSE,NA
 "A_\mathrm{mes} / A",A_mes_A,mesophyll surface area per unit leaf area,none,NA,leaf,FALSE,FALSE,"optional"
 "g_\mathrm{liq,c,25}",g_liqc25,liquid-phase conductance to CO2 (25 °C),mol / m^2 / s,NA,leaf,FALSE,FALSE,"optional"
 "g_\mathrm{liq,c}",g_liqc,liquid-phase conductance to CO2 (T_leaf),mol / m^2 / s,NA,leaf,TRUE,FALSE,"optional"
-"g_\mathrm{ias,c}",g_iasc,internal airspace conductance to CO2 (T_leaf),mol / m^2 / s,NA,leaf,TRUE,FALSE,"optional"
+"g_\mathrm{ias,c,lower}",g_iasc_lower,internal airspace conductance to CO2 in lower part of leaf (T_leaf),mol / m^2 / s,NA,leaf,TRUE,FALSE,"optional"
+"g_\mathrm{ias,c,upper}",g_iasc_upper,internal airspace conductance to CO2 in upper part of leaf (T_leaf),mol / m^2 / s,NA,leaf,TRUE,FALSE,"optional"

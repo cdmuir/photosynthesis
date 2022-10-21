@@ -330,6 +330,24 @@ make_default_parameter_list = function(which, use_tealeaves) {
  
 }
 
+#' Set parameter units
+#' @param .x list of parameters to set units
+#' @param ... arguments passed to dplyr::filter()
+#' @noRd
+set_parameter_units = function(.x, ...) {
+  
+  photo_parameters |>
+    dplyr::filter(...) |>
+    dplyr::mutate(units = stringr::str_replace(units, "none", "1")) |>
+    split(~ R) |>
+    purrr::map(function(.y) {
+      a = .x[[.y$R]]
+      units(a) = as_units(.y$units)
+      a    
+    })
+  
+}
+
 #' Message about experimental parameters
 #' @inheritParams replace
 #' @noRd
