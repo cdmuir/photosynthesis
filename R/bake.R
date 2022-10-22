@@ -79,7 +79,6 @@ bake = function(leaf_par, enviro_par, bake_par, constants, assert_units = TRUE) 
     enviro_par = make_enviropar(use_tealeaves = FALSE)
     bake_par = make_bakepar()
     constants = make_constants(use_tealeaves = FALSE)
-    .x = leaf_par
   }
   
   # Assert units before baking ----
@@ -101,16 +100,12 @@ bake = function(leaf_par, enviro_par, bake_par, constants, assert_units = TRUE) 
     pars$g_liqc25, pars$Ds_gmc, pars$Ea_gmc, pars$Ed_gmc, pars$R, pars$T_leaf, 
     T_ref, unitless = TRUE
   )
-  # WORKING ON STUFF WITH G_IAS HERE
-  # D_c = tealeaves:::.get_Dx(pars$D_c0, pars$T_leaf, pars$eT, pars$P, 
-  #                           unitless = TRUE)
-  # D_c is om [m^2 / s]
-  # delta_ias is in [um]
-  # For g_ias to be m / s, divide delta_ias by 1e6 um / m
-  # pars$delta_ias_lower = 2000
-  # x = set_units(D_c / (pars$delta_ias_lower/ 1e6), m/s)
-  # gunit::convert_conductance(x)
-  
+  D_c = tealeaves:::.get_Dx(pars$D_c0, pars$T_leaf, pars$eT, pars$P,
+                            unitless = TRUE)
+  leaf_par$g_iasc_lower = 1e9 * D_c / pars$delta_ias_lower * 
+    pars$P / (pars$R * pars$T_leaf)
+  leaf_par$g_iasc_upper = 1e9 * D_c / pars$delta_ias_upper * 
+    pars$P / (pars$R * pars$T_leaf)
   
   leaf_par$g_mc = temp_resp2(
     pars$g_mc25, pars$Ds_gmc, pars$Ea_gmc, pars$Ed_gmc, pars$R, pars$T_leaf, 
@@ -147,17 +142,7 @@ bake = function(leaf_par, enviro_par, bake_par, constants, assert_units = TRUE) 
   
   # Set units ----
   if (assert_units) {
-    # photo_parameters |>
-    #   dplyr::filter(type == "leaf", temperature_response)
-    leaf_par$g_liqc %<>% set_units(mol / m^2 / s)
-    leaf_par$g_mc %<>% set_units(mol / m^2 / s)
-    leaf_par$gamma_star %<>% set_units(Pa)
-    leaf_par$J_max %<>% set_units(umol / (m^2 * s))
-    leaf_par$K_C %<>% set_units(Pa)
-    leaf_par$K_O %<>% set_units(kPa)
-    leaf_par$R_d %<>% set_units(umol / (m^2 * s))
-    leaf_par$V_cmax %<>% set_units(umol / (m^2 * s))
-    leaf_par$V_tpu %<>% set_units(umol / (m^2 * s))
+    leaf_par %<>% set_parameter_units(type == "leaf", !tealeaves)
   }
 
   # Check values ----

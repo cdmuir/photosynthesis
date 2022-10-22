@@ -381,7 +381,13 @@ photo = function(
 
   # Message about legacy version ----
   if (!quiet) {
-    message("As of version 2.1.0, the CO2 conductance model changed slightly. To implement legacy version, use `> photosynthesis(..., use_legacy_version = TRUE)`.")
+    message("
+      As of version 2.1.0, the CO2 conductance model changed slightly. 
+      To implement legacy version, use:
+      
+      > photosynthesis(..., use_legacy_version = TRUE)
+      
+      ")
   }
   
   T_air = NULL
@@ -437,7 +443,7 @@ photo = function(
     
   }
 
-  leaf_par %<>% bake(bake_par, constants, assert_units = FALSE)
+  leaf_par %<>% bake(enviro_par, bake_par, constants, assert_units = FALSE)
 
   pars = c(leaf_par, enviro_par, constants) %>%
     purrr::map_if(~ inherits(.x, "units"), drop_units)
