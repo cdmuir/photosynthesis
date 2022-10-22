@@ -55,11 +55,12 @@ NULL
 #' @examples
 #' bake_par = make_bakepar()
 #' constants = make_constants(use_tealeaves = FALSE)
+#' enviro_par = make_enviro(use_tealeaves = FALSE)
 #' leaf_par = make_leafpar(
 #'   replace = list(T_leaf = set_units(293.15, K)),
 #'   use_tealeaves = FALSE
 #' )
-#' baked_leafpar = bake(leaf_par, bake_par, constants)
+#' baked_leafpar = bake(leaf_par, enviro_par, bake_par, constants)
 #'
 #' baked_leafpar$V_cmax25
 #' baked_leafpar$V_cmax
@@ -67,23 +68,30 @@ NULL
 #'
 #' @export
 
-bake = function(leaf_par, bake_par, constants, assert_units = TRUE) {
+bake = function(leaf_par, enviro_par, bake_par, constants, assert_units = TRUE) {
   
+  # STUFF FOR DEBUGGING G_IAS - delete when done
   if (FALSE) {
     library(photosynthesis)
     library(magrittr)
     assert_units = TRUE
     leaf_par = make_leafpar(use_tealeaves = FALSE)
+    enviro_par = make_enviropar(use_tealeaves = FALSE)
+    bake_par = make_bakepar()
+    constants = make_constants(use_tealeaves = FALSE)
+    .x = leaf_par
   }
+  
   # Assert units before baking ----
   if (assert_units) {
     leaf_par %<>% leaf_par(use_tealeaves = FALSE)
+    enviro_par %<>% enviro_par(use_tealeaves = FALSE)
     bake_par %<>% bake_par()
     constants %<>% constants(use_tealeaves = FALSE)
   }
 
   # Remove units prior to baking ----
-  pars = c(leaf_par, bake_par, constants) |>
+  pars = c(leaf_par, enviro_par, bake_par, constants) |>
     purrr::map_if(~ inherits(.x, "units"), drop_units)
   T_ref = 298.15
   
@@ -93,6 +101,17 @@ bake = function(leaf_par, bake_par, constants, assert_units = TRUE) {
     pars$g_liqc25, pars$Ds_gmc, pars$Ea_gmc, pars$Ed_gmc, pars$R, pars$T_leaf, 
     T_ref, unitless = TRUE
   )
+  # WORKING ON STUFF WITH G_IAS HERE
+  # D_c = tealeaves:::.get_Dx(pars$D_c0, pars$T_leaf, pars$eT, pars$P, 
+  #                           unitless = TRUE)
+  # D_c is om [m^2 / s]
+  # delta_ias is in [um]
+  # For g_ias to be m / s, divide delta_ias by 1e6 um / m
+  # pars$delta_ias_lower = 2000
+  # x = set_units(D_c / (pars$delta_ias_lower/ 1e6), m/s)
+  # gunit::convert_conductance(x)
+  
+  
   leaf_par$g_mc = temp_resp2(
     pars$g_mc25, pars$Ds_gmc, pars$Ea_gmc, pars$Ed_gmc, pars$R, pars$T_leaf, 
     T_ref, unitless = TRUE

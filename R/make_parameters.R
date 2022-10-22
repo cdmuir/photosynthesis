@@ -9,6 +9,112 @@
 
 NULL
 
+#' make_anypar
+#' @inheritParams make_parameters
+#' @inheritParams parameter_names
+#' @noRd
+make_anypar = function(which, replace, use_tealeaves) {
+
+  which = match.arg(which, choices = get_par_types())
+  
+  # Message about new conductance model ----
+  message_experimental(replace)
+  
+  # Defaults -----
+  obj = make_default_parameter_list(
+    which = which,
+    use_tealeaves = use_tealeaves
+  )
+  
+  # Special procedures for constants ---
+  if (which == "constants") {
+    
+    if ("f_nu" %in% names(replace)) {
+      stopifnot(is.function(replace$f_nu))
+      obj$f_nu = replace$f_nu
+      replace$f_nu = NULL
+    }
+    
+    if ("f_sh" %in% names(replace)) {
+      stopifnot(is.function(replace$f_sh))
+      obj$f_sh = replace$f_sh
+      replace$f_sh = NULL
+    }
+    
+  }
+
+  # Special procedures for enviro_par ----
+  if (which == "enviro") {
+    
+    if ("T_sky" %in% names(replace)) {
+      if (is.function(replace$T_sky)) {
+        obj$T_sky = replace$T_sky
+        replace$T_sky = NULL
+      }
+    }
+    
+    par_equiv = data.frame(
+      tl = c("S_sw"),
+      ph = c("PPFD")
+    )
+    
+    if (any(purrr::map_lgl(replace[par_equiv$tl], ~ !is.null(.x)))) {
+      par_equiv %>%
+        dplyr::filter(.data$tl %in% names(replace)) %>%
+        dplyr::transmute(message = stringr::str_c(
+          "\nIn `replace = list(...)`,
+             tealeaves parameter ", .data$tl,
+          " is not replacable. Use ", .data$ph, " instead."
+        )) %>%
+        dplyr::pull(.data$message) %>%
+        stringr::str_c(collapse = "\n") %>%
+        stop(call. = FALSE)
+    }
+    
+  }
+  
+  # Special procedures for leaf_par ----
+  if (which == "leaf") {
+    
+    if (!is.null(replace$T_leaf) & use_tealeaves) {
+      warning("replace$T_leaf ignored when use_tealeaves is TRUE")
+      replace$T_leaf = NULL
+    }
+    
+    par_equiv = data.frame(
+      tl = c("g_sw", "g_uw", "logit_sr"),
+      ph = c("g_sc", "g_uc", "k_sc")
+    )
+    
+    if (any(purrr::map_lgl(replace[par_equiv$tl], ~ !is.null(.x)))) {
+      par_equiv %>%
+        dplyr::filter(.data$tl %in% names(replace)) %>%
+        dplyr::transmute(message = stringr::str_c(
+          "\nIn `replace = list(...)`,
+             tealeaves parameter ", .data$tl, " is not replacable. Use ",
+          .data$ph, " instead."
+        )) %>%
+        dplyr::pull(.data$message) %>%
+        stringr::str_c(collapse = "\n") %>%
+        stop(call. = FALSE)
+    }
+    
+  }
+  
+  # Replace defaults ----
+  obj %<>% replace_defaults(replace)
+  
+  # Assign class and return ----
+  switch(
+    which,
+    bake = photosynthesis::bake_par(obj),
+    constants = photosynthesis::constants(obj, use_tealeaves),
+    enviro = photosynthesis::enviro_par(obj, use_tealeaves),
+    leaf = photosynthesis::leaf_par(obj, use_tealeaves),
+  )
+
+}
+  
 #' make_leafpar
 #' @rdname make_parameters
 #'
@@ -98,50 +204,10 @@ NULL
 #' @export
 #' @md
 
-make_leafpar = function(
-    replace = NULL, 
-    use_tealeaves
-  ) {
+make_leafpar = function(replace = NULL, use_tealeaves) {
 
-  # Message about new conductance model ----
-  message_experimental(replace)
-
-  # Defaults -----
-  obj = make_default_parameter_list(
-    which = "leaf",
-    use_tealeaves = use_tealeaves
-  )
-
-  # Replace defaults ----
-  if (!is.null(replace$T_leaf) & use_tealeaves) {
-    warning("replace$T_leaf ignored when use_tealeaves is TRUE")
-    replace$T_leaf = NULL
-  }
-
-  par_equiv = data.frame(
-    tl = c("g_sw", "g_uw", "logit_sr"),
-    ph = c("g_sc", "g_uc", "k_sc")
-  )
-
-  if (any(purrr::map_lgl(replace[par_equiv$tl], ~ !is.null(.x)))) {
-    par_equiv %>%
-      dplyr::filter(.data$tl %in% names(replace)) %>%
-      dplyr::transmute(message = stringr::str_c(
-        "\nIn `replace = list(...)`,
-             tealeaves parameter ", .data$tl, " is not replacable. Use ",
-        .data$ph, " instead."
-      )) %>%
-      dplyr::pull(.data$message) %>%
-      stringr::str_c(collapse = "\n") %>%
-      stop(call. = FALSE)
-  }
-
-  obj %<>% replace_defaults(replace)
-
-  # Assign class and return ----
-  obj %<>% photosynthesis::leaf_par(use_tealeaves)
-
-  obj
+  make_anypar("leaf", replace = replace, use_tealeaves = use_tealeaves)
+  
 }
 
 #' make_enviropar
@@ -150,45 +216,8 @@ make_leafpar = function(
 
 make_enviropar = function(replace = NULL, use_tealeaves) {
 
-  # Defaults ----
-  obj = make_default_parameter_list(
-    which = "enviro", 
-    use_tealeaves = use_tealeaves
-  )
+  make_anypar("enviro", replace = replace, use_tealeaves = use_tealeaves)
 
-  # Replace defaults ----
-  if ("T_sky" %in% names(replace)) {
-    if (is.function(replace$T_sky)) {
-      obj$T_sky = replace$T_sky
-      replace$T_sky = NULL
-    }
-  }
-
-  par_equiv = data.frame(
-    tl = c("S_sw"),
-    ph = c("PPFD"),
-    stringsAsFactors = FALSE
-  )
-
-  if (any(purrr::map_lgl(replace[par_equiv$tl], ~ !is.null(.x)))) {
-    par_equiv %>%
-      dplyr::filter(.data$tl %in% names(replace)) %>%
-      dplyr::transmute(message = stringr::str_c(
-        "\nIn `replace = list(...)`,
-             tealeaves parameter ", .data$tl,
-        " is not replacable. Use ", .data$ph, " instead."
-      )) %>%
-      dplyr::pull(.data$message) %>%
-      stringr::str_c(collapse = "\n") %>%
-      stop(call. = FALSE)
-  }
-
-  obj %<>% replace_defaults(replace)
-
-  # Assign class and return ----
-  obj %<>% photosynthesis::enviro_par(use_tealeaves)
-
-  obj
 }
 
 #' make_bakepar
@@ -197,16 +226,7 @@ make_enviropar = function(replace = NULL, use_tealeaves) {
 
 make_bakepar = function(replace = NULL) {
 
-  # Defaults -----
-  obj = make_default_parameter_list(which = "bake", use_tealeaves = FALSE)
-
-  # Replace defaults -----
-  obj %<>% replace_defaults(replace)
-
-  # Assign class and return -----
-  obj %<>% photosynthesis::bake_par()
-
-  obj
+  make_anypar("bake", replace = replace, use_tealeaves = FALSE)
   
 }
 
@@ -216,31 +236,8 @@ make_bakepar = function(replace = NULL) {
 
 make_constants = function(replace = NULL, use_tealeaves) {
 
-  # Defaults -----
-  obj = make_default_parameter_list(
-    which = "constants", 
-    use_tealeaves = use_tealeaves
-  )
-
-  # Replace defaults -----
-  if ("nu_constant" %in% names(replace)) {
-    stopifnot(is.function(replace$nu_constant))
-    obj$nu_constant = replace$nu_constant
-    replace$nu_constant = NULL
-  }
-
-  if ("sh_constant" %in% names(replace)) {
-    stopifnot(is.function(replace$sh_constant))
-    obj$sh_constant = replace$sh_constant
-    replace$sh_constant = NULL
-  }
-
-  obj %<>% replace_defaults(replace)
-
-  # Assign class and return -----
-  obj %<>% photosynthesis::constants(use_tealeaves)
-
-  obj
+  make_anypar("constants", replace = replace, use_tealeaves = FALSE)
+  
 }
 
 #' Character vector of acceptable parameter types
@@ -261,73 +258,51 @@ make_default_parameter_list = function(which, use_tealeaves) {
     dplyr::filter(
       type == which, 
       !temperature_response,
-      ifelse(!use_tealeaves, !tealeaves, TRUE)
+      if (!use_tealeaves) {!tealeaves} else TRUE,
     ) |>
     dplyr::mutate(units = stringr::str_replace(units, "none", "1")) |>
     split(~ R) |>
     purrr::map(function(.x) {
       if(is.na(.x$default)) {
-        a = numeric(0)
-        units(a) = as_units(.x$units)
-        return(a)
+        if (.x$note == "optional") {
+          a = numeric(0)
+          units(a) = as_units(.x$units)
+          return(a)
+        }
+        if (.x$note == "calculated") {
+          get_f_parameter(.x$R)
+        }
       } else {
         units(.x$default) = as_units(.x$units)
         return(.x$default)
       }
     })
   
-  # Hack for parameters that are functions
-  if (which == "constants") {
-    default_parameter_list %<>% c(
-      nu_constant = function(Re, type, T_air, T_leaf, surface, unitless) {
-        if (!unitless) {
-          stopifnot(units(T_air)$numerator == "K" &
-                      length(units(T_air)$denominator) == 0L)
-          stopifnot(units(T_leaf)$numerator == "K" &
-                      length(units(T_leaf)$denominator) == 0L)
-        }
-        
-        type %<>% match.arg(c("free", "forced"))
-        
-        if (identical(type, "forced")) {
-          if (unitless) {
-            if (Re <= 4000) ret = list(a = 0.6, b = 0.5)
-            if (Re > 4000) ret = list(a = 0.032, b = 0.8)
-          } else {
-            if (Re <= set_units(4000)) ret = list(a = 0.6, b = 0.5)
-            if (Re > set_units(4000)) ret = list(a = 0.032, b = 0.8)
-          }
-          return(ret)
-        }
-        
-        if (identical(type, "free")) {
-          surface %<>% match.arg(c("lower", "upper"))
-          if ((surface == "upper" & T_leaf > T_air) |
-              (surface == "lower" & T_leaf < T_air)) {
-            ret = list(a = 0.5, b = 0.25)
-          } else {
-            ret = list(a = 0.23, b = 0.25)
-          }
-          return(ret)
-        }
-      },
-      sh_constant = function(type, unitless) {
-        type %>%
-          match.arg(c("free", "forced")) %>%
-          switch(forced = 0.33, free = 0.25)
-      }
-    )
+  default_parameter_list
+  
+}
+
+#' Check parameter names
+#' @inheritParams set_parameter_units
+#' @inheritParams parameter_names
+#' @noRd
+check_parameter_names = function(.x, which, use_tealeaves) {
+  
+  nms = parameter_names(which, use_tealeaves = FALSE)
+  
+  stopifnot(is.list(.x))
+  
+  if (!all(nms %in% names(.x))) {
+    nms[!(nms %in% names(.x))] %>%
+      stringr::str_c(collapse = ", ") %>%
+      glue::glue("{x} not in parameter names required for {which}",
+                 x = ., which = which
+      ) %>%
+      stop()
   }
-    
-  if (which == "enviro" & use_tealeaves) {
-    default_parameter_list %<>% c(T_sky = function(pars) {
-      set_units(pars$T_air, K) - set_units(20, K) * 
-        set_units(pars$S_sw, W / m^2) / set_units(1000, W / m^2)
-    })
-  }
-      
- default_parameter_list
- 
+  
+  nms
+  
 }
 
 #' Set parameter units
@@ -341,9 +316,13 @@ set_parameter_units = function(.x, ...) {
     dplyr::mutate(units = stringr::str_replace(units, "none", "1")) |>
     split(~ R) |>
     purrr::map(function(.y) {
-      a = .x[[.y$R]]
-      units(a) = as_units(.y$units)
-      a    
+      if (is.function(.x[[.y$R]])) {
+        .x[[.y$R]]
+      } else {
+        a = .x[[.y$R]]
+        units(a) = as_units(.y$units)
+        a
+      }
     })
   
 }

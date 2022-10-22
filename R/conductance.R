@@ -111,6 +111,10 @@ NULL
 .get_gbc = function(pars, surface, unitless, use_legacy_version) {
   surface %<>% match.arg(c("lower", "upper"))
 
+  # Hack because f_sh = sh_constant, f_sh = sh_constant in tealeaves
+  # Should update tealeaves to harmonize variable and function names
+  pars$sh_constant = pars$f_sh
+  pars$nu_constant = pars$f_nu
   ret = tealeaves:::.get_gbw(pars$T_leaf, surface, pars, unitless) |>
       set_units(m / s) |>
       gunit::convert_conductance(

@@ -10,38 +10,35 @@
 #'
 #' @export
 
-bake_par <- function(.x) {
-  which <- "bake"
-  nms <- parameter_names(which, use_tealeaves = FALSE)
-
-  stopifnot(is.list(.x))
-
-  if (!all(nms %in% names(.x))) {
-    nms[!(nms %in% names(.x))] %>%
-      stringr::str_c(collapse = ", ") %>%
-      glue::glue("{x} not in parameter names required for {which}",
-        x = ., which = which
-      ) %>%
-      stop()
-  }
-
+bake_par = function(.x) {
+  
+  which = "bake"
+  
+  # Check parameters names ----
+  nms = check_parameter_names(.x, which = which, use_tealeaves = FALSE)
   .x %<>% magrittr::extract(nms)
-
+  
   # Set units ----
-  .x$Ds_gmc %<>% set_units(J / mol / K)
-  .x$Ds_Jmax %<>% set_units(J / mol / K)
-  .x$Ea_gammastar %<>% set_units(J / mol)
-  .x$Ea_gmc %<>% set_units(J / mol)
-  .x$Ea_Jmax %<>% set_units(J / mol)
-  .x$Ea_KC %<>% set_units(J / mol)
-  .x$Ea_KO %<>% set_units(J / mol)
-  .x$Ea_Rd %<>% set_units(J / mol)
-  .x$Ea_Vcmax %<>% set_units(J / mol)
-  .x$Ea_Vtpu %<>% set_units(J / mol)
-  .x$Ed_gmc %<>% set_units(J / mol)
-  .x$Ed_Jmax %<>% set_units(J / mol)
+  .x %<>% set_parameter_units(
+    type == which, 
+    !temperature_response,
+    !tealeaves
+   )
+  
+  # .x$Ds_gmc %<>% set_units(J / mol / K)
+  # .x$Ds_Jmax %<>% set_units(J / mol / K)
+  # .x$Ea_gammastar %<>% set_units(J / mol)
+  # .x$Ea_gmc %<>% set_units(J / mol)
+  # .x$Ea_Jmax %<>% set_units(J / mol)
+  # .x$Ea_KC %<>% set_units(J / mol)
+  # .x$Ea_KO %<>% set_units(J / mol)
+  # .x$Ea_Rd %<>% set_units(J / mol)
+  # .x$Ea_Vcmax %<>% set_units(J / mol)
+  # .x$Ea_Vtpu %<>% set_units(J / mol)
+  # .x$Ed_gmc %<>% set_units(J / mol)
+  # .x$Ed_Jmax %<>% set_units(J / mol)
 
-  # Check values ----
+  # Assert bounds on values ----
   stopifnot(.x$Ds_gmc > set_units(0, J / mol / K))
   stopifnot(.x$Ds_Jmax > set_units(0, J / mol / K))
   stopifnot(.x$Ea_gammastar > set_units(0, J / mol))

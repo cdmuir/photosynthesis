@@ -13,31 +13,21 @@
 leaf_par = function(.x, use_tealeaves) {
   
   which = "leaf"
-  nms = photosynthesis::parameter_names(which, use_tealeaves)
-
-  stopifnot(is.list(.x))
-
-  if (!all(nms %in% names(.x))) {
-    nms[!(nms %in% names(.x))] %>%
-      stringr::str_c(collapse = ", ") %>%
-      glue::glue("{x} not in parameter names required for {which}",
-        x = ., which = which
-      ) %>%
-      stop()
-  }
-
-  .x %<>% magrittr::extract(nms)
-
-  # Set units ----
+  
   # Message about change of conductance units in version 2.1.0
   check_for_legacy_gunit(.x)
   
-  .x %<>% set_parameter_units(
-    type == which, 
+  # Check parameters names ----
+  nms = check_parameter_names(.x, which = which, use_tealeaves = use_tealeaves)
+  .x %<>% 
+    magrittr::extract(nms) |>
+    # Set units ----
+  set_parameter_units(
+    type == "leaf", 
     !temperature_response,
     if (!use_tealeaves) {!tealeaves} else TRUE
   )
-
+  
   # Assert bounds on values ----
   stopifnot(.x$g_mc25 >= set_units(0, umol / m^2 / s))
   stopifnot(.x$g_sc >= set_units(0, umol / m^2 / s))
