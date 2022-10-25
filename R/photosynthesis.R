@@ -141,9 +141,7 @@ photosynthesis = function(
   }
   
   # Message about legacy version ----
-  if (!quiet) {
-    message("As of version 2.1.0, the CO2 conductance model changed slightly. To implement legacy version, use `> photosynthesis(..., use_legacy_version = TRUE)`.")
-  }
+  notify_users(quiet = quiet, leaf_par = leaf_par)
   
   T_air = NULL
   if (!use_tealeaves && !is.null(enviro_par$T_air)) {
@@ -206,11 +204,11 @@ photosynthesis = function(
     pars$S_sw = set_units(E_q * PPFD / f_par, W / m^2)
     pars$g_sw = set_units(
       constants$D_w0 / constants$D_c0 * g_sc,
-      umol / m^2 / Pa / s
+      umol / m^2 / s
     )
     pars$g_uw = set_units(
       constants$D_w0 / constants$D_c0 * g_uc,
-      umol / m^2 / Pa / s
+      umol / m^2 / s
     )
     pars$logit_sr = stats::qlogis(pars$k_sc / (1 + pars$k_sc))
 
@@ -266,7 +264,7 @@ photosynthesis = function(
 
   # Simulate ----
   soln = find_As(
-    pars, bake_par, constants, par_units, progress, quiet, parallel
+    pars, bake_par, constants, par_units, progress, quiet, parallel, use_legacy_version
   )
 
   # Return ----
@@ -281,7 +279,8 @@ find_As = function(
     par_units, 
     progress, 
     quiet,
-    parallel
+    parallel,
+    use_legacy_version
   ) {
   
   if (!quiet) {
@@ -380,15 +379,7 @@ photo = function(
   }
 
   # Message about legacy version ----
-  if (!quiet) {
-    message("
-      As of version 2.1.0, the CO2 conductance model changed slightly. 
-      To implement legacy version, use:
-      
-      > photosynthesis(..., use_legacy_version = TRUE)
-      
-      ")
-  }
+  notify_users(quiet = quiet, leaf_par = leaf_par)
   
   T_air = NULL
   if (!use_tealeaves && !is.null(enviro_par$T_air)) {
@@ -450,7 +441,7 @@ photo = function(
   if (!use_tealeaves && is.null(pars$T_air)) pars$T_air = pars$T_leaf
 
   # Find intersection between photosynthetic supply and demand curves -----
-  soln = find_A(pars, quiet)
+  soln = find_A(pars, quiet, use_legacy_version)
 
   # Check results -----
   if (soln$convergence == 1) {
@@ -469,12 +460,15 @@ photo = function(
     unlist(enviro_par[shared_pars])))
   leaf_par[shared_pars] = NULL
 
-  soln %<>%
-    dplyr::bind_cols(as.data.frame(leaf_par)) %>%
-    dplyr::bind_cols(as.data.frame(enviro_par))
-
+  soln = c(
+    soln,
+    purrr::keep(leaf_par, ~ length(.x) > 0),
+    purrr::keep(enviro_par, ~ length(.x) > 0)
+  ) |>
+    as.data.frame()
+  
   soln$C_chl %<>% set_units(Pa)
-  soln$g_tc %<>% set_units(umol / m^2 / s / Pa)
+  soln$g_tc %<>% set_units(umol / m^2 / s)
   soln$A %<>% set_units(umol / m^2 / s)
 
   soln
@@ -482,10 +476,8 @@ photo = function(
 }
 
 supply_minus_demand = function(C_chl, unitless_pars, use_legacy_version) {
-  supply = A_supply(C_chl, unitless_pars, unitless = TRUE, 
-                    use_legacy_version)
-  demand = A_demand(C_chl, unitless_pars, unitless = TRUE, 
-                    use_legacy_version)
+  supply = A_supply(C_chl, unitless_pars, unitless = TRUE, use_legacy_version)
+  demand = A_demand(C_chl, unitless_pars, unitless = TRUE)
   supply - demand
 }
 
@@ -602,4 +594,34 @@ A_demand = function(C_chl, pars, unitless = FALSE) {
   }
 
   Ad
+}
+
+#' Notify users about important changes in \link[photosyntesis]
+#' @noRd
+notify_users = function(quiet, leaf_par) {
+  
+  if (!quiet) {
+    message("
+            
+  As of version 2.1.0, the CO2 conductance model changed slightly. 
+  To implement legacy version, use:
+  
+  `> photosynthesis(..., use_legacy_version = TRUE)`.")
+    
+    if (
+      length(leaf_par$delta_ias_lower) > 0 &
+      length(leaf_par$delta_ias_upper) > 0 &
+      length(leaf_par$A_mes_A) > 0 &
+      length(leaf_par$g_liqc25) > 0
+    ) {
+      message("
+  It looks like you provided parameters to calculate g_ias and g_liq.
+  The parameters g_mc and k_mc will be ignored and calculated from g_ias 
+  and g_liq. This is a new feature in version 2.1.0 and may change in the
+  near future. Inspect results carefully.
+  ")
+    }
+    
+  }
+  
 }
