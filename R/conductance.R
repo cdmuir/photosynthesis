@@ -133,10 +133,26 @@ NULL
 #' @inheritParams .get_guc
 #'
 #' @rdname CO2_conductance
-.get_gmc = function(pars, surface, unitless, use_legacy_version) {
+.get_gmc = function(pars, surface, unitless) {
   surface %<>% match.arg(c("lower", "upper"))
 
-  if (use_legacy_version) {
+  if (
+    length(pars$g_iasc_lower) > 0 &
+    length(pars$g_iasc_upper) > 0 &
+    length(pars$g_liqc) > 0
+  ) {
+    message(
+      "It looks like you provided parameters to calculate g_ias and g_liq.
+        The parameters g_mc and k_mc will be ignored and calculated from g_ias 
+        and g_liq. This is a new feature in version 2.1.0 and may change in the
+        near future. Inspect results carefully.
+        ")
+    g_mc = switch(
+      surface,
+      lower = 1 / (1 / pars$g_iasc_lower + 1 / pars$g_liqc),
+      upper = 1 / (1 / pars$g_iasc_upper + 1 / pars$g_liqc)
+    )
+  } else {
     if (unitless) {
       g_mc = switch(
         surface,
@@ -150,25 +166,7 @@ NULL
         upper = pars$g_mc * (pars$k_mc / (set_units(1) + pars$k_mc))
       )
     }
-  } else {
-    if (
-      length(pars$g_iasc_lower) > 0 &
-      length(pars$g_iasc_upper) > 0 &
-      length(pars$g_liqc) > 0
-    ) {
-      message(
-        "It looks like you provided parameters to calculate g_ias and g_liq.
-        The parameters g_mc and k_mc will be ignored and calculated from g_ias 
-        and g_liq. This is a new feature in version 2.1.0 and may change in the
-        near future. Inspect results carefully.
-        ")
-        g_mc = switch(
-          surface,
-          lower = 1 / (1 / pars$g_iasc_lower + 1 / pars$g_liqc),
-          upper = 1 / (1 / pars$g_iasc_upper + 1 / pars$g_liqc)
-        )
-      }
-    }
+  } 
   
   g_mc
   
