@@ -75,7 +75,7 @@ NULL
 
   g_tc = gc_lower + gc_upper
 
-  if (!unitless) g_tc %<>% set_units(umol / m^2 / s)
+  if (!unitless) g_tc %<>% set_units(mol / m^2 / s)
 
   g_tc
 }
@@ -125,7 +125,15 @@ NULL
       ) |>
       dplyr::pull(.data$`umol/m^2/s/Pa`) |>
       gunit::gw2gc(D_c = pars$D_c0, D_w = pars$D_w0, unitless = unitless,
-            a = ifelse(use_legacy_version, 1, 2/3))
+            a = ifelse(use_legacy_version, 1, 2/3)) |>
+    # Convert to mol / m^2 / s
+    magrittr::multiply_by(pars$P) %>%
+    purrr::when(
+      # Divide 1e3 because conversion is from umol / kPa -> mol
+      # umol / m^2 / s / Pa * 1e3 Pa / kPa * mol / 1e6 umol
+      unitless ~ . / 1e3,
+      !unitless ~ set_units(., mol/m^2/s)
+    )
   ret
   
 }
@@ -138,12 +146,7 @@ NULL
   
   surface %<>% match.arg(c("lower", "upper"))
 
-  if (
-    length(pars$g_iasc_lower) > 0 &
-    length(pars$g_iasc_upper) > 0 &
-    length(pars$A_mes_A) > 0 &
-    length(pars$g_liqc) > 0
-  ) {
+  if (check_new_conductance(pars, baked = TRUE)) {
     g_mc = switch(
       surface,
       lower = 1 / (1 / pars$g_iasc_lower + 1 / (pars$A_mes_A * pars$g_liqc)),

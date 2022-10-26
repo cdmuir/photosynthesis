@@ -6,49 +6,56 @@ test_that("unitless values match unit-ed values", {
   cs2 = purrr::map_if(cs1, function(x) is(x, "units"), drop_units)
 
   lp1 = leaf_par(list(
-    g_mc25 = set_units(runif(1, 0, 10), "umol/m^2/s"),
-    g_sc = set_units(runif(1, 0, 10), "umol/m^2/s"),
-    g_uc = set_units(runif(1), "umol/m^2/s"),
+    A_mes_A = set_units(runif(1, 5, 40), 1), 
+    delta_ias_lower = set_units(runif(1, 0, 1000), um), 
+    delta_ias_upper = set_units(runif(1, 0, 1000), um), 
+    g_liqc25 = set_units(runif(1, 0, 0.1), mol/m^2/s),
+    g_mc25 = set_units(runif(1), mol/m^2/s),
+    g_sc = set_units(runif(1), mol/m^2/s),
+    g_uc = set_units(runif(1), mol/m^2/s),
     gamma_star25 = set_units(runif(1, 30, 50), "Pa"),
-    J_max25 = set_units(runif(1, 50, 200), "umol/m^2/s"),
-    K_C25 = set_units(27.238, "Pa"),
-    K_O25 = set_units(16.582, "kPa"),
+    J_max25 = set_units(runif(1, 50, 200), umol/m^2/s),
+    K_C25 = set_units(268.3, umol/mol),
+    K_O25 = set_units(165084.2, umol/mol),
     k_mc = set_units(runif(1, 0.01, 100)),
     k_sc = set_units(runif(1, 0.01, 100)),
     k_uc = set_units(runif(1, 0.01, 100)),
-    leafsize = set_units(runif(1), "m"),
+    leafsize = set_units(runif(1), m),
     phi_J = set_units(0.331),
-    R_d25 = set_units(runif(1, 0, 5), "umol/m^2/s"),
-    T_leaf = set_units(runif(1, 273.15, 313.15), "K"),
+    R_d25 = set_units(runif(1, 0, 5), umol/m^2/s),
+    T_leaf = set_units(runif(1, 273.15, 313.15), K),
     theta_J = set_units(0.825),
-    V_cmax25 = set_units(runif(1, 50, 200), "umol/m^2/s"),
-    V_tpu25 = set_units(runif(1, 50, 200), "umol/m^2/s")
+    V_cmax25 = set_units(runif(1, 50, 200), umol/m^2/s),
+    V_tpu25 = set_units(runif(1, 50, 200), umol/m^2/s)
   ), use_tealeaves = FALSE)
 
   lp2 = purrr::map_if(lp1, function(x) is(x, "units"), drop_units)
 
-  ep = enviro_par(list(
-    C_air = set_units(runif(1, 0, 200), "Pa"),
-    O = set_units(21.27565, "kPa"),
-    P = set_units(101.3246, "kPa"),
+  ep1 = enviro_par(list(
+    C_air = set_units(runif(1, 0, 200), Pa),
+    O = set_units(21.27565, kPa),
+    P = set_units(101.3246, kPa),
     RH = set_units(runif(1)),
-    PPFD = set_units(runif(1, 0, 2000), "umol/m^2/s"),
-    wind = set_units(runif(1, 0, 20), "m/s")
+    PPFD = set_units(runif(1, 0, 2000), umol/m^2/s),
+    wind = set_units(runif(1, 0, 20), m/s)
   ), use_tealeaves = FALSE)
 
-  ep$T_air = lp1$T_leaf
-
+  ep1$T_air = lp1$T_leaf
+  ep2 = purrr::map_if(ep1, function(x) is(x, "units"), drop_units)
+  
   bp1 = make_bakepar()
   bp2 = purrr::map_if(bp1, ~ is(.x, "units"), drop_units)
 
-  lp1 %<>% bake(bp1, cs1, assert_units = TRUE)
-  lp2 %<>% bake(bp2, cs2, assert_units = FALSE)
+  lp1 %<>% bake(ep1, bp1, cs1, assert_units = TRUE)
+  lp2 %<>% bake(ep2, bp2, cs2, assert_units = FALSE)
 
-  purrr::map2(lp1, lp2, function(.x, .y) drop_units(.x) == .y) %>%
+  purrr::map2(lp1, lp2[names(lp1)], function(.x, .y) {
+    dplyr::near(drop_units(.x), .y)
+  }) %>%
     purrr::map(expect_true)
-
-  C_chl = set_units(runif(1, 20, 40), "Pa")
-  pars1 = c(cs1, lp1, ep)
+  
+  C_chl = set_units(runif(1, 20, 40), Pa)
+  pars1 = c(cs1, lp1, ep1)
   pars2 = purrr::map_if(pars1, function(x) is(x, "units"), drop_units)
 
   Ad1 = A_demand(C_chl, pars1, unitless = FALSE)

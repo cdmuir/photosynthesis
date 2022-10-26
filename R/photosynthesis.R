@@ -596,6 +596,26 @@ A_demand = function(C_chl, pars, unitless = FALSE) {
   Ad
 }
 
+#' Check whether users supplied parameters to calculate g_ias and g_liq
+#' @noRd
+check_new_conductance = function(pars, baked) {
+  checkmate::assert_flag(baked)
+  if (baked) {
+    c("g_iasc_lower", "g_iasc_upper", "A_mes_A", "g_liqc") |>
+      purrr::map_lgl(function(.x, pars) {
+        length(pars[[.x]]) > 0 & all(!is.na(pars[[.x]]))
+      }, pars = pars) |>
+      all()
+  } else {
+    c("delta_ias_lower", "delta_ias_upper", "A_mes_A", "g_liqc25") |>
+      purrr::map_lgl(function(.x, pars) {
+        length(pars[[.x]]) > 0 & all(!is.na(pars[[.x]]))
+      }, pars = pars) |>
+      all()
+  }
+  
+}
+
 #' Notify users about important changes in \link[photosyntesis]
 #' @noRd
 notify_users = function(quiet, leaf_par) {
@@ -608,12 +628,7 @@ notify_users = function(quiet, leaf_par) {
   
   `> photosynthesis(..., use_legacy_version = TRUE)`.")
     
-    if (
-      length(leaf_par$delta_ias_lower) > 0 &
-      length(leaf_par$delta_ias_upper) > 0 &
-      length(leaf_par$A_mes_A) > 0 &
-      length(leaf_par$g_liqc25) > 0
-    ) {
+    if (check_new_conductance(leaf_par, baked = FALSE)) {
       message("
   It looks like you provided parameters to calculate g_ias and g_liq.
   The parameters g_mc and k_mc will be ignored and calculated from g_ias 
