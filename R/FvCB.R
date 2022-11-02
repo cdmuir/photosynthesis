@@ -59,19 +59,19 @@
 #' photosynthetic CO2 assimilation in leaves of C3 species. Planta 149: 78–90.
 #'
 #' @examples
-#' bake_par <- make_bakepar()
-#' constants <- make_constants(use_tealeaves = FALSE)
-#' enviro_par <- make_enviropar(use_tealeaves = FALSE)
-#' leaf_par <- make_leafpar(use_tealeaves = FALSE)
-#' leaf_par <- bake(leaf_par, bake_par, constants)
+#' bake_par = make_bakepar()
+#' constants = make_constants(use_tealeaves = FALSE)
+#' enviro_par = make_enviropar(use_tealeaves = FALSE)
+#' leaf_par = make_leafpar(use_tealeaves = FALSE)
+#' leaf_par = bake(leaf_par, bake_par, constants)
 #'
-#' pars <- c(leaf_par, enviro_par, constants)
-#' C_chl <- set_units(24.28, "Pa")
+#' pars = c(leaf_par, enviro_par, constants)
+#' C_chl = set_units(24.28, "Pa")
 #' FvCB(C_chl, pars)
 #' @export
 #'
-FvCB <- function(C_chl, pars, unitless = FALSE) {
-  ret <- list(
+FvCB = function(C_chl, pars, unitless = FALSE) {
+  ret = list(
     W_carbox = W_carbox(C_chl, pars, unitless),
     W_regen = W_regen(C_chl, pars, unitless),
     W_tpu = W_tpu(C_chl, pars, unitless)
@@ -79,20 +79,20 @@ FvCB <- function(C_chl, pars, unitless = FALSE) {
 
   # Ignore W_tpu if C_chl < gamma_star
   if (C_chl > pars$gamma_star) {
-    ret$A <- min(ret$W_carbox, ret$W_regen, ret$W_tpu)
+    ret$A = min(ret$W_carbox, ret$W_regen, ret$W_tpu)
   } else {
-    ret$A <- min(ret$W_carbox, ret$W_regen)
+    ret$A = min(ret$W_carbox, ret$W_regen)
   }
   ret
 }
 #' Rubisco-limited assimilation rate
 #' @rdname FvCB
 #' @export
-W_carbox <- function(C_chl, pars, unitless = FALSE) {
+W_carbox = function(C_chl, pars, unitless = FALSE) {
   if (unitless) {
-    A <- pars$V_cmax * C_chl / (C_chl + pars$K_C * (1 + pars$O / pars$K_O))
+    A = pars$V_cmax * C_chl / (C_chl + pars$K_C * (1 + pars$O / pars$K_O))
   } else {
-    A <- set_units(
+    A = set_units(
       pars$V_cmax * C_chl /
         (C_chl + pars$K_C * (set_units(1) + pars$O / pars$K_O)),
       umol / m^2 / s
@@ -103,17 +103,17 @@ W_carbox <- function(C_chl, pars, unitless = FALSE) {
 #' RuBP regeneration-limited assimilation rate
 #' @rdname FvCB
 #' @export
-W_regen <- function(C_chl, pars, unitless = FALSE) {
-  J <- J(pars, unitless)
-  A <- J * C_chl / (4 * C_chl + 8 * pars$gamma_star)
+W_regen = function(C_chl, pars, unitless = FALSE) {
+  J = J(pars, unitless)
+  A = J * C_chl / (4 * C_chl + 8 * pars$gamma_star)
   if (!unitless) A %<>% set_units(umol / m^2 / s)
   A
 }
 #' TPU-limited assimilation rate
 #' @rdname FvCB
 #' @export
-W_tpu <- function(C_chl, pars, unitless = FALSE) {
-  A <- 3 * pars$V_tpu * C_chl / (C_chl - pars$gamma_star)
+W_tpu = function(C_chl, pars, unitless = FALSE) {
+  A = 3 * pars$V_tpu * C_chl / (C_chl - pars$gamma_star)
   if (!unitless) A %<>% set_units(umol / m^2 / s)
   A
 }
@@ -144,18 +144,18 @@ W_tpu <- function(C_chl, pars, unitless = FALSE) {
 #' library(magrittr)
 #' library(photosynthesis)
 #'
-#' bake_par <- make_bakepar()
-#' constants <- make_constants(use_tealeaves = FALSE)
-#' enviro_par <- make_enviropar(use_tealeaves = FALSE)
-#' leaf_par <- make_leafpar(use_tealeaves = FALSE)
-#' enviro_par$T_air <- leaf_par$T_leaf
+#' bake_par = make_bakepar()
+#' constants = make_constants(use_tealeaves = FALSE)
+#' enviro_par = make_enviropar(use_tealeaves = FALSE)
+#' leaf_par = make_leafpar(use_tealeaves = FALSE)
+#' enviro_par$T_air = leaf_par$T_leaf
 #' leaf_par %<>% bake(bake_par, constants)
 #'
-#' pars <- c(leaf_par, enviro_par, constants)
+#' pars = c(leaf_par, enviro_par, constants)
 #' J(pars, FALSE)
 #' @export
 #'
-J <- function(pars, unitless = FALSE) {
+J = function(pars, unitless = FALSE) {
   if (!unitless) {
     # drop units for root finding
     pars$PPFD %<>% set_units(umol / m^2 / s) %>% drop_units()
@@ -164,11 +164,11 @@ J <- function(pars, unitless = FALSE) {
     pars$theta_J %<>% drop_units()
   }
 
-  .f <- function(J, PPFD, J_max, phi_J, theta_J) {
+  .f = function(J, PPFD, J_max, phi_J, theta_J) {
     theta_J * J^2 - J * (J_max + phi_J * PPFD) + J_max * phi_J * PPFD
   }
 
-  J_I <- stats::uniroot(.f, c(0, pars$J_max),
+  J_I = stats::uniroot(.f, c(0, pars$J_max),
     PPFD = pars$PPFD, J_max =
       pars$J_max,
     phi_J = pars$phi_J, theta_J = pars$theta_J

@@ -68,18 +68,13 @@ NULL
 #'
 #' @export
 
-bake = function(leaf_par, enviro_par, bake_par, constants, assert_units = TRUE) {
-  
-  # STUFF FOR DEBUGGING G_IAS - delete when done
-  if (FALSE) {
-    library(photosynthesis)
-    library(magrittr)
+bake = function(
+    leaf_par, 
+    enviro_par, 
+    bake_par, 
+    constants, 
     assert_units = TRUE
-    leaf_par = make_leafpar(use_tealeaves = FALSE)
-    enviro_par = make_enviropar(use_tealeaves = FALSE)
-    bake_par = make_bakepar()
-    constants = make_constants(use_tealeaves = FALSE)
-  }
+  ) {
   
   # Assert units before baking ----
   if (assert_units) {
@@ -145,28 +140,17 @@ bake = function(leaf_par, enviro_par, bake_par, constants, assert_units = TRUE) 
     leaf_par %<>% set_parameter_units(type == "leaf", !tealeaves)
   }
 
-  # Check values ----
+  # Assert bounds on values ----
+  # If !assert_units, no assertion is performed
   if (assert_units) {
-    stopifnot(leaf_par$g_liqc >= set_units(0, mol / m^2 / s))
-    stopifnot(leaf_par$g_mc >= set_units(0, mol / m^2 / s))
-    stopifnot(leaf_par$gamma_star >= set_units(0, Pa))
-    stopifnot(leaf_par$J_max >= set_units(0, umol / (m^2 * s)))
-    stopifnot(leaf_par$K_C >= set_units(0, umol/mol))
-    stopifnot(leaf_par$K_O >= set_units(0, umol/mol))
-    stopifnot(leaf_par$R_d >= set_units(0, umol / (m^2 * s)))
-    stopifnot(leaf_par$V_cmax >= set_units(0, umol / (m^2 * s)))
-    stopifnot(leaf_par$V_tpu >= set_units(0, umol / (m^2 * s)))
-  } else {
-    stopifnot(leaf_par$g_mc >= 0)
-    stopifnot(leaf_par$gamma_star >= 0)
-    stopifnot(leaf_par$J_max >= 0)
-    stopifnot(leaf_par$K_C >= 0)
-    stopifnot(leaf_par$K_O >= 0)
-    stopifnot(leaf_par$R_d >= 0)
-    stopifnot(leaf_par$V_cmax >= 0)
-    stopifnot(leaf_par$V_tpu >= 0)
+    leaf_par |>
+      assert_parameter_bounds(
+        type == "leaf", 
+        temperature_response,
+        !tealeaves
+      )
   }
-
+  
   leaf_par %<>% structure(class = c("baked", "leaf_par", "list"))
 
   leaf_par

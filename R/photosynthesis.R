@@ -186,21 +186,35 @@ photosynthesis = function(
   pars %<>% purrr::cross_df()
 
   # Calculate T_leaf using energy balance or set to T_air ----
-  if (use_tealeaves) {
+  pars %<>% add_Tleaf(use_tealeaves)
+  
+  # Solve ----
+  soln = find_As(
+    pars, bake_par, constants, par_units, progress, quiet, parallel, use_legacy_version
+  )
 
+  # Return ----
+  soln
+  
+}
+
+add_Tleaf = function(pars, use_tealeaves) {
+
+  if (use_tealeaves) {
+    
     # This is an inefficient hack
     E_q = pars$E_q
     PPFD = pars$PPFD
     f_par = pars$f_par
     g_sc = pars$g_sc
     g_uc = pars$g_uc
-
+    
     units(E_q) = par_units$E_q
     units(PPFD) = par_units$PPFD
     units(f_par) = par_units$f_par
     units(g_sc) = par_units$g_sc
     units(g_uc) = par_units$g_uc
-
+    
     pars$S_sw = set_units(E_q * PPFD / f_par, W / m^2)
     pars$g_sw = set_units(
       constants$D_w0 / constants$D_c0 * g_sc,
@@ -211,40 +225,40 @@ photosynthesis = function(
       umol / m^2 / s
     )
     pars$logit_sr = stats::qlogis(pars$k_sc / (1 + pars$k_sc))
-
+    
     par_units$S_sw = units(units::make_units(W / m^2))
     par_units$g_sw = par_units$g_sc
     par_units$g_uw = par_units$g_uc
     par_units$logit_sr = par_units$k_sc
-
+    
     pars$S_sw %<>% drop_units()
     pars$g_sw %<>% drop_units()
     pars$g_uw %<>% drop_units()
-
+    
     tlp = pars |>
       as.list() |>
       purrr::map(unique) |>
       tealeaves::leaf_par()
-
+    
     tep = pars |>
       as.list() |>
       purrr::map(unique)
-
+    
     if (!is.null(tsky_function)) {
       tep$T_sky = tsky_function
     }
-
+    
     tep %<>% tealeaves::enviro_par()
-
+    
     tcs = tealeaves::constants(constants)
-
+    
     tl = tealeaves::tleaves(tlp, tep, tcs,
-      progress = FALSE, quiet = TRUE,
-      set_units = FALSE, parallel = parallel
+                            progress = FALSE, quiet = TRUE,
+                            set_units = FALSE, parallel = parallel
     )
-
+    
     par_units$T_leaf = units(tl$T_leaf)
-
+    
     tl = tl %>% 
       dplyr::rename(
         tealeaves_convergence = .data$convergence,
@@ -262,13 +276,7 @@ photosynthesis = function(
     if (is.null(T_air)) pars$T_air = pars$T_leaf
   }
 
-  # Simulate ----
-  soln = find_As(
-    pars, bake_par, constants, par_units, progress, quiet, parallel, use_legacy_version
-  )
-
-  # Return ----
-  soln
+  pars
   
 }
 
@@ -362,6 +370,19 @@ photo = function(
     prepare_for_tleaf = use_tealeaves,
     use_legacy_version = FALSE
   ) {
+  
+  # STUFF FOR DEBUGGING use_tealeaves
+  if (FALSE) {
+    library(photosynthesis)
+    library(magrittr)
+    assert_units = TRUE
+    leaf_par = make_leafpar(use_tealeaves = FALSE)
+    enviro_par = make_enviropar(use_tealeaves = FALSE)
+    bake_par = make_bakepar()
+    constants = make_constants(use_tealeaves = FALSE)
+    use_tealeaves = TRUE
+    prepare_for_tleaf = TRUE
+  }
   
   # Check arguments ----
   checkmate::assert_flag(check)
@@ -467,8 +488,8 @@ photo = function(
   ) |>
     as.data.frame()
   
-  soln$C_chl %<>% set_units(Pa)
-  soln$g_tc %<>% set_units(umol / m^2 / s)
+  soln$C_chl %<>% set_units(umol / mol)
+  soln$g_tc %<>% set_units(mol / m^2 / s)
   soln$A %<>% set_units(umol / m^2 / s)
 
   soln

@@ -29,28 +29,13 @@ leaf_par = function(.x, use_tealeaves) {
   )
   
   # Assert bounds on values ----
-  stopifnot(.x$g_mc25 >= set_units(0, umol / m^2 / s))
-  stopifnot(.x$g_sc >= set_units(0, umol / m^2 / s))
-  stopifnot(.x$g_uc >= set_units(0, umol / m^2 / s))
-  stopifnot(.x$gamma_star25 >= set_units(0, Pa))
-  stopifnot(.x$J_max25 >= set_units(0, umol / (m^2 * s)))
-  stopifnot(.x$k_mc >= set_units(0))
-  stopifnot(.x$k_sc >= set_units(0))
-  stopifnot(.x$k_uc >= set_units(0))
-  stopifnot(.x$K_C25 >= set_units(0, umol/mol))
-  stopifnot(.x$K_O25 >= set_units(0, umol/mol))
-  stopifnot(.x$phi_J > set_units(0))
-  stopifnot(.x$theta_J > set_units(0) & .x$theta_J < set_units(1))
-  stopifnot(.x$R_d25 >= set_units(0, umol / (m^2 * s)))
-  if (!use_tealeaves) stopifnot(.x$T_leaf >= set_units(0, K))
-  stopifnot(.x$V_cmax25 >= set_units(0, umol / (m^2 * s)))
-  stopifnot(.x$V_tpu25 >= set_units(0, umol / (m^2 * s)))
-
-  if (use_tealeaves) {
-    stopifnot(.x$abs_l > set_units(0) & .x$abs_l < set_units(1))
-    stopifnot(.x$abs_s > set_units(0) & .x$abs_s < set_units(1))
-  }
-
+  .x |>
+    assert_parameter_bounds(
+      type == which, 
+      !temperature_response,
+      if (!use_tealeaves) {!tealeaves} else TRUE
+    )
+  
   structure(.x, class = c(stringr::str_c(which, "_par"), "list"))
   
 }

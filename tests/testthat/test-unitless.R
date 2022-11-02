@@ -32,8 +32,8 @@ test_that("unitless values match unit-ed values", {
   lp2 = purrr::map_if(lp1, function(x) is(x, "units"), drop_units)
 
   ep1 = enviro_par(list(
-    C_air = set_units(runif(1, 0, 200), Pa),
-    O = set_units(21.27565, kPa),
+    C_air = set_units(runif(1, 10, 2000), umol/mol),
+    O = set_units(0.21, mol/mol),
     P = set_units(101.3246, kPa),
     RH = set_units(runif(1)),
     PPFD = set_units(runif(1, 0, 2000), umol/m^2/s),
@@ -54,7 +54,7 @@ test_that("unitless values match unit-ed values", {
   }) %>%
     purrr::map(expect_true)
   
-  C_chl = set_units(runif(1, 20, 40), Pa)
+  C_chl = set_units(runif(1, 200, 400), umol/mol)
   pars1 = c(cs1, lp1, ep1)
   pars2 = purrr::map_if(pars1, function(x) is(x, "units"), drop_units)
 

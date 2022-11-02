@@ -17,11 +17,16 @@ make_anypar = function(which, replace, use_tealeaves) {
 
   which = match.arg(which, choices = get_par_types())
   
+  # DEBUG STUFF. REMOVE WHEN DONE
+  if (FALSE) {
+    which = "leaf"; replace = NULL; use_tealeaves = TRUE
+  }
+    
   # Message about new conductance model ----
   message_experimental(replace)
   
   # Defaults -----
-  obj = make_default_parameter_list(
+  obj = photosynthesis:::make_default_parameter_list(
     which = which,
     use_tealeaves = use_tealeaves
   )
@@ -74,31 +79,43 @@ make_anypar = function(which, replace, use_tealeaves) {
   }
   
   # Special procedures for leaf_par ----
-  if (which == "leaf") {
+  if (which == "leaf" & use_tealeaves) {
     
-    if (!is.null(replace$T_leaf) & use_tealeaves) {
-      warning("replace$T_leaf ignored when use_tealeaves is TRUE")
-      replace$T_leaf = NULL
-    }
+    par_equiv = get_par_equiv()
     
-    par_equiv = data.frame(
-      tl = c("g_sw", "g_uw", "logit_sr"),
-      ph = c("g_sc", "g_uc", "k_sc")
-    )
+    # Some equivalencies require additional parameters. Therefore leaving
+    # those parameter values empty
+    tl_placeholders = photo_parameters |>
+      dplyr::filter(R %in% par_equiv$tl) |>
+      dplyr::mutate(units = stringr::str_replace(units, "none", "1")) |>
+      split(~ R) |>
+      purrr::map(function(.y) {
+        a = 0
+        units(a) = as_units(.y[["units"]])
+        a
+      })
+    obj[names(tl_placeholders)] = tl_placeholders
     
-    if (any(purrr::map_lgl(replace[par_equiv$tl], ~ !is.null(.x)))) {
-      par_equiv %>%
-        dplyr::filter(.data$tl %in% names(replace)) %>%
-        dplyr::transmute(message = stringr::str_c(
-          "\nIn `replace = list(...)`,
+    if (!is.null(replace)) {
+      if (!is.null(replace$T_leaf)) {
+        warning("replace$T_leaf ignored when use_tealeaves is TRUE")
+        replace$T_leaf = NULL
+      }
+      
+      
+      if (any(purrr::map_lgl(replace[par_equiv$tl], ~ !is.null(.x)))) {
+        par_equiv %>%
+          dplyr::filter(.data$tl %in% names(replace)) %>%
+          dplyr::transmute(message = stringr::str_c(
+            "\nIn `replace = list(...)`,
              tealeaves parameter ", .data$tl, " is not replacable. Use ",
-          .data$ph, " instead."
-        )) %>%
-        dplyr::pull(.data$message) %>%
-        stringr::str_c(collapse = "\n") %>%
-        stop(call. = FALSE)
+            .data$ph, " instead."
+          )) %>%
+          dplyr::pull(.data$message) %>%
+          stringr::str_c(collapse = "\n") %>%
+          stop(call. = FALSE)
+      }
     }
-    
   }
   
   # Replace defaults ----
@@ -288,7 +305,7 @@ make_default_parameter_list = function(which, use_tealeaves) {
 #' @noRd
 check_parameter_names = function(.x, which, use_tealeaves) {
   
-  nms = parameter_names(which, use_tealeaves = FALSE)
+  nms = parameter_names(which, use_tealeaves = use_tealeaves)
   
   stopifnot(is.list(.x))
   
@@ -309,6 +326,7 @@ check_parameter_names = function(.x, which, use_tealeaves) {
 #' @param .x list of parameters to set units
 #' @param ... arguments passed to dplyr::filter()
 #' @noRd
+
 set_parameter_units = function(.x, ...) {
   
   photo_parameters |>
@@ -324,6 +342,36 @@ set_parameter_units = function(.x, ...) {
         a
       }
     })
+  
+}
+
+#' Assert parameter bounds
+#' @param .x list of parameters
+#' @param ... arguments passed to dplyr::filter()
+#' @noRd
+assert_parameter_bounds = function(.x, ...) {
+  
+  photo_parameters |>
+    dplyr::filter(...) |>
+    dplyr::mutate(units = stringr::str_replace(units, "none", "1")) |>
+    split(~ R) |>
+    magrittr::extract(2) |>
+    purrr::map_lgl(function(.y) {
+      if (
+        length(.x[[.y$R]]) == 0L |
+        is.function(.x[[.y$R]]) | 
+        is.na(.y$lower) | 
+        is.na(.y$upper)
+      ) {
+        TRUE
+      } else {
+        units(.y$lower) = as_units(.y$units)
+        units(.y$upper) = as_units(.y$units)
+        .x[[.y$R]] >= .y$lower & .x[[.y$R]] <= .y$upper
+      }
+    }) |>
+    all() |>
+    checkmate::assert_true()
   
 }
 
@@ -374,3 +422,11 @@ replace_defaults = function(obj, replace) {
   obj
 }
 
+#' Get data.frame of equivalent parameters between tealeaves and photosynthesis
+#' @noRd
+get_par_equiv = function() {
+  data.frame(
+    tl = c("g_sw", "g_uw", "logit_sr"),
+    ph = c("g_sc", "g_uc", "k_sc")
+  )
+}
