@@ -123,6 +123,100 @@ photosynthesis = function(
     check = TRUE,
     parallel = FALSE,
     use_legacy_version = FALSE
+) {
+  
+  # Check arguments ----
+  checkmate::assert_flag(check)
+  
+  if (check) {
+    checkmate::assert_class(bake_par, "bake_par")
+    checkmate::assert_class(constants, "constants")
+    checkmate::assert_class(enviro_par, "enviro_par")
+    checkmate::assert_class(leaf_par, "leaf_par")
+    checkmate::assert_flag(use_tealeaves)
+    checkmate::assert_flag(quiet)
+    checkmate::assert_flag(assert_units)
+    checkmate::assert_flag(parallel)
+    checkmate::assert_flag(use_legacy_version)
+  }
+  
+  # Message about legacy version ----
+  notify_users(quiet = quiet, leaf_par = leaf_par)
+  
+  T_air = NULL
+  if (!use_tealeaves && !is.null(enviro_par$T_air)) {
+    if (!quiet) {
+      message(glue::glue("Both air and leaf temperature are provided and fixed: T_air = {T_air}; T_leaf = {T_leaf}",
+                         T_air = enviro_par$T_air,
+                         T_leaf = leaf_par$T_leaf
+      ))
+    }
+    T_air = enviro_par$T_air
+  }
+  
+  # Assert units ----
+  if (assert_units) {
+    bake_par %<>% photosynthesis::bake_par()
+    constants %<>% photosynthesis::constants(use_tealeaves)
+    enviro_par %<>% photosynthesis::enviro_par(use_tealeaves)
+    leaf_par %<>% photosynthesis::leaf_par(use_tealeaves)
+    if (!is.null(T_air)) enviro_par$T_air = set_units(T_air, K)
+  }
+  
+  
+  # Make parameter sets ----
+  ## cross_df() removes units.
+  ## This code will cause errors if units are not properly set
+  pars = c(
+    purrr::keep(leaf_par, ~ length(.x) > 0), 
+    purrr::keep(enviro_par, ~ length(.x) > 0)
+  ) |>
+    purrr::map(~ {ifelse(is.function(.x), yes = list(.x), no = .x)}) |>
+    purrr::cross_df()
+  
+  # Calculate T_leaf using energy balance or set to T_air ----
+  # pars %<>% photosynthesis:::add_Tleaf_photosynthesis(use_tealeaves)
+  
+  # Solve ----
+  # bp = purrr::map(bake_par, drop_units)
+  # cs = purrr::map(constants, ~ if (is(.x, "units")) drop_units(.x))
+  
+  soln = pars %>%
+    split(~ seq_len(nrow(.))) |>
+    # magrittr::extract2(1)
+    purrr::map_dfr(~ {
+      lx = intersect(colnames(.x), 
+                     parameter_names("leaf", use_tealeaves = use_tealeaves))
+      ex = intersect(colnames(.x),
+                     parameter_names("enviro", use_tealeaves = use_tealeaves))
+      # WORKING HERE - NEED TO RE-SET UNITS. UNITS ARE ONLY REMOVED in photo before solving
+      lp = purrr::flatten(.x[,lx]) |>
+        purrr::map(unlist) |>
+        photosynthesis:::leaf_par()
+      ep = purrr::flatten(.x[,ex]) |>
+        purrr::map(unlist)
+      photo(lp, ep, bake_par, constants, use_tealeaves, quiet = TRUE,
+            assert_units = FALSE, check = FALSE,
+            use_legacy_version = use_legacy_version)
+    })
+  
+  # Return ----
+  soln
+  
+}
+
+photosynthesis_old = function(
+    leaf_par, 
+    enviro_par, 
+    bake_par, 
+    constants,
+    use_tealeaves, 
+    progress = TRUE, 
+    quiet = FALSE,
+    assert_units = TRUE, 
+    check = TRUE,
+    parallel = FALSE,
+    use_legacy_version = FALSE
   ) {
   
   # Check arguments ----
@@ -186,11 +280,12 @@ photosynthesis = function(
   pars %<>% purrr::cross_df()
 
   # Calculate T_leaf using energy balance or set to T_air ----
-  pars %<>% add_Tleaf(use_tealeaves)
+  pars %<>% add_Tleaf_photosynthesis(use_tealeaves)
   
   # Solve ----
   soln = find_As(
-    pars, bake_par, constants, par_units, progress, quiet, parallel, use_legacy_version
+    pars, bake_par, constants, par_units, progress, quiet, parallel,
+    use_legacy_version
   )
 
   # Return ----
@@ -198,7 +293,7 @@ photosynthesis = function(
   
 }
 
-add_Tleaf = function(pars, use_tealeaves) {
+add_Tleaf_photosynthesis = function(pars, use_tealeaves) {
 
   if (use_tealeaves) {
     
@@ -218,11 +313,11 @@ add_Tleaf = function(pars, use_tealeaves) {
     pars$S_sw = set_units(E_q * PPFD / f_par, W / m^2)
     pars$g_sw = set_units(
       constants$D_w0 / constants$D_c0 * g_sc,
-      umol / m^2 / s
+      mol / m^2 / s
     )
     pars$g_uw = set_units(
       constants$D_w0 / constants$D_c0 * g_uc,
-      umol / m^2 / s
+      mol / m^2 / s
     )
     pars$logit_sr = stats::qlogis(pars$k_sc / (1 + pars$k_sc))
     
@@ -371,19 +466,6 @@ photo = function(
     use_legacy_version = FALSE
   ) {
   
-  # STUFF FOR DEBUGGING use_tealeaves
-  if (FALSE) {
-    library(photosynthesis)
-    library(magrittr)
-    assert_units = TRUE
-    leaf_par = make_leafpar(use_tealeaves = FALSE)
-    enviro_par = make_enviropar(use_tealeaves = FALSE)
-    bake_par = make_bakepar()
-    constants = make_constants(use_tealeaves = FALSE)
-    use_tealeaves = TRUE
-    prepare_for_tleaf = TRUE
-  }
-  
   # Check arguments ----
   checkmate::assert_flag(check)
 
@@ -424,37 +506,9 @@ photo = function(
 
   # Calculate T_leaf using energy balance ----
   if (use_tealeaves) {
-    
-    if (prepare_for_tleaf) {
-      enviro_par$S_sw = set_units(enviro_par$E_q * enviro_par$PPFD /
-        enviro_par$f_par, W / m^2)
-      leaf_par$g_sw = set_units(
-        constants$D_w0 / constants$D_c0 * leaf_par$g_sc,
-        umol / m^2 / Pa / s
-      )
-      leaf_par$g_uw = set_units(
-        constants$D_w0 / constants$D_c0 * leaf_par$g_uc,
-        umol / m^2 / Pa / s
-      )
-      leaf_par$logit_sr = stats::qlogis(leaf_par$k_sc / (set_units(1) +
-        leaf_par$k_sc))
-    }
-
-    tl = tealeaves::tleaf(
-      leaf_par = leaf_par, 
-      enviro_par = enviro_par,
-      constants = constants, 
-      quiet = TRUE,
-      set_units = TRUE
-    ) %>% 
-    dplyr::rename(
-      tealeaves_convergence = .data$convergence,
-      tealeaves_value = .data$value
-    )
-    leaf_par$T_leaf = tl$T_leaf
-    
+    leaf_par %<>% photosynthesis:::add_Tleaf_photo(enviro_par, constants, prepare_for_tleaf)
   }
-
+  
   leaf_par %<>% bake(enviro_par, bake_par, constants, assert_units = FALSE)
 
   pars = c(leaf_par, enviro_par, constants) %>%
@@ -483,8 +537,10 @@ photo = function(
 
   soln = c(
     soln,
-    purrr::keep(leaf_par, ~ length(.x) > 0),
-    purrr::keep(enviro_par, ~ length(.x) > 0)
+    purrr::keep(leaf_par, ~ length(.x) > 0 & !is.function(.x)),
+    purrr::keep(enviro_par, ~ length(.x) > 0 & !is.function(.x)),
+    purrr::keep(bake_par, ~ length(.x) > 0 & !is.function(.x)),
+    purrr::keep(constants, ~ length(.x) > 0 & !is.function(.x))
   ) |>
     as.data.frame()
   
@@ -493,6 +549,71 @@ photo = function(
   soln$A %<>% set_units(umol / m^2 / s)
 
   soln
+  
+}
+
+add_Tleaf_photo = function(leaf_par, enviro_par, constants, prepare_for_tleaf) {
+  
+  leaf_par1 = leaf_par
+  constants1 = constants
+  
+  if (prepare_for_tleaf) {
+    enviro_par$S_sw = set_units(enviro_par$E_q * enviro_par$PPFD /
+                                  enviro_par$f_par, W / m^2)
+    leaf_par$g_sw = set_units(
+      constants$D_w0 / constants$D_c0 * leaf_par$g_sc,
+      mol / m^2 / s
+    )
+    leaf_par$g_uw = set_units(
+      constants$D_w0 / constants$D_c0 * leaf_par$g_uc,
+      mol / m^2 / s
+    )
+    
+    leaf_par$logit_sr = if (is(leaf_par$k_sc, "units")) {
+      stats::qlogis(leaf_par$k_sc / (set_units(1) + leaf_par$k_sc))
+    } else {
+      stats::qlogis(leaf_par$k_sc / (1 + leaf_par$k_sc))
+    }
+    
+    # Need this until tealeaves changes these parameters for consistency
+    leaf_par1$g_sw = if (is(leaf_par$g_sw, "units")) {
+      leaf_par$g_sw |>
+        gunit::convert_conductance(P = enviro_par$P, R = constants$R) |>
+        magrittr::extract2("umol/m^2/s/Pa")
+    } else {
+      leaf_par$g_sw / enviro_par$P * 1000
+    }
+    
+    leaf_par1$g_uw = if (is(leaf_par$g_uw, "units")) {
+      leaf_par$g_uw |>
+        gunit::convert_conductance(P = enviro_par$P, R = constants$R) |>
+        magrittr::extract2("umol/m^2/s/Pa")
+    } else {
+      leaf_par$g_uw / enviro_par$P * 1000
+    }
+    
+    
+    constants1$nu_constant = constants$f_nu
+    constants1$sh_constant = constants$f_sh
+    constants1$f_nu = constants1$f_sh = NULL
+    constants1$s = constants1$sigma
+    constants1$sigma = NULL
+  }
+  
+  tl = tealeaves::tleaf(
+    leaf_par = leaf_par1, 
+    enviro_par = enviro_par,
+    constants = constants1, 
+    quiet = TRUE,
+    set_units = TRUE
+  ) %>% 
+    dplyr::rename(
+      tealeaves_convergence = convergence,
+      tealeaves_value = value
+    )
+  leaf_par$T_leaf = tl$T_leaf
+
+  leaf_par
   
 }
 

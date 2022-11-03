@@ -17,11 +17,6 @@ make_anypar = function(which, replace, use_tealeaves) {
 
   which = match.arg(which, choices = get_par_types())
   
-  # DEBUG STUFF. REMOVE WHEN DONE
-  if (FALSE) {
-    which = "leaf"; replace = NULL; use_tealeaves = TRUE
-  }
-    
   # Message about new conductance model ----
   message_experimental(replace)
   
@@ -253,7 +248,7 @@ make_bakepar = function(replace = NULL) {
 
 make_constants = function(replace = NULL, use_tealeaves) {
 
-  make_anypar("constants", replace = replace, use_tealeaves = FALSE)
+  make_anypar("constants", replace = replace, use_tealeaves = use_tealeaves)
   
 }
 
@@ -337,7 +332,7 @@ set_parameter_units = function(.x, ...) {
       if (is.function(.x[[.y$R]])) {
         .x[[.y$R]]
       } else {
-        a = .x[[.y$R]]
+        a = ifelse(is.null(.x[[.y$R]]), 0, .x[[.y$R]])
         units(a) = as_units(.y$units)
         a
       }

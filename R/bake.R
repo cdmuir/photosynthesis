@@ -91,21 +91,29 @@ bake = function(
   
   # Calculate parameters at T_leaf based on temperature response function ----
   # Assumes that g_liqc has same temperature response function as g_mc
-  leaf_par$g_liqc = temp_resp2(
-    pars$g_liqc25, pars$Ds_gmc, pars$Ea_gmc, pars$Ed_gmc, pars$R, pars$T_leaf, 
-    T_ref, unitless = TRUE
-  )
-  D_c = tealeaves:::.get_Dx(pars$D_c0, pars$T_leaf, pars$eT, pars$P,
-                            unitless = TRUE)
-  leaf_par$g_iasc_lower = 1e9 * D_c / pars$delta_ias_lower * 
-    pars$P / (pars$R * pars$T_leaf)
-  leaf_par$g_iasc_upper = 1e9 * D_c / pars$delta_ias_upper * 
-    pars$P / (pars$R * pars$T_leaf)
+  if (length(pars$g_liqc25) != 0) {
+    leaf_par$g_liqc = temp_resp2(
+      pars$g_liqc25, pars$Ds_gmc, pars$Ea_gmc, pars$Ed_gmc, pars$R, pars$T_leaf, 
+      T_ref, unitless = TRUE
+    )
+  }
   
-  leaf_par$g_mc = temp_resp2(
-    pars$g_mc25, pars$Ds_gmc, pars$Ea_gmc, pars$Ed_gmc, pars$R, pars$T_leaf, 
-    T_ref, unitless = TRUE
-  )
+  if (length(leaf_par$g_iasc_lower) != 0 & length(leaf_par$g_iasc_upper) != 0) {
+    D_c = tealeaves:::.get_Dx(pars$D_c0, pars$T_leaf, pars$eT, pars$P,
+                              unitless = TRUE)
+    leaf_par$g_iasc_lower = 1e9 * D_c / pars$delta_ias_lower * 
+      pars$P / (pars$R * pars$T_leaf)
+    leaf_par$g_iasc_upper = 1e9 * D_c / pars$delta_ias_upper * 
+      pars$P / (pars$R * pars$T_leaf)
+  }
+  
+  if (length(pars$g_lmc25) != 0) {
+    leaf_par$g_mc = temp_resp2(
+      pars$g_mc25, pars$Ds_gmc, pars$Ea_gmc, pars$Ed_gmc, pars$R, pars$T_leaf, 
+      T_ref, unitless = TRUE
+    )
+  }
+  
   leaf_par$gamma_star = temp_resp1(pars$gamma_star25, pars$Ea_gammastar,
     pars$R, pars$T_leaf, T_ref,
     unitless = TRUE
@@ -136,9 +144,7 @@ bake = function(
   )
   
   # Set units ----
-  if (assert_units) {
-    leaf_par %<>% set_parameter_units(type == "leaf", !tealeaves)
-  }
+  leaf_par %<>% set_parameter_units(type == "leaf", !tealeaves)
 
   # Assert bounds on values ----
   # If !assert_units, no assertion is performed
