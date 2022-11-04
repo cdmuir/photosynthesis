@@ -22,7 +22,7 @@
 #' 
 #' @param parallel Logical. Should parallel processing be used via \code{\link[furrr]{future_map}}?
 #' 
-#' @param use_legacy_version Logical. Should legacy model (<2.1.0) be used? See \href[NEWS]{https://github.com/cdmuir/photosynthesis/blob/master/NEWS.md} for further information. Default is FALSE. 
+#' @param use_legacy_version Logical. Should legacy model (<2.1.0) be used? See \href{https://github.com/cdmuir/photosynthesis/blob/master/NEWS.md}{NEWS} for further information. Default is FALSE. 
 #'
 #' @return
 #' A data.frame with the following \code{units} columns \cr
@@ -163,283 +163,132 @@ photosynthesis = function(
     if (!is.null(T_air)) enviro_par$T_air = set_units(T_air, K)
   }
   
-  
   # Make parameter sets ----
-  ## cross_df() removes units.
-  ## This code will cause errors if units are not properly set
+  pars = photosynthesis:::make_parameter_sets(leaf_par, enviro_par, bake_par, constants)
+  
+  # Solve ----
+  soln = photosynthesis:::solve_for_photosynthesis(
+    pars,
+    bake_par, 
+    constants, 
+    use_tealeaves,
+    progress,
+    parallel,
+    use_legacy_version
+  )
+  
+  # Return ----
+  soln
+  
+}
+
+make_parameter_sets = function(
+    leaf_par, 
+    enviro_par, 
+    bake_par, 
+    constants
+) {
+  
+  ## cross_df() removes units
   pars = c(
     purrr::keep(leaf_par, ~ length(.x) > 0), 
     purrr::keep(enviro_par, ~ length(.x) > 0)
   ) |>
-    purrr::map(~ {ifelse(is.function(.x), yes = list(.x), no = .x)}) |>
+    purrr::map(~ {if (is.function(.x)) {list(.x)} else {.x}}) |>
     purrr::cross_df()
   
-  # Calculate T_leaf using energy balance or set to T_air ----
-  # pars %<>% photosynthesis:::add_Tleaf_photosynthesis(use_tealeaves)
+  ## Add units back
+  function_pars = apply(pars, 2, function(.x) any(sapply(.x, is.function)))
+  function_par_cols = pars[, function_pars]
+  pars = pars %>% 
+    set_parameter_units(R %in% colnames(.)[!function_pars]) |>
+    tibble::as_tibble() |>
+    dplyr::bind_cols(function_par_cols)
   
-  # Solve ----
-  # bp = purrr::map(bake_par, drop_units)
-  # cs = purrr::map(constants, ~ if (is(.x, "units")) drop_units(.x))
-  
-  soln = pars %>%
-    split(~ seq_len(nrow(.))) |>
-    # magrittr::extract2(1)
-    purrr::map_dfr(~ {
-      lx = intersect(colnames(.x), 
-                     parameter_names("leaf", use_tealeaves = use_tealeaves))
-      ex = intersect(colnames(.x),
-                     parameter_names("enviro", use_tealeaves = use_tealeaves))
-      # WORKING HERE - NEED TO RE-SET UNITS. UNITS ARE ONLY REMOVED in photo before solving
-      lp = purrr::flatten(.x[,lx]) |>
-        purrr::map(unlist) |>
-        photosynthesis:::leaf_par()
-      ep = purrr::flatten(.x[,ex]) |>
-        purrr::map(unlist)
-      photo(lp, ep, bake_par, constants, use_tealeaves, quiet = TRUE,
-            assert_units = FALSE, check = FALSE,
-            use_legacy_version = use_legacy_version)
-    })
-  
-  # Return ----
-  soln
-  
-}
-
-photosynthesis_old = function(
-    leaf_par, 
-    enviro_par, 
-    bake_par, 
-    constants,
-    use_tealeaves, 
-    progress = TRUE, 
-    quiet = FALSE,
-    assert_units = TRUE, 
-    check = TRUE,
-    parallel = FALSE,
-    use_legacy_version = FALSE
-  ) {
-  
-  # Check arguments ----
-  checkmate::assert_flag(check)
-  
-  if (check) {
-    checkmate::assert_class(bake_par, "bake_par")
-    checkmate::assert_class(constants, "constants")
-    checkmate::assert_class(enviro_par, "enviro_par")
-    checkmate::assert_class(leaf_par, "leaf_par")
-    checkmate::assert_flag(use_tealeaves)
-    checkmate::assert_flag(quiet)
-    checkmate::assert_flag(assert_units)
-    checkmate::assert_flag(parallel)
-    checkmate::assert_flag(use_legacy_version)
-  }
-  
-  # Message about legacy version ----
-  notify_users(quiet = quiet, leaf_par = leaf_par)
-  
-  T_air = NULL
-  if (!use_tealeaves && !is.null(enviro_par$T_air)) {
-    if (!quiet) {
-      message(glue::glue("Both air and leaf temperature are provided and fixed: T_air = {T_air}; T_leaf = {T_leaf}",
-        T_air = enviro_par$T_air,
-        T_leaf = leaf_par$T_leaf
-      ))
-    }
-    T_air = enviro_par$T_air
-  }
-
-  # Assert units ----
-  if (assert_units) {
-    bake_par %<>% photosynthesis::bake_par()
-    constants %<>% photosynthesis::constants(use_tealeaves)
-    enviro_par %<>% photosynthesis::enviro_par(use_tealeaves)
-    leaf_par %<>% photosynthesis::leaf_par(use_tealeaves)
-    if (!is.null(T_air)) enviro_par$T_air = set_units(T_air, K)
-  }
-
-  pars = c(leaf_par, enviro_par)
-
-  tsky_function = NULL
-  if (is.function(pars$T_sky)) {
-    tsky_function = pars$T_sky
-    pars$T_sky = NULL
-  }
-
-  # Capture units ----
-  par_units = purrr::map(pars, units) |>
-    magrittr::set_names(names(pars))
-  if (!is.null(T_air)) {
-    par_units$T_air = units(enviro_par$T_air)
-  } else {
-    if (!use_tealeaves) par_units$T_air = units(leaf_par$T_leaf)
-  }
-
-  # Make parameter sets ----
-  ## cross_df() removes units.
-  ## This code will cause errors if units are not properly set
-  pars %<>% purrr::cross_df()
-
-  # Calculate T_leaf using energy balance or set to T_air ----
-  pars %<>% add_Tleaf_photosynthesis(use_tealeaves)
-  
-  # Solve ----
-  soln = find_As(
-    pars, bake_par, constants, par_units, progress, quiet, parallel,
-    use_legacy_version
-  )
-
-  # Return ----
-  soln
-  
-}
-
-add_Tleaf_photosynthesis = function(pars, use_tealeaves) {
-
-  if (use_tealeaves) {
-    
-    # This is an inefficient hack
-    E_q = pars$E_q
-    PPFD = pars$PPFD
-    f_par = pars$f_par
-    g_sc = pars$g_sc
-    g_uc = pars$g_uc
-    
-    units(E_q) = par_units$E_q
-    units(PPFD) = par_units$PPFD
-    units(f_par) = par_units$f_par
-    units(g_sc) = par_units$g_sc
-    units(g_uc) = par_units$g_uc
-    
-    pars$S_sw = set_units(E_q * PPFD / f_par, W / m^2)
-    pars$g_sw = set_units(
-      constants$D_w0 / constants$D_c0 * g_sc,
-      mol / m^2 / s
-    )
-    pars$g_uw = set_units(
-      constants$D_w0 / constants$D_c0 * g_uc,
-      mol / m^2 / s
-    )
-    pars$logit_sr = stats::qlogis(pars$k_sc / (1 + pars$k_sc))
-    
-    par_units$S_sw = units(units::make_units(W / m^2))
-    par_units$g_sw = par_units$g_sc
-    par_units$g_uw = par_units$g_uc
-    par_units$logit_sr = par_units$k_sc
-    
-    pars$S_sw %<>% drop_units()
-    pars$g_sw %<>% drop_units()
-    pars$g_uw %<>% drop_units()
-    
-    tlp = pars |>
-      as.list() |>
-      purrr::map(unique) |>
-      tealeaves::leaf_par()
-    
-    tep = pars |>
-      as.list() |>
-      purrr::map(unique)
-    
-    if (!is.null(tsky_function)) {
-      tep$T_sky = tsky_function
-    }
-    
-    tep %<>% tealeaves::enviro_par()
-    
-    tcs = tealeaves::constants(constants)
-    
-    tl = tealeaves::tleaves(tlp, tep, tcs,
-                            progress = FALSE, quiet = TRUE,
-                            set_units = FALSE, parallel = parallel
-    )
-    
-    par_units$T_leaf = units(tl$T_leaf)
-    
-    tl = tl %>% 
-      dplyr::rename(
-        tealeaves_convergence = .data$convergence,
-        tealeaves_value = .data$value
-      )
-    
-    ## Drop units and join
-    suppressMessages(
-      pars %<>% dplyr::full_join(dplyr::mutate_if(
-        tl, ~ is(.x, "units"),
-        drop_units
-      ))
-    )
-  } else {
-    if (is.null(T_air)) pars$T_air = pars$T_leaf
-  }
-
   pars
   
 }
 
-find_As = function(
-    par_sets, 
+solve_for_photosynthesis = function(
+    pars,
     bake_par, 
     constants, 
-    par_units, 
-    progress, 
-    quiet,
+    use_tealeaves,
+    progress,
     parallel,
     use_legacy_version
-  ) {
+) {
   
   if (!quiet) {
     glue::glue("\nSolving for photosynthetic rate from {n} parameter set{s} ...",
-      n = nrow(par_sets), s = dplyr::if_else(length(par_sets) > 1, "s", "")
+               n = nrow(pars), s = dplyr::if_else(length(pars) > 1, "s", "")
     ) %>%
       crayon::green() %>%
       message(appendLF = FALSE)
   }
-
-  if (progress && !parallel) pb = dplyr::progress_estimated(nrow(par_sets))
-
-  soln = suppressWarnings(
-    par_sets |>
-      as.list() |>
-      purrr::transpose() |>
-      furrr::future_map_dfr(~ {
-        ret = photosynthesis::photo(
-          leaf_par = .x, 
-          enviro_par = .x, 
-          bake_par = bake_par,
-          constants = constants, 
-          use_tealeaves = FALSE, 
-          quiet = TRUE,
-          assert_units = FALSE, 
-          check = FALSE, 
-          prepare_for_tleaf = FALSE
-        )
-        if (progress && !parallel) pb$tick()$print()
-        ret
-      }, .progress = progress) %>%
-      dplyr::select_at(
-        dplyr::vars(-tidyselect::one_of(stringr::str_c(colnames(.), "1")))
+  
+  if (progress && !parallel) pb = dplyr::progress_estimated(nrow(pars))
+  
+  soln = if (parallel) {
+    pars %>%
+      split(~ seq_len(nrow(.))) |>
+      furrr::future_map_dfr(
+        solve_for_photosynthesis_set, 
+        bake_par = bake_par,
+        constants = constants,
+        use_tealeaves = use_tealeaves,
+        use_legacy_version = use_legacy_version,
+        .progress = progress
       )
-  )
-
-  # Reassign units ----
-  soln_env = environment()
-  colnames(soln) %>%
-    glue::glue("units(soln${x}) = par_units${x}", x = .) %>%
-    parse(text = .) |>
-    eval(envir = soln_env)
-
-  soln |>
-    dplyr::select(tidyselect::ends_with("25")) |>
-    colnames() |>
-    stringr::str_remove("25$") %>%
-    glue::glue("units(soln${x}) = par_units${x}25", x = .) %>%
-    parse(text = .) %>%
-    eval(envir = soln_env)
-
-  soln$C_chl %<>% set_units(Pa)
-  soln$g_tc %<>% set_units(umol / m^2 / s / Pa)
-  soln$A %<>% set_units(umol / m^2 / s)
-
+  } else {
+    pars %>%
+      split(~ seq_len(nrow(.))) |>
+      purrr::map_dfr(~ {
+        ret = photosynthesis:::solve_for_photosynthesis_set(
+          pars = .x,
+          bake_par = bake_par,
+          constants = constants,
+          use_tealeaves = use_tealeaves,
+          use_legacy_version = use_legacy_version
+        )
+        if (progress) pb$tick()$print()
+        ret
+      })
+    }
+  
   soln
+  
+}
+
+solve_for_photosynthesis_set = function(
+    pars,
+    bake_par, 
+    constants, 
+    use_tealeaves,
+    use_legacy_version
+) {
+  
+  lx = intersect(
+    colnames(pars), 
+    parameter_names("leaf", use_tealeaves = use_tealeaves)
+  )
+  
+  ex = intersect(
+    colnames(pars),
+    parameter_names("enviro", use_tealeaves = use_tealeaves)
+  )
+  
+  # This would cause an error is element was list with multiple elements,
+  # but this structure shouldn't occur by this point
+  lp = as.list(pars)[lx] |>
+    lapply(function(.x) if (is.list(.x)) {.x[[1]]} else .x)
+  
+  ep = as.list(pars)[ex] |>
+    lapply(function(.x) if (is.list(.x)) {.x[[1]]} else .x)
+
+  photo(lp, ep, bake_par, constants, use_tealeaves, quiet = TRUE,
+        assert_units = FALSE, check = FALSE,
+        use_legacy_version = use_legacy_version)
   
 }
 
@@ -506,7 +355,7 @@ photo = function(
 
   # Calculate T_leaf using energy balance ----
   if (use_tealeaves) {
-    leaf_par %<>% photosynthesis:::add_Tleaf_photo(enviro_par, constants, prepare_for_tleaf)
+    leaf_par %<>% add_Tleaf_photo(enviro_par, constants, prepare_for_tleaf)
   }
   
   leaf_par %<>% bake(enviro_par, bake_par, constants, assert_units = FALSE)

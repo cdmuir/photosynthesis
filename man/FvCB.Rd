@@ -79,14 +79,14 @@ PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab umol quanta /
 }
 }
 \examples{
-bake_par <- make_bakepar()
-constants <- make_constants(use_tealeaves = FALSE)
-enviro_par <- make_enviropar(use_tealeaves = FALSE)
-leaf_par <- make_leafpar(use_tealeaves = FALSE)
-leaf_par <- bake(leaf_par, bake_par, constants)
+bake_par = make_bakepar()
+constants = make_constants(use_tealeaves = FALSE)
+enviro_par = make_enviropar(use_tealeaves = FALSE)
+leaf_par = make_leafpar(use_tealeaves = FALSE)
+leaf_par = bake(leaf_par, bake_par, constants)
 
-pars <- c(leaf_par, enviro_par, constants)
-C_chl <- set_units(24.28, "Pa")
+pars = c(leaf_par, enviro_par, constants)
+C_chl = set_units(24.28, "Pa")
 FvCB(C_chl, pars)
 }
 \references{

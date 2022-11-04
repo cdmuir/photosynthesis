@@ -19,7 +19,7 @@ leaf_par = function(.x, use_tealeaves) {
   
   # Check parameters names ----
   nms = check_parameter_names(.x, which = which, use_tealeaves = use_tealeaves)
-  .x %<>% 
+  .x = .x |> 
     magrittr::extract(nms) |>
     # Set units ----
   set_parameter_units(

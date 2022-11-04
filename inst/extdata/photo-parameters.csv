@@ -4,7 +4,7 @@ symbol,R,description,units,default,type,temperature_response,tealeaves,lower,upp
 "D_{\mathrm{m},0}",D_m0,diffusion coefficient for momentum in air at 0 °C,m^2 / s,1.33e-5,constants,FALSE,FALSE,0,Inf,NA
 "D_{\mathrm{w},0}",D_w0,diffusion coefficient for water vapor in air at 0 °C,m^2 / s,2.12e-5,constants,FALSE,FALSE,0,Inf,NA
 "\epsilon",epsilon,ratio of water to air molar masses,none,0.622,constants,FALSE,FALSE,0,Inf,NA
-G,G,gravitational acceleration,m / s^2,9.8,constants,FALSE,FALSE,NA
+G,G,gravitational acceleration,m / s^2,9.8,constants,FALSE,FALSE,0,Inf,NA
 eT,eT,exponent for temperature dependence of diffusion,none,1.75,constants,FALSE,FALSE,0,Inf,NA
 R,R,ideal gas constant,J / mol / K,8.3144598,constants,FALSE,FALSE,0,Inf,NA
 "\sigma",sigma,Stephan-Boltzmann constant,W / m^2 / K^4,5.67e-08,constants,FALSE,FALSE,0,Inf,NA
@@ -34,7 +34,7 @@ R,R,ideal gas constant,J / mol / K,8.3144598,constants,FALSE,FALSE,0,Inf,NA
 "g_\mathrm{mc}",g_mc,mesophyll conductance to CO2 (T_leaf),mol / m^2 / s,NA,leaf,TRUE,FALSE,0,Inf,NA
 "g_\mathrm{mc,25}",g_mc25,mesophyll conductance to CO2 (25 °C),mol / m^2 / s,0.4,leaf,FALSE,FALSE,0,Inf,NA
 "g_\mathrm{sc}",g_sc,stomatal conductance to CO2,mol / m^2 / s,0.4,leaf,FALSE,FALSE,0,Inf,NA
-"g_\mathrm{uc}",g_uc,cuticular conductance to CO2,mol / m^2 / s,0.1,leaf,FALSE,FALSE,0,Inf,NA
+"g_\mathrm{uc}",g_uc,cuticular conductance to CO2,mol / m^2 / s,0.01,leaf,FALSE,FALSE,0,Inf,NA
 "J_\mathrm{max,25}",J_max25,potential electron transport (25 °C),umol / m^2 / s,200,leaf,FALSE,FALSE,0,Inf,NA
 "J_\mathrm{max}",J_max,potential electron transport (T_leaf),umol / m^2 / s,NA,leaf,TRUE,FALSE,0,Inf,NA
 "k_\mathrm{mc}",k_mc,partition of g_mc to lower mesophyll,none,1,leaf,FALSE,FALSE,0,Inf,NA

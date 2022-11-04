@@ -329,10 +329,11 @@ set_parameter_units = function(.x, ...) {
     dplyr::mutate(units = stringr::str_replace(units, "none", "1")) |>
     split(~ R) |>
     purrr::map(function(.y) {
-      if (is.function(.x[[.y$R]])) {
-        .x[[.y$R]]
+      v = .x[[.y$R]]
+      if (is.function(v)) {
+        v
       } else {
-        a = ifelse(is.null(.x[[.y$R]]), 0, .x[[.y$R]])
+        a = if (is.null(v)) {0} else {v}
         units(a) = as_units(.y$units)
         a
       }

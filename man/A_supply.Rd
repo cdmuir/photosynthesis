@@ -16,7 +16,7 @@ A_demand(C_chl, pars, unitless = FALSE)
 
 \item{unitless}{Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 
-\item{use_legacy_version}{Logical. Should legacy model (<2.1.0) be used? See \href[NEWS]{https://github.com/cdmuir/photosynthesis/blob/master/NEWS.md} for further information. Default is FALSE.}
+\item{use_legacy_version}{Logical. Should legacy model (<2.1.0) be used? See \href{https://github.com/cdmuir/photosynthesis/blob/master/NEWS.md}{NEWS} for further information. Default is FALSE.}
 }
 \value{
 Value in mol / (m^2 s) of class \code{units}

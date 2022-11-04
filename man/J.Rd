@@ -35,13 +35,13 @@ PPFD \tab \code{PPFD} \tab photosynthetic photon flux density \tab \eqn{\mu}mol 
 library(magrittr)
 library(photosynthesis)
 
-bake_par <- make_bakepar()
-constants <- make_constants(use_tealeaves = FALSE)
-enviro_par <- make_enviropar(use_tealeaves = FALSE)
-leaf_par <- make_leafpar(use_tealeaves = FALSE)
-enviro_par$T_air <- leaf_par$T_leaf
+bake_par = make_bakepar()
+constants = make_constants(use_tealeaves = FALSE)
+enviro_par = make_enviropar(use_tealeaves = FALSE)
+leaf_par = make_leafpar(use_tealeaves = FALSE)
+enviro_par$T_air = leaf_par$T_leaf
 leaf_par \%<>\% bake(bake_par, constants)
 
-pars <- c(leaf_par, enviro_par, constants)
+pars = c(leaf_par, enviro_par, constants)
 J(pars, FALSE)
 }

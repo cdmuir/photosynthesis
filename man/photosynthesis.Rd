@@ -54,7 +54,7 @@ photo(
 
 \item{parallel}{Logical. Should parallel processing be used via \code{\link[furrr]{future_map}}?}
 
-\item{use_legacy_version}{Logical. Should legacy model (<2.1.0) be used? See \href[NEWS]{https://github.com/cdmuir/photosynthesis/blob/master/NEWS.md} for further information. Default is FALSE.}
+\item{use_legacy_version}{Logical. Should legacy model (<2.1.0) be used? See \href{https://github.com/cdmuir/photosynthesis/blob/master/NEWS.md}{NEWS} for further information. Default is FALSE.}
 
 \item{prepare_for_tleaf}{Logical. Should arguments additional calculations for \code{\link[tealeaves:tleaves]{tleaf}}? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}}. Default is \code{use_tealeaves}.}
 }

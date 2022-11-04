@@ -7,7 +7,7 @@
 \alias{temp_resp2}
 \title{Leaf parameter temperature responses}
 \usage{
-bake(leaf_par, bake_par, constants, assert_units = TRUE)
+bake(leaf_par, enviro_par, bake_par, constants, assert_units = TRUE)
 
 temp_resp1(par25, E_a, R, T_leaf, T_ref, unitless)
 
@@ -15,6 +15,8 @@ temp_resp2(par25, D_s, E_a, E_d, R, T_leaf, T_ref, unitless)
 }
 \arguments{
 \item{leaf_par}{A list of leaf parameters inheriting class \code{leaf_par}. This can be generated using the \code{make_leafpar} function.}
+
+\item{enviro_par}{A list of environmental parameters inheriting class \code{enviro_par}. This can be generated using the \code{make_enviropar} function.}
 
 \item{bake_par}{A list of temperature response parameters inheriting class \code{bake_par}. This can be generated using the \code{make_bakepar} function.}
 
@@ -78,11 +80,12 @@ Function 1 increases exponentially with temperature; Function 2 peaks a particul
 \examples{
 bake_par = make_bakepar()
 constants = make_constants(use_tealeaves = FALSE)
+enviro_par = make_enviro(use_tealeaves = FALSE)
 leaf_par = make_leafpar(
   replace = list(T_leaf = set_units(293.15, K)),
   use_tealeaves = FALSE
 )
-baked_leafpar = bake(leaf_par, bake_par, constants)
+baked_leafpar = bake(leaf_par, enviro_par, bake_par, constants)
 
 baked_leafpar$V_cmax25
 baked_leafpar$V_cmax

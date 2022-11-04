@@ -16,14 +16,15 @@ bake_par = function(.x) {
   
   # Check parameters names ----
   nms = check_parameter_names(.x, which = which, use_tealeaves = FALSE)
-  .x %<>% magrittr::extract(nms)
+  .x = .x[nms]
   
   # Set units ----
-  .x %<>% set_parameter_units(
-    type == which, 
-    !temperature_response,
-    !tealeaves
-   )
+  .x = .x |>
+    set_parameter_units(
+      type == which, 
+      !temperature_response,
+      !tealeaves
+    )
   
   # Assert bounds on values ----
   .x |>

@@ -52,7 +52,8 @@ make_constants
    \eqn{eT} \tab \code{eT} \tab exponent for temperature dependence of diffusion \tab none \tab 1.75 \cr
    \eqn{R} \tab \code{R} \tab ideal gas constant \tab J / mol / K \tab 8.31 \cr
    \eqn{\sigma} \tab \code{sigma} \tab Stephan-Boltzmann constant \tab W / m\eqn{^2} / K\eqn{^4} \tab \eqn{5.67\times 10^{-8}} \cr
-   \eqn{\mathrm{Sh}} \tab \code{Sh} \tab Sherwood number \tab none \tab NA \cr
+   \eqn{f_\mathrm{Sh}} \tab \code{f_sh} \tab function to calculate constant(s) for Sherwood number \tab none \tab NA \cr
+   \eqn{f_\mathrm{Nu}} \tab \code{f_nu} \tab function to calculate constant(s) for Nusselt number \tab none \tab NA \cr
 }
 
 
@@ -67,6 +68,7 @@ make_constants
    \eqn{E_\mathrm{a,KO}} \tab \code{Ea_KO} \tab empirical temperature response parameter \tab J / mol \tab 23700 \cr
    \eqn{E_\mathrm{a,Rd}} \tab \code{Ea_Rd} \tab empirical temperature response parameter \tab J / mol \tab 40400 \cr
    \eqn{E_\mathrm{a,Vcmax}} \tab \code{Ea_Vcmax} \tab empirical temperature response parameter \tab J / mol \tab 52200 \cr
+   \eqn{E_\mathrm{a,Vtpu}} \tab \code{Ea_Vtpu} \tab empirical temperature response parameter \tab J / mol \tab 52200 \cr
    \eqn{E_\mathrm{d,gmc}} \tab \code{Ed_gmc} \tab empirical temperature response parameter \tab J / mol \tab 149000 \cr
    \eqn{E_\mathrm{d,Jmax}} \tab \code{Ed_Jmax} \tab empirical temperature response parameter \tab J / mol \tab 121000 \cr
 }
@@ -74,8 +76,8 @@ make_constants
 
 \bold{Environment parameters:}\tabular{lllll}{
    Symbol \tab R \tab Description \tab Units \tab Default \cr
-   \eqn{C_\mathrm{air}} \tab \code{C_air} \tab atmospheric CO2 concentration \tab Pa \tab 41 \cr
-   \eqn{O} \tab \code{O} \tab atmospheric O2 concentration \tab kPa \tab 21.3 \cr
+   \eqn{C_\mathrm{air}} \tab \code{C_air} \tab atmospheric CO2 concentration \tab umol/mol \tab 420 \cr
+   \eqn{O} \tab \code{O} \tab atmospheric O2 concentration \tab mol/mol \tab 0.21 \cr
    \eqn{P} \tab \code{P} \tab atmospheric pressure \tab kPa \tab 101 \cr
    \eqn{\mathrm{PPFD}} \tab \code{PPFD} \tab photosynthetic photon flux density \tab umol / m\eqn{^2} / s \tab 1500 \cr
    \eqn{\mathrm{RH}} \tab \code{RH} \tab relative humidity \tab none \tab 0.5 \cr
@@ -86,12 +88,12 @@ make_constants
 \bold{Leaf parameters:}\tabular{lllll}{
    Symbol \tab R \tab Description \tab Units \tab Default \cr
    \eqn{d} \tab \code{leafsize} \tab leaf characteristic dimension \tab m \tab 0.1 \cr
-   \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point (T_leaf) \tab Pa \tab NA \cr
-   \eqn{\Gamma*_{25}} \tab \code{gamma_star25} \tab chloroplastic CO2 compensation point (25 °C) \tab Pa \tab 3.74 \cr
+   \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point (T_leaf) \tab umol/mol \tab NA \cr
+   \eqn{\Gamma*_{25}} \tab \code{gamma_star25} \tab chloroplastic CO2 compensation point (25 °C) \tab umol/mol \tab 37.9 \cr
    \eqn{g_\mathrm{mc}} \tab \code{g_mc} \tab mesophyll conductance to CO2 (T_leaf) \tab mol / m\eqn{^2} / s \tab NA \cr
-   \eqn{g_\mathrm{mc,25}} \tab \code{g_mc25} \tab mesophyll conductance to CO2 (25 °C) \tab mol / m\eqn{^2} / s) \tab 0.4 \cr
+   \eqn{g_\mathrm{mc,25}} \tab \code{g_mc25} \tab mesophyll conductance to CO2 (25 °C) \tab mol / m\eqn{^2} / s \tab 0.4 \cr
    \eqn{g_\mathrm{sc}} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab mol / m\eqn{^2} / s \tab 0.4 \cr
-   \eqn{g_\mathrm{uc}} \tab \code{g_uc} \tab cuticular conductance to CO2 \tab mol / m\eqn{^2} / s \tab 0.1 \cr
+   \eqn{g_\mathrm{uc}} \tab \code{g_uc} \tab cuticular conductance to CO2 \tab mol / m\eqn{^2} / s \tab 0.01 \cr
    \eqn{J_\mathrm{max,25}} \tab \code{J_max25} \tab potential electron transport (25 °C) \tab umol / m\eqn{^2} / s \tab 200 \cr
    \eqn{J_\mathrm{max}} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab umol / m\eqn{^2} / s \tab NA \cr
    \eqn{k_\mathrm{mc}} \tab \code{k_mc} \tab partition of g_mc to lower mesophyll \tab none \tab 1 \cr
@@ -118,7 +120,7 @@ If \code{use_tealeaves = TRUE}, additional parameters are:
 \bold{Constants:}\tabular{lllll}{
    Symbol \tab R \tab Description \tab Units \tab Default \cr
    \eqn{c_p} \tab \code{c_p} \tab heat capacity of air \tab J / g / K \tab 1.01 \cr
-   \eqn{R_\mathrm{air}} \tab \code{R_air} \tab specific gas constant for dry air \tab J / kg / K) \tab 287 \cr
+   \eqn{R_\mathrm{air}} \tab \code{R_air} \tab specific gas constant for dry air \tab J / kg / K \tab 287 \cr
 }
 
 
@@ -133,6 +135,7 @@ If \code{use_tealeaves = TRUE}, additional parameters are:
    \eqn{f_\mathrm{PAR}} \tab \code{f_par} \tab fraction of incoming shortwave radiation that is photosynthetically active radiation (PAR) \tab none \tab 0.5 \cr
    \eqn{r} \tab \code{r} \tab reflectance for shortwave irradiance (albedo) \tab none \tab 0.2 \cr
    \eqn{T_\mathrm{air}} \tab \code{T_air} \tab air temperature \tab K \tab 298 \cr
+   \eqn{T_\mathrm{sky}} \tab \code{T_sky} \tab sky temperature \tab K \tab NA \cr
 }
 
 
@@ -140,8 +143,8 @@ If \code{use_tealeaves = TRUE}, additional parameters are:
    Symbol \tab R \tab Description \tab Units \tab Default \cr
    \eqn{\alpha_\mathrm{l}} \tab \code{abs_l} \tab absorbtivity of longwave radiation (4 - 80 um) \tab none \tab 0.97 \cr
    \eqn{\alpha_\mathrm{s}} \tab \code{abs_s} \tab absorbtivity of shortwave radiation (0.3 - 4 um) \tab none \tab 0.5 \cr
-   \eqn{g_\mathrm{sw}} \tab \code{g_sw} \tab stomatal conductance to H2O \tab umol / m\eqn{^2} / s \tab NA \cr
-   \eqn{g_\mathrm{uw}} \tab \code{g_uw} \tab cuticular conductance to H2O \tab umol / m\eqn{^2} / s \tab NA \cr
+   \eqn{g_\mathrm{sw}} \tab \code{g_sw} \tab stomatal conductance to H2O \tab mol / m\eqn{^2} / s \tab NA \cr
+   \eqn{g_\mathrm{uw}} \tab \code{g_uw} \tab cuticular conductance to H2O \tab mol / m\eqn{^2} / s \tab NA \cr
    \eqn{\mathrm{logit}(sr)} \tab \code{logit_sr} \tab stomatal ratio (logit transformed) \tab none \tab NA \cr
 }
 
@@ -153,7 +156,8 @@ If \code{use_tealeaves = TRUE}, additional parameters are:
    \eqn{A_\mathrm{mes} / A} \tab \code{A_mes_A} \tab mesophyll surface area per unit leaf area \tab none \tab NA \cr
    \eqn{g_\mathrm{liq,c,25}} \tab \code{g_liqc25} \tab liquid-phase conductance to CO2 (25 °C) \tab mol / m\eqn{^2} / s \tab NA \cr
    \eqn{g_\mathrm{liq,c}} \tab \code{g_liqc} \tab liquid-phase conductance to CO2 (T_leaf) \tab mol / m\eqn{^2} / s \tab NA \cr
-   \eqn{g_\mathrm{ias,c}} \tab \code{g_iasc} \tab internal airspace conductance to CO2 (T_leaf) \tab mol / m\eqn{^2} / s \tab NA \cr
+   \eqn{g_\mathrm{ias,c,lower}} \tab \code{g_iasc_lower} \tab internal airspace conductance to CO2 in lower part of leaf (T_leaf) \tab mol / m\eqn{^2} / s \tab NA \cr
+   \eqn{g_\mathrm{ias,c,upper}} \tab \code{g_iasc_upper} \tab internal airspace conductance to CO2 in upper part of leaf (T_leaf) \tab mol / m\eqn{^2} / s \tab NA \cr
 }
 
 

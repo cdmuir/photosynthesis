@@ -98,7 +98,7 @@ bake = function(
     )
   }
   
-  if (length(leaf_par$g_iasc_lower) != 0 & length(leaf_par$g_iasc_upper) != 0) {
+  if (length(leaf_par$delta_ias_lower) != 0 & length(leaf_par$delta_ias_upper) != 0) {
     D_c = tealeaves:::.get_Dx(pars$D_c0, pars$T_leaf, pars$eT, pars$P,
                               unitless = TRUE)
     leaf_par$g_iasc_lower = 1e9 * D_c / pars$delta_ias_lower * 
@@ -107,7 +107,7 @@ bake = function(
       pars$P / (pars$R * pars$T_leaf)
   }
   
-  if (length(pars$g_lmc25) != 0) {
+  if (length(pars$g_mc25) != 0) {
     leaf_par$g_mc = temp_resp2(
       pars$g_mc25, pars$Ds_gmc, pars$Ea_gmc, pars$Ed_gmc, pars$R, pars$T_leaf, 
       T_ref, unitless = TRUE
@@ -144,7 +144,7 @@ bake = function(
   )
   
   # Set units ----
-  leaf_par %<>% set_parameter_units(type == "leaf", !tealeaves)
+  leaf_par = set_parameter_units(leaf_par, R %in% names(leaf_par))
 
   # Assert bounds on values ----
   # If !assert_units, no assertion is performed

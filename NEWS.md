@@ -1,5 +1,6 @@
 # photosynthesis (development version)
 
+* Under the hood, many changes to `photosynthesis()`, but performance should be the same
 * Changed default `C_air` from 41 Pa to 420 umol/mol
 * Changed default `O` from 21.27565 kPa to 0.21 mol/mol
 * Added optional feature to calculate mesophyll conductance to CO2 (g_mc) as sum of internal airspace (`g_iasc`) and liquid-phase (`g_liqc`) conductances.
