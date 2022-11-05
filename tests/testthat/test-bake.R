@@ -8,7 +8,7 @@ test_that("baked parameters do not equal unbaked unless Temp = 25", {
   lp = make_leafpar(use_tealeaves = FALSE)
 
   lp$T_leaf = set_units(298.15, K)
-  blp = bake(lp, bp, cs)
+  blp = bake(lp, ep, bp, cs)
 
   blp %>%
     purrr::keep(~ length(.x) > 0) |>
@@ -22,7 +22,7 @@ test_that("baked parameters do not equal unbaked unless Temp = 25", {
     expect_true()
 
   lp$T_leaf = set_units(305, "K")
-  blp = bake(lp, bp, cs)
+  blp = bake(lp, ep, bp, cs)
 
   blp |>
     purrr::keep(~ length(.x) > 0) |>

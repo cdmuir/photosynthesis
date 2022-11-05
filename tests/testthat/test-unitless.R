@@ -13,7 +13,7 @@ test_that("unitless values match unit-ed values", {
     g_mc25 = set_units(runif(1), mol/m^2/s),
     g_sc = set_units(runif(1), mol/m^2/s),
     g_uc = set_units(runif(1), mol/m^2/s),
-    gamma_star25 = set_units(runif(1, 30, 50), "Pa"),
+    gamma_star25 = set_units(runif(1, 30, 50), umol/mol),
     J_max25 = set_units(runif(1, 50, 200), umol/m^2/s),
     K_C25 = set_units(268.3, umol/mol),
     K_O25 = set_units(165084.2, umol/mol),
@@ -50,7 +50,7 @@ test_that("unitless values match unit-ed values", {
   lp2 %<>% bake(ep2, bp2, cs2, assert_units = FALSE)
 
   purrr::map2(lp1, lp2[names(lp1)], function(.x, .y) {
-    dplyr::near(drop_units(.x), .y)
+    dplyr::near(drop_units(.x), drop_units(.y))
   }) %>%
     purrr::map(expect_true)
   
@@ -62,16 +62,16 @@ test_that("unitless values match unit-ed values", {
   Ad2 = A_demand(drop_units(C_chl), pars2, unitless = TRUE)
   expect_equal(drop_units(Ad1), Ad2)
 
-  As1 = A_supply(C_chl, pars1, unitless = FALSE)
-  As2 = A_supply(drop_units(C_chl), pars2, unitless = TRUE)
+  As1 = A_supply(C_chl, pars1, unitless = FALSE, use_legacy_version = FALSE)
+  As2 = A_supply(drop_units(C_chl), pars2, unitless = TRUE, use_legacy_version = FALSE)
   expect_equal(drop_units(As1), As2)
 
-  gbc1 = drop_units(.get_gbc(pars1, "lower", unitless = FALSE))
-  gbc2 = .get_gbc(pars2, "lower", unitless = TRUE)
+  gbc1 = drop_units(.get_gbc(pars1, "lower", unitless = FALSE, use_legacy_version = FALSE))
+  gbc2 = .get_gbc(pars2, "lower", unitless = TRUE, use_legacy_version = FALSE)
   expect_equal(gbc1, gbc2)
 
-  gbc3 = drop_units(.get_gbc(pars1, "upper", unitless = FALSE))
-  gbc4 = .get_gbc(pars2, "upper", unitless = TRUE)
+  gbc3 = drop_units(.get_gbc(pars1, "upper", unitless = FALSE, use_legacy_version = FALSE))
+  gbc4 = .get_gbc(pars2, "upper", unitless = TRUE, use_legacy_version = FALSE)
   expect_equal(gbc3, gbc4)
 
   gmc1 = drop_units(.get_gmc(pars1, "lower", unitless = FALSE))
@@ -90,12 +90,12 @@ test_that("unitless values match unit-ed values", {
   gsc4 = .get_gsc(pars2, "upper", unitless = TRUE)
   expect_equal(gsc3, gsc4)
 
-  gtc1 = drop_units(.get_gtc(pars1, unitless = FALSE))
-  gtc2 = .get_gtc(pars2, unitless = TRUE)
+  gtc1 = drop_units(.get_gtc(pars1, unitless = FALSE, use_legacy_version = FALSE))
+  gtc2 = .get_gtc(pars2, unitless = TRUE, use_legacy_version = FALSE)
   expect_equal(gtc1, gtc2)
 
-  gtc3 = drop_units(.get_gtc(pars1, unitless = FALSE))
-  gtc4 = .get_gtc(pars2, unitless = TRUE)
+  gtc3 = drop_units(.get_gtc(pars1, unitless = FALSE, use_legacy_version = FALSE))
+  gtc4 = .get_gtc(pars2, unitless = TRUE, use_legacy_version = FALSE)
   expect_equal(gtc3, gtc4)
 
   guc1 = drop_units(.get_guc(pars1, "lower", unitless = FALSE))

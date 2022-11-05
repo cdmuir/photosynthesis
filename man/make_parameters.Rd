@@ -159,13 +159,6 @@ If \code{use_tealeaves = TRUE}, additional parameters are:
    \eqn{g_\mathrm{ias,c,lower}} \tab \code{g_iasc_lower} \tab internal airspace conductance to CO2 in lower part of leaf (T_leaf) \tab mol / m\eqn{^2} / s \tab NA \cr
    \eqn{g_\mathrm{ias,c,upper}} \tab \code{g_iasc_upper} \tab internal airspace conductance to CO2 in upper part of leaf (T_leaf) \tab mol / m\eqn{^2} / s \tab NA \cr
 }
-
-
-\bold{stuff in original I might want to emulate:}
-\tabular{lllll}{
-\eqn{Sh} \tab \code{Sh} \tab Sherwood number \tab none \tab \link[=.get_sh]{calculated} \cr
-\eqn{R_\mathrm{d}}{R_d} \tab \code{R_d} \tab nonphotorespiratory CO2 release (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated}
-}
 }
 \examples{
 bake_par = make_bakepar()
@@ -175,8 +168,8 @@ leaf_par = make_leafpar(use_tealeaves = FALSE)
 
 leaf_par = make_leafpar(
   replace = list(
-    g_sc = set_units(0.3, "umol/m^2/s"),
-    V_cmax25 = set_units(100, "umol/m^2/s")
+    g_sc = set_units(0.3, mol / m^2 / s),
+    V_cmax25 = set_units(100, umol / m^2 / s)
   ), use_tealeaves = FALSE
 )
 }

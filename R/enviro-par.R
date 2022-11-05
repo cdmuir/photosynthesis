@@ -20,17 +20,17 @@ enviro_par = function(.x, use_tealeaves) {
     magrittr::extract(nms) |>
     # Set units ----
   set_parameter_units(
-    type == which, 
-    !temperature_response,
-    if (!use_tealeaves) {!tealeaves} else TRUE
+    .data$type == which, 
+    !.data$temperature_response,
+    if (!use_tealeaves) {!.data$tealeaves} else TRUE
   )
   
   # Assert bounds on values ----
   .x |>
     assert_parameter_bounds(
-      type == which, 
-      !temperature_response,
-      if (!use_tealeaves) {!tealeaves} else TRUE
+      .data$type == which, 
+      !.data$temperature_response,
+      if (!use_tealeaves) {!.data$tealeaves} else TRUE
     )
   
   # Notify about T_sky ----

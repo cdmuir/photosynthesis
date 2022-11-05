@@ -21,7 +21,7 @@ make_anypar = function(which, replace, use_tealeaves) {
   message_experimental(replace)
   
   # Defaults -----
-  obj = photosynthesis:::make_default_parameter_list(
+  obj = make_default_parameter_list(
     which = which,
     use_tealeaves = use_tealeaves
   )
@@ -80,8 +80,8 @@ make_anypar = function(which, replace, use_tealeaves) {
     
     # Some equivalencies require additional parameters. Therefore leaving
     # those parameter values empty
-    tl_placeholders = photo_parameters |>
-      dplyr::filter(R %in% par_equiv$tl) |>
+    tl_placeholders = photosynthesis::photo_parameters |>
+      dplyr::filter(.data$R %in% par_equiv$tl) |>
       dplyr::mutate(units = stringr::str_replace(units, "none", "1")) |>
       split(~ R) |>
       purrr::map(function(.y) {
@@ -189,12 +189,7 @@ make_anypar = function(which, replace, use_tealeaves) {
 #' ```{r, echo=FALSE}
 #'  make_photo_parameter_table(type == "leaf", note == "optional")
 #' ```
-#' 
-#' \bold{stuff in original I might want to emulate:}
-#' \tabular{lllll}{
-#' \eqn{Sh} \tab \code{Sh} \tab Sherwood number \tab none \tab \link[=.get_sh]{calculated} \cr
-#' \eqn{R_\mathrm{d}}{R_d} \tab \code{R_d} \tab nonphotorespiratory CO2 release (T_leaf) \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab \link[=bake]{calculated}
-#' }
+#'
 #' @references
 #'
 #' Buckley TN and Diaz-Espejo A. 2015. Partitioning changes in photosynthetic
@@ -209,8 +204,8 @@ make_anypar = function(which, replace, use_tealeaves) {
 #'
 #' leaf_par = make_leafpar(
 #'   replace = list(
-#'     g_sc = set_units(0.3, "umol/m^2/s"),
-#'     V_cmax25 = set_units(100, "umol/m^2/s")
+#'     g_sc = set_units(0.3, mol / m^2 / s),
+#'     V_cmax25 = set_units(100, umol / m^2 / s)
 #'   ), use_tealeaves = FALSE
 #' )
 #' @export
@@ -266,11 +261,11 @@ make_default_parameter_list = function(which, use_tealeaves) {
   which = which |>
     match.arg(get_par_types())
   
-  default_parameter_list = photo_parameters |>
+  default_parameter_list = photosynthesis::photo_parameters |>
     dplyr::filter(
-      type == which, 
-      !temperature_response,
-      if (!use_tealeaves) {!tealeaves} else TRUE,
+      .data$type == which, 
+      !.data$temperature_response,
+      if (!use_tealeaves) {!.data$tealeaves} else TRUE,
     ) |>
     dplyr::mutate(units = stringr::str_replace(units, "none", "1")) |>
     split(~ R) |>
@@ -324,7 +319,7 @@ check_parameter_names = function(.x, which, use_tealeaves) {
 
 set_parameter_units = function(.x, ...) {
   
-  photo_parameters |>
+  photosynthesis::photo_parameters |>
     dplyr::filter(...) |>
     dplyr::mutate(units = stringr::str_replace(units, "none", "1")) |>
     split(~ R) |>
@@ -347,7 +342,7 @@ set_parameter_units = function(.x, ...) {
 #' @noRd
 assert_parameter_bounds = function(.x, ...) {
   
-  photo_parameters |>
+  photosynthesis::photo_parameters |>
     dplyr::filter(...) |>
     dplyr::mutate(units = stringr::str_replace(units, "none", "1")) |>
     split(~ R) |>

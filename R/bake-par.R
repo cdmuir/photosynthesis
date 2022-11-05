@@ -21,17 +21,17 @@ bake_par = function(.x) {
   # Set units ----
   .x = .x |>
     set_parameter_units(
-      type == which, 
-      !temperature_response,
-      !tealeaves
+      .data$type == which, 
+      !.data$temperature_response,
+      !.data$tealeaves
     )
   
   # Assert bounds on values ----
   .x |>
     assert_parameter_bounds(
-      type == which, 
-      !temperature_response,
-      !tealeaves
+      .data$type == which, 
+      !.data$temperature_response,
+      !.data$tealeaves
     )
   
   structure(.x, class = c(stringr::str_c(which, "_par"), "list"))

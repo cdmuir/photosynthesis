@@ -80,7 +80,7 @@ Function 1 increases exponentially with temperature; Function 2 peaks a particul
 \examples{
 bake_par = make_bakepar()
 constants = make_constants(use_tealeaves = FALSE)
-enviro_par = make_enviro(use_tealeaves = FALSE)
+enviro_par = make_enviropar(use_tealeaves = FALSE)
 leaf_par = make_leafpar(
   replace = list(T_leaf = set_units(293.15, K)),
   use_tealeaves = FALSE

@@ -83,10 +83,10 @@ bake_par = make_bakepar()
 constants = make_constants(use_tealeaves = FALSE)
 enviro_par = make_enviropar(use_tealeaves = FALSE)
 leaf_par = make_leafpar(use_tealeaves = FALSE)
-leaf_par = bake(leaf_par, bake_par, constants)
+leaf_par = bake(leaf_par, enviro_par, bake_par, constants)
 
 pars = c(leaf_par, enviro_par, constants)
-C_chl = set_units(24.28, "Pa")
+C_chl = set_units(246.0161, umol / mol)
 FvCB(C_chl, pars)
 }
 \references{

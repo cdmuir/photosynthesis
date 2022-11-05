@@ -61,54 +61,82 @@ photo(
 \value{
 A data.frame with the following \code{units} columns \cr
 
+\bold{Inputs:}\tabular{lllll}{
+   Symbol \tab R \tab Description \tab Units \tab Default \cr
+   \eqn{D_{\mathrm{c},0}} \tab \code{D_c0} \tab diffusion coefficient for CO2 in air at 0 °C \tab m\eqn{^2} / s \tab \eqn{1.29\times 10^{-5}} \cr
+   \eqn{D_{\mathrm{h},0}} \tab \code{D_h0} \tab diffusion coefficient for heat in air at 0 °C \tab m\eqn{^2} / s \tab \eqn{1.90\times 10^{-5}} \cr
+   \eqn{D_{\mathrm{m},0}} \tab \code{D_m0} \tab diffusion coefficient for momentum in air at 0 °C \tab m\eqn{^2} / s \tab \eqn{1.33\times 10^{-5}} \cr
+   \eqn{D_{\mathrm{w},0}} \tab \code{D_w0} \tab diffusion coefficient for water vapor in air at 0 °C \tab m\eqn{^2} / s \tab \eqn{2.12\times 10^{-5}} \cr
+   \eqn{\epsilon} \tab \code{epsilon} \tab ratio of water to air molar masses \tab none \tab 0.622 \cr
+   \eqn{G} \tab \code{G} \tab gravitational acceleration \tab m / s\eqn{^2} \tab 9.8 \cr
+   \eqn{eT} \tab \code{eT} \tab exponent for temperature dependence of diffusion \tab none \tab 1.75 \cr
+   \eqn{R} \tab \code{R} \tab ideal gas constant \tab J / mol / K \tab 8.31 \cr
+   \eqn{\sigma} \tab \code{sigma} \tab Stephan-Boltzmann constant \tab W / m\eqn{^2} / K\eqn{^4} \tab \eqn{5.67\times 10^{-8}} \cr
+   \eqn{f_\mathrm{Sh}} \tab \code{f_sh} \tab function to calculate constant(s) for Sherwood number \tab none \tab NA \cr
+   \eqn{f_\mathrm{Nu}} \tab \code{f_nu} \tab function to calculate constant(s) for Nusselt number \tab none \tab NA \cr
+   \eqn{D_\mathrm{s,gmc}} \tab \code{Ds_gmc} \tab empirical temperature response parameter \tab J / mol / K \tab 487 \cr
+   \eqn{D_\mathrm{s,Jmax}} \tab \code{Ds_Jmax} \tab empirical temperature response parameter \tab J / mol / K \tab 388 \cr
+   \eqn{E_\mathrm{a,\Gamma *}} \tab \code{Ea_gammastar} \tab empirical temperature response parameter \tab J / mol \tab 24500 \cr
+   \eqn{E_\mathrm{a,gmc}} \tab \code{Ea_gmc} \tab empirical temperature response parameter \tab J / mol \tab 68900 \cr
+   \eqn{E_\mathrm{a,Jmax}} \tab \code{Ea_Jmax} \tab empirical temperature response parameter \tab J / mol \tab 56100 \cr
+   \eqn{E_\mathrm{a,KC}} \tab \code{Ea_KC} \tab empirical temperature response parameter \tab J / mol \tab 81000 \cr
+   \eqn{E_\mathrm{a,KO}} \tab \code{Ea_KO} \tab empirical temperature response parameter \tab J / mol \tab 23700 \cr
+   \eqn{E_\mathrm{a,Rd}} \tab \code{Ea_Rd} \tab empirical temperature response parameter \tab J / mol \tab 40400 \cr
+   \eqn{E_\mathrm{a,Vcmax}} \tab \code{Ea_Vcmax} \tab empirical temperature response parameter \tab J / mol \tab 52200 \cr
+   \eqn{E_\mathrm{a,Vtpu}} \tab \code{Ea_Vtpu} \tab empirical temperature response parameter \tab J / mol \tab 52200 \cr
+   \eqn{E_\mathrm{d,gmc}} \tab \code{Ed_gmc} \tab empirical temperature response parameter \tab J / mol \tab 149000 \cr
+   \eqn{E_\mathrm{d,Jmax}} \tab \code{Ed_Jmax} \tab empirical temperature response parameter \tab J / mol \tab 121000 \cr
+   \eqn{C_\mathrm{air}} \tab \code{C_air} \tab atmospheric CO2 concentration \tab umol/mol \tab 420 \cr
+   \eqn{O} \tab \code{O} \tab atmospheric O2 concentration \tab mol/mol \tab 0.21 \cr
+   \eqn{P} \tab \code{P} \tab atmospheric pressure \tab kPa \tab 101 \cr
+   \eqn{\mathrm{PPFD}} \tab \code{PPFD} \tab photosynthetic photon flux density \tab umol / m\eqn{^2} / s \tab 1500 \cr
+   \eqn{\mathrm{RH}} \tab \code{RH} \tab relative humidity \tab none \tab 0.5 \cr
+   \eqn{u} \tab \code{wind} \tab windspeed \tab m / s \tab 2 \cr
+   \eqn{d} \tab \code{leafsize} \tab leaf characteristic dimension \tab m \tab 0.1 \cr
+   \eqn{\Gamma*_{25}} \tab \code{gamma_star25} \tab chloroplastic CO2 compensation point (25 °C) \tab umol/mol \tab 37.9 \cr
+   \eqn{g_\mathrm{mc,25}} \tab \code{g_mc25} \tab mesophyll conductance to CO2 (25 °C) \tab mol / m\eqn{^2} / s \tab 0.4 \cr
+   \eqn{g_\mathrm{sc}} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab mol / m\eqn{^2} / s \tab 0.4 \cr
+   \eqn{g_\mathrm{uc}} \tab \code{g_uc} \tab cuticular conductance to CO2 \tab mol / m\eqn{^2} / s \tab 0.01 \cr
+   \eqn{J_\mathrm{max,25}} \tab \code{J_max25} \tab potential electron transport (25 °C) \tab umol / m\eqn{^2} / s \tab 200 \cr
+   \eqn{k_\mathrm{mc}} \tab \code{k_mc} \tab partition of g_mc to lower mesophyll \tab none \tab 1 \cr
+   \eqn{k_\mathrm{sc}} \tab \code{k_sc} \tab partition of g_sc to lower surface \tab none \tab 1 \cr
+   \eqn{k_\mathrm{uc}} \tab \code{k_uc} \tab partition of g_uc to lower surface \tab none \tab 1 \cr
+   \eqn{K_\mathrm{C,25}} \tab \code{K_C25} \tab Michaelis constant for carboxylation (25 °C) \tab umol / mol \tab 268 \cr
+   \eqn{K_\mathrm{O,25}} \tab \code{K_O25} \tab Michaelis constant for oxygenation (25 °C) \tab umol / mol \tab 165000 \cr
+   \eqn{\phi_J} \tab \code{phi_J} \tab initial slope of the response of J to PPFD \tab none \tab 0.331 \cr
+   \eqn{R_\mathrm{d,25}} \tab \code{R_d25} \tab nonphotorespiratory CO2 release (25 °C) \tab umol / m\eqn{^2} / s \tab 2 \cr
+   \eqn{\theta_J} \tab \code{theta_J} \tab curvature factor for light-response curve \tab none \tab 0.825 \cr
+   \eqn{T_\mathrm{leaf}} \tab \code{T_leaf} \tab leaf temperature \tab K \tab 298 \cr
+   \eqn{V_\mathrm{c,max,25}} \tab \code{V_cmax25} \tab maximum rate of carboxylation (25 °C) \tab umol / m\eqn{^2} / s \tab 150 \cr
+   \eqn{V_\mathrm{tpu,25}} \tab \code{V_tpu25} \tab rate of triose phosphate utilization (25 °C) \tab umol / m\eqn{^2} / s \tab 200 \cr
+   \eqn{\delta_\mathrm{ias,lower}} \tab \code{delta_ias_lower} \tab effective distance through lower internal airspace \tab um \tab NA \cr
+   \eqn{\delta_\mathrm{ias,upper}} \tab \code{delta_ias_upper} \tab effective distance through upper internal airspace \tab um \tab NA \cr
+   \eqn{A_\mathrm{mes} / A} \tab \code{A_mes_A} \tab mesophyll surface area per unit leaf area \tab none \tab NA \cr
+   \eqn{g_\mathrm{liq,c,25}} \tab \code{g_liqc25} \tab liquid-phase conductance to CO2 (25 °C) \tab mol / m\eqn{^2} / s \tab NA \cr
+   \bold{Baked Inputs:} \tab  \tab  \tab  \tab  \cr
+   Symbol \tab R \tab Description \tab Units \tab Default \cr
+   :---------------------------- \tab :------------------- \tab :------------------------------------------------------------------- \tab :-------------------- \tab :------- \cr
+   \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point (T_leaf) \tab umol/mol \tab NA \cr
+   \eqn{g_\mathrm{mc}} \tab \code{g_mc} \tab mesophyll conductance to CO2 (T_leaf) \tab mol / m\eqn{^2} / s \tab NA \cr
+   \eqn{J_\mathrm{max}} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab umol / m\eqn{^2} / s \tab NA \cr
+   \eqn{K_\mathrm{C}} \tab \code{K_C} \tab Michaelis constant for carboxylation (T_leaf) \tab umol / mol \tab NA \cr
+   \eqn{K_\mathrm{O}} \tab \code{K_O} \tab Michaelis constant for oxygenation (T_leaf) \tab umol / mol \tab NA \cr
+   \eqn{R_\mathrm{d}} \tab \code{R_d} \tab nonphotorespiratory CO2 release (T_leaf) \tab umol / m\eqn{^2} / s \tab NA \cr
+   \eqn{V_\mathrm{c,max}} \tab \code{V_cmax} \tab maximum rate of carboxylation (T_leaf) \tab umol / m\eqn{^2} / s \tab NA \cr
+   \eqn{V_\mathrm{tpu}} \tab \code{V_tpu} \tab rate of triose phosphate utilisation (T_leaf) \tab umol / m\eqn{^2} / s \tab NA \cr
+   \eqn{g_\mathrm{liq,c}} \tab \code{g_liqc} \tab liquid-phase conductance to CO2 (T_leaf) \tab mol / m\eqn{^2} / s \tab NA \cr
+   \eqn{g_\mathrm{ias,c,lower}} \tab \code{g_iasc_lower} \tab internal airspace conductance to CO2 in lower part of leaf (T_leaf) \tab mol / m\eqn{^2} / s \tab NA \cr
+   \eqn{g_\mathrm{ias,c,upper}} \tab \code{g_iasc_upper} \tab internal airspace conductance to CO2 in upper part of leaf (T_leaf) \tab mol / m\eqn{^2} / s \tab NA \cr
+}
+
+
 \tabular{ll}{
 
-\bold{Input:} \tab \cr
-\cr
-\code{C_air} \tab atmospheric CO2 concentration (Pa) \cr
-\code{g_liqc25} \tab liquid-phase conductance to CO2 at 25 °C (mol / (m\eqn{^2} s)) \cr
-\code{g_mc25} \tab mesophyll conductance to CO2 at 25 °C (mol / (m\eqn{^2} s)) \cr
-\code{g_sc} \tab stomatal conductance to CO2 (mol / (m\eqn{^2} s)) \cr
-\code{g_uc} \tab cuticular conductance to CO2 (mol / (m\eqn{^2} s)) \cr
-\code{gamma_star25} \tab chloroplastic CO2 compensation point at 25 °C (Pa) \cr
-\code{J_max25} \tab potential electron transport at 25 °C (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \cr
-\code{K_C25} \tab Michaelis constant for carboxylation at 25 °C (\eqn{\mu}mol / mol) \cr
-\code{K_O25} \tab Michaelis constant for oxygenation at 25 °C (\eqn{\mu}mol / mol) \cr
-\code{k_mc} \tab partition of \eqn{g_\mathrm{mc}}{g_mc} to lower mesophyll (unitless) \cr
-\code{k_sc} \tab partition of \eqn{g_\mathrm{sc}}{g_sc} to lower surface (unitless) \cr
-\code{k_uc} \tab partition of \eqn{g_\mathrm{uc}}{g_uc} to lower surface (unitless) \cr
-\code{leafsize} \tab leaf characteristic dimension (m) \cr
-\code{O} \tab atmospheric O2 concentration (kPa) \cr
-\code{P} \tab atmospheric pressure (kPa) \cr
-\code{phi_J} \tab initial slope of the response of J to PPFD (unitless) \cr
-\code{PPFD} \tab photosynthetic photon flux density (umol quanta / (m\eqn{^2} s)) \cr
-\code{R_d25} \tab nonphotorespiratory CO2 release  at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-\code{RH} \tab relative humidity (unitless) \cr
-\code{theta_J} \tab curvature factor for light-response curve (unitless) \cr
-\code{T_air} \tab air temperature (K) \cr
-\code{T_leaf} \tab leaf temperature (K) \cr
-\code{V_cmax25} \tab maximum rate of carboxylation at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-\code{V_tpu25} \tab rate of triose phosphate utilization at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-\code{wind} \tab wind speed (m / s) \cr
-\cr
-\bold{Baked Input:} \tab \cr
-\cr
-\code{g_iasc} \tab internal airspace conductance to CO2 at \code{T_leaf} (mol / (m\eqn{^2} s)) \cr
-\code{g_liqc} \tab liquid-phase conductance to CO2 at \code{T_leaf} (mol / (m\eqn{^2} s)) \cr
-\code{g_mc} \tab mesophyll conductance to CO2 at \code{T_leaf} (mol / (m\eqn{^2} s)) \cr
-\code{gamma_star} \tab chloroplastic CO2 compensation point at \code{T_leaf} (Pa) \cr
-\code{J_max} \tab potential electron transport at \code{T_leaf} (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \cr
-\code{K_C} \tab Michaelis constant for carboxylation at \code{T_leaf} (\eqn{\mu}mol / mol) \cr
-\code{K_O} \tab Michaelis constant for oxygenation at \code{T_leaf}(\eqn{\mu}mol / mol) \cr
-\code{R_d} \tab nonphotorespiratory CO2 release at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-\code{V_cmax} \tab maximum rate of carboxylation at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-\code{V_tpu} \tab rate of triose phosphate utilisation at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-\cr
 \bold{Output:} \tab \cr
 \cr
 \code{A} \tab photosynthetic rate at \code{C_chl} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
 \code{C_chl} \tab chloroplastic CO2 concentration where \code{A_supply} intersects \code{A_demand} (Pa) \cr
-\code{g_tc} \tab total conductance to CO2 at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s Pa)) \cr
+\code{g_tc} \tab total conductance to CO2 at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
 \code{value} \tab \code{A_supply} - \code{A_demand} (\eqn{\mu}mol / (m\eqn{^2} s)) at \code{C_chl} \cr
 \code{convergence} \tab convergence code (0 = converged)
 }

@@ -69,16 +69,17 @@ scientize = function(x, .threshold = -1L, .digits = 2L, .format = "r") {
 #' @noRd
 make_photo_parameter_table = function(...) {
   
-  photo_parameters |>
+  photosynthesis::photo_parameters |>
     dplyr::filter(...) |>
     dplyr::mutate(
       Symbol = glue::glue("\\eqn{<symbol>}", .open = "<", .close = ">"),
       R = glue::glue("\\code{<R>}", .open = "<", .close = ">"),
       Units = stringr::str_replace_all(units, "([A-Za-z]+)\\^([0-9]+)",
                                        "\\1\\\\eqn{^\\2}"),
-      Default = scientize(default, .threshold = -2L, .format = "r")
+      Default = scientize(.data$default, .threshold = -2L, .format = "r")
     ) |>
-    dplyr::select(Symbol, R, Description = description, Units, Default) |>
+    dplyr::select(.data$Symbol, .data$R, Description = .data$description, 
+                  .data$Units, .data$Default) |>
     knitr::kable()
   
 }

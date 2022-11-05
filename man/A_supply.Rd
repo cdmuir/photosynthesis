@@ -5,7 +5,7 @@
 \alias{A_demand}
 \title{CO2 supply and demand function (mol / m^2 s)}
 \usage{
-A_supply(C_chl, pars, unitless = FALSE, use_legacy_version)
+A_supply(C_chl, pars, unitless = FALSE, use_legacy_version = FALSE)
 
 A_demand(C_chl, pars, unitless = FALSE)
 }
@@ -48,13 +48,13 @@ bake_par = make_bakepar()
 constants = make_constants(use_tealeaves = FALSE)
 enviro_par = make_enviropar(use_tealeaves = FALSE)
 leaf_par = make_leafpar(use_tealeaves = FALSE)
-leaf_par = bake(leaf_par, bake_par, constants)
+leaf_par = bake(leaf_par, enviro_par, bake_par, constants)
 # Or bake with piping (need library(magrittr))
-# leaf_par \%<>\% bake(bake_par, constants)
+# leaf_par \%<>\% bake(enviro_par, bake_par, constants)
 enviro_par$T_air = leaf_par$T_leaf
 
 pars = c(leaf_par, enviro_par, constants)
-C_chl = set_units(35, "Pa")
+C_chl = set_units(350, umol/mol)
 
 A_supply(C_chl, pars)
 

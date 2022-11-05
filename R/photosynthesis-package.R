@@ -11,7 +11,7 @@
 #' @importFrom methods is
 #' @importFrom rlang .data
 #' @importFrom stats optim plogis
-#' @importFrom units drop_units set_units
+#' @importFrom units as_units drop_units set_units
 NULL
 
 ## quiets concerns of R CMD check re: the .'s that appear in pipelines

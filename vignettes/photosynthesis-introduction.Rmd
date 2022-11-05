@@ -63,31 +63,31 @@ You can look at default parameters settings in the manual (run `?make_parameters
 # for all parameter names and proper units.
 
 # Temperature response parameters can be updated (but we won't do that here)
-bake_par <- make_bakepar()
+bake_par = make_bakepar()
 
 # Physical constants probably do not need to be replaced in most cases,
 # that's why we call them 'constants'!
-constants  <- make_constants(use_tealeaves = FALSE)
+constants  = make_constants(use_tealeaves = FALSE)
 
 # First, we'll change photosynthetic photon flux density to 1000 umol / (m^2 s)
-enviro_par <- make_enviropar(
+enviro_par = make_enviropar(
   replace = list(
     PPFD = set_units(1000, "umol/m^2/s")
     ), use_tealeaves = FALSE
   )
 
-# Next, we'll change stomatal conductance to 3 umol / (m^2 s Pa)
-leaf_par <- make_leafpar(
+# Next, we'll change stomatal conductance to 0.3 mol / m^2 / s.
+leaf_par = make_leafpar(
   replace = list(
-    g_sc = set_units(3, "umol/m^2/s/Pa")
+    g_sc = set_units(0.3, mol / m^2 / s)
     ), use_tealeaves = FALSE
   )
 
 photo <- photo(leaf_par, enviro_par, bake_par, constants, quiet = TRUE,
                use_tealeaves = FALSE)
 
-photo %>%
-  select(PPFD, C_chl, A) %>%
+photo |>
+  select(PPFD, C_chl, A) |>
   knitr::kable()
 
 ```
@@ -101,29 +101,29 @@ In the previous two examples, I used the `photo` function to solve for a single 
 # As before, use the `replace` argument to replace defaults, but this time we
 # enter multiple values
 
-bake_par <- make_bakepar()
-constants <- make_constants(use_tealeaves = FALSE)
+bake_par = make_bakepar()
+constants = make_constants(use_tealeaves = FALSE)
 
 # First, we'll change the PPFD to 1000 and 1500 umol / (m^2 s)
-enviro_par <- make_enviropar(
+enviro_par = make_enviropar(
   replace = list(
-    PPFD = set_units(c(1000, 1500), "umol/m^2/s")
+    PPFD = set_units(c(1000, 1500), umol / m^2 / s)
     ), use_tealeaves = FALSE
   )
 
-# Next, we'll change stomatal conductance to to 2 and 4 umol / (m^2 s Pa)
-leaf_par  <- make_leafpar(
+# Next, we'll change stomatal conductance to to 0.2 and 0.4 mol / m^2 / s
+leaf_par  = make_leafpar(
   replace = list(
-    g_sc = set_units(c(2, 4), "umol/m^2/s/Pa")
+    g_sc = set_units(c(0.2, 0.4), mol / m^2 / s)
     ), use_tealeaves = FALSE
   )
 
 # Now there should be 4 combinations (high and low g_sc crossed with high and low PPFD)
-ph <- photosynthesis(leaf_par, enviro_par, bake_par, constants, 
+ph = photosynthesis(leaf_par, enviro_par, bake_par, constants, 
                      use_tealeaves = FALSE, progress = FALSE, quiet = TRUE)
 
-ph %>% 
-  select(g_sc, PPFD, A) %>%
+ph |> 
+  select(g_sc, PPFD, A) |>
   knitr::kable()
 
 ```
@@ -141,18 +141,18 @@ plan("multisession") # Set up plan
 
 # We'll use the `replace` argument to enter multiple atmospheric CO2 concentrations
 
-bake_par <- make_bakepar()
-constants  <- make_constants(use_tealeaves = FALSE)
+bake_par = make_bakepar()
+constants  = make_constants(use_tealeaves = FALSE)
 
-enviro_par <- make_enviropar(
+enviro_par = make_enviropar(
   replace = list(
-    C_air = set_units(seq(1, 200, length.out = 20), "Pa")
+    C_air = set_units(seq(10, 2000, length.out = 20), umol / mol)
     ), use_tealeaves = FALSE
   )
 
-leaf_par  <- make_leafpar(use_tealeaves = FALSE)
+leaf_par  = make_leafpar(use_tealeaves = FALSE)
 
-ph <- photosynthesis(leaf_par, enviro_par, bake_par, constants, 
+ph = photosynthesis(leaf_par, enviro_par, bake_par, constants, 
                      use_tealeaves = FALSE, progress = FALSE, 
                      quiet = TRUE, parallel = TRUE)
 
@@ -163,7 +163,7 @@ library(ggplot2)
 ph %<>% mutate_if(~ is(.x, "units"), drop_units)
 ggplot(ph, aes(C_chl, A)) +
   geom_line(size = 2) +
-  xlab(expression(paste(C[chl], " [Pa]"))) +
+  xlab(expression(paste(C[chl], " [ppm]"))) +
   ylab(expression(paste("A [", mu, "mol ", m^-2~s^-1, "]"))) +
   theme_bw() +
   NULL
@@ -180,21 +180,21 @@ In experiments, leaf temperature can be kept close to air temperature, but in na
 
 # You will need to set use_tealeaves = TRUE when making parameters because additional parameters are needed for tealeaves.
 
-bake_par <- make_bakepar()
-constants  <- make_constants(use_tealeaves = TRUE)
+bake_par = make_bakepar()
+constants  = make_constants(use_tealeaves = TRUE)
 
-enviro_par <- make_enviropar(
+enviro_par = make_enviropar(
   replace = list(
     T_air = set_units(seq(288.15, 313.15, 1), K)
     ), use_tealeaves = TRUE
   )
 
-leaf_par <- make_leafpar(replace = list(
-    g_sc = set_units(c(2, 4), umol/m^2/s/Pa)
+leaf_par = make_leafpar(replace = list(
+    g_sc = set_units(c(0.2, 0.4), mol / m^2 / s)
     ), use_tealeaves = TRUE
   )
 
-ph <- photosynthesis(leaf_par, enviro_par, bake_par, constants, 
+ph = photosynthesis(leaf_par, enviro_par, bake_par, constants, 
                      use_tealeaves = TRUE, progress = FALSE, 
                    quiet = TRUE, parallel = TRUE)
 
@@ -204,7 +204,7 @@ library(ggplot2)
 ## Drop units for plotting
 ph %<>% 
   mutate_if(~ is(.x, "units"), drop_units) %>%
-  mutate(`g[s]` = ifelse(g_sc == 2, "low", "high"))
+  mutate(`g[s]` = ifelse(g_sc == 0.2, "low", "high"))
 
 ggplot(ph, aes(T_air, T_leaf, color = `g[s]`)) +
   geom_line(size = 2, lineend = "round") +

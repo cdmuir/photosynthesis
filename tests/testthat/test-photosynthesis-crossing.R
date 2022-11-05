@@ -21,10 +21,9 @@ test_that("photosynthesis output has correct dimensions when tealeaves = FALSE",
     progress = FALSE, 
     quiet = TRUE
   )
-  n = exp(sum(log(c(
-    sapply(bp, length), sapply(lp, length),
-    sapply(ep, length)
-  ))))
+  x = c(sapply(bp, length), sapply(lp, length), sapply(ep, length))
+  x = x[x != 0]
+  n = exp(sum(log(x)))
   expect_equal(nrow(ph), n)
 })
 
@@ -46,9 +45,8 @@ test_that("photosynthesis output has correct dimensions when tealeaves = TRUE", 
     lp, ep, bp, cs,
     use_tealeaves = TRUE, progress = FALSE, quiet = TRUE
   )
-  n = exp(sum(log(c(
-    sapply(bp, length), sapply(lp, length),
-    sapply(ep, length)
-  ))))
+  x = c(sapply(bp, length), sapply(lp, length), sapply(ep, length))
+  x = x[x != 0]
+  n = exp(sum(log(x)))
   expect_equal(nrow(ph), n)
 })

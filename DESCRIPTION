@@ -1,6 +1,6 @@
 Package: photosynthesis
 Version: 2.0.3.9000
-Date: 2022-11-03
+Date: 2022-11-04
 Title: Tools for Plant Ecophysiology & Modeling
 Authors@R: c(
     person("Joseph", "Stinziano", email = "josephstinziano@gmail.com", role = "aut", comment = c(ORCID = "0000-0002-7628-4201")),
@@ -31,14 +31,15 @@ Imports: checkmate (>= 2.0.0),
          stats (>= 4.0.0),
          stringr (>= 1.4.0),
          tealeaves (>= 1.0.5),
-         tidyselect (>= 1.0.0),
+         tibble (>= 3.0.0),
          utils (>= 4.0.0)
 Suggests: 
     future,
     testthat,
     knitr,
     rmarkdown,
-    tidyr
+    tidyr,
+    tidyselect
 Description: Contains modeling and analytical tools for plant ecophysiology.
     MODELING: Simulate C3 photosynthesis using the Farquhar, von Caemmerer,
     Berry (1980) <doi:10.1007/BF00386231> model as described in Buckley and

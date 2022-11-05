@@ -26,55 +26,23 @@
 #'
 #' @return
 #' A data.frame with the following \code{units} columns \cr
+#' 
+#' \bold{Inputs:}
+#' ```{r, echo=FALSE}
+#'  make_photo_parameter_table(!temperature_response, !tealeaves)
+#' ```
+#' \bold{Baked Inputs:} 
+#' ```{r, echo=FALSE}
+#'  make_photo_parameter_table(temperature_response, !tealeaves)
+#' ```
 #'
 #' \tabular{ll}{
 #'
-#' \bold{Input:} \tab \cr
-#' \cr
-#' \code{C_air} \tab atmospheric CO2 concentration (Pa) \cr
-#' \code{g_liqc25} \tab liquid-phase conductance to CO2 at 25 °C (mol / (m\eqn{^2} s)) \cr
-#' \code{g_mc25} \tab mesophyll conductance to CO2 at 25 °C (mol / (m\eqn{^2} s)) \cr
-#' \code{g_sc} \tab stomatal conductance to CO2 (mol / (m\eqn{^2} s)) \cr
-#' \code{g_uc} \tab cuticular conductance to CO2 (mol / (m\eqn{^2} s)) \cr
-#' \code{gamma_star25} \tab chloroplastic CO2 compensation point at 25 °C (Pa) \cr
-#' \code{J_max25} \tab potential electron transport at 25 °C (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \cr
-#' \code{K_C25} \tab Michaelis constant for carboxylation at 25 °C (\eqn{\mu}mol / mol) \cr
-#' \code{K_O25} \tab Michaelis constant for oxygenation at 25 °C (\eqn{\mu}mol / mol) \cr
-#' \code{k_mc} \tab partition of \eqn{g_\mathrm{mc}}{g_mc} to lower mesophyll (unitless) \cr
-#' \code{k_sc} \tab partition of \eqn{g_\mathrm{sc}}{g_sc} to lower surface (unitless) \cr
-#' \code{k_uc} \tab partition of \eqn{g_\mathrm{uc}}{g_uc} to lower surface (unitless) \cr
-#' \code{leafsize} \tab leaf characteristic dimension (m) \cr
-#' \code{O} \tab atmospheric O2 concentration (kPa) \cr
-#' \code{P} \tab atmospheric pressure (kPa) \cr
-#' \code{phi_J} \tab initial slope of the response of J to PPFD (unitless) \cr
-#' \code{PPFD} \tab photosynthetic photon flux density (umol quanta / (m\eqn{^2} s)) \cr
-#' \code{R_d25} \tab nonphotorespiratory CO2 release  at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-#' \code{RH} \tab relative humidity (unitless) \cr
-#' \code{theta_J} \tab curvature factor for light-response curve (unitless) \cr
-#' \code{T_air} \tab air temperature (K) \cr
-#' \code{T_leaf} \tab leaf temperature (K) \cr
-#' \code{V_cmax25} \tab maximum rate of carboxylation at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-#' \code{V_tpu25} \tab rate of triose phosphate utilization at 25 °C (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-#' \code{wind} \tab wind speed (m / s) \cr
-#' \cr
-#' \bold{Baked Input:} \tab \cr
-#' \cr
-#' \code{g_iasc} \tab internal airspace conductance to CO2 at \code{T_leaf} (mol / (m\eqn{^2} s)) \cr
-#' \code{g_liqc} \tab liquid-phase conductance to CO2 at \code{T_leaf} (mol / (m\eqn{^2} s)) \cr
-#' \code{g_mc} \tab mesophyll conductance to CO2 at \code{T_leaf} (mol / (m\eqn{^2} s)) \cr
-#' \code{gamma_star} \tab chloroplastic CO2 compensation point at \code{T_leaf} (Pa) \cr
-#' \code{J_max} \tab potential electron transport at \code{T_leaf} (\eqn{\mu}mol CO2) / (m\eqn{^2} s) \cr
-#' \code{K_C} \tab Michaelis constant for carboxylation at \code{T_leaf} (\eqn{\mu}mol / mol) \cr
-#' \code{K_O} \tab Michaelis constant for oxygenation at \code{T_leaf}(\eqn{\mu}mol / mol) \cr
-#' \code{R_d} \tab nonphotorespiratory CO2 release at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-#' \code{V_cmax} \tab maximum rate of carboxylation at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-#' \code{V_tpu} \tab rate of triose phosphate utilisation at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-#' \cr
 #' \bold{Output:} \tab \cr
 #' \cr
 #' \code{A} \tab photosynthetic rate at \code{C_chl} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
 #' \code{C_chl} \tab chloroplastic CO2 concentration where \code{A_supply} intersects \code{A_demand} (Pa) \cr
-#' \code{g_tc} \tab total conductance to CO2 at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s Pa)) \cr
+#' \code{g_tc} \tab total conductance to CO2 at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
 #' \code{value} \tab \code{A_supply} - \code{A_demand} (\eqn{\mu}mol / (m\eqn{^2} s)) at \code{C_chl} \cr
 #' \code{convergence} \tab convergence code (0 = converged)
 #' }
@@ -109,7 +77,7 @@
 #' @encoding UTF-8
 #'
 #' @export
-#'
+#' @md
 
 photosynthesis = function(
     leaf_par, 
@@ -164,15 +132,16 @@ photosynthesis = function(
   }
   
   # Make parameter sets ----
-  pars = photosynthesis:::make_parameter_sets(leaf_par, enviro_par, bake_par, constants)
+  pars = make_parameter_sets(leaf_par, enviro_par, bake_par, constants)
   
   # Solve ----
-  soln = photosynthesis:::solve_for_photosynthesis(
+  soln = solve_for_photosynthesis(
     pars,
     bake_par, 
     constants, 
     use_tealeaves,
     progress,
+    quiet,
     parallel,
     use_legacy_version
   )
@@ -182,6 +151,9 @@ photosynthesis = function(
   
 }
 
+#' Make parameter sets for \code{\link{photosynthesis}}
+#' @inheritParams photosynthesis
+#' @noRd
 make_parameter_sets = function(
     leaf_par, 
     enviro_par, 
@@ -201,7 +173,7 @@ make_parameter_sets = function(
   function_pars = apply(pars, 2, function(.x) any(sapply(.x, is.function)))
   function_par_cols = pars[, function_pars]
   pars = pars %>% 
-    set_parameter_units(R %in% colnames(.)[!function_pars]) |>
+    set_parameter_units(.data$R %in% colnames(.)[!function_pars]) |>
     tibble::as_tibble() |>
     dplyr::bind_cols(function_par_cols)
   
@@ -209,12 +181,16 @@ make_parameter_sets = function(
   
 }
 
+#' Solve for C_chl and A for each parameter set within \code{\link{photosynthesis}}
+#' @inheritParams photosynthesis
+#' @noRd
 solve_for_photosynthesis = function(
     pars,
     bake_par, 
     constants, 
     use_tealeaves,
     progress,
+    quiet,
     parallel,
     use_legacy_version
 ) {
@@ -244,7 +220,7 @@ solve_for_photosynthesis = function(
     pars %>%
       split(~ seq_len(nrow(.))) |>
       purrr::map_dfr(~ {
-        ret = photosynthesis:::solve_for_photosynthesis_set(
+        ret = solve_for_photosynthesis_set(
           pars = .x,
           bake_par = bake_par,
           constants = constants,
@@ -260,6 +236,9 @@ solve_for_photosynthesis = function(
   
 }
 
+#' Solve for C_chl and A for a single parameter set within \code{\link{photosynthesis}}
+#' @inheritParams photosynthesis
+#' @noRd
 solve_for_photosynthesis_set = function(
     pars,
     bake_par, 
@@ -401,6 +380,9 @@ photo = function(
   
 }
 
+#' Calculate leaf temperature using \code{\link[tealeaves]{tleaf}}
+#' @inheritParams photo
+#' @noRd
 add_Tleaf_photo = function(leaf_par, enviro_par, constants, prepare_for_tleaf) {
   
   leaf_par1 = leaf_par
@@ -457,8 +439,8 @@ add_Tleaf_photo = function(leaf_par, enviro_par, constants, prepare_for_tleaf) {
     set_units = TRUE
   ) %>% 
     dplyr::rename(
-      tealeaves_convergence = convergence,
-      tealeaves_value = value
+      tealeaves_convergence = .data$convergence,
+      tealeaves_value = .data$value
     )
   leaf_par$T_leaf = tl$T_leaf
 
@@ -548,20 +530,20 @@ find_A = function(unitless_pars, quiet, use_legacy_version) {
 #' constants = make_constants(use_tealeaves = FALSE)
 #' enviro_par = make_enviropar(use_tealeaves = FALSE)
 #' leaf_par = make_leafpar(use_tealeaves = FALSE)
-#' leaf_par = bake(leaf_par, bake_par, constants)
+#' leaf_par = bake(leaf_par, enviro_par, bake_par, constants)
 #' # Or bake with piping (need library(magrittr))
-#' # leaf_par %<>% bake(bake_par, constants)
+#' # leaf_par %<>% bake(enviro_par, bake_par, constants)
 #' enviro_par$T_air = leaf_par$T_leaf
 #'
 #' pars = c(leaf_par, enviro_par, constants)
-#' C_chl = set_units(35, "Pa")
+#' C_chl = set_units(350, umol/mol)
 #'
 #' A_supply(C_chl, pars)
 #'
 #' A_demand(C_chl, pars)
 #' @export
 
-A_supply = function(C_chl, pars, unitless = FALSE, use_legacy_version) {
+A_supply = function(C_chl, pars, unitless = FALSE, use_legacy_version = FALSE) {
   g_tc = .get_gtc(pars, unitless, use_legacy_version)
 
   if (unitless) {

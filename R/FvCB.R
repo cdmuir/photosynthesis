@@ -63,10 +63,10 @@
 #' constants = make_constants(use_tealeaves = FALSE)
 #' enviro_par = make_enviropar(use_tealeaves = FALSE)
 #' leaf_par = make_leafpar(use_tealeaves = FALSE)
-#' leaf_par = bake(leaf_par, bake_par, constants)
+#' leaf_par = bake(leaf_par, enviro_par, bake_par, constants)
 #'
 #' pars = c(leaf_par, enviro_par, constants)
-#' C_chl = set_units(24.28, "Pa")
+#' C_chl = set_units(246.0161, umol / mol)
 #' FvCB(C_chl, pars)
 #' @export
 #'
@@ -90,7 +90,7 @@ FvCB = function(C_chl, pars, unitless = FALSE) {
 #' @export
 W_carbox = function(C_chl, pars, unitless = FALSE) {
   if (unitless) {
-    A = pars$V_cmax * C_chl / (C_chl + pars$K_C * (1 + pars$O / pars$K_O))
+    A = pars$V_cmax * C_chl / (C_chl + pars$K_C * (1 + 1e6 * pars$O / pars$K_O))
   } else {
     A = set_units(
       pars$V_cmax * C_chl /
@@ -149,7 +149,7 @@ W_tpu = function(C_chl, pars, unitless = FALSE) {
 #' enviro_par = make_enviropar(use_tealeaves = FALSE)
 #' leaf_par = make_leafpar(use_tealeaves = FALSE)
 #' enviro_par$T_air = leaf_par$T_leaf
-#' leaf_par %<>% bake(bake_par, constants)
+#' leaf_par %<>% bake(enviro_par, bake_par, constants)
 #'
 #' pars = c(leaf_par, enviro_par, constants)
 #' J(pars, FALSE)

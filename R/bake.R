@@ -55,7 +55,7 @@ NULL
 #' @examples
 #' bake_par = make_bakepar()
 #' constants = make_constants(use_tealeaves = FALSE)
-#' enviro_par = make_enviro(use_tealeaves = FALSE)
+#' enviro_par = make_enviropar(use_tealeaves = FALSE)
 #' leaf_par = make_leafpar(
 #'   replace = list(T_leaf = set_units(293.15, K)),
 #'   use_tealeaves = FALSE
@@ -144,16 +144,16 @@ bake = function(
   )
   
   # Set units ----
-  leaf_par = set_parameter_units(leaf_par, R %in% names(leaf_par))
+  leaf_par = set_parameter_units(leaf_par, .data$R %in% names(leaf_par))
 
   # Assert bounds on values ----
   # If !assert_units, no assertion is performed
   if (assert_units) {
     leaf_par |>
       assert_parameter_bounds(
-        type == "leaf", 
-        temperature_response,
-        !tealeaves
+        .data$type == "leaf", 
+        .data$temperature_response,
+        !.data$tealeaves
       )
   }
   
