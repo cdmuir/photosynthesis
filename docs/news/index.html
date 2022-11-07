@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
       </span>
     </div>
 
@@ -32,7 +32,10 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/photosynthesis-curve-fitting-sensitivity-analyses.html">photosynthesis-curve-fitting-sensitivity-analyses</a>
+      <a href="../articles/modeling-recommemdations.html">Modeling C3 Photosynthesis: recommendations for common scenarios</a>
+    </li>
+    <li>
+      <a href="../articles/photosynthesis-curve-fitting-sensitivity-analyses.html">Photosynthesis curve-fitting and sensitivity analyses</a>
     </li>
     <li>
       <a href="../articles/photosynthesis-introduction.html">Introduction to the photosynthesis package</a>
@@ -61,10 +64,21 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="development version" id="photosynthesis-development-version">photosynthesis (development version)<a class="anchor" aria-label="anchor" href="#photosynthesis-development-version"></a></h2>
-</div>
+<h2 class="page-header" data-toc-text="2.1.0" id="photosynthesis-210">photosynthesis 2.1.0<a class="anchor" aria-label="anchor" href="#photosynthesis-210"></a></h2>
+<ul><li>There is a new vignette on C3 photosynthesis modeling recommendations (modeling-recommendations)</li>
+<li>Under the hood, many changes to <code><a href="../reference/photosynthesis.html">photosynthesis()</a></code>, but performance should be the same</li>
+<li>Changed default <code>C_air</code> from 41 Pa to 420 umol/mol</li>
+<li>Changed default <code>O</code> from 21.27565 kPa to 0.21 mol/mol</li>
+<li>Added optional feature to calculate mesophyll conductance to CO2 (g_mc) as sum of internal airspace (<code>g_iasc</code>) and liquid-phase (<code>g_liqc</code>) conductances.</li>
+<li>To avoid redundancy, <code>photo_parameters</code> is single source of truth for all input parameters to <code><a href="../reference/photosynthesis.html">photo()</a></code> and <code><a href="../reference/photosynthesis.html">photosynthesis()</a></code>.</li>
+<li>Fixed error in <code>gc2gw()</code> and <code>gw2gc()</code> and migrated to <strong>gunit</strong> version 1.0.2. Legacy version used version for still air in boundary layer conductance conversions. The corrected version includes modification for laminar flow in the boundary layer. Legacy version can be obtained with option <code>use_legacy_version = TRUE</code>.</li>
+<li>Changed default conductance units from <code>[umol / m ^ 2 / s / Pa]</code> to <code>[mol / m ^ 2 / s]</code>
+</li>
+<li>Changed <code>&lt;-</code> to <code>=</code> in many instances</li>
+<li>Changed <code>%&gt;%</code> to <code>|&gt;</code> in many instances</li>
+</ul></div>
     <div class="section level2">
-<h2 class="page-header" data-toc-text="2.0.3" id="photosynthesis-203">photosynthesis 2.0.3<a class="anchor" aria-label="anchor" href="#photosynthesis-203"></a></h2>
+<h2 class="page-header" data-toc-text="2.0.3" id="photosynthesis-203">photosynthesis 2.0.3<small>2022-08-12</small><a class="anchor" aria-label="anchor" href="#photosynthesis-203"></a></h2>
 <ul><li>In the DESCRIPTION file, rewrote references in the form authors (year) &lt;doi:…&gt;</li>
 <li>In the DESCRIPTION file, added () behind all function names</li>
 <li>Added to .Rd files regarding exported methods for bake.Rd, bake_par.Rd, constants.Rd, enviro_par.Rd, leaf_par.Rd, parameter_names.Rd</li>

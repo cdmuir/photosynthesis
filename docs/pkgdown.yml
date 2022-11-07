@@ -2,7 +2,8 @@ pandoc: '2.18'
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
+  modeling-recommemdations: modeling-recommemdations.html
   photosynthesis-curve-fitting-sensitivity-analyses: photosynthesis-curve-fitting-sensitivity-analyses.html
   photosynthesis-introduction: photosynthesis-introduction.html
-last_built: 2022-08-12T01:44Z
+last_built: 2022-11-07T21:18Z
 

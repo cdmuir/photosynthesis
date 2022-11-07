@@ -20,7 +20,7 @@ TPU-limited assimilation rate"><meta property="og:image" content="/logo.png"><!-
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
       </span>
     </div>
 
@@ -35,7 +35,10 @@ TPU-limited assimilation rate"><meta property="og:image" content="/logo.png"><!-
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/photosynthesis-curve-fitting-sensitivity-analyses.html">photosynthesis-curve-fitting-sensitivity-analyses</a>
+      <a href="../articles/modeling-recommemdations.html">Modeling C3 Photosynthesis: recommendations for common scenarios</a>
+    </li>
+    <li>
+      <a href="../articles/photosynthesis-curve-fitting-sensitivity-analyses.html">Photosynthesis curve-fitting and sensitivity analyses</a>
     </li>
     <li>
       <a href="../articles/photosynthesis-introduction.html">Introduction to the photosynthesis package</a>
@@ -138,23 +141,23 @@ photosynthetic CO2 assimilation in leaves of C3 species. Planta 149: 78–90.</p
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">bake_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_parameters.html">make_bakepar</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">constants</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_parameters.html">make_constants</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">enviro_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_parameters.html">make_enviropar</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">leaf_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_parameters.html">make_leafpar</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">leaf_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="bake.html">bake</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">bake_par</span>, <span class="va">constants</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">bake_par</span> <span class="op">=</span> <span class="fu"><a href="make_parameters.html">make_bakepar</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">constants</span> <span class="op">=</span> <span class="fu"><a href="make_parameters.html">make_constants</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">enviro_par</span> <span class="op">=</span> <span class="fu"><a href="make_parameters.html">make_enviropar</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">leaf_par</span> <span class="op">=</span> <span class="fu"><a href="make_parameters.html">make_leafpar</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">leaf_par</span> <span class="op">=</span> <span class="fu"><a href="bake.html">bake</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">bake_par</span>, <span class="va">constants</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">constants</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">C_chl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/units/man/units.html" class="external-link">set_units</a></span><span class="op">(</span><span class="fl">24.28</span>, <span class="st">"Pa"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pars</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">constants</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">C_chl</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/units/man/units.html" class="external-link">set_units</a></span><span class="op">(</span><span class="fl">246.0161</span>, <span class="va">umol</span> <span class="op">/</span> <span class="va">mol</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">FvCB</span><span class="op">(</span><span class="va">C_chl</span>, <span class="va">pars</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $W_carbox</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42.12065 [umol/m^2/s]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43.12971 [umol/m^2/s]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $W_regen</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 34.71203 [umol/m^2/s]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $W_tpu</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 709.3538 [umol/m^2/s]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 709.3539 [umol/m^2/s]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 34.71203 [umol/m^2/s]</span>

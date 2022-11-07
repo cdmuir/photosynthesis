@@ -1,5 +1,5 @@
 ---
-title: "photosynthesis-curve-fitting-sensitivity-analyses"
+title: "Photosynthesis curve-fitting and sensitivity analyses"
 author: "Joseph R. Stinziano"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_document

@@ -16,6 +16,9 @@
     <loc>/articles/index.html</loc>
   </url>
   <url>
+    <loc>/articles/modeling-recommemdations.html</loc>
+  </url>
+  <url>
     <loc>/articles/photosynthesis-curve-fitting-sensitivity-analyses.html</loc>
   </url>
   <url>
@@ -56,6 +59,9 @@
   </url>
   <url>
     <loc>/reference/baked-class.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calculated-parameters.html</loc>
   </url>
   <url>
     <loc>/reference/check_dependencies.html</loc>
@@ -140,6 +146,9 @@
   </url>
   <url>
     <loc>/reference/parameter_names.html</loc>
+  </url>
+  <url>
+    <loc>/reference/photo_parameters.html</loc>
   </url>
   <url>
     <loc>/reference/photosynthesis-package.html</loc>

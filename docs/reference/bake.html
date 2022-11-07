@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
       </span>
     </div>
 
@@ -32,7 +32,10 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/photosynthesis-curve-fitting-sensitivity-analyses.html">photosynthesis-curve-fitting-sensitivity-analyses</a>
+      <a href="../articles/modeling-recommemdations.html">Modeling C3 Photosynthesis: recommendations for common scenarios</a>
+    </li>
+    <li>
+      <a href="../articles/photosynthesis-curve-fitting-sensitivity-analyses.html">Photosynthesis curve-fitting and sensitivity analyses</a>
     </li>
     <li>
       <a href="../articles/photosynthesis-introduction.html">Introduction to the photosynthesis package</a>
@@ -66,7 +69,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bake</span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">bake_par</span>, <span class="va">constants</span>, assert_units <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bake</span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">bake_par</span>, <span class="va">constants</span>, assert_units <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">temp_resp1</span><span class="op">(</span><span class="va">par25</span>, <span class="va">E_a</span>, <span class="va">R</span>, <span class="va">T_leaf</span>, <span class="va">T_ref</span>, <span class="va">unitless</span><span class="op">)</span></span>
 <span></span>
@@ -77,6 +80,10 @@
     <h2>Arguments</h2>
     <dl><dt>leaf_par</dt>
 <dd><p>A list of leaf parameters inheriting class <code>leaf_par</code>. This can be generated using the <code>make_leafpar</code> function.</p></dd>
+
+
+<dt>enviro_par</dt>
+<dd><p>A list of environmental parameters inheriting class <code>enviro_par</code>. This can be generated using the <code>make_enviropar</code> function.</p></dd>
 
 
 <dt>bake_par</dt>
@@ -163,13 +170,14 @@ into contributions from different variables. Plant, Cell and Environment 38:
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">bake_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_parameters.html">make_bakepar</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">constants</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_parameters.html">make_constants</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">leaf_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_parameters.html">make_leafpar</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  replace <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>T_leaf <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/units/man/units.html" class="external-link">set_units</a></span><span class="op">(</span><span class="fl">293.15</span>, <span class="st">"K"</span><span class="op">)</span><span class="op">)</span>,</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">bake_par</span> <span class="op">=</span> <span class="fu"><a href="make_parameters.html">make_bakepar</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">constants</span> <span class="op">=</span> <span class="fu"><a href="make_parameters.html">make_constants</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">enviro_par</span> <span class="op">=</span> <span class="fu"><a href="make_parameters.html">make_enviropar</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">leaf_par</span> <span class="op">=</span> <span class="fu"><a href="make_parameters.html">make_leafpar</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  replace <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>T_leaf <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/units/man/units.html" class="external-link">set_units</a></span><span class="op">(</span><span class="fl">293.15</span>, <span class="va">K</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">baked_leafpar</span> <span class="op">&lt;-</span> <span class="fu">bake</span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">bake_par</span>, <span class="va">constants</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">baked_leafpar</span> <span class="op">=</span> <span class="fu">bake</span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">bake_par</span>, <span class="va">constants</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">baked_leafpar</span><span class="op">$</span><span class="va">V_cmax25</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 150 [umol/m^2/s]</span>

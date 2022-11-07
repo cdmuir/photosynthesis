@@ -1,4 +1,4 @@
-# photosynthesis (development version)
+# photosynthesis 2.1.0
 
 * There is a new vignette on C3 photosynthesis modeling recommendations (modeling-recommendations)
 * Under the hood, many changes to `photosynthesis()`, but performance should be the same

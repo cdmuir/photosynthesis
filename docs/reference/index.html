@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
       </span>
     </div>
 
@@ -32,7 +32,10 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/photosynthesis-curve-fitting-sensitivity-analyses.html">photosynthesis-curve-fitting-sensitivity-analyses</a>
+      <a href="../articles/modeling-recommemdations.html">Modeling C3 Photosynthesis: recommendations for common scenarios</a>
+    </li>
+    <li>
+      <a href="../articles/photosynthesis-curve-fitting-sensitivity-analyses.html">Photosynthesis curve-fitting and sensitivity analyses</a>
     </li>
     <li>
       <a href="../articles/photosynthesis-introduction.html">Introduction to the photosynthesis package</a>
@@ -70,7 +73,7 @@
       </tr><tr><td>
           <p><code><a href="CO2_conductance.html">.get_gtc()</a></code> <code><a href="CO2_conductance.html">.get_guc()</a></code> <code><a href="CO2_conductance.html">.get_gbc()</a></code> <code><a href="CO2_conductance.html">.get_gmc()</a></code> <code><a href="CO2_conductance.html">.get_gsc()</a></code> </p>
         </td>
-        <td><p>Conductance to CO2 (umol / (m^2 s Pa))</p></td>
+        <td><p>Conductance to CO2 (mol / m^2 / s)</p></td>
       </tr><tr><td>
           <p><code><a href="FvCB.html">FvCB()</a></code> <code><a href="FvCB.html">W_carbox()</a></code> <code><a href="FvCB.html">W_regen()</a></code> <code><a href="FvCB.html">W_tpu()</a></code> </p>
         </td>
@@ -99,6 +102,10 @@
           <p><code><a href="baked-class.html">baked-class</a></code> </p>
         </td>
         <td><p>S3 class baked</p></td>
+      </tr><tr><td>
+          <p><code><a href="calculated-parameters.html">get_f_parameter()</a></code> </p>
+        </td>
+        <td><p>Get default functions for calculated parameters in photosynthesis</p></td>
       </tr><tr><td>
           <p><code><a href="check_dependencies.html">check_dependencies()</a></code> </p>
         </td>
@@ -160,10 +167,6 @@
         </td>
         <td><p>Stomatal conductance models</p></td>
       </tr><tr><td>
-          <p><code><a href="gw2gc.html">gw2gc()</a></code> <code><a href="gw2gc.html">gc2gw()</a></code> </p>
-        </td>
-        <td><p>Convert g_c (\(\mu\)mol CO2/m^2/s/Pa) to g_w (\(\mu\)mol H2O /m^2/s/Pa)</p></td>
-      </tr><tr><td>
           <p><code><a href="j_calculations.html">calculate_jmax()</a></code> <code><a href="j_calculations.html">calculate_j()</a></code> </p>
         </td>
         <td><p>Inverse non-rectangular hyperbola for J_max calculation</p></td>
@@ -179,6 +182,10 @@
           <p><code><a href="parameter_names.html">parameter_names()</a></code> </p>
         </td>
         <td><p>Get vector of parameter names</p></td>
+      </tr><tr><td>
+          <p><code><a href="photo_parameters.html">photo_parameters</a></code> </p>
+        </td>
+        <td><p>Input parameters to simulate C3 photosynthesis using <code>photosynthesis</code></p></td>
       </tr><tr><td>
           <p><code><a href="photosynthesis-package.html">photosynthesis-package</a></code> </p>
         </td>

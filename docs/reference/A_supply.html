@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
       </span>
     </div>
 
@@ -32,7 +32,10 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/photosynthesis-curve-fitting-sensitivity-analyses.html">photosynthesis-curve-fitting-sensitivity-analyses</a>
+      <a href="../articles/modeling-recommemdations.html">Modeling C3 Photosynthesis: recommendations for common scenarios</a>
+    </li>
+    <li>
+      <a href="../articles/photosynthesis-curve-fitting-sensitivity-analyses.html">Photosynthesis curve-fitting and sensitivity analyses</a>
     </li>
     <li>
       <a href="../articles/photosynthesis-introduction.html">Introduction to the photosynthesis package</a>
@@ -66,7 +69,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">A_supply</span><span class="op">(</span><span class="va">C_chl</span>, <span class="va">pars</span>, unitless <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">A_supply</span><span class="op">(</span><span class="va">C_chl</span>, <span class="va">pars</span>, unitless <span class="op">=</span> <span class="cn">FALSE</span>, use_legacy_version <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">A_demand</span><span class="op">(</span><span class="va">C_chl</span>, <span class="va">pars</span>, unitless <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -83,6 +86,10 @@
 
 <dt>unitless</dt>
 <dd><p>Logical. Should <code>units</code> be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.</p></dd>
+
+
+<dt>use_legacy_version</dt>
+<dd><p>Logical. Should legacy model (&lt;2.1.0) be used? See <a href="https://github.com/cdmuir/photosynthesis/blob/master/NEWS.md" class="external-link">NEWS</a> for further information. Default is FALSE.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -105,23 +112,23 @@ $$A = (1 - \Gamma* / C_\mathrm{chl}) \mathrm{min}(W_\mathrm{carbox}, W_\mathrm{r
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">bake_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_parameters.html">make_bakepar</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">constants</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_parameters.html">make_constants</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">enviro_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_parameters.html">make_enviropar</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">leaf_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_parameters.html">make_leafpar</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">leaf_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="bake.html">bake</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">bake_par</span>, <span class="va">constants</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">bake_par</span> <span class="op">=</span> <span class="fu"><a href="make_parameters.html">make_bakepar</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">constants</span> <span class="op">=</span> <span class="fu"><a href="make_parameters.html">make_constants</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">enviro_par</span> <span class="op">=</span> <span class="fu"><a href="make_parameters.html">make_enviropar</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">leaf_par</span> <span class="op">=</span> <span class="fu"><a href="make_parameters.html">make_leafpar</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">leaf_par</span> <span class="op">=</span> <span class="fu"><a href="bake.html">bake</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">bake_par</span>, <span class="va">constants</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Or bake with piping (need library(magrittr))</span></span></span>
-<span class="r-in"><span><span class="co"># leaf_par %&lt;&gt;% bake(bake_par, constants)</span></span></span>
-<span class="r-in"><span><span class="va">enviro_par</span><span class="op">$</span><span class="va">T_air</span> <span class="op">&lt;-</span> <span class="va">leaf_par</span><span class="op">$</span><span class="va">T_leaf</span></span></span>
+<span class="r-in"><span><span class="co"># leaf_par %&lt;&gt;% bake(enviro_par, bake_par, constants)</span></span></span>
+<span class="r-in"><span><span class="va">enviro_par</span><span class="op">$</span><span class="va">T_air</span> <span class="op">=</span> <span class="va">leaf_par</span><span class="op">$</span><span class="va">T_leaf</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">constants</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">C_chl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/units/man/units.html" class="external-link">set_units</a></span><span class="op">(</span><span class="fl">35</span>, <span class="st">"Pa"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pars</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">constants</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">C_chl</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/units/man/units.html" class="external-link">set_units</a></span><span class="op">(</span><span class="fl">350</span>, <span class="va">umol</span><span class="op">/</span><span class="va">mol</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">A_supply</span><span class="op">(</span><span class="va">C_chl</span>, <span class="va">pars</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10.01259 [umol/m^2/s]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12.0831 [umol/m^2/s]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">A_demand</span><span class="op">(</span><span class="va">C_chl</span>, <span class="va">pars</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31.41145 [umol/m^2/s]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31.28078 [umol/m^2/s]</span>
 </code></pre></div>
     </div>
   </div>

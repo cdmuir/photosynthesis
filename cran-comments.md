@@ -1,14 +1,15 @@
 ## Summary of new changes
 
-* In the DESCRIPTION file, rewrote references in the form authors (year) <doi:...>
-* In the DESCRIPTION file, added () behind all function names
-* Added \value to .Rd files regarding exported methods for bake.Rd, bake_par.Rd, constants.Rd, enviro_par.Rd, leaf_par.Rd, parameter_names.Rd
-* Changed print() to stop() or message() in R/compile_data.R; R/fit_gs_model.R; R/fit_t_response.R; R/print_graphs.R
-* In R/print_graphs.R, added code to restore users' option for par()$mfrow
-* Removed "2020" from the field COPYRIGHT HOLDER in the LICENCE file
-* Updated link to Prometheus protocols in vignette
-* Stopped evaluating parallel example in vignette
-* Fixed tests that failed because of update to dependency
+* There is a new vignette on C3 photosynthesis modeling recommendations (modeling-recommendations)
+* Under the hood, many changes to `photosynthesis()`, but performance should be the same
+* Changed default `C_air` from 41 Pa to 420 umol/mol
+* Changed default `O` from 21.27565 kPa to 0.21 mol/mol
+* Added optional feature to calculate mesophyll conductance to CO2 (g_mc) as sum of internal airspace (`g_iasc`) and liquid-phase (`g_liqc`) conductances.
+* To avoid redundancy, `photo_parameters` is single source of truth for all input parameters to `photo()` and `photosynthesis()`.
+* Fixed error in `gc2gw()` and `gw2gc()` and migrated to **gunit** version 1.0.2. Legacy version used version for still air in boundary layer conductance conversions. The corrected version includes modification for laminar flow in the boundary layer. Legacy version can be obtained with option `use_legacy_version = TRUE`.
+* Changed default conductance units from `[umol / m ^ 2 / s / Pa]` to `[mol / m ^ 2 / s]`
+* Changed `<-` to `=` in many instances
+* Changed `%>%` to `|>` in many instances
 
 ## Test environments
 * local R installation, R 4.2.1
@@ -20,8 +21,8 @@
 
 0 errors | 0 warnings | 1 note
 
-* checking installed package size ... NOTE
-    installed size is  5.2Mb
+❯ checking installed package size ... NOTE
+    installed size is  5.1Mb
     sub-directories of 1Mb or more:
       doc    3.2Mb
       help   1.1Mb

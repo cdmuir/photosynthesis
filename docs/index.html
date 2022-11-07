@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
       </span>
     </div>
 
@@ -86,7 +86,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/photosynthesis-curve-fitting-sensitivity-analyses.html">photosynthesis-curve-fitting-sensitivity-analyses</a>
+      <a href="articles/modeling-recommemdations.html">Modeling C3 Photosynthesis: recommendations for common scenarios</a>
+    </li>
+    <li>
+      <a href="articles/photosynthesis-curve-fitting-sensitivity-analyses.html">Photosynthesis curve-fitting and sensitivity analyses</a>
     </li>
     <li>
       <a href="articles/photosynthesis-introduction.html">Introduction to the photosynthesis package</a>
@@ -158,7 +161,7 @@
 <ul>
 <li>run a minimum worked example using default parameters</li>
 <li>replace default parameters</li>
-<li>simulate photosynthetic rate along a gradient of CO<img src="https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&amp;space;%5Cbg_white&amp;space;_2" title="_2" alt="_2"> concentrations (<img src="https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&amp;space;%5Cbg_white&amp;space;A-C_%5Cmathrm%7Bc%7D" title="A-C_\mathrm{c}" alt="A-C_\mathrm{c}"> curve)</li>
+<li>simulate photosynthetic rate along a gradient of CO<span class="math inline"><sub>2</sub></span> concentrations (<span class="math inline"><em>A</em> − <em>C</em><sub>c</sub></span> curve)</li>
 </ul>
 </div>
 <div class="section level2">
@@ -166,7 +169,8 @@
 </h2>
 <p>You can use the default parameter settings and simulate photosynthetic rate in a single leaf using the <code>make_*()</code> functions and <code><a href="reference/photosynthesis.html">photo()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cdmuir/photosynthesis" class="external-link">photosynthesis</a></span><span class="op">)</span></span>
 <span></span>
@@ -197,7 +201,8 @@
 </h2>
 <p>You can look at default parameters settings in the manual (run <code><a href="reference/make_parameters.html">?make_parameters</a></code>). These defaults are reasonable, but of course you will probably want to use different choices and allow some parameters to vary. Here, I’ll demonstrate how to replace a default. In the next section, I’ll show you how to set up a gradient of parameter values over which to solve for leaf temperature.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Use the `replace` argument to replace defaults. This must be a named list, and</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Use the `replace` argument to replace defaults. This must be a named list, and</span></span>
 <span><span class="co"># each named element must have the proper units specified. See `?make_parameters`</span></span>
 <span><span class="co"># for all parameter names and proper units.</span></span>
 <span></span>
@@ -246,7 +251,8 @@
 </h2>
 <p>In the previous two examples, I used the <code>photo</code> function to solve for a single parameter set. In most cases, you’ll want to solve for many parameter sets. The function <code>photosynthesis</code> generalizes <code>photo</code> and makes it easy to solve for multiple parameter sets using the same argument structure. All you need to do is specify multiple values for one or more leaf or environmental parameters and <code>photosynthesis</code> uses the <code><a href="https://purrr.tidyverse.org/reference/cross.html" class="external-link">purrr::cross</a></code> function to fit all combinations<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># As before, use the `replace` argument to replace defaults, but this time we</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># As before, use the `replace` argument to replace defaults, but this time we</span></span>
 <span><span class="co"># enter multiple values</span></span>
 <span></span>
 <span><span class="va">bake_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/make_parameters.html">make_bakepar</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -306,9 +312,12 @@
 <div class="section level2">
 <h2 id="parallel-processing">Parallel processing<a class="anchor" aria-label="anchor" href="#parallel-processing"></a>
 </h2>
-<p>It can take a little while to simulate many different parameter sets. If you have multiple processors available, you can speed things up by running simulations in parallel. In the <code>photosynthesis</code> function, simply use the <code>parallel = TRUE</code> argument to simulate in parallel. You’ll need to set up a <strong>future</strong> <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan()</a></code>. See <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">?future::plan</a></code> for more detail. Here I’ll provide an example simulating an <img src="https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&amp;space;%5Cbg_white&amp;space;A-C_c" title="A-C_c" alt="A-C_c"> curve.</p>
+<p>It can take a little while to simulate many different parameter sets. If you have multiple processors available, you can speed things up by running simulations in parallel. In the <code>photosynthesis</code> function, simply use the <code>parallel = TRUE</code> argument to simulate in parallel. You’ll need to set up a <strong>future</strong> <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan()</a></code>. See <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">?future::plan</a></code> for more detail. Here I’ll provide an example simulating an <span class="math inline"><em>A</em> − <em>C</em><sub><em>c</em></sub></span> curve.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># NOTE: parallel example is not evaluated because it was causing an issue with CRAN, but you can copy-and-paste the code to run on your own machine.</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="st">"multisession"</span><span class="op">)</span> <span class="co"># Set up plan</span></span>
 <span></span>
 <span><span class="co"># We'll use the `replace` argument to enter multiple atmospheric CO2 concentrations</span></span>
@@ -339,7 +348,6 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"A ["</span>, <span class="va">mu</span>, <span class="st">"mol "</span>, <span class="va">m</span><span class="op">^</span><span class="op">-</span><span class="fl">2</span><span class="op">~</span><span class="va">s</span><span class="op">^</span><span class="op">-</span><span class="fl">1</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="cn">NULL</span></span></code></pre></div>
-<p><img src="reference/figures/README-parallel-example-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="incorporating-leaf-temperature-using-tealeaves">Incorporating leaf temperature using <strong>tealeaves</strong>
@@ -347,7 +355,10 @@
 </h2>
 <p>In experiments, leaf temperature can be kept close to air temperature, but in nature, leaf temperature can be quite a bit different than air temperature in the shade depending on environmental and leaf parameters. If <code>use_tealeaves = TRUE</code>, <code><a href="reference/photosynthesis.html">photo()</a></code> and <code><a href="reference/photosynthesis.html">photosynthesis()</a></code> will call on the <a href="https://CRAN.R-project.org/package=tealeaves" class="external-link"><strong>tealeaves</strong></a> package to calculate leaf temperature using an energy balance model.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># You will need to set use_tealeaves = TRUE when making parameters because additional parameters are needed for tealeaves.</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># NOTE: parallel example is not evaluated because it was causing an issue with CRAN, but you can copy-and-paste the code to run on your own machine.</span></span>
+<span></span>
+<span><span class="co"># You will need to set use_tealeaves = TRUE when making parameters because additional parameters are needed for tealeaves.</span></span>
 <span></span>
 <span><span class="va">bake_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/make_parameters.html">make_bakepar</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">constants</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/make_parameters.html">make_constants</a></span><span class="op">(</span>use_tealeaves <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -382,17 +393,15 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="cn">T</span><span class="op">[</span><span class="va">air</span><span class="op">]</span>, <span class="st">" [K]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="cn">T</span><span class="op">[</span><span class="va">leaf</span><span class="op">]</span>, <span class="st">" [K]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="cn">NULL</span></span></code></pre></div>
-<p><img src="reference/figures/README-use-tealeaves-example-1.png" width="100%"></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">ph</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">T_air</span>, <span class="va">A</span>, color <span class="op">=</span> <span class="va">`g[s]`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="cn">NULL</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">ph</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">T_air</span>, <span class="va">A</span>, color <span class="op">=</span> <span class="va">`g[s]`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span>, lineend <span class="op">=</span> <span class="st">"round"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html" class="external-link">scale_color_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">g</span><span class="op">[</span><span class="va">s</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="cn">T</span><span class="op">[</span><span class="va">leaf</span><span class="op">]</span>, <span class="st">" [K]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"A ["</span>, <span class="va">mu</span>, <span class="st">"mol "</span>, <span class="va">m</span><span class="op">^</span><span class="op">-</span><span class="fl">2</span><span class="op">~</span><span class="va">s</span><span class="op">^</span><span class="op">-</span><span class="fl">1</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="cn">NULL</span></span></code></pre></div>
-<p><img src="reference/figures/README-use-tealeaves-example-2.png" width="100%"></p>
 <p>This vignette is designed to demonstrate how to use the curve fitting and sensitivity analysis tools Sections are named based on the set of methods to be used:</p>
 <ol style="list-style-type: decimal">
 <li><p>Fitting light response curves</p></li>
@@ -423,7 +432,7 @@
 <p>FOR WINDOWS USERS</p>
 <p>You will need to install Rtools, available at:</p>
 <p><a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link uri">https://cran.r-project.org/bin/windows/Rtools/</a></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#To install, run the following without comments</span></span>
 <span><span class="co">#library(devtools)</span></span>
 <span><span class="co">#install_github("jstinzi/photosynthesis")</span></span>
@@ -455,7 +464,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></code></pre></div>
 <p>#Reading Li-Cor data</p>
 <p>If you are trying to read in the raw data files of the Li-Cor 6400 or 6800 models, you can use the package RLicor by Erik Erhardt available on Github.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#library(devtools)</span></span>
 <span><span class="co">#install_github("erikerhardt/RLicor")</span></span>
 <span><span class="co">#library(RLicor)</span></span>
@@ -467,7 +476,7 @@
 <span><span class="co">#citation("RLicor")</span></span></code></pre></div>
 <p>#1. Fitting light response curves</p>
 <p>This package currently only implements the Marshall et al. 1980 non-rectangular hyperbola model of the photosynthetic light response.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Read in your data</span></span>
 <span><span class="co">#Note that this data is coming from data supplied by the package</span></span>
 <span><span class="co">#hence the complicated argument in read.csv()</span></span>
@@ -519,8 +528,9 @@
 <span><span class="co">#Print graph</span></span>
 <span><span class="va">fit</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Fit many curves</span></span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#Fit many curves</span></span>
 <span><span class="va">fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fit_many.html">fit_many</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>                 varnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>A_net <span class="op">=</span> <span class="st">"A"</span>,</span>
 <span>                                         PPFD <span class="op">=</span> <span class="st">"Qin"</span>,</span>
@@ -559,8 +569,9 @@
 <span><span class="co">#Print the graph</span></span>
 <span><span class="va">fits</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-6-2.png" width="100%"></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Compile graphs into a list for plotting</span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#Compile graphs into a list for plotting</span></span>
 <span><span class="va">fits_graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/compile_data.html">compile_data</a></span><span class="op">(</span><span class="va">fits</span>,</span>
 <span>                            list_element <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
@@ -575,7 +586,7 @@
 <span>                          list_element <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p>#2. Fitting CO2 response curves</p>
 <p>This package currently implements a Gu-type fitting procedure for CO2 response curves similar to the Duursma (2015) implementation. There is ongoing work to implement a full Gu-type method whereby mesophyll conductance, Km, and GammaStar could all be fit (Gu et al 2010). There is also ongoing work to implement a procedure to fit alphag for the TPU-limited region and to incorporate the Sharkey (2019) suggestion of using chlorophyll fluorescence data to inform TPU limitations.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Read in your data</span></span>
 <span><span class="co">#Note that this data is coming from data supplied by the package</span></span>
 <span><span class="co">#hence the complicated argument in read.csv()</span></span>
@@ -612,8 +623,9 @@
 <span><span class="co">#View graph</span></span>
 <span><span class="va">fit</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#View data with modeled parameters attached</span></span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#View data with modeled parameters attached</span></span>
 <span><span class="co">#fit[[3]]</span></span>
 <span></span>
 <span><span class="co">#Fit many curves</span></span>
@@ -642,8 +654,9 @@
 <span><span class="co">#Print the graph</span></span>
 <span><span class="va">fits</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-7-2.png" width="100%"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Compile graphs into a list for plotting</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#Compile graphs into a list for plotting</span></span>
 <span><span class="va">fits_graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/compile_data.html">compile_data</a></span><span class="op">(</span><span class="va">fits</span>,</span>
 <span>                            list_element <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span></span>
@@ -658,7 +671,7 @@
 <span>                          list_element <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p>#3. Fitting temperature response curves</p>
 <p>This package provides support for multiple temperature response functions (Arrhenius 1915; Medlyn et al. 2002; Kruse &amp; Adams. 2006; Heskel et al. 2016; Liang et al. 2018).</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Read in data</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"A_Ci_T_data.csv"</span>, </span>
 <span>                             package <span class="op">=</span> <span class="st">"photosynthesis"</span><span class="op">)</span>,</span>
@@ -764,27 +777,27 @@
 <span></span>
 <span><span class="va">out</span><span class="op">[[</span><span class="st">"Arrhenius"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span><span class="op">[[</span><span class="st">"Heskel"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-8-2.png" width="100%"></p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span><span class="op">[[</span><span class="st">"Kruse"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-8-3.png" width="100%"></p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span><span class="op">[[</span><span class="st">"Medlyn"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-8-4.png" width="100%"></p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span><span class="op">[[</span><span class="st">"MMRT"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-8-5.png" width="100%"></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span><span class="op">[[</span><span class="st">"Quadratic"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-8-6.png" width="100%"></p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span><span class="op">[[</span><span class="st">"Topt"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-8-7.png" width="100%"></p>
 <p>#4. Fitting stomatal conductance models</p>
 <p>The package currently supports three varieties of stomatal conductance models (Ball et al. 1987; Leuning 1995; Medlyn et al. 2011).</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Read in your data</span></span>
 <span><span class="co">#Note that this data is coming from data supplied by the package</span></span>
 <span><span class="co">#hence the complicated argument in read.csv()</span></span>
@@ -842,8 +855,9 @@
 <span><span class="co">#Look at BallBerry plot</span></span>
 <span><span class="va">fits</span><span class="op">[[</span><span class="st">"BallBerry"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
+<span></span>
 <span><span class="co">#Fit many g_sw models</span></span>
 <span><span class="co">#Set your grouping variable</span></span>
 <span><span class="co">#Here we are grouping by Qin and individual</span></span>
@@ -888,8 +902,9 @@
 <span><span class="co">#Graph</span></span>
 <span><span class="va">fits</span><span class="op">[[</span><span class="st">"750"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Medlyn_partial"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"Graph"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-9-2.png" width="100%"></p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Compile parameter outputs for BallBerry model</span></span>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#Compile parameter outputs for BallBerry model</span></span>
 <span><span class="co">#Note that it's the first element for each PAR value</span></span>
 <span><span class="co">#First compile list of BallBerry fits</span></span>
 <span><span class="va">bbmods</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/compile_data.html">compile_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">fits</span>,</span>
@@ -906,8 +921,9 @@
 <span><span class="co">#Take quick look at light response of intercept parameters</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">g0</span> <span class="op">~</span> <span class="va">ID</span>, <span class="va">bbpars</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-9-3.png" width="100%"></p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Compile graphs</span></span>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#Compile graphs</span></span>
 <span><span class="va">graphs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/compile_data.html">compile_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">bbmods</span>,</span>
 <span>                       output_type <span class="op">=</span> <span class="st">"list"</span>,</span>
 <span>                       list_element <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
@@ -917,7 +933,7 @@
 <p><img src="reference/figures/README-unnamed-chunk-9-4.png" width="100%"></p>
 <p>#5. Fitting light respiration</p>
 <p>The package currently supports fitting light respiration according to the slope-intercept regression extension of the Laisk method (Laisk 1977; Walker &amp; Ort 2015), the Kok method (Kok 1956), and the Yin modification of the Kok method (Yin et al. 2009, 2011)</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Read in your data</span></span>
 <span><span class="co">#Note that this data is coming from data supplied by the package</span></span>
 <span><span class="co">#hence the complicated argument in read.csv()</span></span>
@@ -996,14 +1012,15 @@
 <span><span class="co">#View graph</span></span>
 <span><span class="va">walker_ort</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-10-1.png" width="100%"></p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#View coeffients</span></span>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#View coeffients</span></span>
 <span><span class="va">walker_ort</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="co">#&gt;       GammaStar   r_light</span></span>
 <span><span class="co">#&gt; Slope  46.00427 -0.152643</span></span></code></pre></div>
 <p>#6. Fitting mesophyll conductance</p>
 <p>Currently there is only support for fitting mesophyll conductance according to the variable J method from Harley et al. 1992</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Read in your data</span></span>
 <span><span class="co">#Note that this data is coming from data supplied by the package</span></span>
 <span><span class="co">#hence the complicated argument in read.csv()</span></span>
@@ -1035,8 +1052,9 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">'bottom'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-11-1.png" width="100%"></p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Plot QAQC graph according to Harley et al. 1992</span></span>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#Plot QAQC graph according to Harley et al. 1992</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">CO2_s</span>, y <span class="op">=</span> <span class="va">dCcdA</span>, colour <span class="op">=</span> <span class="va">reliable</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">CO</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">~</span><span class="st">"("</span><span class="op">*</span><span class="va">mu</span><span class="op">*</span><span class="va">mol</span><span class="op">~</span><span class="va">mol</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">}</span><span class="op">*</span><span class="st">")"</span><span class="op">)</span>,</span>
 <span>       y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">delta</span><span class="op">*</span><span class="va">C</span><span class="op">[</span><span class="va">c</span><span class="op">]</span><span class="op">*</span><span class="st">"/"</span><span class="op">*</span><span class="va">delta</span><span class="op">*</span><span class="va">A</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -1045,8 +1063,9 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">'bottom'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-11-2.png" width="100%"></p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">dCcdA</span>, y <span class="op">=</span> <span class="va">g_mc</span>, colour <span class="op">=</span> <span class="va">reliable</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">dCcdA</span>, y <span class="op">=</span> <span class="va">g_mc</span>, colour <span class="op">=</span> <span class="va">reliable</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">delta</span><span class="op">*</span><span class="va">C</span><span class="op">[</span><span class="va">c</span><span class="op">]</span><span class="op">*</span><span class="st">"/"</span><span class="op">*</span><span class="va">delta</span><span class="op">*</span><span class="va">A</span><span class="op">)</span>,</span>
 <span>       y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">g</span><span class="op">[</span><span class="va">m</span><span class="op">]</span><span class="op">~</span><span class="st">"(mol"</span><span class="op">~</span><span class="va">m</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">2</span><span class="op">}</span><span class="op">~</span><span class="va">s</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">}</span><span class="op">~</span><span class="va">Pa</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">}</span><span class="op">*</span><span class="st">")"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
@@ -1055,9 +1074,9 @@
 <p><img src="reference/figures/README-unnamed-chunk-11-3.png" width="100%"></p>
 <p>#7. Fitting pressure-volume curves</p>
 <p>This package follows the Prometheus wiki spreadsheet from Sack and Pasquet-Kok at:</p>
-<p><a href="http://prometheuswiki.org/tiki-index.php?page=Leaf+pressure-volume+curve+parameters" class="external-link uri">http://prometheuswiki.org/tiki-index.php?page=Leaf+pressure-volume+curve+parameters</a>.</p>
+<p><a href="https://prometheusprotocols.net/function/water-relations/pressure-volume-curves/leaf-pressure-volume-curve-parameters/" class="external-link uri">https://prometheusprotocols.net/function/water-relations/pressure-volume-curves/leaf-pressure-volume-curve-parameters/</a></p>
 <p>For references, see Koide et al. 2000, Sack et al. 2003, and Tyree &amp; Hammel 1972.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Read in data</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"PV_curve.csv"</span>, </span>
 <span>                             package <span class="op">=</span> <span class="st">"photosynthesis"</span><span class="op">)</span><span class="op">)</span></span>
@@ -1078,12 +1097,14 @@
 <span><span class="co">#Plot water mass graph</span></span>
 <span><span class="va">fit</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="100%"></p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Plot PV Curve</span></span>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#Plot PV Curve</span></span>
 <span><span class="va">fit</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-12-2.png" width="100%"></p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Fit all PV curves in a file</span></span>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#Fit all PV curves in a file</span></span>
 <span><span class="va">fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fit_many.html">fit_many</a></span><span class="op">(</span><span class="va">data</span>,</span>
 <span>                 group <span class="op">=</span> <span class="st">"ID"</span>,</span>
 <span>                 funct <span class="op">=</span> <span class="va">fit_PV_curve</span>,</span>
@@ -1102,12 +1123,14 @@
 <span><span class="co">#See water mass - water potential graph</span></span>
 <span><span class="va">fits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-12-3.png" width="100%"></p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#See PV curve</span></span>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#See PV curve</span></span>
 <span><span class="va">fits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-12-4.png" width="100%"></p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Compile parameter outputs</span></span>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#Compile parameter outputs</span></span>
 <span><span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/compile_data.html">compile_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">fits</span>,</span>
 <span>                     output_type <span class="op">=</span> <span class="st">"dataframe"</span>,</span>
 <span>                     list_element <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -1123,7 +1146,7 @@
 <span>                     list_element <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p>#8. Fitting hydraulic vulnerability curves</p>
 <p>Current approach fits a sigmoidal model and calculates hydraulic parameters from the curve fit. See Pammenter &amp; Van der Willigen, 1998 and Ogle et al. 2009.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Read in data</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"hydraulic_vulnerability.csv"</span>, </span>
 <span>                             package <span class="op">=</span> <span class="st">"photosynthesis"</span><span class="op">)</span><span class="op">)</span></span>
@@ -1247,8 +1270,9 @@
 <span><span class="co">#Return graph</span></span>
 <span><span class="va">fits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">5</span><span class="op">]</span><span class="op">]</span> </span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-13-1.png" width="100%"></p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Compile parameter outputs</span></span>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#Compile parameter outputs</span></span>
 <span><span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/compile_data.html">compile_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">fits</span>,</span>
 <span>                     output_type <span class="op">=</span> <span class="st">"dataframe"</span>,</span>
 <span>                     list_element <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
@@ -1260,15 +1284,15 @@
 <p>#9. Sensitivity analyses</p>
 <p>This segment outlines a set of functions that can be used to assess the sensitivity of data outputs to assumed parameters. For example, assuming different values of GammaStar, mesophyll conductance, and light absorbance on fitted gas exchange parameters.</p>
 <p>Uncomment the chunk below to run - it takes awhile. #```{r} #Read in your data #Note that this data is coming from data supplied by the package #hence the complicated argument in read.csv() #This dataset is a CO2 by light response curve for a single sunflower data &lt;- read.csv(system.file(“extdata”, “A_Ci_Q_data_1.csv”, package = “photosynthesis”))</p>
-<p>#Define a grouping factor based on light intensity to split the ACi #curves data<img src="https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&amp;space;%5Cbg_white&amp;space;Q_2%20%3C-%20as.factor%28%28round%28data" title="Q_2 &lt;- as.factor((round(data" alt="Q_2 &lt;- as.factor((round(data">Qin, digits = 0)))</p>
-<p>#Convert data temperature to K data<img src="https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&amp;space;%5Cbg_white&amp;space;T_leaf%20%3C-%20data" title="T_leaf &lt;- data" alt="T_leaf &lt;- data">Tleaf + 273.15</p>
+<p>#Define a grouping factor based on light intensity to split the ACi #curves data<span class="math inline"><em>Q</em><sub>2</sub> &lt;  − <em>a</em><em>s</em>.<em>f</em><em>a</em><em>c</em><em>t</em><em>o</em><em>r</em>((<em>r</em><em>o</em><em>u</em><em>n</em><em>d</em>(<em>d</em><em>a</em><em>t</em><em>a</em></span>Qin, digits = 0)))</p>
+<p>#Convert data temperature to K data<span class="math inline"><em>T</em><sub><em>l</em></sub><em>e</em><em>a</em><em>f</em> &lt;  − <em>d</em><em>a</em><em>t</em><em>a</em></span>Tleaf + 273.15</p>
 <p>#Run a sensitivity analysis on GammaStar and mesophyll conductance #at 25 Celsius for one individual curve pars &lt;- analyze_sensitivity(data = data[data$Q_2 == 1500, ], funct = fit_aci_response, varnames = list(A_net = “A”, T_leaf = “T_leaf”, C_i = “Ci”, PPFD = “Qin”), useg_mct = TRUE, test1 = “gamma_star25”, element_out = 1, test2 = “g_mc25”, fitTPU = TRUE, Ea_gamma_star = 0, Ea_g_mc = 0, values1 = seq(from = 20, to = 60, by = 4), values2 = seq(from = 0.2, to = 2, by = 0.1))</p>
 <p>#Compute measures of sensitivity par2 &lt;- compute_sensitivity(data = pars, varnames = list(Par = “V_cmax”, test1 = “gamma_star25”, test2 = “g_mc25”), test1_ref = 40, test2_ref = 1) #Plot sensitivity ggplot(par2, aes(y = CE_gamma_star25, x = CE_g_mc25, colour = V_cmax))+ labs(x = expression(g_mc[25]~“Control Coefficient”), y = expression(Gamma[25]~“Control Coefficient”)) + geom_point() + theme_bw()</p>
 <p>ggplot(par2, aes(y = CE_gamma_star25, x = V_cmax, colour = gamma_star25))+ geom_point() + theme_bw() #Note that in this case a missing point appears due to an infinity #Can also plot sensitivity measures in 2 dimensions ggplot(par2, aes(x = gamma_star25, y = g_mc25, z = CE_gamma_star25))+ geom_tile(aes(fill = CE_gamma_star25)) + labs(x = expression(Gamma<em>“<em>”[25]<sub>”(”</sub></em>mu<em>molmol^{-1}</em>”)“), y = expression(g[m][25]<sub>“(”</sub></em>mu<em>molm<sup>{-2}~s</sup>{-1}~Pa^{-1}</em>”)“))+ scale_fill_distiller(palette =”Greys”) + geom_contour(colour = “Black”, size = 1) + theme_bw()</p>
 <p>plot(PE_gamma_star25 ~ gamma_star25, par2) #```</p>
 <p>#10. Dependency checking</p>
 <p>A function can be used to generate an html file that assesses the dependencies within and between packages</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#check_dependencies()</span></span></code></pre></div>
 <p>#References</p>
 <p>Arrhenius S. 1915. Quantitative laws in biological chemistry. Bell.</p>
@@ -1379,7 +1403,7 @@
 <ul class="list-unstyled">
 <li><a href="https://cran.r-project.org/package=photosynthesis" class="external-link"><img src="https://www.r-pkg.org/badges/version/photosynthesis" alt="CRAN status"></a></li>
 <li><a href="https://cran.r-project.org/package=photosynthesis" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/photosynthesis"></a></li>
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://github.com/cdmuir/photosynthesis/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/cdmuir/photosynthesis/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
