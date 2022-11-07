@@ -295,16 +295,20 @@ make_default_parameter_list = function(which, use_tealeaves) {
 #' @noRd
 check_parameter_names = function(.x, which, use_tealeaves) {
   
-  nms = parameter_names(which, use_tealeaves = use_tealeaves)
-  
   stopifnot(is.list(.x))
   
-  if (!all(nms %in% names(.x))) {
-    nms[!(nms %in% names(.x))] %>%
+  nms = parameter_names(which, use_tealeaves = use_tealeaves)
+  
+  # Don't fail check if .x is missing tealeaves parameter equivalents
+  nms1 = nms[!(nms %in% get_par_equiv()[, "tl"])]
+  if (which == "leaf" & use_tealeaves) nms1 = nms1[!(nms1 == "T_leaf")]
+  
+  if (!all(nms1 %in% names(.x))) {
+    nms1[!(nms1 %in% names(.x))] |>
       stringr::str_c(collapse = ", ") %>%
       glue::glue("{x} not in parameter names required for {which}",
                  x = ., which = which
-      ) %>%
+      ) |>
       stop()
   }
   

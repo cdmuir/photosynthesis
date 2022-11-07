@@ -154,7 +154,7 @@ How the partitioning factors work: \cr
 Inf \tab all conductance on \bold{upper} surface/portion
 }
 
-The internal airspace conductance is the diffusivity of CO2 in of a given
+The internal airspace conductance is the diffusivity of CO2 at a given
 temperature and pressure divided by the effective path length:
 
 \deqn{g_\mathrm{ias,c,lower} = D_\mathrm{c} / \delta_\mathrm{ias,lower}}{g_iasc_lower = D_c / delta_ias_lower}
