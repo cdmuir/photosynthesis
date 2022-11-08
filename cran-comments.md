@@ -23,6 +23,8 @@
 * win-builder (devel)
 * win-builder (oldrelease)
 * R-hub builder: Windows Server 2022, R-devel, 64 bit
+* R-hub builder: Ubuntu Linux 20.04.1 LTS, R-release, GCC
+* R-hub builder: Fedora Linux, R-devel, clang, gfortran
 
 ## R CMD check results
 

@@ -48,27 +48,27 @@ See the following vignettes for examples of what **photosynthesis** can
 do:
 
 - [Introduction to the photosynthesis
-  package](https://cran.r-project.org/web/packages/photosynthesis/vignettes/photosynthesis-introduction.html)
+  package](https://cdmuir.github.io/photosynthesis/articles/photosynthesis-introduction.html)
 - [Modeling C3 Photosynthesis: recommendations for common
-  scenarios](https://cran.r-project.org/web/packages/photosynthesis/vignettes/modeling-recommendations.html)
+  scenarios](https://cdmuir.github.io/photosynthesis/articles/modeling-recommendations.html)
 - [Fitting light response
-  curves](https://cran.r-project.org/web/packages/photosynthesis/vignettes/light-response.html)
+  curves](https://cdmuir.github.io/photosynthesis/articles/light-response.html)
 - [Fitting CO2 response
-  curves](https://cran.r-project.org/web/packages/photosynthesis/vignettes/co2-response.html)
+  curves](https://cdmuir.github.io/photosynthesis/articles/co2-response.html)
 - [Fitting temperature response
-  curves](https://cran.r-project.org/web/packages/photosynthesis/vignettes/temperature-response.html)
+  curves](https://cdmuir.github.io/photosynthesis/articles/temperature-response.html)
 - [Fitting stomatal conductance
-  models](https://cran.r-project.org/web/packages/photosynthesis/vignettes/stomatal-conductance.html)
+  models](https://cdmuir.github.io/photosynthesis/articles/stomatal-conductance.html)
 - [Fitting light
-  respiration](https://cran.r-project.org/web/packages/photosynthesis/vignettes/light-respiration.html)
+  respiration](https://cdmuir.github.io/photosynthesis/articles/light-respiration.html)
 - [Fitting mesophyll
-  conductance](https://cran.r-project.org/web/packages/photosynthesis/vignettes/mesophyll-conductance.html)
+  conductance](https://cdmuir.github.io/photosynthesis/articles/mesophyll-conductance.html)
 - [Fitting pressure-volume
-  curves](https://cran.r-project.org/web/packages/photosynthesis/vignettes/pressure-volume.html)
+  curves](https://cdmuir.github.io/photosynthesis/articles/pressure-volume.html)
 - [Fitting hydraulic vulnerability
-  curves](https://cran.r-project.org/web/packages/photosynthesis/vignettes/hydraulic-vulnerability.html)
+  curves](https://cdmuir.github.io/photosynthesis/articles/hydraulic-vulnerability.html)
 - [Sensitivity
-  Analysis](https://cran.r-project.org/web/packages/photosynthesis/vignettes/sensitivity-analysis.html)
+  Analysis](https://cdmuir.github.io/photosynthesis/articles/sensitivity-analysis.html)
 
 ## Contributors
 

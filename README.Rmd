@@ -66,17 +66,17 @@ See the following vignettes for examples of what **photosynthesis** can do:
 * [Fitting hydraulic vulnerability curves][hydraulic-vulnerability]
 * [Sensitivity Analysis][sensitivity-analysis]
 
-[photosynthesis-introduction]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/photosynthesis-introduction.html
-[modeling-recommendations]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/modeling-recommendations.html
-[light-response]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/light-response.html
-[co2-response]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/co2-response.html
-[temperature-response]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/temperature-response.html
-[stomatal-conductance]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/stomatal-conductance.html
-[light-respiration]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/light-respiration.html
-[mesophyll-conductance]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/mesophyll-conductance.html
-[pressure-volume]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/pressure-volume.html
-[hydraulic-vulnerability]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/hydraulic-vulnerability.html
-[sensitivity-analysis]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/sensitivity-analysis.html
+[photosynthesis-introduction]: https://cdmuir.github.io/photosynthesis/articles/photosynthesis-introduction.html
+[modeling-recommendations]: https://cdmuir.github.io/photosynthesis/articles/modeling-recommendations.html
+[light-response]: https://cdmuir.github.io/photosynthesis/articles/light-response.html
+[co2-response]: https://cdmuir.github.io/photosynthesis/articles/co2-response.html
+[temperature-response]: https://cdmuir.github.io/photosynthesis/articles/temperature-response.html
+[stomatal-conductance]: https://cdmuir.github.io/photosynthesis/articles/stomatal-conductance.html
+[light-respiration]: https://cdmuir.github.io/photosynthesis/articles/light-respiration.html
+[mesophyll-conductance]: https://cdmuir.github.io/photosynthesis/articles/mesophyll-conductance.html
+[pressure-volume]: https://cdmuir.github.io/photosynthesis/articles/pressure-volume.html
+[hydraulic-vulnerability]: https://cdmuir.github.io/photosynthesis/articles/hydraulic-vulnerability.html
+[sensitivity-analysis]: https://cdmuir.github.io/photosynthesis/articles/sensitivity-analysis.html
 
 ## Contributors
 
