@@ -1,3 +1,5 @@
+# photosynthesis (development version)
+
 # photosynthesis 2.1.0
 
 * Commented out examples that took a long time to run
