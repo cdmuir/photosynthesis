@@ -1,0 +1,73 @@
+---
+title: "Fitting light respiration"
+author: "Joseph R. Stinziano and Christopher D. Muir"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_document
+vignette: >
+ %\VignetteIndexEntry{light-respiration}
+ %\VignetteEngine{knitr::rmarkdown}
+ %\VignetteEncoding{UTF-8}
+---
+
+The package currently supports fitting light respiration according to the 
+slope-intercept regression extension of the Laisk method (Laisk 1977; 
+Walker & Ort 2015), the Kok method (Kok 1956), and the Yin modification of the 
+Kok method (Yin et al. 2009, 2011)
+
+```{r, message = FALSE}
+library(dplyr)
+library(photosynthesis)
+
+round_to_nearest = function(x, values) {
+  sapply(x, function(y, values) {
+    values[which.min(abs(y - values))]
+  }, values = values)
+}
+
+# Read in your data
+dat = system.file("extdata", "A_Ci_Q_data_1.csv", package = "photosynthesis") |> 
+  read.csv() |>
+  mutate(group = round_to_nearest(CO2_s, values = c(50, 100, 200, 300, 410, 600, 820, 1200, 1600))) |>
+  rename(A_net = A, PPFD = Qin, phi_PSII = PhiPS2, C_i = Ci)
+
+# Fit light respiration with Yin method
+r_light = fit_r_light_yin(data = dat, PPFD_lower = 20, PPFD_upper = 250)
+
+# Fit light respiration with Kok method
+r_light = fit_r_light_kok(data = dat, PPFD_lower = 20, PPFD_upper = 150)
+
+# Fit light respiration across groups with Yin method
+r_lights = fit_many(
+  data = dat,
+  funct = fit_r_light_yin,
+  group = "group",
+  PPFD_lower = 20, PPFD_upper = 250,
+  progress = FALSE
+)
+
+#Fit the Walker-Ort method for GammaStar and light respiration
+walker_ort = fit_r_light_WalkerOrt(dat)
+
+# View model output
+summary(walker_ort[[1]])
+
+# View graph
+# walker_ort[[2]]
+
+# View coefficients
+walker_ort[[3]]
+
+```
+
+# References
+
+Kok B. 1956. On the inhibition of photosynthesis by intense light. *Biochimica et Biophysica Acta* 21: 234–244
+
+Laisk A. 1977. Kinetics of photosynthesis and photorespiration in C3 plants. Nauka, Moscow.
+
+Walker BJ, Ort DR. 2015. Improved method for measuring the apparent CO2 photocompensation point resolves the impact of multiple internal conductances to CO2 to net gas exchange. *Plant, Cell & Environment* 38:2462-
+2474
+
+Yin X, Struik PC, Romero P, Harbinson J, Evers JB, van der Putten  PEL, Vos J. 2009. Using combined measurements of gas exchange and chlorophyll fluorescence to estimate parameters of a biochemical C3 photosynthesis model: a critical appraisal and a new integrated approach applied to leaves in a wheat (*Triticum aestivum*) canopy. *Plant, Cell & Environment* 32:448-464
+
+Yin X, Sun Z, Struik PC, Gu J. 2011. Evaluating a new method to estimate the rate of leaf respiration in the light by analysis of combined gas exchange and chlorophyll fluorescence measurements. *Journal of Experimental Botany* 62: 3489–3499

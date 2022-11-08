@@ -1,5 +1,10 @@
 # photosynthesis 2.1.0
 
+* Commented out examples that took a long time to run
+* Added `progress` option to `fit_many()` to toggle progress bar
+* We removed large files from help subdirectory
+* Divided large vignette into smaller vignettes and removed figures to reduce file size
+* Updated CITATION
 * There is a new vignette on C3 photosynthesis modeling recommendations (modeling-recommendations)
 * Under the hood, many changes to `photosynthesis()`, but performance should be the same
 * Changed default `C_air` from 41 Pa to 420 umol/mol

@@ -1,0 +1,96 @@
+---
+title: "Fitting temperature response curves"
+author: "Joseph R. Stinziano and Christopher D. Muir"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_document
+vignette: >
+ %\VignetteIndexEntry{temperature-response}
+ %\VignetteEngine{knitr::rmarkdown}
+ %\VignetteEncoding{UTF-8}
+---
+
+This package provides support for multiple temperature response functions 
+(Arrhenius 1915; Medlyn *et al.* 2002; Kruse & Adams. 2006; Heskel *et al.* 2016; 
+Liang *et al.* 2018).
+
+```{r, message = FALSE}
+
+library(dplyr)
+library(photosynthesis)
+library(tidyr)
+
+round_to_nearest = function(x, values) {
+  sapply(x, function(y, values) {
+    values[which.min(abs(y - values))]
+  }, values = values)
+}
+
+# Read in data
+dat = system.file("extdata", "A_Ci_T_data.csv", package = "photosynthesis") |>
+  read.csv() |>
+  mutate(
+    group = as.factor(round_to_nearest(Tleaf, seq(17.5, 40, by = 2.5))),
+    # Convert data temperature to K
+    T_leaf = Tleaf + 273.15
+  ) %>%
+  # Calculate mean temperature for group so temperature
+  full_join(
+    . |>
+      group_by(ID, group) |>
+      summarize(Curve_Tleaf = round(mean(Tleaf), 1), .groups = "drop"),
+    by = c("ID", "group")
+  ) |>
+  # Create ID column to curve fit by ID and temperature
+  mutate(ID2 = paste(ID, Curve_Tleaf, sep = "_")) |>
+  rename(A_net = A, C_i = Ci, PPFD = Qin)
+   
+# Fit many CO2 response curves
+fits = fit_many(
+  data = dat,
+  group = "ID2",
+  funct = fit_aci_response,
+  alphag = 0,
+  progress = FALSE
+)
+    
+# Extract ACi parameters
+pars = compile_data(fits, output_type = "dataframe", list_element = 1)
+    
+# Extract ACi graphs
+graphs = compile_data(fits, output_type = "list", list_element = 2)
+    
+# Parse the ID variable
+pars = separate(pars, col = "ID", into = c("ID", "Curve_Tleaf"), sep = "_") |>
+  mutate(
+    # Make sure curve leaf temperature is numeric and convert to K
+    T_leaf = as.numeric(Curve_Tleaf) + 273.15
+  )
+    
+fit = fit_t_response(
+  data = filter(pars, ID == "S2"),
+  varnames = list(Par = "V_cmax", T_leaf = "T_leaf"),
+  setvar = "Hd"
+)
+    
+# Graphs
+# fit[["Arrhenius"]][["Graph"]]
+# fit[["Heskel"]][["Graph"]]
+# fit[["Kruse"]][["Graph"]]
+# fit[["Medlyn"]][["Graph"]]
+# fit[["MMRT"]][["Graph"]]
+# fit[["Quadratic"]][["Graph"]]
+# fit[["Topt"]][["Graph"]]
+```
+
+
+# References
+
+Arrhenius S. 1915. Quantitative laws in biological chemistry. Bell.
+
+Heskel MA, O'Sullivan OS, Reich PB, Tjoelker MG, Weerasinghe LK, Penillard A, Egerton JJG, Creek D, Bloomfield KJ, Xiang J, Sinca F, Stangl ZR, la Torre AM, Griffin KL, Huntingford C, Hurry V, Meir P, Turnbull MH, Atkin OK. 2016. Convergence in the temperature response of leaf respiration across biomes and plant functional types. *PNAS* 113:3832-3837
+
+Kruse J, Adams MA. 2008. Three parameters comprehensively describe the temperature response of respiratory oxygen reduction. *Plant, Cell & Environment* 31:954-967
+
+Liang LL, Arcus VL, Heskel MA, O'Sullivan OS, Weerasinghe LK, Creek D, Egerton JJG, Tjoelker MG, Atkin OK, Schipper LA. 2018. Macromolecular rate theory (MMRT) provides a thermodynamics rationale to underpin the convergent temperature response in plant leaf respiration. *Global Change Biology* 24:1538-1547
+
+Medlyn BE, Dreyer E, Ellsworth D, Forstreuter M, Harley PC, Kirschbaum MUF, Le Roux X, Montpied P, Strassemeyer J, Walcroft A, Wang K, Loutstau D. 2002. Temperature response of parameters of a biochemically based model of photosynthesis. II. A review of experimental data. *Plant, Cell & Environment* 25:1167-1179.

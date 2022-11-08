@@ -1,0 +1,73 @@
+---
+title: "Fitting pressure-volume curves"
+author: "Joseph R. Stinziano and Christopher D. Muir"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_document
+vignette: >
+ %\VignetteIndexEntry{pressure-volume}
+ %\VignetteEngine{knitr::rmarkdown}
+ %\VignetteEncoding{UTF-8}
+---
+
+This package follows the Prometheus wiki spreadsheet from Sack and Pasquet-Kok at:
+
+https://prometheusprotocols.net/function/water-relations/pressure-volume-curves/leaf-pressure-volume-curve-parameters/
+
+For references, see Koide *et al.* 2000, Sack *et al.* 2003, and Tyree & Hammel 1972.
+
+```{r, message = FALSE}
+
+library(dplyr)
+library(photosynthesis)
+
+# Read in data
+dat = system.file("extdata", "PV_curve.csv", package = "photosynthesis") |>
+  read.csv()
+
+# Fit one PV curve
+fit = fit_PV_curve(filter(dat, ID == "L2"))
+
+# See fitted parameters
+fit[[1]]
+
+# Plot water mass graph
+# fit[[2]]
+
+# Plot PV Curve
+# fit[[3]]
+
+#Fit all PV curves in a file
+fits = fit_many(
+  dat,
+  group = "ID",
+  funct = fit_PV_curve,
+  progress = FALSE
+)
+
+# See parameters
+fits[[1]][[1]]
+
+# See water mass - water potential graph
+# fits[[1]][[2]]
+
+# See PV curve
+# fits[[1]][[3]]
+
+# Compile parameter outputs
+pars = compile_data(data = fits, output_type = "dataframe", list_element = 1)
+
+# Compile the water mass - water potential graphs
+graphs1 = compile_data(data = fits, output_type = "list", list_element = 2)
+
+# Compile the PV graphs
+graphs2 = compile_data(data = fits, output_type = "list", list_element = 3)
+
+```
+
+# References
+
+Koide RT, Robichaux RH, Morse SR, Smith CM. 2000. Plant water status, hydraulic resistance and capacitance. In: *Plant Physiological Ecology: Field Methods and Instrumentation* (eds RW Pearcy, JR Ehleringer, HA Mooney, PW Rundel), pp. 161-183. Kluwer, Dordrecht, the Netherlands.
+
+Sack L, Cowan PD, Jaikumar N, Holbrook NM. 2003. The 'hydrology' of leaves: co-ordination of structure and function in temperate woody species. *Plant, Cell & Environment* 26:1343-1356
+
+Tyree MT, Hammel HT. 1972. Measurement of turgor pressure and water relations of plants by pressure bomb technique. *Journal of Experimental Botany* 23:267-282.

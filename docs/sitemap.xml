@@ -13,7 +13,22 @@
     <loc>/LICENSE.html</loc>
   </url>
   <url>
+    <loc>/articles/co2-response.html</loc>
+  </url>
+  <url>
+    <loc>/articles/hydraulic-vulnerability.html</loc>
+  </url>
+  <url>
     <loc>/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>/articles/light-respiration.html</loc>
+  </url>
+  <url>
+    <loc>/articles/light-response.html</loc>
+  </url>
+  <url>
+    <loc>/articles/mesophyll-conductance.html</loc>
   </url>
   <url>
     <loc>/articles/modeling-recommemdations.html</loc>
@@ -23,6 +38,18 @@
   </url>
   <url>
     <loc>/articles/photosynthesis-introduction.html</loc>
+  </url>
+  <url>
+    <loc>/articles/pressure-volume.html</loc>
+  </url>
+  <url>
+    <loc>/articles/sensitivity-analysis.html</loc>
+  </url>
+  <url>
+    <loc>/articles/stomatal-conductance.html</loc>
+  </url>
+  <url>
+    <loc>/articles/temperature-response.html</loc>
   </url>
   <url>
     <loc>/authors.html</loc>
