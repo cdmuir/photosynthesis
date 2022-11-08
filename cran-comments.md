@@ -1,5 +1,10 @@
 ## Summary of new changes
 
+* Commented out examples that took a long time to run
+* Added `progress` option to `fit_many()` to toggle progress bar
+* We removed large files from help subdirectory
+* Divided large vignette into smaller vignettes and removed figures to reduce file size
+* Updated CITATION
 * There is a new vignette on C3 photosynthesis modeling recommendations (modeling-recommendations)
 * Under the hood, many changes to `photosynthesis()`, but performance should be the same
 * Changed default `C_air` from 41 Pa to 420 umol/mol
@@ -10,19 +15,18 @@
 * Changed default conductance units from `[umol / m ^ 2 / s / Pa]` to `[mol / m ^ 2 / s]`
 * Changed `<-` to `=` in many instances
 * Changed `%>%` to `|>` in many instances
+* Removed `check_dependencies()` function
 
 ## Test environments
-* local R installation, R 4.2.1
+* local R installation, R 4.2.2
 * win-builder (release)
 * win-builder (devel)
 * win-builder (oldrelease)
+* R-hub builder: Windows Server 2022, R-devel, 64 bit
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
-
 ❯ checking installed package size ... NOTE
-    installed size is  5.1Mb
+    installed size is  6.9Mb
     sub-directories of 1Mb or more:
-      doc    3.2Mb
-      help   1.1Mb
+      doc   6.0Mb

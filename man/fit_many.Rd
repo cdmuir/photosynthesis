@@ -4,7 +4,7 @@
 \alias{fit_many}
 \title{Fitting many functions across groups}
 \usage{
-fit_many(data, funct, group, ...)
+fit_many(data, funct, group, progress = TRUE, ...)
 }
 \arguments{
 \item{data}{Dataframe}
@@ -12,6 +12,8 @@ fit_many(data, funct, group, ...)
 \item{funct}{Function to fit}
 
 \item{group}{Grouping variables}
+
+\item{progress}{Flag. Show progress bar?}
 
 \item{...}{Arguments for the function to fit. Use ?functionname
 to read the help file on available arguments for a given function.}
@@ -29,19 +31,19 @@ Fitting many functions across groups
 # Note that this data is coming from data supplied by the package
 # hence the complicated argument in read.csv()
 # This dataset is a CO2 by light response curve for a single sunflower
-data <- read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
+data = read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
   package = "photosynthesis"
 ))
 
 # Define a grouping factor based on light intensity to split the ACi
 # curves
-data$Q_2 <- as.factor((round(data$Qin, digits = 0)))
+data$Q_2 = as.factor((round(data$Qin, digits = 0)))
 
 # Convert leaf temperature to K
-data$T_leaf <- data$Tleaf + 273.15
+data$T_leaf = data$Tleaf + 273.15
 
 # Fit many curves
-fits <- fit_many(
+fits = fit_many(
   data = data,
   varnames = list(
     A_net = "A",
@@ -62,13 +64,13 @@ fits[[3]][[1]]
 fits[[3]][[2]]
 
 # Compile graphs into a list for plotting
-fits_graphs <- compile_data(fits,
+fits_graphs = compile_data(fits,
   list_element = 2
 )
 
 
 # Compile parameters into dataframe for analysis
-fits_pars <- compile_data(fits,
+fits_pars = compile_data(fits,
   output_type = "dataframe",
   list_element = 1
 )

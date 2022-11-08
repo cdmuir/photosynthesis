@@ -52,11 +52,31 @@ library("photosynthesis")
 
 ## Vignettes
 
-```{r child = 'vignettes/photosynthesis-introduction.Rmd'}
-```
+See the following vignettes for examples of what **photosynthesis** can do:
 
-```{r child = 'vignettes/photosynthesis-curve-fitting-sensitivity-analyses.Rmd'}
-```
+* [Introduction to the photosynthesis package][photosynthesis-introduction]
+* [Modeling C3 Photosynthesis: recommendations for common scenarios][modeling-recommendations]
+* [Fitting light response curves][light-response]
+* [Fitting CO2 response curves][co2-response]
+* [Fitting temperature response curves][temperature-response]
+* [Fitting stomatal conductance models][stomatal-conductance]
+* [Fitting light respiration][light-respiration]
+* [Fitting mesophyll conductance][mesophyll-conductance]
+* [Fitting pressure-volume curves][pressure-volume]
+* [Fitting hydraulic vulnerability curves][hydraulic-vulnerability]
+* [Sensitivity Analysis][sensitivity-analysis]
+
+[photosynthesis-introduction]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/photosynthesis-introduction.html
+[modeling-recommendations]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/modeling-recommendations.html
+[light-response]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/light-response.html
+[co2-response]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/co2-response.html
+[temperature-response]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/temperature-response.html
+[stomatal-conductance]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/stomatal-conductance.html
+[light-respiration]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/light-respiration.html
+[mesophyll-conductance]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/mesophyll-conductance.html
+[pressure-volume]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/pressure-volume.html
+[hydraulic-vulnerability]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/hydraulic-vulnerability.html
+[sensitivity-analysis]: https://cran.r-project.org/web/packages/photosynthesis/vignettes/sensitivity-analysis.html
 
 ## Contributors
 

@@ -1,20 +1,48 @@
 citHeader("To cite photosynthesis in publications use:")
 
 citEntry(
+  entry   = "Article",
+  author  = c(
+    person("Joseph R", "Stinziano"),
+    person("Cassaundra", "Roback"),
+    person("Demi", "Gamble"),
+    person("Bridget K", "Murphy"),
+    person("Patrick J", "Hudson"),
+    person("Christopher D", "Muir")
+  ),
+  title   = "Principles of resilient coding for plant ecophysiologists",
+  journal = "AoB PLANTS",
+  volume  = "13",
+  number  = "5",
+  year    = "2021",
+  month   = "10",
+  issn    = "2041-2851",
+  doi     = "10.1093/aobpla/plab059",
+  url     = "https://doi.org/10.1093/aobpla/plab059",
+  note    = "plab059",
+  textVersion = paste(
+    "Stinziano JR, D Gamble, BK Murphy, PJ Hudson, CD Muir. (2021).",
+    title = "Principles of resilient coding for plant ecophysiologists. AoB PLANTS 13: plab059."
+  )
+)
+
+citEntry(
   entry    = "Misc",
   title    = "photosynthesis: tools for plant ecophysiology & modeling",
-  author   = c(person("Joseph", "Stinziano", "R"),
-  person("Cassaundra", "Roback"),
-  person("Demi", "Gamble"),
-  person("Bridget", "Murphy"),
-  person("Patrick", "Hudson"),
-  person("Christopher", "Muir", "D")),
-  note     = "R package version 2.0.1",
-  year     = "2020",
+  author   = c(
+    person("Joseph R", "Stinziano"),
+    person("Cassaundra", "Roback"),
+    person("Demi", "Gamble"),
+    person("Bridget K", "Murphy"),
+    person("Patrick J", "Hudson"),
+    person("Christopher D", "Muir")
+  ),
+  note     = "R package version 2.1.0",
+  year     = "2022",
   url      = "https://CRAN.R-project.org/package=photosynthesis",
   textVersion = paste("Stinziano JR, Roback C, Gamble D, Murphy B, Hudson P,
-  Muir CD. (2020).",
-                 title = "photosynthesis: tools for plant ecophysiology & modeling. R package version 2.0.1.",
+  Muir CD. (2022).",
+                 title = "photosynthesis: tools for plant ecophysiology & modeling. R package version 2.1.0.",
                  "https://CRAN.R-project.org/package=photosynthesis."
 
   )

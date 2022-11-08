@@ -34,7 +34,7 @@ In this vignette, I'll show you how to:
 
 You can use the default parameter settings and simulate photosynthetic rate in a single leaf using the `make_*()` functions and `photo()`.
 
-```{r, mwe}
+```{r, message = FALSE}
 
 library(dplyr)
 library(magrittr)

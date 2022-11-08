@@ -1,9 +1,17 @@
-pandoc: '2.18'
+pandoc: 2.19.2
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
+  co2-response: co2-response.html
+  hydraulic-vulnerability: hydraulic-vulnerability.html
+  light-respiration: light-respiration.html
+  light-response: light-response.html
+  mesophyll-conductance: mesophyll-conductance.html
   modeling-recommemdations: modeling-recommemdations.html
-  photosynthesis-curve-fitting-sensitivity-analyses: photosynthesis-curve-fitting-sensitivity-analyses.html
   photosynthesis-introduction: photosynthesis-introduction.html
-last_built: 2022-11-07T21:18Z
+  pressure-volume: pressure-volume.html
+  sensitivity-analysis: sensitivity-analysis.html
+  stomatal-conductance: stomatal-conductance.html
+  temperature-response: temperature-response.html
+last_built: 2022-11-08T09:34Z
 
