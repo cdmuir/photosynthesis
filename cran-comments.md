@@ -12,10 +12,12 @@
 * Changed `%>%` to `|>` in many instances
 
 ## Test environments
-* local R installation, R 4.2.1
+* local R installation, R 4.2.2
 * win-builder (release)
 * win-builder (devel)
 * win-builder (oldrelease)
+* R_hub builder: Windows Server 2022, R-devel, 64 bit
+* R-hub builder: Ubuntu Linux 20.04.1 LTS, R-release, GCC
 
 ## R CMD check results
 
