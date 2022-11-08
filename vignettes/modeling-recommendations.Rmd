@@ -91,9 +91,11 @@ photo(leaf_par, enviro_par, bake_par, constants, use_tealeaves = FALSE) |>
 
 # References
 
-Rubén M, N de Diego-Vico, N Martín-Robles. 2013. Shifts in stomatal traits following the domestication of plant species. *Journal of Experimental Botany* 64(11): 3137–3146. 
-
 Muir CD. 2015. Making pore choices: repeated regime shifts in stomatal ratio. *Proc Roy Soc B* 282: 20151498.
+
+Nobel PS. 2020. *Physicochemical and Environmental Plant Physiology*. 5th Edition. Academic Press. 
+
+Rubén M, N de Diego-Vico, N Martín-Robles. 2013. Shifts in stomatal traits following the domestication of plant species. *Journal of Experimental Botany* 64(11): 3137–3146. 
 
 Wall S, S Vialet-Chabrand, P Davey, JV Rie, A Galle, J Cockram, T Lawson. 2022. Stomata on the abaxial and adaxial leaf surfaces contribute differently to leaf gas exchange and photosynthesis in wheat. *New Phytologist* 235(5): 1743-1756.
 

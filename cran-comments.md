@@ -1,5 +1,6 @@
 ## Summary of new changes
 
+* Fixed broken link in README
 * Commented out examples that took a long time to run
 * Added `progress` option to `fit_many()` to toggle progress bar
 * We removed large files from help subdirectory
