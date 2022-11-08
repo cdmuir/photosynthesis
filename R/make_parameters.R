@@ -350,7 +350,6 @@ assert_parameter_bounds = function(.x, ...) {
     dplyr::filter(...) |>
     dplyr::mutate(units = stringr::str_replace(units, "none", "1")) |>
     split(~ R) |>
-    magrittr::extract(2) |>
     purrr::map_lgl(function(.y) {
       if (
         length(.x[[.y$R]]) == 0L |
@@ -362,7 +361,7 @@ assert_parameter_bounds = function(.x, ...) {
       } else {
         units(.y$lower) = as_units(.y$units)
         units(.y$upper) = as_units(.y$units)
-        .x[[.y$R]] >= .y$lower & .x[[.y$R]] <= .y$upper
+        all(.x[[.y$R]] >= .y$lower & .x[[.y$R]] <= .y$upper)
       }
     }) |>
     all() |>
