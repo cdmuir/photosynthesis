@@ -476,10 +476,10 @@ fit_aci_response <- function(data,
       min(c(data$A_model, data$A_net)) - 3,
       max(c(data$A_model, data$A_net)) + 3
     )) +
-    geom_line(aes(color = "black"), size = 4) +
-    geom_line(aes(y = A_carbox, color = "blue"), size = 2) +
-    geom_line(aes(y = A_regen, color = "orange"), size = 2) +
-    geom_line(aes(y = A_tpu, color = "red"), size = 2) +
+    geom_line(aes(color = "black"), linewidth = 4) +
+    geom_line(aes(y = A_carbox, color = "blue"), linewidth = 2) +
+    geom_line(aes(y = A_regen, color = "orange"), linewidth = 2) +
+    geom_line(aes(y = A_tpu, color = "red"), linewidth = 2) +
     geom_point(aes(y = A_net),
       color = "black", fill = "white",
       size = 2, shape = 21

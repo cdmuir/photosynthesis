@@ -241,34 +241,34 @@ fit_hydra_vuln_curve <- function(data,
     ggtitle(label = title) +
     geom_vline(
       xintercept = fit_out[[3]]$P50[1],
-      size = 2,
+      linewidth = 2,
       colour = "Blue"
     ) +
     geom_vline(
       xintercept = fit_out[[3]]$Pe[1],
-      size = 2,
+      linewidth = 2,
       colour = "Blue"
     ) +
     geom_vline(
       xintercept = fit_out[[3]]$Pmax[1],
-      size = 2,
+      linewidth = 2,
       colour = "Blue"
     ) +
     geom_vline(
       xintercept = fit_out[[3]]$P50[2],
-      size = 2,
+      linewidth = 2,
       colour = "Orange",
       linetype = "dashed"
     ) +
     geom_vline(
       xintercept = fit_out[[3]]$Pe[2],
-      size = 2,
+      linewidth = 2,
       colour = "Orange",
       linetype = "dashed"
     ) +
     geom_vline(
       xintercept = fit_out[[3]]$Pmax[2],
-      size = 2,
+      linewidth = 2,
       colour = "Orange",
       linetype = "dashed"
     ) +
@@ -280,7 +280,7 @@ fit_hydra_vuln_curve <- function(data,
       formula = y ~ I(100 /
         (1 + exp(fit_out[[2]]$Value[2] *
           (x - fit_out[[2]]$Value[1])))),
-      size = 2
+      linewidth = 2
     ) +
     geom_smooth(
       method = "lm", aes(
@@ -290,7 +290,7 @@ fit_hydra_vuln_curve <- function(data,
       formula = y ~
       I((1 - exp(-((x / fit_out[[2]]$Value[4])^
         fit_out[[2]]$Value[3]))) * 100),
-      size = 2
+      linewidth = 2
     ) +
     geom_point(size = 2, aes(colour = "Black")) +
     labs(y = "PLC (%)", x = "Water Potential (-MPa)") +

@@ -1,5 +1,9 @@
 # photosynthesis (development version)
 
+* Fixed bug with setting upper bound for search in `find_A()`
+* Addressed warnings about deprecated arguments in **tidyselect** and **ggplot2**
+* Added `C_i` (intercellular CO2 concentration) to output from `photo()` and `photosynthesis()`
+
 # photosynthesis 2.1.0
 
 * Commented out examples that took a long time to run
