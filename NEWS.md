@@ -1,5 +1,7 @@
 # photosynthesis (development version)
 
+* Deprecated `fit_aq_response()` in favor of `fit_aq_response2()`. The new function uses non-standard evaluation to replace variable names as in `dplyr::rename()`. It will also extend functionality to enable Bayesian fitting using **brms** and does not output a plot.
+
 # photosynthesis 2.1.0
 
 * Commented out examples that took a long time to run
