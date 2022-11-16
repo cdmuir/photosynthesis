@@ -201,7 +201,7 @@ fit_r_light_WalkerOrt <- function(data,
   # Create graph, assign to element 2
   output[[2]] <- ggplot(coefs, aes(x = Slope, y = Intercept)) +
     labs(x = "Slope", y = "Intercept") +
-    geom_smooth(method = "lm", size = 2) +
+    geom_smooth(method = "lm", linewidth = 2) +
     geom_point(size = 3) +
     theme_bw()
   # Extract coefficients as per Walker and Ort 2015

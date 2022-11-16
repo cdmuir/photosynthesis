@@ -11,7 +11,7 @@ Authors@R: c(
     person("Chris", "Muir", email = "cdmuir@hawaii.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-2555-3878"))
     )
 Depends: R (>= 4.0.0),
-         ggplot2 (>= 3.3.0),
+         ggplot2 (>= 3.4.0),
          minpack.lm (>= 1.2-1),
          units (>= 0.6.6)
 Imports: checkmate (>= 2.0.0),

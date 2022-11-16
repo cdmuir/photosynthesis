@@ -192,7 +192,7 @@ fit_PV_curve <- function(data,
   output[[2]] <- ggplot(data, aes(x = leaf_water, y = psi)) +
     labs(y = expression(Psi[leaf] ~ "(MPa)", x = "Mass of water (g)")) +
     geom_hline(yintercept = 0) +
-    geom_line(aes(y = psi_pred), colour = "Grey", size = 2) +
+    geom_line(aes(y = psi_pred), colour = "Grey", linewidth = 2) +
     geom_point(size = 2) +
     theme_bw()
   # Remove bestfit information to avoid code complications
@@ -248,8 +248,8 @@ fit_PV_curve <- function(data,
     labs(y = expression("1 / " * Psi ~ "(MP" * a^{
       -1
     } * ")")) +
-    geom_line(aes(y = inv_psi_pred), size = 3, colour = "Grey") +
-    geom_line(size = 1, colour = "Black") +
+    geom_line(aes(y = inv_psi_pred), linewidth = 3, colour = "Grey") +
+    geom_line(linewidth = 1, colour = "Black") +
     geom_point(size = 4) +
     theme_bw()
   # Add names to output list

@@ -390,7 +390,7 @@ fit_aq_response = function(
         theta_J = output[[2]]$theta_J[1]
       ) -
         output[[2]]$Rd[1]),
-      size = 2
+      linewidth = 2
     ) +
     # Add points
     geom_point(size = 2) +

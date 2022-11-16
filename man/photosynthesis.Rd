@@ -134,9 +134,10 @@ A data.frame with the following \code{units} columns \cr
 
 \bold{Output:} \tab \cr
 \cr
-\code{A} \tab photosynthetic rate at \code{C_chl} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
-\code{C_chl} \tab chloroplastic CO2 concentration where \code{A_supply} intersects \code{A_demand} (Pa) \cr
-\code{g_tc} \tab total conductance to CO2 at \code{T_leaf} (\eqn{\mu}mol CO2 / (m\eqn{^2} s)) \cr
+\code{A} \tab photosynthetic rate at \code{C_chl} (\eqn{\mu}mol CO2 / m\eqn{^2} / s) \cr
+\code{C_chl} \tab chloroplastic CO2 concentration where \code{A_supply} intersects \code{A_demand} (\eqn{mu}mol / mol) \cr
+\code{C_i} \tab intercellular CO2 concentration where \code{A_supply} intersects \code{A_demand} (\eqn{mu}mol / mol) \cr
+\code{g_tc} \tab total conductance to CO2 at \code{T_leaf} (mol / m\eqn{^2} / s)) \cr
 \code{value} \tab \code{A_supply} - \code{A_demand} (\eqn{\mu}mol / (m\eqn{^2} s)) at \code{C_chl} \cr
 \code{convergence} \tab convergence code (0 = converged)
 }

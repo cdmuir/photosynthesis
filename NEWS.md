@@ -1,6 +1,9 @@
 # photosynthesis (development version)
 
 * Deprecated `fit_aq_response()` in favor of `fit_aq_response2()`. The new function uses non-standard evaluation to replace variable names as in `dplyr::rename()`. It will also extend functionality to enable Bayesian fitting using **brms** and does not output a plot.
+* Fixed bug with setting upper bound for search in `find_A()`
+* Addressed warnings about deprecated arguments in **tidyselect** and **ggplot2**
+* Added `C_i` (intercellular CO2 concentration) to output from `photo()` and `photosynthesis()`
 
 # photosynthesis 2.1.0
 
