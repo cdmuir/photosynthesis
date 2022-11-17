@@ -139,6 +139,9 @@
     <loc>/reference/fit_aq_response.html</loc>
   </url>
   <url>
+    <loc>/reference/fit_aq_response2.html</loc>
+  </url>
+  <url>
     <loc>/reference/fit_g_mc_variableJ.html</loc>
   </url>
   <url>
@@ -173,6 +176,9 @@
   </url>
   <url>
     <loc>/reference/make_parameters.html</loc>
+  </url>
+  <url>
+    <loc>/reference/models.html</loc>
   </url>
   <url>
     <loc>/reference/parameter_names.html</loc>

@@ -24,7 +24,9 @@ however it could easily be fed into a different fitting approach (e.g.
 Bayesian approaches). Originally from Marshall et al. 1980.
 }
 \description{
-Non-rectangular hyperbolic model of light responses
+`r lifecycle::badge("deprecated")`
+
+Please use `marshall_biscoe_1980()`.
 }
 \references{
 Marshall B, Biscoe P. 1980. A model for C3 leaves describing the

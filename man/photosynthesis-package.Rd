@@ -5,7 +5,7 @@
 \alias{photosynthesis-package}
 \title{\code{photosynthesis} package}
 \description{
-Modeling and analytical tools for plant ecophysiology
+Tools for Plant Ecophysiology & Modeling
 }
 \details{
 See the README on

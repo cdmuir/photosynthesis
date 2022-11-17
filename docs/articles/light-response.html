@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0.9001</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@
                         <h4 data-toc-skip class="author">Joseph R.
 Stinziano and Christopher D. Muir</h4>
             
-            <h4 data-toc-skip class="date">2022-11-08</h4>
+            <h4 data-toc-skip class="date">2022-11-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/cdmuir/photosynthesis/blob/HEAD/vignettes/light-response.Rmd" class="external-link"><code>vignettes/light-response.Rmd</code></a></small>
       <div class="hidden name"><code>light-response.Rmd</code></div>
@@ -128,10 +128,165 @@ Stinziano and Christopher D. Muir</h4>
 
     
     
-<p>This package currently only implements the Marshall et al. 1980
-non-rectangular hyperbola model of the photosynthetic light
+<div class="section level3">
+<h3 id="preferred-version-photosynthesis-2-1-1">Preferred version (<strong>photosynthesis</strong> &gt;= 2.1.1)<a class="anchor" aria-label="anchor" href="#preferred-version-photosynthesis-2-1-1"></a>
+</h3>
+<p>This package currently only implements the Marshall &amp; Biscoe
+(1980) non-rectangular hyperbola model of the photosynthetic light
 response.</p>
+<div class="section level4">
+<h4 id="fit-the-light-response-curve-using-nonlinear-least-squares-nls">Fit the light-response curve using nonlinear least-squares
+(nls)<a class="anchor" aria-label="anchor" href="#fit-the-light-response-curve-using-nonlinear-least-squares-nls"></a>
+</h4>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/" class="external-link">broom</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cdmuir/photosynthesis" class="external-link">photosynthesis</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Read in your data</span></span>
+<span><span class="va">dat</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"A_Ci_Q_data_1.csv"</span>, package <span class="op">=</span> <span class="st">"photosynthesis"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="co"># Set grouping variable</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">CO2_s</span>, digits <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="co"># For this example, round sequentially due to CO2_s set points</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">group</span>, digits <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit one light-response curve</span></span>
+<span><span class="va">fit</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_aq_response2.html">fit_aq_response2</a></span><span class="op">(</span></span>
+<span>  .data <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">group</span> <span class="op">==</span> <span class="fl">600</span><span class="op">)</span>,</span>
+<span>  .vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>.A <span class="op">=</span> <span class="va">A</span>, .Q <span class="op">=</span> <span class="va">Qabs</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># The 'fit' object inherits class 'nls' and many methods can be used</span></span>
+<span></span>
+<span><span class="co">## Model summary:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Formula: .A ~ marshall_biscoe_1980(Q_abs = .data[[".Qabs"]], k_sat, phi_J, </span></span>
+<span><span class="co">##     theta_J) - Rd</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Parameters:</span></span>
+<span><span class="co">##          Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">## k_sat   21.170337   0.154428  137.09 1.70e-08 ***</span></span>
+<span><span class="co">## phi_J    0.061543   0.001218   50.52 9.19e-07 ***</span></span>
+<span><span class="co">## theta_J  0.775752   0.014526   53.40 7.36e-07 ***</span></span>
+<span><span class="co">## Rd       0.666320   0.063490   10.49 0.000466 ***</span></span>
+<span><span class="co">## ---</span></span>
+<span><span class="co">## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Residual standard error: 0.0539 on 4 degrees of freedom</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Number of iterations to convergence: 5 </span></span>
+<span><span class="co">## Achieved convergence tolerance: 1.49e-08</span></span></code></pre>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Estimated parameters:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##       k_sat       phi_J     theta_J          Rd </span></span>
+<span><span class="co">## 21.17033712  0.06154347  0.77575157  0.66631983</span></span></code></pre>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## 95% confidence intervals:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##                2.5%       97.5%</span></span>
+<span><span class="co">## k_sat   20.75337772 21.60612987</span></span>
+<span><span class="co">## phi_J    0.05835624  0.06501655</span></span>
+<span><span class="co">## theta_J  0.73285635  0.81306156</span></span>
+<span><span class="co">## Rd       0.49523165  0.84311606</span></span></code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Tidy summary table using 'broom::tidy()'</span></span>
+<span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">fit</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span>, conf.level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 7</span></span></span>
+<span><span class="co">##   term    estimate std.error statistic      p.value conf.low conf.high</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> k_sat    21.2      0.154       137.  0.000<span style="text-decoration: underline;">000</span>017<span style="text-decoration: underline;">0</span>  20.8      21.6   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> phi_J     0.061<span style="text-decoration: underline;">5</span>   0.001<span style="text-decoration: underline;">22</span>      50.5 0.000<span style="text-decoration: underline;">000</span>919    0.058<span style="text-decoration: underline;">4</span>    0.065<span style="text-decoration: underline;">0</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> theta_J   0.776    0.014<span style="text-decoration: underline;">5</span>       53.4 0.000<span style="text-decoration: underline;">000</span>736    0.733     0.813 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> Rd        0.666    0.063<span style="text-decoration: underline;">5</span>       10.5 0.000<span style="text-decoration: underline;">466</span>       0.495     0.843</span></span></code></pre>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Calculate light compensation point</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>LCP <span class="op">=</span> <span class="op">(</span><span class="op">(</span><span class="va">Rd</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">Rd</span> <span class="op">*</span> <span class="va">theta_J</span> <span class="op">-</span> <span class="va">k_sat</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">phi_J</span> <span class="op">*</span> <span class="op">(</span><span class="va">Rd</span> <span class="op">-</span> <span class="va">k_sat</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span></span>
+<span><span class="co">## Calculate residual sum-of-squares</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">resid</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 33.57967</span></span></code></pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="plot-model-fit-and-raw-data">Plot model fit and raw data<a class="anchor" aria-label="anchor" href="#plot-model-fit-and-raw-data"></a>
+</h3>
+<p>The deprecated function <code><a href="../reference/fit_aq_response.html">fit_aq_response()</a></code> generated a
+figure automatically, but it used <code><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">geom_smooth()</a></code> rather than
+plotting the model fit. We now prefer to use generic methods from the
+package <a href="https://ggplot2.tidyverse.org/" class="external-link"><strong>ggplot2</strong></a> and
+plot the fitted curve. This allows users the ability to more easily
+customize their figures.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">b</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_predict</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Qabs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.84</span> <span class="op">*</span> <span class="fl">1500</span>, length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    A <span class="op">=</span> <span class="fu"><a href="../reference/models.html">marshall_biscoe_1980</a></span><span class="op">(</span></span>
+<span>      Q_abs <span class="op">=</span> <span class="va">Qabs</span>,</span>
+<span>      k_sat <span class="op">=</span> <span class="va">b</span><span class="op">[</span><span class="st">"k_sat"</span><span class="op">]</span>,</span>
+<span>      <span class="va">b</span><span class="op">[</span><span class="st">"phi_J"</span><span class="op">]</span>,</span>
+<span>      <span class="va">b</span><span class="op">[</span><span class="st">"theta_J"</span><span class="op">]</span></span>
+<span>    <span class="op">)</span> <span class="op">-</span> <span class="va">b</span><span class="op">[</span><span class="st">"Rd"</span><span class="op">]</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">Qabs</span>, <span class="va">A</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_predict</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">group</span> <span class="op">==</span> <span class="fl">600</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="st">"Irradiance ("</span> <span class="op">*</span> <span class="va">mu</span> <span class="op">*</span> <span class="va">mol</span> <span class="op">~</span> <span class="va">m</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">2</span><span class="op">}</span> <span class="op">~</span> <span class="va">s</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">}</span> <span class="op">*</span> <span class="st">")"</span><span class="op">)</span>,</span>
+<span>    y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">A</span><span class="op">[</span><span class="va">net</span><span class="op">]</span> <span class="op">~</span> <span class="st">"("</span> <span class="op">*</span> <span class="va">mu</span> <span class="op">*</span> <span class="va">mol</span> <span class="op">~</span> <span class="va">m</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">2</span><span class="op">}</span> <span class="op">~</span> <span class="va">s</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">}</span> <span class="op">*</span> <span class="st">")"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="light-response_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="fit-multiple-curves-with-photosynthesis-and-purrr">Fit multiple curves with <strong>photosynthesis</strong> and
+<strong>purrr</strong><a class="anchor" aria-label="anchor" href="#fit-multiple-curves-with-photosynthesis-and-purrr"></a>
+</h3>
+<p>In the previous version, we used <code><a href="../reference/fit_many.html">fit_many()</a></code> to fit many
+light-response curves simultaneously. We now prefer to use generic
+methods from the package <a href="https://purrr.tidyverse.org/" class="external-link"><strong>purrr</strong></a> that are
+already pretty good.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fits</span> <span class="op">=</span> <span class="va">dat</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="op">~</span> <span class="va">group</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">fit_aq_response2</span>, .vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>.A <span class="op">=</span> <span class="va">A</span>, .Q <span class="op">=</span> <span class="va">Qabs</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Estimated parameters:</span></span>
+<span><span class="va">fits</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">coef</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">as.data.frame</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/imap.html" class="external-link">imap_dfr</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">.x</span>, CO2_s <span class="op">=</span> <span class="va">.y</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##        k_sat       phi_J   theta_J          Rd CO2_s</span></span>
+<span><span class="co">## 1 -0.1832198 0.004189778 0.2428476 -0.09209662    50</span></span>
+<span><span class="co">## 2  2.6370733 0.017295931 0.8858139  0.59492313   100</span></span>
+<span><span class="co">## 3  7.3481571 0.032255707 0.8376461  0.61479142   200</span></span>
+<span><span class="co">## 4 11.4687982 0.045046336 0.7898826  0.76746932   300</span></span>
+<span><span class="co">## 5 16.4505827 0.057537264 0.6997933  0.89736502   410</span></span>
+<span><span class="co">## 6 21.1703371 0.061543474 0.7757516  0.66631983   600</span></span>
+<span><span class="co">## 7 23.9305140 0.067744069 0.7514331  0.78493847   820</span></span>
+<span><span class="co">## 8 25.0686239 0.068975627 0.7632357  0.58529680  1200</span></span>
+<span><span class="co">## 9 25.6413999 0.071556328 0.7411443  0.45326420  1600</span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="deprecated-version-photosynthesis-2-1-1">Deprecated version (<strong>photosynthesis</strong> &gt;=
+2.1.1)<a class="anchor" aria-label="anchor" href="#deprecated-version-photosynthesis-2-1-1"></a>
+</h3>
+<p>The <code><a href="../reference/fit_aq_response.html">fit_aq_response()</a></code> function is the original version,
+but we are no longer updating it and may phase it out of future
+releases. Use <code><a href="../reference/fit_aq_response2.html">fit_aq_response2()</a></code> instead.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cdmuir/photosynthesis" class="external-link">photosynthesis</a></span><span class="op">)</span></span>
 <span><span class="co"># Read in your data</span></span>
@@ -144,9 +299,15 @@ response.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>A_net <span class="op">=</span> <span class="va">A</span>, PPFD <span class="op">=</span> <span class="va">Qin</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># To fit one AQ curve</span></span>
-<span><span class="va">fit</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_aq_response.html">fit_aq_response</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">group</span> <span class="op">==</span> <span class="fl">600</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Print model summary</span></span>
+<span><span class="va">fit</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_aq_response.html">fit_aq_response</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">group</span> <span class="op">==</span> <span class="fl">600</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: `fit_aq_response()` was deprecated in photosynthesis 2.1.1.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `fit_aq_response2()` instead.</span></span></code></pre>
+<pre><code><span><span class="co">## Warning: `aq_response()` was deprecated in photosynthesis 2.1.1.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `marshall_biscoe_1980()` instead.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">photosynthesis</span> package.</span></span>
+<span><span class="co">##   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;</span></span></span></code></pre>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Print model summary</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Formula: A_net ~ aq_response(k_sat, phi_J, Q_abs = data$Q_abs, theta_J) - </span></span>
@@ -165,16 +326,16 @@ response.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Number of iterations to convergence: 5 </span></span>
 <span><span class="co">## Achieved convergence tolerance: 1.49e-08</span></span></code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Print fitted parameters</span></span>
 <span><span class="va">fit</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##         A_sat      phi_J   theta_J        Rd      LCP  resid_SSs</span></span>
 <span><span class="co">## k_sat 21.1672 0.05190746 0.7754836 0.6684953 12.97289 0.01225491</span></span></code></pre>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Print graph</span></span>
 <span><span class="va">fit</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
-<p><img src="light-response_files/figure-html/unnamed-chunk-1-1.png" width="700"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<p><img src="light-response_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit many curves</span></span>
 <span><span class="va">fits</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_many.html">fit_many</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">dat</span>,</span>
@@ -204,16 +365,16 @@ response.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Number of iterations to convergence: 4 </span></span>
 <span><span class="co">## Achieved convergence tolerance: 1.49e-08</span></span></code></pre>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Print the parameters</span></span>
 <span><span class="va">fits</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##          A_sat      phi_J   theta_J        Rd      LCP  resid_SSs</span></span>
 <span><span class="co">## k_sat 2.637157 0.01458002 0.8858892 0.5951635 42.17813 0.02446394</span></span></code></pre>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Print the graph</span></span>
 <span><span class="va">fits</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
-<p><img src="light-response_files/figure-html/unnamed-chunk-1-2.png" width="700"></p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p><img src="light-response_files/figure-html/unnamed-chunk-4-2.png" width="700"></p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Compile graphs into a list for plotting</span></span>
 <span><span class="va">fits_graphs</span> <span class="op">=</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span><span class="va">fits</span>, list_element <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
@@ -222,6 +383,7 @@ response.</p>
 <span></span>
 <span><span class="co">#Compile parameters into data.frame for analysis</span></span>
 <span><span class="va">fits_pars</span> <span class="op">=</span> <span class="fu"><a href="../reference/compile_data.html">compile_data</a></span><span class="op">(</span><span class="va">fits</span>, output_type <span class="op">=</span> <span class="st">"dataframe"</span>, list_element <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+</div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>

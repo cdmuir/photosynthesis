@@ -34,10 +34,11 @@ Imports: checkmate (>= 2.0.0),
          tibble (>= 3.0.0),
          utils (>= 4.0.0)
 Suggests: 
+    broom,
     future,
-    testthat,
     knitr,
     rmarkdown,
+    testthat,
     tidyr,
     tidyselect
 Description: Contains modeling and analytical tools for plant ecophysiology.

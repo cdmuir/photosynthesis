@@ -35,7 +35,7 @@ sum of squares (resid_SS). Note that Rd fitted in this way is essentially
 the same as the Kok method, and represents a respiration value in the
 light that may not be accurate. Rd output should thus be interpreted more
 as a residual parameter to ensure an accurate fit of the light response
-parameters. Model originally from Marshall et al. 1980.
+parameters. Model originally from Marshall & Biscoe 1980.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}

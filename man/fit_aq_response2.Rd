@@ -16,9 +16,9 @@ fit_aq_response2(
 \arguments{
 \item{.data}{A data frame containing CO2 assimilation light response}
 
-\item{.vars}{A list to rename variables in .data to 'A' and 'Q' where 'A' is
-net CO2 assimilation in \eqn{\mu}mol m\eqn{^{-2}} s\eqn{^{-1}} and 'Q' is
-incident irradiance in \eqn{\mu}mol m\eqn{^{-2}} s\eqn{^{-1}}. Q can be
+\item{.vars}{A list to rename variables in .data to '.A' and '.Q' where '.A' is
+net CO2 assimilation in \eqn{\mu}mol m\eqn{^{-2}} s\eqn{^{-1}} and '.Q' is
+incident irradiance in \eqn{\mu}mol m\eqn{^{-2}} s\eqn{^{-1}}. '.Q' can be
 corrected for light absorbance by setting \code{useapha_Q = TRUE} and setting
 \code{alpha_Q = ...} based on measured or assumed leaf light absorbance.}
 
@@ -31,87 +31,52 @@ corrected for light absorbance by setting \code{useapha_Q = TRUE} and setting
 \item{alpha_Q}{Number. Absorbance of incident light. Default value is 0.84. Ignored if \code{usealpha_Q = FALSE}.}
 }
 \value{
-\code{fit_aq_response2()} fits the light response of net CO2 assimilation.
-Output is a dataframe containing light saturated net CO2 assimilation,
-quantum yield of CO2 assimilation (phi_J), curvature of the light response
-(theta_J), respiration (Rd), light compensation point (LCP), and residual
-sum of squares (resid_SS). Note that Rd fitted in this way is essentially
-the same as the Kok method, and represents a respiration value in the
-light that may not be accurate. Rd output should thus be interpreted more
-as a residual parameter to ensure an accurate fit of the light response
-parameters. Model originally from Marshall et al. 1980.
+\code{fit_aq_response2()} fits the light response of net CO2 assimilation and returns an \code{\link[stats]{nls}} object.
 }
 \description{
 Fitting light responses of net CO2 assimilation
 }
+\note{
+Rd fitted in this way is essentially the same as the Kok method, and
+represents a respiration value in the light that may not be accurate.
+Rd output should thus be interpreted more as a residual parameter to ensure
+an accurate fit of the light response parameters. Model originally from
+Marshall & Biscoe (1980).
+}
 \examples{
 \donttest{
+
+library(broom)
+library(dplyr)
+library(photosynthesis)
+
 # Read in your data
-# Note that this data is coming from data supplied by the package
-# hence the complicated argument in read.csv()
-# This dataset is a CO2 by light response curve for a single sunflower
-data = read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-  package = "photosynthesis"
-))
+dat = system.file("extdata", "A_Ci_Q_data_1.csv", package = "photosynthesis") |>
+  read.csv() |>
+  # Set grouping variable
+  mutate(group = round(CO2_s, digits = 0)) |>
+  # For this example, round sequentially due to CO2_s set points
+  mutate(group = as.factor(round(group, digits = -1)))
 
-# Fit many AQ curves
-# Set your grouping variable
-# Here we are grouping by CO2_s and individual
-data$C_s = (round(data$CO2_s, digits = 0))
-
-# For this example we need to round sequentially due to CO2_s setpoints
-data$C_s = as.factor(round(data$C_s, digits = -1))
-
-# To fit one AQ curve
-fit = fit_aq_response(data[data$C_s == 600, ],
-  varnames = list(
-    A_net = "A",
-    PPFD = "Qin"
-  )
+# Fit one light-response curve
+fit = fit_aq_response2(
+  .data = filter(dat, group == 600),
+  .vars = list(.A = A, .Q = Qabs)
 )
 
-# Print model summary
-summary(fit[[1]])
+# The 'fit' object inherits class 'nls' and many methods can be used
 
-# Print fitted parameters
-fit[[2]]
+## Model summary:
+summary(fit)
 
-# Print graph
-fit[[3]]
+## Estimated parameters:
+coef(fit)
 
-# Fit many curves
-fits = fit_many(
-  data = data,
-  varnames = list(
-    A_net = "A",
-    PPFD = "Qin",
-    group = "C_s"
-  ),
-  funct = fit_aq_response,
-  group = "C_s"
-)
+## 95\% confidence intervals:
+confint(fit)
 
-# Look at model summary for a given fit
-# First set of double parentheses selects an individual group value
-# Second set selects an element of the sublist
-summary(fits[[3]][[1]])
-
-# Print the parameters
-fits[[3]][[2]]
-
-# Print the graph
-fits[[3]][[3]]
-
-# Compile graphs into a list for plotting
-fits_graphs = compile_data(fits,
-  list_element = 3
-)
-
-# Compile parameters into dataframe for analysis
-fits_pars = compile_data(fits,
-  output_type = "dataframe",
-  list_element = 2
-)
+## Tidy summary table using 'broom::tidy()'
+tidy(fit, conf.int = TRUE, conf.level = 0.95)
 }
 
 }

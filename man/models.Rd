@@ -3,14 +3,25 @@
 \name{get_default_model}
 \alias{get_default_model}
 \alias{get_all_models}
+\alias{marshall_biscoe_1980}
 \title{Get default model}
 \usage{
 get_default_model(method)
 
 get_all_models(method)
+
+marshall_biscoe_1980(Q_abs, k_sat, phi_J, theta_J)
 }
 \arguments{
 \item{method}{Character string. One of "aq_response"}
+
+\item{Q_abs}{Absorbed light intensity (\eqn{\mu}mol m\eqn{^{-2}} s\eqn{^{-1}})}
+
+\item{k_sat}{Light saturated rate of process k}
+
+\item{phi_J}{Quantum efficiency of process k}
+
+\item{theta_J}{Curvature of the light response}
 }
 \value{
 A character string with name of model.
@@ -19,4 +30,13 @@ A character string with name of model.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 Get the name of the default model used for different plant ecophysiological data analysis methods implemented in \bold{photosynthesis}. Currently only used for \code{\link{fit_aq_response2}}.
+
+\strong{Light response models:}
+\itemize{
+\item \code{marshall_biscoe_1980()}: Non-rectangular hyperbolic model of light responses
+}
+}
+\examples{
+get_default_model("aq_response")
+
 }
