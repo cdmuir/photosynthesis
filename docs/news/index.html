@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0.9002</span>
       </span>
     </div>
 
@@ -89,7 +89,8 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="photosynthesis-development-version">photosynthesis (development version)<a class="anchor" aria-label="anchor" href="#photosynthesis-development-version"></a></h2>
-<ul><li>Deprecated <code><a href="../reference/fit_aq_response.html">fit_aq_response()</a></code> in favor of <code><a href="../reference/fit_aq_response2.html">fit_aq_response2()</a></code>. The new function uses non-standard evaluation to replace variable names as in <code><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">dplyr::rename()</a></code>. It will also extend functionality to enable Bayesian fitting using <strong>brms</strong> and does not output a plot.</li>
+<ul><li>Added Bayesian fitting method to <code><a href="../reference/fit_aq_response2.html">fit_aq_response2()</a></code> using <strong>brms</strong> package.</li>
+<li>Deprecated <code><a href="../reference/fit_aq_response.html">fit_aq_response()</a></code> in favor of <code><a href="../reference/fit_aq_response2.html">fit_aq_response2()</a></code>. The new function uses non-standard evaluation to replace variable names as in <code><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">dplyr::rename()</a></code>. It will also extend functionality to enable Bayesian fitting using <strong>brms</strong> and does not output a plot.</li>
 <li>Fixed bug with setting upper bound for search in <code>find_A()</code>
 </li>
 <li>Addressed warnings about deprecated arguments in <strong>tidyselect</strong> and <strong>ggplot2</strong>

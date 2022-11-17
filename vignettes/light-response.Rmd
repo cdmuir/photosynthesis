@@ -112,6 +112,22 @@ fits |>
 
 ```
 
+## Fit Bayesian light-response curves with **brms** and *Stan*
+
+Traditional model fitting use a nonlinear least-squares approach, but Bayesian methods have some advantages, especially with more complex data sets. We added an option to fit a single Bayesian light-response curve using the amazing [**brms**](https://CRAN.R-project.org/package=brms) package which fits models in [*Stan*](https://mc-stan.org/). We have not implemented more complex approaches (e.g. multilevel light-response models) because once you are doing that, it's probably easier to code the model directly into **brms** functions. Hopefully this code can get you started though. We have not run the example below, but copy-and-paste into your *R* Console to try.
+
+```{r, eval = FALSE}
+
+fit = fit_aq_response2(
+  .data = filter(dat, group == 600),
+  .vars = list(.A = A, .Q = Qabs),
+  .method = "brms",
+  brm_options = list(chains = 1)
+)
+
+```
+
+
 ## Deprecated version (**photosynthesis** >= 2.1.1)
 
 The `fit_aq_response()` function is the original version, but we are no longer updating it and may phase it out of future releases. Use `fit_aq_response2()` instead.

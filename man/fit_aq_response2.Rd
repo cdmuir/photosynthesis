@@ -10,7 +10,8 @@ fit_aq_response2(
   .model = "default",
   .method = "nls",
   usealpha_Q = FALSE,
-  alpha_Q = 0.84
+  alpha_Q = 0.84,
+  brm_options = NULL
 )
 }
 \arguments{
@@ -29,6 +30,8 @@ corrected for light absorbance by setting \code{useapha_Q = TRUE} and setting
 \item{usealpha_Q}{Flag. Should light intensity be multipled by \code{alpha_Q} before fitting? Default is FALSE (i.e. assume that 'Q' is absorbed light).}
 
 \item{alpha_Q}{Number. Absorbance of incident light. Default value is 0.84. Ignored if \code{usealpha_Q = FALSE}.}
+
+\item{brm_options}{A list of options passed to \code{\link[brms]{brm}} if \code{.method = "brms"}.}
 }
 \value{
 \code{fit_aq_response2()} fits the light response of net CO2 assimilation and returns an \code{\link[stats]{nls}} object.
@@ -77,6 +80,15 @@ confint(fit)
 
 ## Tidy summary table using 'broom::tidy()'
 tidy(fit, conf.int = TRUE, conf.level = 0.95)
+
+# Fit multiple curves with **photosynthesis** and **purrr**
+
+library(purrr)
+
+fits = dat |>
+  split(~ group) |>
+  map(fit_aq_response2, .vars = list(.A = A, .Q = Qabs))
+
 }
 
 }

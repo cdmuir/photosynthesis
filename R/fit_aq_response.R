@@ -10,7 +10,8 @@
 #' @param .method A character string of the statistical method to use. Currently only "nls" (non-linear least squares) is allowed. We plan to add a Bayesion option later.
 #' @param usealpha_Q Flag. Should light intensity be multipled by `alpha_Q` before fitting? Default is FALSE (i.e. assume that 'Q' is absorbed light).
 #' @param alpha_Q Number. Absorbance of incident light. Default value is 0.84. Ignored if `usealpha_Q = FALSE`.
-#'
+#' @param brm_options A list of options passed to \code{\link[brms]{brm}} if `.method = "brms"`.
+#' 
 #' @return `fit_aq_response2()` fits the light response of net CO2 assimilation and returns an \code{\link[stats]{nls}} object.
 #' 
 #' @note Rd fitted in this way is essentially the same as the Kok method, and 
@@ -59,6 +60,15 @@
 #' 
 #' ## Tidy summary table using 'broom::tidy()'
 #' tidy(fit, conf.int = TRUE, conf.level = 0.95)
+#' 
+#' # Fit multiple curves with **photosynthesis** and **purrr**
+#' 
+#' library(purrr)
+#' 
+#' fits = dat |>
+#'   split(~ group) |>
+#'   map(fit_aq_response2, .vars = list(.A = A, .Q = Qabs))
+#' 
 #' }
 #' 
 #' @md
@@ -68,15 +78,16 @@ fit_aq_response2 = function(
     .model = "default",
     .method = "nls",
     usealpha_Q = FALSE,
-    alpha_Q = 0.84
+    alpha_Q = 0.84,
+    brm_options = NULL
   ) {
   
   .vars = substitute(.vars)
-
+  .method = match.arg(.method, choices = c("nls", "brms"))
+  
   # Checks
   checkmate::assert_data_frame(.data)
   checkmate::assert_string(.model)
-  checkmate::assert_string(.method)
   checkmate::assert_flag(usealpha_Q)
   checkmate::assert_number(alpha_Q, na.ok = !usealpha_Q)
   
@@ -95,10 +106,24 @@ fit_aq_response2 = function(
   .data = dplyr::mutate(.data, .Qabs = .Q * ifelse(usealpha_Q, alpha_Q, 1)) |>
     dplyr::select(.A, .Q, .Qabs)
 
-  # Fit AQ response model using nlsLM - this function is more
-  # robust (i.e. successful) than regular nls
-  .method = match.arg(.method, c("nls"))
-  fit = nlsLM(
+  # Fit AQ response model
+  fit = switch(
+    .method,
+    nls = fit_aq_response2_nls(.data),
+    brms = fit_aq_response2_brms(.data, brm_options)
+  )
+ 
+  fit 
+  
+}
+
+#' Fit light response using \code{\link[minpack.lm]{nlsLM}}
+#' @noRd
+fit_aq_response2_nls = function(.data, ...) {
+  
+  requireNamespace("minpack.lm") || stop("Package not loaded: minpack.lm")
+  
+  minpack.lm::nlsLM(
     data = .data, 
     .A ~ marshall_biscoe_1980(Q_abs = .data[[".Qabs"]], k_sat, phi_J, theta_J) - Rd,
     # Attempt to estimate starting parameters
@@ -110,8 +135,43 @@ fit_aq_response2 = function(
     # set max iterations for curve fitting
     control = nls.lm.control(maxiter = 100)
   )
- 
-  fit 
+  
+}
+
+#' Fit light response using \code{\link[brms]{brm}}
+#' @noRd
+fit_aq_response2_brms = function(.data, brm_options, ...) {
+  
+  requireNamespace("brms") || stop("Package not loaded: brms")
+  
+  lifecycle::signal_stage("experimental", what = "fit_aq_response2(.method = 'brms')")
+  
+  do.call(
+    brms::brm,
+    args = c(
+      brm_options,
+      list(
+        formula = brms::bf(
+          .A ~ ((Asat + inv_logit(logitPhiJ) * .Qabs) -
+                 sqrt((Asat + inv_logit(logitPhiJ) * .Qabs) ^ 2 -
+                        4 * Asat * inv_logit(logitPhiJ) * .Qabs * inv_logit(logitThetaJ))) /
+            (2 * inv_logit(logitThetaJ)) - Rd,
+          Asat ~ 1,
+          logitPhiJ ~ 1,
+          logitThetaJ ~ 1,
+          Rd ~ 1,
+          nl = TRUE
+        ), 
+        data = .data,
+        prior = c(
+          brms::prior(normal(20, 10), nlpar = "Asat", lb = 0),
+          brms::prior(normal(-2.5, 0.5), nlpar = "logitPhiJ"),
+          brms::prior(normal(2.5, 0.5), nlpar = "logitThetaJ"),
+          brms::prior(normal(2, 1), nlpar = "Rd", lb = 0)
+        )
+      )
+    )
+  )
   
 }
 

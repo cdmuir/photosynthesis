@@ -22,5 +22,5 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("."))
 ## quiets concerns of R CMD check re: units
 utils::globalVariables(c(
   ".A", ".Q", ".Qabs", "degreeC", "g", "hPa", "J", "K", "kg", "kJ", "kPa",
-  "m", "mol", "Pa", "PPFD", "s", "umol", "W"
+  "m", "mol", "normal", "Pa", "PPFD", "s", "umol", "W"
 ))

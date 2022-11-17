@@ -1,5 +1,5 @@
 Package: photosynthesis
-Version: 2.1.0.9001
+Version: 2.1.0.9002
 Date: 2022-11-16
 Title: Tools for Plant Ecophysiology & Modeling
 Authors@R: c(
@@ -34,6 +34,7 @@ Imports: checkmate (>= 2.0.0),
          tibble (>= 3.0.0),
          utils (>= 4.0.0)
 Suggests: 
+    brms,
     broom,
     future,
     knitr,
