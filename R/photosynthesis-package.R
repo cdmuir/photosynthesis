@@ -11,8 +11,9 @@
 #' @importFrom magrittr %>% %<>%
 #' @importFrom minpack.lm nlsLM nls.lm.control
 #' @importFrom methods is
+#' @importFrom nlme lmList
 #' @importFrom rlang .data
-#' @importFrom stats coef optim plogis resid
+#' @importFrom stats coef lm optim plogis resid
 #' @importFrom units as_units drop_units set_units
 NULL
 

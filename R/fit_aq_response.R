@@ -1,12 +1,12 @@
-#' Fitting light responses of net CO2 assimilation
+#' Fit photosynthetic light-response curves
 #' 
-#' @param .data A data frame containing CO2 assimilation light response
+#' @inheritParams required_variables
+#' @param .data A data frame containing plant ecophysiological data. See \code{\link{required_variables()}}
 #' @param .vars A list to rename variables in .data to '.A' and '.Q' where '.A' is 
 #' net CO2 assimilation in \eqn{\mu}mol m\eqn{^{-2}} s\eqn{^{-1}} and '.Q' is 
 #' incident irradiance in \eqn{\mu}mol m\eqn{^{-2}} s\eqn{^{-1}}. '.Q' can be 
 #' corrected for light absorbance by setting `useapha_Q = TRUE` and setting 
 #' `alpha_Q = ...` based on measured or assumed leaf light absorbance. 
-#' @param .model A character string of model name to use. The default option is `r get_default_model("aq_response")`. 
 #' @param .method A character string of the statistical method to use. Currently only "nls" (non-linear least squares) is allowed. We plan to add a Bayesion option later.
 #' @param usealpha_Q Flag. Should light intensity be multipled by `alpha_Q` before fitting? Default is FALSE (i.e. assume that 'Q' is absorbed light).
 #' @param alpha_Q Number. Absorbance of incident light. Default value is 0.84. Ignored if `usealpha_Q = FALSE`.
