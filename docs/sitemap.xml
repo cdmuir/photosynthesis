@@ -154,7 +154,13 @@
     <loc>/reference/fit_many.html</loc>
   </url>
   <url>
+    <loc>/reference/fit_photosynthesis.html</loc>
+  </url>
+  <url>
     <loc>/reference/fit_r_light.html</loc>
+  </url>
+  <url>
+    <loc>/reference/fit_r_light2.html</loc>
   </url>
   <url>
     <loc>/reference/fit_t_response.html</loc>
@@ -203,6 +209,9 @@
   </url>
   <url>
     <loc>/reference/replace_defaults.html</loc>
+  </url>
+  <url>
+    <loc>/reference/required_variables.html</loc>
   </url>
   <url>
     <loc>/reference/t_functions.html</loc>

@@ -8,7 +8,7 @@
 #' 
 #' Get the name of the default model used for different plant ecophysiological data analysis methods implemented in \bold{photosynthesis}. Currently only used for \code{\link{fit_aq_response2}} and \code{\link{fit_r_light2}}.
 #' 
-#' @param method Character string. One of "aq_response", "r_light"
+#' @inheritParams fit_photosynthesis
 #' 
 #' @return A character string with name of model.
 #' 
@@ -18,10 +18,10 @@
 #' 
 #' @md
 #' @export
-get_default_model = function(method) {
-  match.arg(method, get_method_types())
+get_default_model = function(.photo_fun) {
+  .photo_fun = match.arg(.photo_fun, get_function_types())
   switch(
-    method,
+    .photo_fun,
     aq_response = "marshall_biscoe_1980",
     r_light = "walker_ort_2015"
   )
@@ -30,7 +30,7 @@ get_default_model = function(method) {
 #' @rdname models
 #' @export
 get_all_models = function(method) {
-  match.arg(method, get_method_types())
+  match.arg(method, get_function_types())
   switch(
     method,
     aq_response = "marshall_biscoe_1980",
@@ -62,34 +62,39 @@ marshall_biscoe_1980 = function(Q_abs, k_sat, phi_J, theta_J) {
 
 #' Variables required for **photosynthesis** models
 #' 
-#' @param .model A character string of model name to use. See \code{\link{get_all_models}}. 
+#' @inheritParams fit_photosynthesis
 #' @export
-required_variables = function(.model) {
+required_variables = function(.model, quiet) {
   
-  .model = match.arg(.model, get_method_types() |>
+  .model = match.arg(.model, get_function_types() |>
                        purrr::map(get_all_models) |>
                        unlist())
   all_vars = list(
     .A = "net CO2 assimilation rate (umol/m^2/s)",
+    .Ci = "intercellular CO2 concentration (umol/mol)",
+    .phiPSII = "",
     .Q = "irradiance (umol/m^2/s)"
   )
   
-  cat(.model, "\n")
-  switch(
+  model_vars = switch(
     .model,
-    kok_1956 = "TBA",
+    kok_1956 = all_vars[c(".A", ".Q")],
     marshall_biscoe_1980 = all_vars[c(".A", ".Q")],
-    walker_ort_2015 = "TBA",
-    yin_etal_2011 = "TBA"
-  ) |>
-    purrr::iwalk(~ {cat(.y, ": ", .x, "\n")})
+    walker_ort_2015 = all_vars[c(".A", ".Ci", ".Q")],
+    yin_etal_2011 = list(TBA = "TBA")
+  ) 
   
-  invisible()
+  if (!quiet) {
+    cat(.model, "\n")
+    purrr::iwalk(model_vars, ~ {cat(.y, ": ", .x, "\n")})
+  }
+  
+  invisible(names(model_vars))
   
 }
 
 #' Vector of method types
 #' @noRd
-get_method_types = function() {
+get_function_types = function() {
   c("aq_response", "r_light")
 }

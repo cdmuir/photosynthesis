@@ -2,6 +2,7 @@ library(testthat)
 library(photosynthesis)
 context("Fitting Rlight")
 
+# REVISIT AFTER fit_r_light2() is done
 df <- data.frame(
   A_net = c(
     seq(from = -3, to = -1.5, by = 0.5),
@@ -10,11 +11,11 @@ df <- data.frame(
   PPFD = c(seq(from = 0, to = 130, by = 10))
 )
 
-model <- fit_r_light_kok(df)
+# model <- fit_r_light_kok(df)
 
-test_that("Outputs", {
-  expect_is(object = model, class = "numeric")
-})
+# test_that("Outputs", {
+#   expect_is(object = model, class = "numeric")
+# })
 
 df <- data.frame(
   A_net = c(
@@ -34,14 +35,14 @@ df <- data.frame(
   )
 )
 
-model <- fit_r_light_WalkerOrt(df)
+# model <- fit_r_light_WalkerOrt(df)
 
-test_that("Outputs", {
-  expect_is(object = model[1], class = "list")
-  expect_is(object = model[2], class = "list")
-  expect_is(object = model[[3]], class = "data.frame")
-  expect_length(object = model, 3)
-})
+# test_that("Outputs", {
+#   expect_is(object = model[1], class = "list")
+#   expect_is(object = model[2], class = "list")
+#   expect_is(object = model[[3]], class = "data.frame")
+#   expect_length(object = model, 3)
+# })
 
 df <- data.frame(
   A_net = c(
@@ -52,8 +53,8 @@ df <- data.frame(
   phi_PSII = c(seq(from = 0.74, to = 0.61, by = -0.01))
 )
 
-model <- fit_r_light_yin(df)
+# model <- fit_r_light_yin(df)
 
-test_that("Outputs", {
-  expect_is(object = model, class = "numeric")
-})
+# test_that("Outputs", {
+#   expect_is(object = model, class = "numeric")
+# })

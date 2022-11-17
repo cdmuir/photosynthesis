@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0.9003</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@
                         <h4 data-toc-skip class="author">Joseph R.
 Stinziano and Christopher D. Muir</h4>
             
-            <h4 data-toc-skip class="date">2022-11-16</h4>
+            <h4 data-toc-skip class="date">2022-11-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/cdmuir/photosynthesis/blob/HEAD/vignettes/light-response.Rmd" class="external-link"><code>vignettes/light-response.Rmd</code></a></small>
       <div class="hidden name"><code>light-response.Rmd</code></div>
@@ -152,9 +152,10 @@ response.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">group</span>, digits <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Fit one light-response curve</span></span>
-<span><span class="va">fit</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_aq_response2.html">fit_aq_response2</a></span><span class="op">(</span></span>
+<span><span class="va">fit</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_photosynthesis.html">fit_photosynthesis</a></span><span class="op">(</span></span>
 <span>  .data <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">group</span> <span class="op">==</span> <span class="fl">600</span><span class="op">)</span>,</span>
-<span>  .vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>.A <span class="op">=</span> <span class="va">A</span>, .Q <span class="op">=</span> <span class="va">Qabs</span><span class="op">)</span></span>
+<span>  .photo_fun <span class="op">=</span> <span class="st">"aq_response"</span>,</span>
+<span>  .vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>.A <span class="op">=</span> <span class="va">A</span>, .Q <span class="op">=</span> <span class="va">Qabs</span><span class="op">)</span>,</span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># The 'fit' object inherits class 'nls' and many methods can be used</span></span>
@@ -260,7 +261,7 @@ already pretty good.</p>
 <span></span>
 <span><span class="va">fits</span> <span class="op">=</span> <span class="va">dat</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="op">~</span> <span class="va">group</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">fit_aq_response2</span>, .vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>.A <span class="op">=</span> <span class="va">A</span>, .Q <span class="op">=</span> <span class="va">Qabs</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">fit_photosynthesis</span>, .photo_fun <span class="op">=</span> <span class="st">"aq_response"</span>, .vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>.A <span class="op">=</span> <span class="va">A</span>, .Q <span class="op">=</span> <span class="va">Qabs</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## Estimated parameters:</span></span>
 <span><span class="va">fits</span> <span class="op">|&gt;</span></span>
@@ -294,8 +295,9 @@ into <strong>brms</strong> functions. Hopefully this code can get you
 started though. We have not run the example below, but copy-and-paste
 into your <em>R</em> Console to try.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_aq_response2.html">fit_aq_response2</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_photosynthesis.html">fit_photosynthesis</a></span><span class="op">(</span></span>
 <span>  .data <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">group</span> <span class="op">==</span> <span class="fl">600</span><span class="op">)</span>,</span>
+<span>  .photo_fun <span class="op">=</span> <span class="st">"aq_response"</span>,</span>
 <span>  .vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>.A <span class="op">=</span> <span class="va">A</span>, .Q <span class="op">=</span> <span class="va">Qabs</span><span class="op">)</span>,</span>
 <span>  .method <span class="op">=</span> <span class="st">"brms"</span>,</span>
 <span>  brm_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>chains <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -323,7 +325,7 @@ releases. Use <code><a href="../reference/fit_aq_response2.html">fit_aq_response
 <span><span class="co"># To fit one AQ curve</span></span>
 <span><span class="va">fit</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_aq_response.html">fit_aq_response</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">group</span> <span class="op">==</span> <span class="fl">600</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: `fit_aq_response()` was deprecated in photosynthesis 2.1.1.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `fit_aq_response2()` instead.</span></span></code></pre>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use the `.photo_fun` argument of `fit_photosynthesis()` instead.</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: `aq_response()` was deprecated in photosynthesis 2.1.1.</span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `marshall_biscoe_1980()` instead.</span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">photosynthesis</span> package.</span></span>

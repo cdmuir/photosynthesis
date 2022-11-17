@@ -31,9 +31,10 @@ dat = system.file("extdata", "A_Ci_Q_data_1.csv", package = "photosynthesis") |>
   mutate(group = as.factor(round(group, digits = -1)))
 
 # Fit one light-response curve
-fit = fit_aq_response2(
+fit = fit_photosynthesis(
   .data = filter(dat, group == 600),
-  .vars = list(.A = A, .Q = Qabs)
+  .photo_fun = "aq_response",
+  .vars = list(.A = A, .Q = Qabs),
 )
 
 # The 'fit' object inherits class 'nls' and many methods can be used
@@ -101,7 +102,7 @@ library(purrr)
 
 fits = dat |>
   split(~ group) |>
-  map(fit_aq_response2, .vars = list(.A = A, .Q = Qabs))
+  map(fit_photosynthesis, .photo_fun = "aq_response", .vars = list(.A = A, .Q = Qabs))
 
 ## Estimated parameters:
 fits |>
@@ -118,8 +119,9 @@ Traditional model fitting use a nonlinear least-squares approach, but Bayesian m
 
 ```{r, eval = FALSE}
 
-fit = fit_aq_response2(
+fit = fit_photosynthesis(
   .data = filter(dat, group == 600),
+  .photo_fun = "aq_response",
   .vars = list(.A = A, .Q = Qabs),
   .method = "brms",
   brm_options = list(chains = 1)

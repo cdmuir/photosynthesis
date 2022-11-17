@@ -2,42 +2,41 @@
 % Please edit documentation in R/fit_aq_response.R
 \name{fit_aq_response2}
 \alias{fit_aq_response2}
-\title{Fitting light responses of net CO2 assimilation}
+\title{Fit photosynthetic light-response curves}
 \usage{
 fit_aq_response2(
   .data,
-  .vars = NULL,
   .model = "default",
-  .method = "nls",
+  .method = "ls",
   usealpha_Q = FALSE,
   alpha_Q = 0.84,
+  quiet = FALSE,
   brm_options = NULL
 )
 }
 \arguments{
-\item{.data}{A data frame containing CO2 assimilation light response}
+\item{.data}{A data frame containing plant ecophysiological data. See \code{\link{required_variables}} for the variables required for each model.}
 
-\item{.vars}{A list to rename variables in .data to '.A' and '.Q' where '.A' is
-net CO2 assimilation in \eqn{\mu}mol m\eqn{^{-2}} s\eqn{^{-1}} and '.Q' is
-incident irradiance in \eqn{\mu}mol m\eqn{^{-2}} s\eqn{^{-1}}. '.Q' can be
-corrected for light absorbance by setting \code{useapha_Q = TRUE} and setting
-\code{alpha_Q = ...} based on measured or assumed leaf light absorbance.}
+\item{.model}{A character string of model name to use. See \code{\link{get_all_models}}.}
 
-\item{.model}{A character string of model name to use. The default option is marshall_biscoe_1980.}
+\item{.method}{A character string of the statistical method to use: 'ls' for least-squares and 'brms' for Bayesian model using \code{\link[brms]{brm}}. Default is 'ls'.}
 
-\item{.method}{A character string of the statistical method to use. Currently only "nls" (non-linear least squares) is allowed. We plan to add a Bayesion option later.}
-
-\item{usealpha_Q}{Flag. Should light intensity be multipled by \code{alpha_Q} before fitting? Default is FALSE (i.e. assume that 'Q' is absorbed light).}
+\item{usealpha_Q}{Flag. Should light intensity be multiplied by \code{alpha_Q} before fitting? Default is FALSE (i.e. assume that '.Q' is absorbed light).}
 
 \item{alpha_Q}{Number. Absorbance of incident light. Default value is 0.84. Ignored if \code{usealpha_Q = FALSE}.}
 
-\item{brm_options}{A list of options passed to \code{\link[brms]{brm}} if \code{.method = "brms"}.}
+\item{quiet}{Flag. Should messages be suppressed? Default is FALSE.}
+
+\item{brm_options}{A list of options passed to \code{\link[brms]{brm}} if \code{.method = "brms"}. Default is NULL.}
 }
 \value{
-\code{fit_aq_response2()} fits the light response of net CO2 assimilation and returns an \code{\link[stats]{nls}} object.
+\itemize{
+\item If \code{.method = 'ls'}: an \code{\link[stats]{nls}} object.
+\item If \code{.method = 'brms'}: a \code{\link[brms]{brmsfit}} object.
+}
 }
 \description{
-Fitting light responses of net CO2 assimilation
+We recommend using \code{\link{fit_photosynthesis}} with argument \code{.photo_fun = "aq_response"} rather than calling this function directly.
 }
 \note{
 Rd fitted in this way is essentially the same as the Kok method, and
@@ -62,9 +61,10 @@ dat = system.file("extdata", "A_Ci_Q_data_1.csv", package = "photosynthesis") |>
   mutate(group = as.factor(round(group, digits = -1)))
 
 # Fit one light-response curve
-fit = fit_aq_response2(
+fit = fit_photosynthesis(
   .data = filter(dat, group == 600),
-  .vars = list(.A = A, .Q = Qabs)
+  .photo_fun = "aq_response",
+  .vars = list(.A = A, .Q = Qabs),
 )
 
 # The 'fit' object inherits class 'nls' and many methods can be used
@@ -87,7 +87,7 @@ library(purrr)
 
 fits = dat |>
   split(~ group) |>
-  map(fit_aq_response2, .vars = list(.A = A, .Q = Qabs))
+  map(fit_photosynthesis, .photo_fun = "aq_response", .vars = list(.A = A, .Q = Qabs))
 
 }
 

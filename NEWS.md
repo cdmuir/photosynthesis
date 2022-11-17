@@ -1,5 +1,7 @@
 # photosynthesis (development version)
 
+* Preferred method for fitting data to models is `fit_photosynthesis()` which performs all checks and manipulations prior to passing arguments to various `fit_` functions.
+* Deprecated `fit_r_light_kok()`, `fit_r_light_WalkerOrt()`, `fit_r_light_yin()` in favor of `fit_r_light2()`. The new function uses non-standard evaluation to replace variable names as in `dplyr::rename()`. It will also extend functionality to enable Bayesian fitting using **brms** and does not output a plot.
 * Added Bayesian fitting method to `fit_aq_response2()` using **brms** package.
 * Deprecated `fit_aq_response()` in favor of `fit_aq_response2()`. The new function uses non-standard evaluation to replace variable names as in `dplyr::rename()`. It will also extend functionality to enable Bayesian fitting using **brms** and does not output a plot.
 * Fixed bug with setting upper bound for search in `find_A()`

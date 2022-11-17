@@ -1,8 +1,8 @@
-#' Estimating light respiration
+#' Fit models to estimate light respiration 
 #' 
-#' @inheritParams fit_aq_response2
-#' @param data Dataframe
-#' @param varnames List of variable names
+#' @description We recommend using \code{\link{fit_photosynthesis}} with argument `.f = "r_light"` rather than calling this function directly.
+#' 
+#' @inheritParams fit_photosynthesis
 #' @param PPFD_lower Lower light intensity limit for estimating Rlight
 #' (Kok & Yin)
 #' @param PPFD_upper Upper light intensity limit for estimating Rlight
@@ -21,7 +21,7 @@
 #' denoting an efflux of CO2.
 #'
 #' fit_r_light_WalkerOrt estimates light respiration and
-#' GammaStar according to Walk & Ort (2015) using a slope-
+#' GammaStar according to Walker & Ort (2015) using a slope-
 #' intercept regression method to find the intercept of multiple
 #' ACi curves run at multiple light intensities. Output GammaStar and
 #' respiration should be negative If output respiration is positive
@@ -135,17 +135,15 @@
 #' @rdname fit_r_light2
 #' @export
 fit_r_light2 = function(
-    data,
-                            varnames = list(
-                              A_net = "A_net",
-                              PPFD = "PPFD"
-                            ),
+    .data,
+    .vars,
+    .model = "default",
                             PPFD_lower = 40,
                             PPFD_upper = 100
   ) {
   
-  lifecycle::deprecate_warn("2.1.1", "fit_r_light_kok()", "fit_r_light2(.model = 'kok')", 
-                            always = TRUE)
+  .model = match_arg(.model, choices = c("default", get_all_models("r_light")))
+  
   
   # Set variable names
   data$A_net = data[, varnames$A_net]
@@ -314,8 +312,12 @@ fit_r_light_kok = function(
     PPFD_upper = 100
 ) {
   
-  lifecycle::deprecate_warn("2.1.1", "fit_r_light_kok()", "fit_r_light2(.model = 'kok')", 
-                            always = TRUE)
+  lifecycle::deprecate_warn(
+    "2.1.1", 
+    "fit_r_light_kok()", 
+    "fit_r_light2(.model = 'kok_1956')", 
+    always = TRUE
+  )
   
   # Set variable names
   data$A_net = data[, varnames$A_net]
@@ -346,7 +348,7 @@ fit_r_light_WalkerOrt = function(
   lifecycle::deprecate_warn(
     "2.1.1", 
     "fit_r_light_WalkerOrt()", 
-    "fit_r_light2(.model = 'walker_ort')", 
+    "fit_r_light2(.model = 'walker_ort_2015')", 
     always = TRUE
   )
 
@@ -412,7 +414,7 @@ fit_r_light_yin = function(
   lifecycle::deprecate_warn(
     "2.1.1", 
     "fit_r_light_yin()", 
-    "fit_r_light2(.model = 'yin')", 
+    "fit_r_light2(.model = 'yin_etal_2011')", 
     always = TRUE
   )
   
