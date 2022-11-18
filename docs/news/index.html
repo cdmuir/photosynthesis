@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0.9005</span>
       </span>
     </div>
 
@@ -38,7 +38,7 @@
       <a href="../articles/hydraulic-vulnerability.html">Fitting hydraulic vulnerability curves</a>
     </li>
     <li>
-      <a href="../articles/light-respiration.html">Fitting light respiration</a>
+      <a href="../articles/light-respiration.html">Fit models to estimate light respiration</a>
     </li>
     <li>
       <a href="../articles/light-response.html">Fitting light response curves</a>
@@ -89,7 +89,9 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="photosynthesis-development-version">photosynthesis (development version)<a class="anchor" aria-label="anchor" href="#photosynthesis-development-version"></a></h2>
-<ul><li>Preferred method for fitting data to models is <code><a href="../reference/fit_photosynthesis.html">fit_photosynthesis()</a></code> which performs all checks and manipulations prior to passing arguments to various <code>fit_</code> functions.</li>
+<ul><li>Added Bayesian options to fit light-response and light respiration models via <code>fit_photosynthesis(..., .method = "brms")</code>
+</li>
+<li>Preferred method for fitting data to models is <code><a href="../reference/fit_photosynthesis.html">fit_photosynthesis()</a></code> which performs all checks and manipulations prior to passing arguments to various <code>fit_</code> functions.</li>
 <li>Deprecated <code><a href="../reference/fit_r_light.html">fit_r_light_kok()</a></code>, <code><a href="../reference/fit_r_light.html">fit_r_light_WalkerOrt()</a></code>, <code><a href="../reference/fit_r_light.html">fit_r_light_yin()</a></code> in favor of <code><a href="../reference/fit_r_light2.html">fit_r_light2()</a></code>. The new function uses non-standard evaluation to replace variable names as in <code><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">dplyr::rename()</a></code>. It will also extend functionality to enable Bayesian fitting using <strong>brms</strong> and does not output a plot.</li>
 <li>Added Bayesian fitting method to <code><a href="../reference/fit_aq_response2.html">fit_aq_response2()</a></code> using <strong>brms</strong> package.</li>
 <li>Deprecated <code><a href="../reference/fit_aq_response.html">fit_aq_response()</a></code> in favor of <code><a href="../reference/fit_aq_response2.html">fit_aq_response2()</a></code>. The new function uses non-standard evaluation to replace variable names as in <code><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">dplyr::rename()</a></code>. It will also extend functionality to enable Bayesian fitting using <strong>brms</strong> and does not output a plot.</li>

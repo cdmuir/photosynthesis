@@ -58,7 +58,7 @@ coef(fit) |>
   mutate(LCP = ((Rd) * (Rd * theta_J - k_sat) / (phi_J * (Rd - k_sat)))) |>
 
 ## Calculate residual sum-of-squares
-sum(resid(fit))
+sum(resid(fit) ^ 2)
 
 ```
 
@@ -126,6 +126,9 @@ fit = fit_photosynthesis(
   .method = "brms",
   brm_options = list(chains = 1)
 )
+
+# The 'fit' object inherits class 'brmsfit' and many methods can be used
+summary(fit)
 
 ```
 

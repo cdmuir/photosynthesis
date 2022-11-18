@@ -113,7 +113,63 @@
 #' tidy(fit, conf.int = TRUE, conf.level = 0.95)
 #' 
 #' ## Calculate residual sum-of-squares
-#' sum(resid(fit))
+#' sum(resid(fit)^2)
+#' 
+#' # Yin et al. (2011) model
+#' 
+#' fit = fit_photosynthesis(
+#'   .data = acq_data,
+#'   .photo_fun = "r_light",
+#'   .model = "yin_etal_2011",
+#'   .vars = list(.A = A, .phiPSII = PhiPS2, .Q = Qin),
+#'   Q_lower = 20,
+#'   Q_upper = 250
+#' )
+#' 
+#' # The 'fit' object inherits class 'lm' and many methods can be used
+#' 
+#' ## Model summary:
+#' summary(fit)
+#' 
+#' ## Estimated parameters:
+#' coef(fit)
+#' 
+#' ## 95% confidence intervals:
+#' confint(fit)
+#' 
+#' ## Tidy summary table using 'broom::tidy()'
+#' tidy(fit, conf.int = TRUE, conf.level = 0.95)
+#' 
+#' ## Calculate residual sum-of-squares
+#' sum(resid(fit)^2)
+#' 
+#' # Kok (1956) model
+#' 
+#' fit = fit_photosynthesis(
+#'   .data = acq_data,
+#'   .photo_fun = "r_light",
+#'   .model = "kok_1956",
+#'   .vars = list(.A = A, .Q = Qin),
+#'   Q_lower = 20,
+#'   Q_upper = 150
+#' )
+#' 
+#' # The 'fit' object inherits class 'lm' and many methods can be used
+#' 
+#' ## Model summary:
+#' summary(fit)
+#' 
+#' ## Estimated parameters:
+#' coef(fit)
+#' 
+#' ## 95% confidence intervals:
+#' confint(fit)
+#' 
+#' ## Tidy summary table using 'broom::tidy()'
+#' tidy(fit, conf.int = TRUE, conf.level = 0.95)
+#' 
+#' ## Calculate residual sum-of-squares
+#' sum(resid(fit)^2)
 #' 
 #' }
 #' @md
@@ -233,7 +289,7 @@ fit_r_light2_walker_ort_2015_ls = function(
 ) {
 
   .data = .data |>
-    dplyr::filter(.C < C_upper) |>
+    dplyr::filter(.C <= C_upper) |>
     dplyr::mutate(
       # Group by Q_level
       .Q_level = round_to_nearest(.Q, Q_levels)
@@ -258,7 +314,7 @@ fit_r_light2_walker_ort_2015_brms = function(
 ) {
   
   .data = .data |>
-    dplyr::filter(.C < C_upper) |>
+    dplyr::filter(.C <= C_upper) |>
     dplyr::mutate(
       # Group by Q_level
       .Q_level = as.factor(round_to_nearest(.Q, Q_levels))
@@ -270,6 +326,94 @@ fit_r_light2_walker_ort_2015_brms = function(
       brm_options,
       list(
         formula = .A ~ .C + (1 + .C|.Q_level),
+        data = .data
+      )
+    )
+  )
+  
+}
+
+#' Fit models to estimate light respiration (Rd) with the Yin *et al.* (2011) model using least-squares methods
+#' @inheritParams fit_r_light2
+#' @noRd
+fit_r_light2_yin_etal_2011_ls = function(
+    .data, 
+    Q_lower,
+    Q_upper,
+    ...
+) {
+  
+  .data |>
+    dplyr::filter(.Q >= Q_lower, .Q <= Q_upper) |>
+    dplyr::mutate(x_var = .Q * .phiPSII / 4) %>%
+    lm(.A ~ x_var, data = .)
+  
+}
+
+#' Fit models to estimate light respiration (Rd) with the Yin *et al.* (2011) model using Bayesian methods
+#' @inheritParams fit_r_light2
+#' @noRd
+fit_r_light2_yin_etal_2011_brms = function(
+    .data, 
+    Q_lower,
+    Q_upper,
+    brm_options,
+    ...
+) {
+  
+  .data = .data |>
+    dplyr::filter(.Q >= Q_lower, .Q <= Q_upper) |>
+    dplyr::mutate(x_var = .Q * .phiPSII / 4)
+  
+  do.call(
+    brms::brm,
+    args = c(
+      brm_options,
+      list(
+        formula = .A ~ x_var,
+        data = .data
+      )
+    )
+  )
+  
+}
+
+#' Fit models to estimate light respiration (Rd) with the Kok (1956) model using least-squares methods
+#' @inheritParams fit_r_light2
+#' @noRd
+fit_r_light2_kok_1956_ls = function(
+    .data, 
+    Q_lower,
+    Q_upper,
+    ...
+) {
+  
+  .data |>
+    dplyr::filter(.Q >= Q_lower, .Q <= Q_upper) %>%
+    lm(.A ~ .Q, data = .)
+  
+}
+
+#' Fit models to estimate light respiration (Rd) with the Kok (1956) model using Bayesian methods
+#' @inheritParams fit_r_light2
+#' @noRd
+fit_r_light2_kok_1956_brms = function(
+    .data, 
+    Q_lower,
+    Q_upper,
+    brm_options,
+    ...
+) {
+  
+  .data = .data |>
+    dplyr::filter(.Q >= Q_lower, .Q <= Q_upper)
+  
+  do.call(
+    brms::brm,
+    args = c(
+      brm_options,
+      list(
+        formula = .A ~ .Q,
         data = .data
       )
     )

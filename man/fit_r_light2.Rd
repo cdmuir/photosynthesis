@@ -121,7 +121,63 @@ confint(fit)
 tidy(fit, conf.int = TRUE, conf.level = 0.95)
 
 ## Calculate residual sum-of-squares
-sum(resid(fit))
+sum(resid(fit)^2)
+
+# Yin et al. (2011) model
+
+fit = fit_photosynthesis(
+  .data = acq_data,
+  .photo_fun = "r_light",
+  .model = "yin_etal_2011",
+  .vars = list(.A = A, .phiPSII = PhiPS2, .Q = Qin),
+  Q_lower = 20,
+  Q_upper = 250
+)
+
+# The 'fit' object inherits class 'lm' and many methods can be used
+
+## Model summary:
+summary(fit)
+
+## Estimated parameters:
+coef(fit)
+
+## 95\% confidence intervals:
+confint(fit)
+
+## Tidy summary table using 'broom::tidy()'
+tidy(fit, conf.int = TRUE, conf.level = 0.95)
+
+## Calculate residual sum-of-squares
+sum(resid(fit)^2)
+
+# Kok (1956) model
+
+fit = fit_photosynthesis(
+  .data = acq_data,
+  .photo_fun = "r_light",
+  .model = "kok_1956",
+  .vars = list(.A = A, .Q = Qin),
+  Q_lower = 20,
+  Q_upper = 150
+)
+
+# The 'fit' object inherits class 'lm' and many methods can be used
+
+## Model summary:
+summary(fit)
+
+## Estimated parameters:
+coef(fit)
+
+## 95\% confidence intervals:
+confint(fit)
+
+## Tidy summary table using 'broom::tidy()'
+tidy(fit, conf.int = TRUE, conf.level = 0.95)
+
+## Calculate residual sum-of-squares
+sum(resid(fit)^2)
 
 }
 }
