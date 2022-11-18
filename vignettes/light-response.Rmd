@@ -130,9 +130,9 @@ fit = fit_photosynthesis(
 ```
 
 
-## Deprecated version (**photosynthesis** >= 2.1.1)
+## Deprecated version (**photosynthesis** <= 2.1.1)
 
-The `fit_aq_response()` function is the original version, but we are no longer updating it and may phase it out of future releases. Use `fit_aq_response2()` instead.
+The `fit_aq_response()` function is the original version, but we are no longer updating it and may phase it out of future releases. Use `fit_photosynthesisi(..., .photo_fun = 'aq_response')` instead.
 
 ```{r, message = FALSE}
 

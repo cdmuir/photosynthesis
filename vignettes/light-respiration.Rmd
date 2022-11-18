@@ -1,20 +1,154 @@
 ---
-title: "Fitting light respiration"
+title: "Fit models to estimate light respiration"
 author: "Joseph R. Stinziano and Christopher D. Muir"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 vignette: >
- %\VignetteIndexEntry{light-respiration}
+ %\VignetteIndexEntry{Fit models to estimate light respiration}
  %\VignetteEngine{knitr::rmarkdown}
  %\VignetteEncoding{UTF-8}
 ---
 
+## Preferred version (**photosynthesis** >= 2.1.1)
+
 The package currently supports fitting light respiration according to the 
 slope-intercept regression extension of the Laisk method (Laisk 1977; 
 Walker & Ort 2015), the Kok method (Kok 1956), and the Yin modification of the 
-Kok method (Yin et al. 2009, 2011)
+Kok method (Yin *et al.* 2009, 2011).
+
+### Estimate light respiration using least-squares (ls)
+
+#### Walker & Ort (2015) model
 
 ```{r, message = FALSE}
+
+library(broom)
+library(dplyr)
+library(photosynthesis)
+
+acq_data = system.file("extdata", "A_Ci_Q_data_1.csv", package = "photosynthesis") |> 
+  read.csv()
+
+fit = fit_photosynthesis(
+  .data = acq_data,
+  .photo_fun = "r_light",
+  .model = "walker_ort_2015",
+  .vars = list(.A = A, .Q = Qin, .C = Ci),
+  C_upper = 300,
+  # Irradiance levels used in experiment
+  Q_levels =  c(1500, 750, 375, 125, 100, 75, 50, 25),
+)
+
+# The 'fit' object inherits class 'lm' and many methods can be used
+
+## Model summary:
+summary(fit)
+
+## Estimated parameters:
+coef(fit)
+
+## 95% confidence intervals:
+## n.b. these confidence intervals are not correct because the regression is fit 
+## sequentially. It ignores the underlying data and uncertainty in estimates of 
+## slopes and intercepts with each A-C curve. Use '.method = "brms"' to properly 
+## calculate uncertainty. 
+confint(fit)
+
+## Tidy summary table using 'broom::tidy()'
+tidy(fit, conf.int = TRUE, conf.level = 0.95)
+
+## Calculate residual sum-of-squares
+sum(resid(fit))
+
+```
+#### Yin *et al.* (2011) model
+
+Not implemented yet.
+
+#### Kok (1956) model
+
+Not implemented yet.
+
+### Bayesian estimate of light respiration with **brms** and *Stan*
+
+We added an option to estimate light respiration ($R_\text{d}$) and the CO$_2$ compensation point ($C_\text{i}^*$ or $\Gamma^*$) using the amazing [**brms**](https://CRAN.R-project.org/package=brms) package which fits models in [*Stan*](https://mc-stan.org/). This method has the advantage in that it properly estimates confidence intervals, but requires some post-processing. The example below shows how to do that.
+
+#### Walker & Ort (2015) model
+
+```{r, message = FALSE, warning=FALSE, results='hide'}
+
+library(dplyr)
+library(photosynthesis)
+library(tidyr)
+
+acq_data = system.file("extdata", "A_Ci_Q_data_1.csv", package = "photosynthesis") |> 
+  read.csv()
+
+fit = fit_photosynthesis(
+  .data = acq_data,
+  .photo_fun = "r_light",
+  .model = "walker_ort_2015",
+  .method = "brms",
+  .vars = list(.A = A, .Q = Qin, .C = Ci),
+  C_upper = 300,
+  # Irradiance levels used in experiment
+  Q_levels =  c(1500, 750, 375, 125, 100, 75, 50, 25),
+  brm_options = list(chains = 1, seed = 20221118)
+)
+
+# The 'fit' object inherits class 'brmsfit' and many methods can be used
+
+# The following code will extract parameter estimates and 95% CIs from the 
+# posterior distribution
+ests = fit |>
+  as.data.frame() |>
+  dplyr::select(
+    r_xy = `cor_.Q_level__Intercept__.C`,
+    sd_x = `sd_.Q_level__Intercept`,
+    sd_y = `sd_.Q_level__.C`,
+    mu_x = b_Intercept,
+    mu_y = b_.C
+  ) |>
+  dplyr::mutate(
+    gamma_star = -r_xy * sd_x / sd_y,
+    Rd = mu_x + gamma_star * mu_y
+  ) |>
+  dplyr::summarise(dplyr::across(gamma_star:Rd, list(
+    estimate = median,
+    lower = ~quantile(., probs = 0.25),
+    upper = ~quantile(., probs = 0.975)
+  ))) |>
+  pivot_longer(
+    everything(),
+    names_to = c("parameter", ".value"),
+    names_pattern = "(gamma_star|Rd)_(estimate|lower|upper)"
+  )
+
+```
+
+Table of estimates and 95% CIs:
+
+```{r}
+knitr::kable(ests)
+```
+
+#### Yin *et al.* (2011) model
+
+Not implemented yet.
+
+#### Kok (1956) model
+
+Not implemented yet.
+
+## Deprecated version (**photosynthesis** <= 2.1.1)
+
+The functions to estimate light respiration in the original version (`fit_r_light_kok()`, `fit_r_light_yin()`, `fit_r_light_WalkerOrt()`) will no longer be updated and may phase it out of future releases. Use one of:
+
+* `fit_photosynthesisi(..., .photo_fun = 'r_light', .model = 'kok_1956')` 
+* `fit_photosynthesisi(..., .photo_fun = 'r_light', .model = 'walker_ort_1956')` 
+* `fit_photosynthesisi(..., .photo_fun = 'r_light', .model = 'yin_etal_2011')` 
+
+```{r, message = FALSE, warning=FALSE}
 library(dplyr)
 library(photosynthesis)
 
@@ -27,7 +161,7 @@ round_to_nearest = function(x, values) {
 # Read in your data
 dat = system.file("extdata", "A_Ci_Q_data_1.csv", package = "photosynthesis") |> 
   read.csv() |>
-  mutate(group = round_to_nearest(CO2_s, values = c(50, 100, 200, 300, 410, 600, 820, 1200, 1600))) |>
+  mutate(group = photosynthesis:::round_to_nearest(CO2_s, values = c(50, 100, 200, 300, 410, 600, 820, 1200, 1600))) |>
   rename(A_net = A, PPFD = Qin, phi_PSII = PhiPS2, C_i = Ci)
 
 # Fit light respiration with Yin method

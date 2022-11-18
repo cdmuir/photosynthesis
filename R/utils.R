@@ -83,3 +83,11 @@ make_photo_parameter_table = function(...) {
     knitr::kable()
   
 }
+
+#' Round a numeric value to nearest element in set of possible values
+#' @noRd
+round_to_nearest = function(x, values) {
+  sapply(x, function(y, values) {
+    values[which.min(abs(y - values))]
+  }, values = values)
+}

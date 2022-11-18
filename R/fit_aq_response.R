@@ -11,7 +11,7 @@
 #' * If `.method = 'ls'`: an \code{\link[stats]{nls}} object.
 #' * If `.method = 'brms'`: a \code{\link[brms]{brmsfit}} object.
 #' 
-#' @note Rd fitted in this way is essentially the same as the Kok method, and 
+#' @note Rd fitted in this way is essentially the same as the Kok (1956) method, and 
 #' represents a respiration value in the light that may not be accurate. 
 #' Rd output should thus be interpreted more as a residual parameter to ensure 
 #' an accurate fit of the light response parameters. Model originally from 
@@ -92,7 +92,7 @@ fit_aq_response2 = function(
   # Fit AQ response model
   fit = switch(
     .method,
-    ls = fit_aq_response2_nls(.data),
+    ls = fit_aq_response2_ls(.data),
     brms = fit_aq_response2_brms(.data, brm_options)
   )
  
@@ -102,7 +102,7 @@ fit_aq_response2 = function(
 
 #' Fit light response using \code{\link[minpack.lm]{nlsLM}}
 #' @noRd
-fit_aq_response2_nls = function(.data, ...) {
+fit_aq_response2_ls = function(.data, ...) {
   
   requireNamespace("minpack.lm") || stop("Package not loaded: minpack.lm")
   

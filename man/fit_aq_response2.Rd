@@ -39,7 +39,7 @@ fit_aq_response2(
 We recommend using \code{\link{fit_photosynthesis}} with argument \code{.photo_fun = "aq_response"} rather than calling this function directly.
 }
 \note{
-Rd fitted in this way is essentially the same as the Kok method, and
+Rd fitted in this way is essentially the same as the Kok (1956) method, and
 represents a respiration value in the light that may not be accurate.
 Rd output should thus be interpreted more as a residual parameter to ensure
 an accurate fit of the light response parameters. Model originally from

@@ -71,7 +71,7 @@ required_variables = function(.model, quiet) {
                        unlist())
   all_vars = list(
     .A = "net CO2 assimilation rate (umol/m^2/s)",
-    .Ci = "intercellular CO2 concentration (umol/mol)",
+    .C = "intercellular or chloroplastic CO2 concentration (umol/mol)",
     .phiPSII = "",
     .Q = "irradiance (umol/m^2/s)"
   )
@@ -80,7 +80,7 @@ required_variables = function(.model, quiet) {
     .model,
     kok_1956 = all_vars[c(".A", ".Q")],
     marshall_biscoe_1980 = all_vars[c(".A", ".Q")],
-    walker_ort_2015 = all_vars[c(".A", ".Ci", ".Q")],
+    walker_ort_2015 = all_vars[c(".A", ".C", ".Q")],
     yin_etal_2011 = list(TBA = "TBA")
   ) 
   

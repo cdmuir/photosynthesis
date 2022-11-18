@@ -47,5 +47,9 @@ A fitted model object
 Fit photosynthetic models with gas-exchange data
 }
 \note{
-NOTE
+This function will fit models to data but several methods require post-processing to extract meaningful parameter estimates and confidence intervals. See vignettes for further explanation and examples.
+\itemize{
+\item Light-response curves: \code{vignette("light-response", package = "photosynthesis")}
+\item Light respiration: \code{vignette("light-respiration", package = "photosynthesis")}
+}
 }

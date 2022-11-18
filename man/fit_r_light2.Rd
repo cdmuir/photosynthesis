@@ -2,137 +2,128 @@
 % Please edit documentation in R/fit_r_light.R
 \name{fit_r_light2}
 \alias{fit_r_light2}
-\title{Fit models to estimate light respiration}
+\title{Fit models to estimate light respiration (\eqn{R_\text{d}})}
 \usage{
 fit_r_light2(
   .data,
-  .vars,
   .model = "default",
-  PPFD_lower = 40,
-  PPFD_upper = 100
+  .method = "ls",
+  Q_lower = NA,
+  Q_upper = NA,
+  Q_levels = NULL,
+  C_upper = NA,
+  quiet = FALSE,
+  brm_options = NULL
 )
 }
 \arguments{
 \item{.data}{A data frame containing plant ecophysiological data. See \code{\link{required_variables}} for the variables required for each model.}
 
-\item{.vars}{A list to rename variables in .data. See \code{\link{required_variables}} for the accepted variable names.}
-
 \item{.model}{A character string of model name to use. See \code{\link{get_all_models}}.}
 
-\item{PPFD_lower}{Lower light intensity limit for estimating Rlight
-(Kok & Yin)}
+\item{.method}{A character string of the statistical method to use: 'ls' for least-squares and 'brms' for Bayesian model using \code{\link[brms]{brm}}. Default is 'ls'.}
 
-\item{PPFD_upper}{Upper light intensity limit for estimating Rlight
-(Kok & Yin)}
+\item{Q_lower}{Lower light intensity limit for estimating Rd using \code{kok_1956} and \code{yin_etal_2011} models.}
 
-\item{P}{Atmospheric pressure in kPa (Walker & Ort, 2015)}
+\item{Q_upper}{Upper light intensity limit for estimating Rd using \code{kok_1956} and \code{yin_etal_2011} models}
 
-\item{C_i_threshold}{Threshold C_i (in umol mol-1) to cut data to
-linear region for fitting light respiration and gamma_star
-(Walker & Ort, 2015)}
+\item{Q_levels}{A numeric vector of light intensity levels (\eqn{\mu}mol / mol) for estimating \eqn{R_\text{d}} from the linear region of the A-C curve using the \code{walker_ort_2015} model.}
+
+\item{C_upper}{Upper C (\eqn{\mu}mol / mol) limit for estimating \eqn{R_\text{d}} from the linear region of the A-C curve using the \code{walker_ort_2015} model.}
+
+\item{quiet}{Flag. Should messages be suppressed? Default is FALSE.}
+
+\item{brm_options}{A list of options passed to \code{\link[brms]{brm}} if \code{.method = "brms"}. Default is NULL.}
 }
 \value{
-fit_r_light_kok estimates light respiration using the Kok method
+\itemize{
+\item If \code{.method = 'ls'}: an \code{\link[stats]{nls}} or \code{\link[stats]{lm}} object.
+\item If \code{.method = 'brms'}: a \code{\link[brms]{brmsfit}} object.
+}
+}
+\description{
+We recommend using \code{\link{fit_photosynthesis}} with argument \code{.photo_fun = "r_light"} rather than calling this function directly.
+}
+\note{
+Confusingly, \eqn{R_\text{d}} typically denotes respiration in the light, but you might see \eqn{R_\text{day}} or \eqn{R_\text{light}}.
+
+\strong{Models}
+
+\emph{Kok (1956)}
+
+The \code{kok_1956} model estimates light respiration using the Kok method
 (Kok, 1956). The Kok method involves looking for a breakpoint in the
 light response of net CO2 assimilation at very low light intensities
 and extrapolating from data above the breakpoint to estimate light
-respiration as the y-intercept. r_light value should be negative,
+respiration as the y-intercept. Rd value should be negative,
 denoting an efflux of CO2.
 
-fit_r_light_WalkerOrt estimates light respiration and
-GammaStar according to Walker & Ort (2015) using a slope-
-intercept regression method to find the intercept of multiple
-ACi curves run at multiple light intensities. Output GammaStar and
-respiration should be negative If output respiration is positive
-this could indicate issues (i.e. leaks) in the gas exchange
-measurements. GammaStar is output in umol mol-1, and respiration
-is output in umol m-2 s-1 of respiratory flux. Output is a list
-containing the slope intercept regression model, a graph of the fit,
-and estimates of the coefficients. NOTE: if using C_i, the output value
-is technically C_istar. You need to use Cc to get GammaStar. Also note,
-however, that the convention in the field is to completely ignore this note.
+\emph{Yin et al. (2011)}
 
-fit_r_light_yin estimates light respiration according
-to the Yin et al. (2009, 2011) modifications of the Kok
+The \code{yin_etal_2011} model estimates light respiration according
+to the Yin \emph{et al.} (2009, 2011) modifications of the Kok
 method. The modification uses fluorescence data to get a
-better estimate of light respiration. Note that respiration
-output should be negative here to denote an efflux of CO2.
-}
-\description{
-We recommend using \code{\link{fit_photosynthesis}} with argument `.f = "r_light"` rather than calling this function directly.
+better estimate of light respiration. Rd values should be negative here to
+denote an efflux of CO2.
+
+\emph{Walker & Ort (2015)}
+
+The \code{walker_ort_2015} model estimates light respiration and
+\eqn{\Gamma*} according to Walker & Ort (2015) using a slope-
+intercept regression method to find the intercept of multiple
+A-C curves run at multiple light intensities. The method estimates
+\eqn{\Gamma*} and \eqn{R_\text{d}}. If estimated  \eqn{R_\text{d}} is
+positive this could indicate issues (i.e. leaks) in the gas exchange
+measurements. \eqn{\Gamma*} is in units of umol / mol and \eqn{R_\text{d}}
+is in units of \eqn{\mu}mol m\eqn{^{-2}} s\eqn{^{-1}} of respiratory flux.
+If using \eqn{C_\text{i}}, the estimated value is technically \eqn{C_\text{i}}*.
+You need to use \eqn{C_\text{c}} to get \eqn{\Gamma*} Also note, however,
+that the convention in the field is to completely ignore this note.
 }
 \examples{
 \donttest{
-# FITTING KOK METHOD
-# Read in your data
-# Note that this data is coming from data supplied by the package
-# hence the complicated argument in read.csv()
-# This dataset is a CO2 by light response curve for a single sunflower
-data = read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-  package = "photosynthesis"
-))
 
-# Fit light respiration with Kok method
-r_light = fit_r_light_kok(
-  data = data,
-  varnames = list(
-    A_net = "A",
-    PPFD = "Qin"
-  ),
-  PPFD_lower = 20,
-  PPFD_upper = 150
+# Walker & Ort (2015) model
+
+library(broom)
+library(dplyr)
+library(photosynthesis)
+
+acq_data = system.file("extdata", "A_Ci_Q_data_1.csv", package = "photosynthesis") |> 
+  read.csv()
+
+fit = fit_photosynthesis(
+  .data = acq_data,
+  .photo_fun = "r_light",
+  .model = "walker_ort_2015",
+  .vars = list(.A = A, .Q = Qin, .C = Ci),
+  C_upper = 300,
+  # Irradiance levels used in experiment
+  Q_levels =  c(1500, 750, 375, 125, 100, 75, 50, 25),
 )
-# Return r_light
-r_light
 
-# FITTING WALKER-ORT METHOD
-# Read in your data
-# Note that this data is coming from data supplied by the package
-# hence the complicated argument in read.csv()
-# This dataset is a CO2 by light response curve for a single sunflower
-data = read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-  package = "photosynthesis"
-))
+# The 'fit' object inherits class 'lm' and many methods can be used
 
-# Fit the Walker-Ort method for GammaStar and light respiration
-walker_ort = fit_r_light_WalkerOrt(data,
-  varnames = list(
-    A_net = "A",
-    C_i = "Ci",
-    PPFD = "Qin"
-  )
-)
-# Extract model
-summary(walker_ort[[1]])
+## Model summary:
+summary(fit)
 
-# View graph
-walker_ort[[2]]
+## Estimated parameters:
+coef(fit)
 
-# View coefficients
-walker_ort[[3]]
+## 95\% confidence intervals:
+## n.b. these confidence intervals are not correct because the regression is fit 
+## sequentially. It ignores the underlying data and uncertainty in estimates of 
+## slopes and intercepts with each A-C curve. Use '.method = "brms"' to properly 
+## calculate uncertainty. 
+confint(fit)
 
-# FITTING THE YIN METHOD
-# Read in your data
-# Note that this data is coming from data supplied by the package
-# hence the complicated argument in read.csv()
-# This dataset is a CO2 by light response curve for a single sunflower
-data = read.csv(system.file("extdata", "A_Ci_Q_data_1.csv",
-  package = "photosynthesis"
-))
+## Tidy summary table using 'broom::tidy()'
+tidy(fit, conf.int = TRUE, conf.level = 0.95)
 
-# Fit light respiration with Yin method
-r_light = fit_r_light_yin(
-  data = data,
-  varnames = list(
-    A_net = "A",
-    PPFD = "Qin",
-    phi_PSII = "PhiPS2"
-  ),
-  PPFD_lower = 20,
-  PPFD_upper = 250
-)
+## Calculate residual sum-of-squares
+sum(resid(fit))
+
 }
-
 }
 \references{
 Kok B. 1956. On the inhibition of photosynthesis by intense light.

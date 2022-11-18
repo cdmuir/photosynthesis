@@ -18,8 +18,11 @@
 #' * class 'lm' or 'nls' if `method = 'ls'`
 #' * class 'brmsfit' if `method = 'brms'`
 #' 
-#' @note NOTE
+#' @note This function will fit models to data but several methods require post-processing to extract meaningful parameter estimates and confidence intervals. See vignettes for further explanation and examples.
 #'
+#' * Light-response curves: \code{vignette("light-response", package = "photosynthesis")}
+#' * Light respiration: \code{vignette("light-respiration", package = "photosynthesis")}
+#' 
 #' @md
 #' @export
 fit_photosynthesis = function(
@@ -49,6 +52,7 @@ fit_photosynthesis = function(
 
   assert_required_variables(
     .data = .data,
+    .photo_fun = .photo_fun,
     .model = .model,
     .method = .method,
     quiet = quiet
@@ -85,7 +89,7 @@ rename_variables = function(.data, .vars) {
 
 #' Assert required variables are present in .data
 #' @noRd
-assert_required_variables = function(.data, .model, .method, quiet) {
+assert_required_variables = function(.data, .photo_fun, .model, .method, quiet) {
   
   v = required_variables(.model, quiet = TRUE)
   missing_vars = v[!(v %in% colnames(.data))]
@@ -98,6 +102,7 @@ assert_required_variables = function(.data, .model, .method, quiet) {
     
     fit_photosynthesis(
       .data = your_data,
+      .photo_fun = '{.photo_fun}',
       .model = '{.model}',
       .method = '{.method}',
       .vars = list(

@@ -40,7 +40,7 @@ fit_r_light_yin(
 
 \item{P}{Atmospheric pressure in kPa (Walker & Ort, 2015)}
 
-\item{C_i_threshold}{Threshold C_i (in umol mol-1) to cut data to
+\item{C_i_threshold}{Threshold C_i (in umol / mol) to cut data to
 linear region for fitting light respiration and gamma_star
 (Walker & Ort, 2015)}
 }
