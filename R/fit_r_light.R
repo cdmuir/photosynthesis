@@ -1,12 +1,12 @@
-#' Fit models to estimate light respiration (\eqn{R_\text{d}})
+#' Fit models to estimate light respiration (\eqn{R_\mathrm{d}})
 #' 
 #' @description We recommend using \code{\link{fit_photosynthesis}} with argument `.photo_fun = "r_light"` rather than calling this function directly.
 #' 
 #' @inheritParams fit_photosynthesis
 #' @param Q_lower Lower light intensity limit for estimating Rd using `kok_1956` and `yin_etal_2011` models.
 #' @param Q_upper Upper light intensity limit for estimating Rd using `kok_1956` and `yin_etal_2011` models
-#' @param Q_levels A numeric vector of light intensity levels (\eqn{\mu}mol / mol) for estimating \eqn{R_\text{d}} from the linear region of the A-C curve using the `walker_ort_2015` model.
-#' @param C_upper Upper C (\eqn{\mu}mol / mol) limit for estimating \eqn{R_\text{d}} from the linear region of the A-C curve using the `walker_ort_2015` model.
+#' @param Q_levels A numeric vector of light intensity levels (\eqn{\mu}mol / mol) for estimating \eqn{R_\mathrm{d}} from the linear region of the A-C curve using the `walker_ort_2015` model.
+#' @param C_upper Upper C (\eqn{\mu}mol / mol) limit for estimating \eqn{R_\mathrm{d}} from the linear region of the A-C curve using the `walker_ort_2015` model.
 #'
 #' @return 
 #' 
@@ -15,7 +15,7 @@
 #' 
 #' @note 
 #' 
-#' Confusingly, \eqn{R_\text{d}} typically denotes respiration in the light, but you might see \eqn{R_\text{day}} or \eqn{R_\text{light}}.
+#' Confusingly, \eqn{R_\mathrm{d}} typically denotes respiration in the light, but you might see \eqn{R_\mathrm{day}} or \eqn{R_\mathrm{light}}.
 #' 
 #' **Models**
 #' 
@@ -42,12 +42,12 @@
 #' \eqn{\Gamma*} according to Walker & Ort (2015) using a slope-
 #' intercept regression method to find the intercept of multiple
 #' A-C curves run at multiple light intensities. The method estimates
-#' \eqn{\Gamma*} and \eqn{R_\text{d}}. If estimated  \eqn{R_\text{d}} is 
+#' \eqn{\Gamma*} and \eqn{R_\mathrm{d}}. If estimated  \eqn{R_\mathrm{d}} is 
 #' positive this could indicate issues (i.e. leaks) in the gas exchange
-#' measurements. \eqn{\Gamma*} is in units of umol / mol and \eqn{R_\text{d}}
+#' measurements. \eqn{\Gamma*} is in units of umol / mol and \eqn{R_\mathrm{d}}
 #' is in units of \eqn{\mu}mol m\eqn{^{-2}} s\eqn{^{-1}} of respiratory flux. 
-#' If using \eqn{C_\text{i}}, the estimated value is technically \eqn{C_\text{i}}*. 
-#' You need to use \eqn{C_\text{c}} to get \eqn{\Gamma*} Also note, however, 
+#' If using \eqn{C_\mathrm{i}}, the estimated value is technically \eqn{C_\mathrm{i}}*. 
+#' You need to use \eqn{C_\mathrm{c}} to get \eqn{\Gamma*} Also note, however, 
 #' that the convention in the field is to completely ignore this note.
 #'
 #'

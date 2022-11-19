@@ -141,11 +141,13 @@ sum(resid(fit)^2)
 
 ### Bayesian estimate of light respiration with **brms** and *Stan*
 
-We added an option to estimate light respiration ($R_\text{d}$) and the CO$_2$ compensation point ($C_\text{i}^*$ or $\Gamma^*$) using the amazing [**brms**](https://CRAN.R-project.org/package=brms) package which fits models in [*Stan*](https://mc-stan.org/). This method has the advantage in that it properly estimates confidence intervals, but requires some post-processing. The example below shows how to do that.
+We added an option to estimate light respiration ($R_\mathrm{d}$) and the CO$_2$ compensation point ($C_\mathrm{i}^*$ or $\Gamma^*$) using the amazing [**brms**](https://CRAN.R-project.org/package=brms) package which fits models in [*Stan*](https://mc-stan.org/). This method has the advantage in that it properly estimates confidence intervals, but requires some post-processing. The example below shows how to do that.
 
 #### Walker & Ort (2015) model
 
-```{r, message = FALSE, warning=FALSE, results='hide'}
+The code below is not run, but copy-and-paste into your console to see output.
+
+```{r, message = FALSE, warning=FALSE, results='hide', eval = FALSE}
 
 library(dplyr)
 library(photosynthesis)
@@ -194,12 +196,6 @@ ests = fit |>
     names_pattern = "(gamma_star|Rd)_(estimate|lower|upper)"
   )
 
-```
-
-Table of estimates and 95% CIs:
-
-```{r}
-knitr::kable(ests)
 ```
 
 #### Yin *et al.* (2011) model

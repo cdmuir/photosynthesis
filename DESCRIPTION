@@ -1,6 +1,6 @@
 Package: photosynthesis
-Version: 2.1.0.9005
-Date: 2022-11-18
+Version: 2.1.0.9006
+Date: 2022-11-19
 Title: Tools for Plant Ecophysiology & Modeling
 Authors@R: c(
     person("Joseph", "Stinziano", email = "josephstinziano@gmail.com", role = "aut", comment = c(ORCID = "0000-0002-7628-4201")),
