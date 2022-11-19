@@ -37,12 +37,12 @@ citEntry(
     person("Patrick J", "Hudson"),
     person("Christopher D", "Muir")
   ),
-  note     = "R package version 2.1.0",
+  note     = "R package version 2.1.1",
   year     = "2022",
   url      = "https://CRAN.R-project.org/package=photosynthesis",
   textVersion = paste("Stinziano JR, Roback C, Gamble D, Murphy B, Hudson P,
   Muir CD. (2022).",
-                 title = "photosynthesis: tools for plant ecophysiology & modeling. R package version 2.1.0.",
+                 title = "photosynthesis: tools for plant ecophysiology & modeling. R package version 2.1.1.",
                  "https://CRAN.R-project.org/package=photosynthesis."
 
   )

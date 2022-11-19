@@ -1,4 +1,4 @@
-# photosynthesis (development version)
+# photosynthesis 2.1.1
 
 * Added Bayesian options to fit light-response and light respiration models via `fit_photosynthesis(..., .method = "brms")`
 * Preferred method for fitting data to models is `fit_photosynthesis()` which performs all checks and manipulations prior to passing arguments to various `fit_` functions.
