@@ -2,7 +2,7 @@
 #
 
 #' @inheritParams photosynthesis
-#' @param .x A list to be constructed into \strong{leaf_par}.
+#' @param .x A list to be constructed into **leaf_par**.
 #'
 #' @returns 
 #'

@@ -16,25 +16,25 @@ fit_photosynthesis(
 )
 }
 \arguments{
-\item{.data}{A data frame containing plant ecophysiological data. See \code{\link{required_variables}} for the variables required for each model.}
+\item{.data}{A data frame containing plant ecophysiological data. See \code{\link[=required_variables]{required_variables()}} for the variables required for each model.}
 
-\item{.photo_fun}{A character string of \strong{photosynthesis} function to call. One of: \code{aq_response, r_light}.}
+\item{.photo_fun}{A character string of \strong{photosynthesis} function to call. One of: \verb{aq_response, r_light}.}
 
-\item{.model}{A character string of model name to use. See \code{\link{get_all_models}}.}
+\item{.model}{A character string of model name to use. See \code{\link[=get_all_models]{get_all_models()}}.}
 
-\item{.vars}{A list to rename variables in .data. See \code{\link{required_variables}} for the accepted variable names.}
+\item{.vars}{A list to rename variables in .data. See \code{\link[=required_variables]{required_variables()}} for the accepted variable names.}
 
-\item{.method}{A character string of the statistical method to use: 'ls' for least-squares and 'brms' for Bayesian model using \code{\link[brms]{brm}}. Default is 'ls'.}
+\item{.method}{A character string of the statistical method to use: 'ls' for least-squares and 'brms' for Bayesian model using \code{\link[brms:brm]{brms::brm()}}. Default is 'ls'.}
 
 \item{...}{Additional arguments passed to specific models. See specific help pages for each type of photosynthetic model:
 \itemize{
-\item Light-response curves \code{\link{fit_aq_response2}}
-\item Light respiration \code{\link{fit_r_light2}}
+\item Light-response curves \code{\link[=fit_aq_response2]{fit_aq_response2()}}
+\item Light respiration \code{\link[=fit_r_light2]{fit_r_light2()}}
 }}
 
 \item{quiet}{Flag. Should messages be suppressed? Default is FALSE.}
 
-\item{brm_options}{A list of options passed to \code{\link[brms]{brm}} if \code{.method = "brms"}. Default is NULL.}
+\item{brm_options}{A list of options passed to \code{\link[brms:brm]{brms::brm()}} if \code{.method = "brms"}. Default is NULL.}
 }
 \value{
 A fitted model object

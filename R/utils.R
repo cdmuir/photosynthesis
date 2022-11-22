@@ -1,9 +1,9 @@
 #' Convert pressure from PPM to Pascals
 #'
-#' @param ppm Pressure value in umol/mol of class \code{units}
-#' @param P Atmospheric pressure value in kPa of class \code{units}
+#' @param ppm Pressure value in umol/mol of class `units`
+#' @param P Atmospheric pressure value in kPa of class `units`
 #'
-#' @return Value in Pa of class \code{units}
+#' @return Value in Pa of class `units`
 #'
 #' @details
 #'

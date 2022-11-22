@@ -1,4 +1,4 @@
-#' Get default functions for calculated parameters in \link{photosynthesis}
+#' Get default functions for calculated parameters in [photosynthesis]
 #' 
 #' @name calculated-parameters
 #' @param .f_name character string of function

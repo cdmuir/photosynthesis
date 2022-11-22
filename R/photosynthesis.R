@@ -1,58 +1,58 @@
 #' Simulate C3 photosynthesis
 #'
-#' \code{photosynthesis}: simulate C3 photosynthesis over multiple parameter sets
+#' `photosynthesis`: simulate C3 photosynthesis over multiple parameter sets
 #'
-#' @param leaf_par A list of leaf parameters inheriting class \code{leaf_par}. This can be generated using the \code{make_leafpar} function.
+#' @param leaf_par A list of leaf parameters inheriting class `leaf_par`. This can be generated using the `make_leafpar` function.
 #'
-#' @param enviro_par A list of environmental parameters inheriting class \code{enviro_par}. This can be generated using the \code{make_enviropar} function.
+#' @param enviro_par A list of environmental parameters inheriting class `enviro_par`. This can be generated using the `make_enviropar` function.
 #'
-#' @param bake_par A list of temperature response parameters inheriting class \code{bake_par}. This can be generated using the \code{make_bakepar} function.
+#' @param bake_par A list of temperature response parameters inheriting class `bake_par`. This can be generated using the `make_bakepar` function.
 #'
-#' @param constants A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.
+#' @param constants A list of physical constants inheriting class `constants`. This can be generated using the `make_constants` function.
 #'
-#' @param use_tealeaves Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves:tleaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.
+#' @param use_tealeaves Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, [`tleaf()`][tealeaves::tleaves] calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see [make_parameters()].
 #'
 #' @param progress Logical. Should a progress bar be displayed?
 #'
 #' @param quiet Logical. Should messages be displayed?
 #'
-#' @param assert_units Logical. Should parameter \code{units} be checked? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.
+#' @param assert_units Logical. Should parameter `units` be checked? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.
 #'
 #' @param check Logical. Should arguments checks be done? Default is TRUE.
 #' 
-#' @param parallel Logical. Should parallel processing be used via \code{\link[furrr]{future_map}}?
+#' @param parallel Logical. Should parallel processing be used via [furrr::future_map()]?
 #' 
-#' @param use_legacy_version Logical. Should legacy model (<2.1.0) be used? See \href{https://github.com/cdmuir/photosynthesis/blob/master/NEWS.md}{NEWS} for further information. Default is FALSE. 
+#' @param use_legacy_version Logical. Should legacy model (<2.1.0) be used? See [NEWS](https://github.com/cdmuir/photosynthesis/blob/master/NEWS.md) for further information. Default is FALSE. 
 #'
 #' @return
-#' A data.frame with the following \code{units} columns \cr
+#' A data.frame with the following `units` columns \cr
 #' 
-#' \bold{Inputs:}
+#' **Inputs:**
 #' ```{r, echo=FALSE}
 #'  make_photo_parameter_table(!temperature_response, !tealeaves)
 #' ```
-#' \bold{Baked Inputs:} 
+#' **Baked Inputs:** 
 #' ```{r, echo=FALSE}
 #'  make_photo_parameter_table(temperature_response, !tealeaves)
 #' ```
 #'
 #' \tabular{ll}{
 #'
-#' \bold{Output:} \tab \cr
+#' **Output:** \tab \cr
 #' \cr
-#' \code{A} \tab photosynthetic rate at \code{C_chl} (\eqn{\mu}mol CO2 / m\eqn{^2} / s) \cr
-#' \code{C_chl} \tab chloroplastic CO2 concentration where \code{A_supply} intersects \code{A_demand} (\eqn{mu}mol / mol) \cr
-#' \code{C_i} \tab intercellular CO2 concentration where \code{A_supply} intersects \code{A_demand} (\eqn{mu}mol / mol) \cr
-#' \code{g_tc} \tab total conductance to CO2 at \code{T_leaf} (mol / m\eqn{^2} / s)) \cr
-#' \code{value} \tab \code{A_supply} - \code{A_demand} (\eqn{\mu}mol / (m\eqn{^2} s)) at \code{C_chl} \cr
-#' \code{convergence} \tab convergence code (0 = converged)
+#' `A` \tab photosynthetic rate at `C_chl` (\eqn{\mu}mol CO2 / m\eqn{^2} / s) \cr
+#' `C_chl` \tab chloroplastic CO2 concentration where `A_supply` intersects `A_demand` (\eqn{mu}mol / mol) \cr
+#' `C_i` \tab intercellular CO2 concentration where `A_supply` intersects `A_demand` (\eqn{mu}mol / mol) \cr
+#' `g_tc` \tab total conductance to CO2 at `T_leaf` (mol / m\eqn{^2} / s)) \cr
+#' `value` \tab `A_supply` - `A_demand` (\eqn{\mu}mol / (m\eqn{^2} s)) at `C_chl` \cr
+#' `convergence` \tab convergence code (0 = converged)
 #' }
 #'
 #' @details
 #'
-#' \code{photo}: This function takes simulates photosynthetic rate using the Farquhar-von Caemmerer-Berry (\code{\link{FvCB}}) model of C3 photosynthesis for single combined set of leaf parameters (\code{\link{leaf_par}}), environmental parameters (\code{\link{enviro_par}}), and physical constants (\code{\link{constants}}). Leaf parameters are provided at reference temperature (25 °C) and then "baked" to the appropriate leaf temperature using temperature response functions (see \code{\link{bake}}). \cr
+#' `photo`: This function takes simulates photosynthetic rate using the Farquhar-von Caemmerer-Berry ([FvCB()]) model of C3 photosynthesis for single combined set of leaf parameters ([leaf_par()]), environmental parameters ([enviro_par()]), and physical constants ([constants()]). Leaf parameters are provided at reference temperature (25 °C) and then "baked" to the appropriate leaf temperature using temperature response functions (see [bake()]). \cr
 #' \cr
-#' \code{photosynthesis}: This function uses \code{photo} to simulate photosynthesis over multiple parameter sets that are generated using \code{\link[purrr:cross]{cross_df}}. \cr
+#' `photosynthesis`: This function uses `photo` to simulate photosynthesis over multiple parameter sets that are generated using [`cross_df()`][purrr::cross]. \cr
 #'
 #' @examples
 #' # Single parameter set with 'photo'
@@ -152,7 +152,7 @@ photosynthesis = function(
   
 }
 
-#' Make parameter sets for \code{\link{photosynthesis}}
+#' Make parameter sets for [photosynthesis()]
 #' @inheritParams photosynthesis
 #' @noRd
 make_parameter_sets = function(
@@ -182,7 +182,7 @@ make_parameter_sets = function(
   
 }
 
-#' Solve for C_chl and A for each parameter set within \code{\link{photosynthesis}}
+#' Solve for C_chl and A for each parameter set within [photosynthesis()]
 #' @inheritParams photosynthesis
 #' @noRd
 solve_for_photosynthesis = function(
@@ -237,7 +237,7 @@ solve_for_photosynthesis = function(
   
 }
 
-#' Solve for C_chl and A for a single parameter set within \code{\link{photosynthesis}}
+#' Solve for C_chl and A for a single parameter set within [photosynthesis()]
 #' @inheritParams photosynthesis
 #' @noRd
 solve_for_photosynthesis_set = function(
@@ -273,12 +273,12 @@ solve_for_photosynthesis_set = function(
 }
 
 #' Simulate C3 photosynthesis
-#' @description \code{photo}: simulate C3 photosynthesis over a single parameter set
+#' @description `photo`: simulate C3 photosynthesis over a single parameter set
 #' @rdname photosynthesis
 #'
-#' @param check Logical. Should arguments checks be done? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}} Default is TRUE.
+#' @param check Logical. Should arguments checks be done? This is intended to be disabled when [photo()] is called from [photosynthesis()] Default is TRUE.
 #'
-#' @param prepare_for_tleaf Logical. Should arguments additional calculations for \code{\link[tealeaves:tleaves]{tleaf}}? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}}. Default is \code{use_tealeaves}.
+#' @param prepare_for_tleaf Logical. Should arguments additional calculations for [`tleaf()`][tealeaves::tleaves]? This is intended to be disabled when [photo()] is called from [photosynthesis()]. Default is `use_tealeaves`.
 #'
 #' @export
 
@@ -382,7 +382,7 @@ photo = function(
   
 }
 
-#' Calculate leaf temperature using \code{\link[tealeaves]{tleaf}}
+#' Calculate leaf temperature using [tealeaves::tleaf()]
 #' @inheritParams photo
 #' @noRd
 add_Tleaf_photo = function(leaf_par, enviro_par, constants, prepare_for_tleaf) {
@@ -505,30 +505,30 @@ find_A = function(unitless_pars, quiet, use_legacy_version) {
 #' 
 #' @inheritParams photosynthesis
 #' 
-#' @param C_chl Chloroplastic CO2 concentration in Pa of class \code{units}
-#' @param pars Concatenated parameters (\code{leaf_par}, \code{enviro_par}, and \code{constants})
-#' @param unitless Logical. Should \code{units} be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.
+#' @param C_chl Chloroplastic CO2 concentration in Pa of class `units`
+#' @param pars Concatenated parameters (`leaf_par`, `enviro_par`, and `constants`)
+#' @param unitless Logical. Should `units` be set? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.
 #'
-#' @return Value in mol / (m^2 s) of class \code{units}
+#' @return Value in mol / (m^2 s) of class `units`
 #'
 #' @details
 #'
-#' \bold{Supply function:}
+#' **Supply function:**
 #' \cr
 #' \deqn{A = g_\mathrm{tc} (C_\mathrm{air} - C_\mathrm{chl})}{A = g_tc (C_air - C_chl)}
 #'
-#' \bold{Demand function:}
+#' **Demand function:**
 #' \cr
 #' \deqn{A = (1 - \Gamma* / C_\mathrm{chl}) \mathrm{min}(W_\mathrm{carbox}, W_\mathrm{regen}, W_\mathrm{tpu}) - R_\mathrm{d}}{A = (1 - \Gamma* / C_chl) min(W_carbox, W_regen, W_tpu) - R_d}
 #'
 #' \tabular{lllll}{
-#' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
-#' \eqn{A} \tab \code{A} \tab photosynthetic rate \tab \eqn{\mu}mol CO2 / (m^2 s) \tab calculated \cr
-#' \eqn{g_\mathrm{tc}}{g_tc} \tab \code{g_tc} \tab total conductance to CO2 \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab \link[=.get_gtc]{calculated} \cr
-#' \eqn{C_\mathrm{air}}{C_air} \tab \code{C_air} \tab atmospheric CO2 concentration \tab Pa \tab 41 \cr
-#' \eqn{C_\mathrm{chl}}{C_chl} \tab \code{C_chl} \tab chloroplastic CO2 concentration \tab Pa \tab calculated\cr
-#' \eqn{R_\mathrm{d}}{R_d} \tab \code{R_d} \tab nonphotorespiratory CO2 release \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 2 \cr
-#' \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point \tab Pa \tab 3.743
+#' *Symbol* \tab *R* \tab *Description* \tab *Units* \tab *Default*\cr
+#' \eqn{A} \tab `A` \tab photosynthetic rate \tab \eqn{\mu}mol CO2 / (m^2 s) \tab calculated \cr
+#' \eqn{g_\mathrm{tc}}{g_tc} \tab `g_tc` \tab total conductance to CO2 \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s Pa) \tab [calculated][.get_gtc] \cr
+#' \eqn{C_\mathrm{air}}{C_air} \tab `C_air` \tab atmospheric CO2 concentration \tab Pa \tab 41 \cr
+#' \eqn{C_\mathrm{chl}}{C_chl} \tab `C_chl` \tab chloroplastic CO2 concentration \tab Pa \tab calculated\cr
+#' \eqn{R_\mathrm{d}}{R_d} \tab `R_d` \tab nonphotorespiratory CO2 release \tab \eqn{\mu}mol CO2 / (m\eqn{^2} s) \tab 2 \cr
+#' \eqn{\Gamma*} \tab `gamma_star` \tab chloroplastic CO2 compensation point \tab Pa \tab 3.743
 #' }
 #'
 #' @examples

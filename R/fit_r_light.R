@@ -1,6 +1,6 @@
 #' Fit models to estimate light respiration (\eqn{R_\mathrm{d}})
 #' 
-#' @description We recommend using \code{\link{fit_photosynthesis}} with argument `.photo_fun = "r_light"` rather than calling this function directly.
+#' @description We recommend using [fit_photosynthesis()] with argument `.photo_fun = "r_light"` rather than calling this function directly.
 #' 
 #' @inheritParams fit_photosynthesis
 #' @param Q_lower Lower light intensity limit for estimating Rd using `kok_1956` and `yin_etal_2011` models.
@@ -10,8 +10,8 @@
 #'
 #' @return 
 #' 
-#' * If `.method = 'ls'`: an \code{\link[stats]{nls}} or \code{\link[stats]{lm}} object.
-#' * If `.method = 'brms'`: a \code{\link[brms]{brmsfit}} object.
+#' * If `.method = 'ls'`: an [stats::nls()] or [stats::lm()] object.
+#' * If `.method = 'brms'`: a [brms::brmsfit()] object.
 #' 
 #' @note 
 #' 
@@ -564,6 +564,7 @@ fit_r_light2_kok_1956_brms = function(
 #' }
 #'
 #' @rdname fit_r_light
+#' @md
 #' @export
 fit_r_light_kok = function(
     data,

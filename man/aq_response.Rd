@@ -24,9 +24,9 @@ however it could easily be fed into a different fitting approach (e.g.
 Bayesian approaches). Originally from Marshall et al. 1980.
 }
 \description{
-`r lifecycle::badge("deprecated")`
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-Please use `marshall_biscoe_1980()`.
+Please use \code{marshall_biscoe_1980()}.
 }
 \references{
 Marshall B, Biscoe P. 1980. A model for C3 leaves describing the

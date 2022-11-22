@@ -72,9 +72,9 @@ better estimate of light respiration. Note that respiration
 output should be negative here to denote an efflux of CO2.
 }
 \description{
-`r lifecycle::badge("deprecated")`
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-Please use `fit_r_light2()`.
+Please use \code{fit_r_light2()}.
 }
 \examples{
 \donttest{

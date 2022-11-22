@@ -1,6 +1,6 @@
 #' S3 class constants
 #' @inheritParams photosynthesis
-#' @param .x A list to be constructed into \strong{constants}.
+#' @param .x A list to be constructed into **constants**.
 #'
 #' @returns
 #' Constructor function for constants class. This function ensures that

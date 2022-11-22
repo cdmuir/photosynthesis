@@ -25,10 +25,12 @@ W_tpu(C_chl, pars, unitless = FALSE)
 \value{
 A list of four values with units umol CO2 / (m^2 s) of class \code{units}:
 \cr
-- \code{W_carbox}: Rubisco-limited assimilation rate \cr
-- \code{W_regen}: RuBP regeneration-limited assimilation rate \cr
-- \code{W_tpu}: TPU-limited assimilation rate \cr
-- \code{A}: minimum of W_carbox, W_regen, and W_tpu
+\itemize{
+\item \code{W_carbox}: Rubisco-limited assimilation rate \cr
+\item \code{W_regen}: RuBP regeneration-limited assimilation rate \cr
+\item \code{W_tpu}: TPU-limited assimilation rate \cr
+\item \code{A}: minimum of W_carbox, W_regen, and W_tpu
+}
 }
 \description{
 Farquhar-von Caemmerer-Berry (FvCB) C3 photosynthesis model
@@ -42,7 +44,7 @@ TPU-limited assimilation rate
 \details{
 Equations following Buckley and Diaz-Espejo (2015): \cr
 \cr
-\bold{Rubisco-limited assimilation rate:} \cr
+\strong{Rubisco-limited assimilation rate:} \cr
 \cr
 \deqn{W_\mathrm{carbox} = V_\mathrm{c,max} C_\mathrm{chl} / (C_\mathrm{chl} + K_\mathrm{m})}{W_carbox = V_cmax C_chl / (C_chl + K_m)}
 
@@ -50,7 +52,7 @@ where:
 
 \deqn{K_\mathrm{m} = K_\mathrm{C} (1 + O / K_\mathrm{O})}{K_m = K_c (1 + O / K_o)}
 
-\bold{RuBP regeneration-limited assimilation rate:} \cr
+\strong{RuBP regeneration-limited assimilation rate:} \cr
 \cr
 \deqn{W_\mathrm{regen} = J C_\mathrm{chl} / (4 C_\mathrm{chl} + 8 \Gamma*)}{W_regen = J C_chl / (4 C_chl + 8 \Gamma*)}
 
@@ -58,7 +60,7 @@ where \eqn{J} is a function of PPFD, obtained by solving the equation:
 
 \deqn{0 = \theta_J J ^ 2 - J (J_\mathrm{max} + \phi_J PPFD) + J_\mathrm{max} \phi_J PPFD}{0 = \theta_J J ^ 2 - J (J_max + \phi_J PPFD) + J_max \phi_J PPFD}
 
-\bold{TPU-limited assimilation rate:} \cr
+\strong{TPU-limited assimilation rate:} \cr
 
 \deqn{W_\mathrm{tpu} = 3 V_\mathrm{tpu} C_\mathrm{chl} / (C_\mathrm{chl} - \Gamma*)}{W_tpu = 3 V_tpu C_chl / (C_chl - \Gamma*)}
 \cr

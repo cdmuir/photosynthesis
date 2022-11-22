@@ -32,18 +32,28 @@
 \description{
 Conductance to CO2 (mol / m^2 / s)
 
-- g_tc: total conductance to CO2
+\itemize{
+\item g_tc: total conductance to CO2
+}
 
-- g_uc: cuticular conductance to CO2
+\itemize{
+\item g_uc: cuticular conductance to CO2
+}
 
-- g_bc: boundary layer conductance to CO2
+\itemize{
+\item g_bc: boundary layer conductance to CO2
+}
 
-- g_mc: mesophyll conductance to CO2
+\itemize{
+\item g_mc: mesophyll conductance to CO2
+}
 
-- g_sc: stomatal conductance to CO2
+\itemize{
+\item g_sc: stomatal conductance to CO2
+}
 }
 \details{
-\bold{Default conductance model}
+\strong{Default conductance model}
 
 The conductance model described in this section is used by default unless
 additional anatomical parameters described in the next section are provided.
@@ -70,15 +80,15 @@ different for upper and lower. The partitioning factors (\eqn{k_x}) divide the c
 How the partitioning factors work: \cr
 \tabular{ll}{
 \eqn{k_x} \tab description \cr
-0 \tab all conductance on \bold{lower} surface/portion \cr
-0.5 \tab 2/3 conductance on \bold{lower} surface \cr
+0 \tab all conductance on \strong{lower} surface/portion \cr
+0.5 \tab 2/3 conductance on \strong{lower} surface \cr
 1 \tab conductance evenly divided between surfaces/portions \cr
-2 \tab 2/3 conductance on \bold{upper} surface \cr
-Inf \tab all conductance on \bold{upper} surface/portion
+2 \tab 2/3 conductance on \strong{upper} surface \cr
+Inf \tab all conductance on \strong{upper} surface/portion
 }
 
 The boundary layer conductances for each are calculated on the basis of mass
-and heat transfer (see \code{\link{.get_gbc}}).
+and heat transfer (see \code{\link[=.get_gbc]{.get_gbc()}}).
 
 \tabular{lllll}{
 \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
@@ -90,10 +100,10 @@ and heat transfer (see \code{\link{.get_gbc}}).
 \eqn{k_\mathrm{uc}}{k_uc} \tab \code{k_uc} \tab partition of \eqn{g_\mathrm{uc}}{g_uc} to lower surface \tab none \tab 1 \cr
 }
 
-\bold{New conductance model}
+\strong{New conductance model}
 
 The conductance model described in this section is implemented in
-\bold{photosynthesis} (>= 2.1.0) if parameters to calculate the internal
+\strong{photosynthesis} (>= 2.1.0) if parameters to calculate the internal
 airspace and liquid-phase conductances (\code{A_mes_A}, \code{g_liqc}) are
 provided. These parameters are 1) the effective path lengths through the
 lower and upper leaf internal airspaces (\code{delta_ias_lower},
@@ -147,11 +157,11 @@ surfaces while keeping the total conductance constant:
 How the partitioning factors work: \cr
 \tabular{ll}{
 \eqn{k_x} \tab description \cr
-0 \tab all conductance on \bold{lower} surface/portion \cr
-0.5 \tab 2/3 conductance on \bold{lower} surface \cr
+0 \tab all conductance on \strong{lower} surface/portion \cr
+0.5 \tab 2/3 conductance on \strong{lower} surface \cr
 1 \tab conductance evenly divided between surfaces/portions \cr
-2 \tab 2/3 conductance on \bold{upper} surface \cr
-Inf \tab all conductance on \bold{upper} surface/portion
+2 \tab 2/3 conductance on \strong{upper} surface \cr
+Inf \tab all conductance on \strong{upper} surface/portion
 }
 
 The internal airspace conductance is the diffusivity of CO2 at a given
@@ -161,14 +171,14 @@ temperature and pressure divided by the effective path length:
 \deqn{g_\mathrm{ias,c,upper} = D_\mathrm{c} / \delta_\mathrm{ias,upper}}{g_iasc_ipper = D_c / delta_ias_upper}
 
 \code{g_iasc_lower} and \code{g_iasc_upper} are calculated in the \link{bake}
-function. See \code{\link[tealeaves]{.get_Dx}} for calculating \code{D_c}.
+function. See \code{\link[tealeaves:dot-get_Dx]{tealeaves::.get_Dx()}} for calculating \code{D_c}.
 
 The liquid-phase intracellular resistance is given by:
 
 \deqn{1 / r_\mathrm{i,c} = g_\mathrm{i,c} = g_\mathrm{liq,c} A_\mathrm{mes} / A}{1 / r_i,c = g_i,c = g_liq,c A_mes / A}
 
-\eqn{g_\mathrm{liq,c}}{g_liq,c} is temperature sensitive. See \code{\link{bake}}.
+\eqn{g_\mathrm{liq,c}}{g_liq,c} is temperature sensitive. See \code{\link[=bake]{bake()}}.
 
 The boundary layer conductances for each are calculated on the basis of mass
-and heat transfer (see \code{\link{.get_gbc}}).
+and heat transfer (see \code{\link[=.get_gbc]{.get_gbc()}}).
 }

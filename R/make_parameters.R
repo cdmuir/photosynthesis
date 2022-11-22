@@ -1,7 +1,7 @@
-#' Make lists of parameters for \code{photosynthesis}
+#' Make lists of parameters for `photosynthesis`
 #'
 #' @param replace A named list of parameters to replace defaults.
-#' If \code{NULL}, defaults will be used.
+#' If `NULL`, defaults will be used.
 #'
 #' @name make_parameters
 #'
@@ -134,57 +134,57 @@ make_anypar = function(which, replace, use_tealeaves) {
 #'
 #' @return
 #'
-#' \code{make_leafpar}: An object inheriting from class \code{\link{leaf_par}}\cr
-#' \code{make_enviropar}: An object inheriting from class \code{\link{enviro_par}}\cr
-#' \code{make_bakepar}: An object inheriting from class \code{\link{bake_par}}\cr
-#' \code{make_constants}: An object inheriting from class \code{\link{constants}}
+#' `make_leafpar`: An object inheriting from class [leaf_par()]\cr
+#' `make_enviropar`: An object inheriting from class [enviro_par()]\cr
+#' `make_bakepar`: An object inheriting from class [bake_par()]\cr
+#' `make_constants`: An object inheriting from class [constants()]
 #'
 #' @details
 #'
-#' \bold{Constants:}
+#' **Constants:**
 #' ```{r, echo=FALSE}
 #'  make_photo_parameter_table(type == "constants", !tealeaves)
 #' ```
 #' 
-#' \bold{Baking (i.e. temperature response) parameters:}
+#' **Baking (i.e. temperature response) parameters:**
 #' ```{r, echo=FALSE}
 #'  make_photo_parameter_table(type == "bake", !tealeaves)
 #' ```
 #' 
-#' \bold{Environment parameters:}
+#' **Environment parameters:**
 #' ```{r, echo=FALSE}
 #'  make_photo_parameter_table(type == "enviro", !tealeaves)
 #' ```
 #'
-#' \bold{Leaf parameters:}
+#' **Leaf parameters:**
 #' ```{r, echo=FALSE}
 #'  make_photo_parameter_table(type == "leaf", !tealeaves, 
 #'                             is.na(note) | note != "optional")
 #' ```
 #'
-#' If \code{use_tealeaves = TRUE}, additional parameters are:
+#' If `use_tealeaves = TRUE`, additional parameters are:
 #'
-#' \bold{Constants:}
+#' **Constants:**
 #' ```{r, echo=FALSE}
 #'  make_photo_parameter_table(type == "constants", tealeaves)
 #' ```
 #' 
-#' \bold{Baking (i.e. temperature response) parameters:}
+#' **Baking (i.e. temperature response) parameters:**
 #' ```{r, echo=FALSE}
 #'  make_photo_parameter_table(type == "bake", tealeaves)
 #' ```
 #' 
-#' \bold{Environment parameters:}
+#' **Environment parameters:**
 #' ```{r, echo=FALSE}
 #'  make_photo_parameter_table(type == "enviro", tealeaves)
 #' ```
 #'
-#' \bold{Leaf parameters:}
+#' **Leaf parameters:**
 #' ```{r, echo=FALSE}
 #'  make_photo_parameter_table(type == "leaf", tealeaves)
 #' ```
 #'
-#' \bold{Optional leaf parameters:}
+#' **Optional leaf parameters:**
 #'
 #' ```{r, echo=FALSE}
 #'  make_photo_parameter_table(type == "leaf", note == "optional")

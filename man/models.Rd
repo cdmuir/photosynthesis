@@ -13,9 +13,9 @@ get_all_models(method)
 marshall_biscoe_1980(Q_abs, k_sat, phi_J, theta_J)
 }
 \arguments{
-\item{.photo_fun}{A character string of \strong{photosynthesis} function to call. One of: \code{aq_response, r_light}.}
+\item{.photo_fun}{A character string of \strong{photosynthesis} function to call. One of: \verb{aq_response, r_light}.}
 
-\item{method}{A character string of the statistical method to use: 'ls' for least-squares and 'brms' for Bayesian model using \code{\link[brms]{brm}}. Default is 'ls'.}
+\item{method}{A character string of the statistical method to use: 'ls' for least-squares and 'brms' for Bayesian model using \code{\link[brms:brm]{brms::brm()}}. Default is 'ls'.}
 
 \item{Q_abs}{Absorbed light intensity (\eqn{\mu}mol m\eqn{^{-2}} s\eqn{^{-1}})}
 
@@ -31,7 +31,7 @@ A character string with name of model.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-Get the name of the default model used for different plant ecophysiological data analysis methods implemented in \bold{photosynthesis}. Currently only used for \code{\link{fit_aq_response2}} and \code{\link{fit_r_light2}}.
+Get the name of the default model used for different plant ecophysiological data analysis methods implemented in \strong{photosynthesis}. Currently only used for \code{\link[=fit_aq_response2]{fit_aq_response2()}} and \code{\link[=fit_r_light2]{fit_r_light2()}}.
 
 \strong{Light response models:}
 \itemize{

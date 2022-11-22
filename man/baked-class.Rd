@@ -4,5 +4,5 @@
 \alias{baked-class}
 \title{S3 class baked}
 \description{
-See \code{\link{bake}}
+See \code{\link[=bake]{bake()}}
 }

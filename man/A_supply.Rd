@@ -25,11 +25,11 @@ Value in mol / (m^2 s) of class \code{units}
 This function is not intended to be called by users directly.
 }
 \details{
-\bold{Supply function:}
+\strong{Supply function:}
 \cr
 \deqn{A = g_\mathrm{tc} (C_\mathrm{air} - C_\mathrm{chl})}{A = g_tc (C_air - C_chl)}
 
-\bold{Demand function:}
+\strong{Demand function:}
 \cr
 \deqn{A = (1 - \Gamma* / C_\mathrm{chl}) \mathrm{min}(W_\mathrm{carbox}, W_\mathrm{regen}, W_\mathrm{tpu}) - R_\mathrm{d}}{A = (1 - \Gamma* / C_chl) min(W_carbox, W_regen, W_tpu) - R_d}
 

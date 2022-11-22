@@ -3,24 +3,26 @@
 \docType{data}
 \name{photo_parameters}
 \alias{photo_parameters}
-\title{Input parameters to simulate C3 photosynthesis using \code{\link{photosynthesis}}}
+\title{Input parameters to simulate C3 photosynthesis using \code{\link[=photosynthesis]{photosynthesis()}}}
 \format{
-## `photo_parameters`
-A data frame with `r nrow(photo_parameters)` rows and `r ncol(photo_parameters)`  columns:
+\subsection{\code{photo_parameters}}{
+
+A data frame with 73 rows and 11  columns:
 \describe{
-  \item{country}{Country name}
-  \item{iso2, iso3}{2 & 3 letter ISO country codes}
-  \item{year}{Year}
-  ...
+\item{country}{Country name}
+\item{iso2, iso3}{2 & 3 letter ISO country codes}
+\item{year}{Year}
+...
+}
 }
 }
 \source{
-<https://www.who.int/teams/global-tuberculosis-programme/data>
+\url{https://www.who.int/teams/global-tuberculosis-programme/data}
 }
 \usage{
 photo_parameters
 }
 \description{
-A table of input parameters used in \code{\link{photosynthesis}}
+A table of input parameters used in \code{\link[=photosynthesis]{photosynthesis()}}
 }
 \keyword{datasets}

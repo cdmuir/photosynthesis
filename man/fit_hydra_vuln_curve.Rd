@@ -27,10 +27,10 @@ for the Weibull curve}
 fit_hydra_vuln_curve fits a sigmoidal function (Pammenter & Van der
 Willigen, 1998) linearized according to Ogle et al. (2009). Output is a list
 containing the sigmoidal model in element 1 and Weibull model in element 4,
-the fit parameters with 95% confidence interval for both models are in
+the fit parameters with 95\% confidence interval for both models are in
 element 2, and hydraulic parameters in element 3 (including P25, P50, P88,
-P95, S50, Pe, Pmax, DSI). Px (25 to 95): water potential at which x% of
-conductivity is lost. S50: slope at 50% loss of conductivity. Pe: air
+P95, S50, Pe, Pmax, DSI). Px (25 to 95): water potential at which x\% of
+conductivity is lost. S50: slope at 50\% loss of conductivity. Pe: air
 entry point. Pmax: hydraulic failure threshold. DSI: drought stress interval.
 Element 5 is a graph showing the fit, P50, Pe, and Pmax.
 }

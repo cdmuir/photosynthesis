@@ -6,7 +6,7 @@
 #'
 #' @details
 #' 
-#' \bold{Default conductance model}
+#' **Default conductance model**
 #' 
 #' The conductance model described in this section is used by default unless
 #' additional anatomical parameters described in the next section are provided.
@@ -33,36 +33,36 @@
 #' How the partitioning factors work: \cr
 #' \tabular{ll}{
 #' \eqn{k_x} \tab description \cr
-#' 0 \tab all conductance on \bold{lower} surface/portion \cr
-#' 0.5 \tab 2/3 conductance on \bold{lower} surface \cr
+#' 0 \tab all conductance on **lower** surface/portion \cr
+#' 0.5 \tab 2/3 conductance on **lower** surface \cr
 #' 1 \tab conductance evenly divided between surfaces/portions \cr
-#' 2 \tab 2/3 conductance on \bold{upper} surface \cr
-#' Inf \tab all conductance on \bold{upper} surface/portion
+#' 2 \tab 2/3 conductance on **upper** surface \cr
+#' Inf \tab all conductance on **upper** surface/portion
 #' }
 #'
 #' The boundary layer conductances for each are calculated on the basis of mass 
-#' and heat transfer (see \code{\link{.get_gbc}}).
+#' and heat transfer (see [.get_gbc()]).
 #'
 #' \tabular{lllll}{
-#' \emph{Symbol} \tab \emph{R} \tab \emph{Description} \tab \emph{Units} \tab \emph{Default}\cr
-#' \eqn{g_\mathrm{mc}}{g_mc} \tab \code{g_mc} \tab mesophyll conductance to CO2 (T_leaf) \tab mol / m\eqn{^2} / s \tab \link[=bake]{calculated} \cr
-#' \eqn{g_\mathrm{sc}}{g_sc} \tab \code{g_sc} \tab stomatal conductance to CO2 \tab mol / m\eqn{^2} / s \tab `r dplyr::pull(photo_parameters[photo_parameters$R == "g_sc","default"])` \cr
-#' \eqn{g_\mathrm{uc}}{g_uc} \tab \code{g_uc} \tab cuticular conductance to CO2 \tab mol / m\eqn{^2} / s \tab `r dplyr::pull(photo_parameters[photo_parameters$R == "g_uc","default"])` \cr
-#' \eqn{k_\mathrm{mc}}{k_mc} \tab \code{k_mc} \tab partition of \eqn{g_\mathrm{mc}}{g_mc} to lower mesophyll \tab none \tab `r dplyr::pull(photo_parameters[photo_parameters$R == "k_mc","default"])` \cr
-#' \eqn{k_\mathrm{sc}}{k_sc} \tab \code{k_sc} \tab partition of \eqn{g_\mathrm{sc}}{g_sc} to lower surface \tab none \tab `r dplyr::pull(photo_parameters[photo_parameters$R == "k_sc","default"])` \cr
-#' \eqn{k_\mathrm{uc}}{k_uc} \tab \code{k_uc} \tab partition of \eqn{g_\mathrm{uc}}{g_uc} to lower surface \tab none \tab `r dplyr::pull(photo_parameters[photo_parameters$R == "k_uc","default"])` \cr
+#' *Symbol* \tab *R* \tab *Description* \tab *Units* \tab *Default*\cr
+#' \eqn{g_\mathrm{mc}}{g_mc} \tab `g_mc` \tab mesophyll conductance to CO2 (T_leaf) \tab mol / m\eqn{^2} / s \tab [calculated][bake] \cr
+#' \eqn{g_\mathrm{sc}}{g_sc} \tab `g_sc` \tab stomatal conductance to CO2 \tab mol / m\eqn{^2} / s \tab `r dplyr::pull(photo_parameters[photo_parameters$R == "g_sc","default"])` \cr
+#' \eqn{g_\mathrm{uc}}{g_uc} \tab `g_uc` \tab cuticular conductance to CO2 \tab mol / m\eqn{^2} / s \tab `r dplyr::pull(photo_parameters[photo_parameters$R == "g_uc","default"])` \cr
+#' \eqn{k_\mathrm{mc}}{k_mc} \tab `k_mc` \tab partition of \eqn{g_\mathrm{mc}}{g_mc} to lower mesophyll \tab none \tab `r dplyr::pull(photo_parameters[photo_parameters$R == "k_mc","default"])` \cr
+#' \eqn{k_\mathrm{sc}}{k_sc} \tab `k_sc` \tab partition of \eqn{g_\mathrm{sc}}{g_sc} to lower surface \tab none \tab `r dplyr::pull(photo_parameters[photo_parameters$R == "k_sc","default"])` \cr
+#' \eqn{k_\mathrm{uc}}{k_uc} \tab `k_uc` \tab partition of \eqn{g_\mathrm{uc}}{g_uc} to lower surface \tab none \tab `r dplyr::pull(photo_parameters[photo_parameters$R == "k_uc","default"])` \cr
 #' }
 #'
-#' \bold{New conductance model}
+#' **New conductance model**
 #' 
 #' The conductance model described in this section is implemented in 
-#' \bold{photosynthesis} (>= 2.1.0) if parameters to calculate the internal 
-#' airspace and liquid-phase conductances (\code{A_mes_A}, \code{g_liqc}) are 
+#' **photosynthesis** (>= 2.1.0) if parameters to calculate the internal 
+#' airspace and liquid-phase conductances (`A_mes_A`, `g_liqc`) are 
 #' provided. These parameters are 1) the effective path lengths through the 
-#' lower and upper leaf internal airspaces (\code{delta_ias_lower}, 
-#' \code{delta_ias_upper}) and 2) the mesophyll area per leaf area 
-#' (\code{A_mes_A}) and liquid-phase conductance per mesophyll cell area 
-#' (\code{g_liqc}).
+#' lower and upper leaf internal airspaces (`delta_ias_lower`, 
+#' `delta_ias_upper`) and 2) the mesophyll area per leaf area 
+#' (`A_mes_A`) and liquid-phase conductance per mesophyll cell area 
+#' (`g_liqc`).
 #' 
 #' Two parallel diffusion pathways, one from each leaf surface, converge to a 
 #' single CO2 concentration at the mesophyll cell boundary. We use a single 
@@ -110,11 +110,11 @@
 #' How the partitioning factors work: \cr
 #' \tabular{ll}{
 #' \eqn{k_x} \tab description \cr
-#' 0 \tab all conductance on \bold{lower} surface/portion \cr
-#' 0.5 \tab 2/3 conductance on \bold{lower} surface \cr
+#' 0 \tab all conductance on **lower** surface/portion \cr
+#' 0.5 \tab 2/3 conductance on **lower** surface \cr
 #' 1 \tab conductance evenly divided between surfaces/portions \cr
-#' 2 \tab 2/3 conductance on \bold{upper} surface \cr
-#' Inf \tab all conductance on \bold{upper} surface/portion
+#' 2 \tab 2/3 conductance on **upper** surface \cr
+#' Inf \tab all conductance on **upper** surface/portion
 #' }
 #'
 #' The internal airspace conductance is the diffusivity of CO2 at a given
@@ -123,17 +123,17 @@
 #' \deqn{g_\mathrm{ias,c,lower} = D_\mathrm{c} / \delta_\mathrm{ias,lower}}{g_iasc_lower = D_c / delta_ias_lower}
 #' \deqn{g_\mathrm{ias,c,upper} = D_\mathrm{c} / \delta_\mathrm{ias,upper}}{g_iasc_ipper = D_c / delta_ias_upper}
 #' 
-#' \code{g_iasc_lower} and \code{g_iasc_upper} are calculated in the \link{bake} 
-#' function. See \code{\link[tealeaves]{.get_Dx}} for calculating \code{D_c}.
+#' `g_iasc_lower` and `g_iasc_upper` are calculated in the [bake] 
+#' function. See [tealeaves::.get_Dx()] for calculating `D_c`.
 #' 
 #' The liquid-phase intracellular resistance is given by:
 #' 
 #' \deqn{1 / r_\mathrm{i,c} = g_\mathrm{i,c} = g_\mathrm{liq,c} A_\mathrm{mes} / A}{1 / r_i,c = g_i,c = g_liq,c A_mes / A}
 #' 
-#' \eqn{g_\mathrm{liq,c}}{g_liq,c} is temperature sensitive. See \code{\link{bake}}.
+#' \eqn{g_\mathrm{liq,c}}{g_liq,c} is temperature sensitive. See [bake()].
 #' 
 #' The boundary layer conductances for each are calculated on the basis of mass
-#' and heat transfer (see \code{\link{.get_gbc}}).
+#' and heat transfer (see [.get_gbc()]).
 #' 
 #' @encoding UTF-8
 #' @md

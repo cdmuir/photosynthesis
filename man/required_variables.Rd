@@ -2,15 +2,15 @@
 % Please edit documentation in R/models.R
 \name{required_variables}
 \alias{required_variables}
-\title{Variables required for **photosynthesis** models}
+\title{Variables required for \strong{photosynthesis} models}
 \usage{
 required_variables(.model, quiet)
 }
 \arguments{
-\item{.model}{A character string of model name to use. See \code{\link{get_all_models}}.}
+\item{.model}{A character string of model name to use. See \code{\link[=get_all_models]{get_all_models()}}.}
 
 \item{quiet}{Flag. Should messages be suppressed? Default is FALSE.}
 }
 \description{
-Variables required for **photosynthesis** models
+Variables required for \strong{photosynthesis} models
 }

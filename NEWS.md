@@ -1,5 +1,8 @@
 # photosynthesis (development version)
 
+* Fixed issue with **lifecycle** badges
+* Added new function `simulate_error()` to simulate measurement error in gas exchange measurements.
+
 # photosynthesis 2.1.1
 
 * Added Bayesian options to fit light-response and light respiration models via `fit_photosynthesis(..., .method = "brms")`

@@ -21,13 +21,13 @@ make_constants(replace = NULL, use_tealeaves)
 \item{replace}{A named list of parameters to replace defaults.
 If \code{NULL}, defaults will be used.}
 
-\item{use_tealeaves}{Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves:tleaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.}
+\item{use_tealeaves}{Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves:tleaves]{tleaf()}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link[=make_parameters]{make_parameters()}}.}
 }
 \value{
-\code{make_leafpar}: An object inheriting from class \code{\link{leaf_par}}\cr
-\code{make_enviropar}: An object inheriting from class \code{\link{enviro_par}}\cr
-\code{make_bakepar}: An object inheriting from class \code{\link{bake_par}}\cr
-\code{make_constants}: An object inheriting from class \code{\link{constants}}
+\code{make_leafpar}: An object inheriting from class \code{\link[=leaf_par]{leaf_par()}}\cr
+\code{make_enviropar}: An object inheriting from class \code{\link[=enviro_par]{enviro_par()}}\cr
+\code{make_bakepar}: An object inheriting from class \code{\link[=bake_par]{bake_par()}}\cr
+\code{make_constants}: An object inheriting from class \code{\link[=constants]{constants()}}
 }
 \description{
 Make lists of parameters for \code{photosynthesis}
@@ -41,7 +41,7 @@ make_bakepar
 make_constants
 }
 \details{
-\bold{Constants:}\tabular{lllll}{
+\strong{Constants:}\tabular{lllll}{
    Symbol \tab R \tab Description \tab Units \tab Default \cr
    \eqn{D_{\mathrm{c},0}} \tab \code{D_c0} \tab diffusion coefficient for CO2 in air at 0 °C \tab m\eqn{^2} / s \tab \eqn{1.29\times 10^{-5}} \cr
    \eqn{D_{\mathrm{h},0}} \tab \code{D_h0} \tab diffusion coefficient for heat in air at 0 °C \tab m\eqn{^2} / s \tab \eqn{1.90\times 10^{-5}} \cr
@@ -57,7 +57,7 @@ make_constants
 }
 
 
-\bold{Baking (i.e. temperature response) parameters:}\tabular{lllll}{
+\strong{Baking (i.e. temperature response) parameters:}\tabular{lllll}{
    Symbol \tab R \tab Description \tab Units \tab Default \cr
    \eqn{D_\mathrm{s,gmc}} \tab \code{Ds_gmc} \tab empirical temperature response parameter \tab J / mol / K \tab 487 \cr
    \eqn{D_\mathrm{s,Jmax}} \tab \code{Ds_Jmax} \tab empirical temperature response parameter \tab J / mol / K \tab 388 \cr
@@ -74,7 +74,7 @@ make_constants
 }
 
 
-\bold{Environment parameters:}\tabular{lllll}{
+\strong{Environment parameters:}\tabular{lllll}{
    Symbol \tab R \tab Description \tab Units \tab Default \cr
    \eqn{C_\mathrm{air}} \tab \code{C_air} \tab atmospheric CO2 concentration \tab umol/mol \tab 420 \cr
    \eqn{O} \tab \code{O} \tab atmospheric O2 concentration \tab mol/mol \tab 0.21 \cr
@@ -85,7 +85,7 @@ make_constants
 }
 
 
-\bold{Leaf parameters:}\tabular{lllll}{
+\strong{Leaf parameters:}\tabular{lllll}{
    Symbol \tab R \tab Description \tab Units \tab Default \cr
    \eqn{d} \tab \code{leafsize} \tab leaf characteristic dimension \tab m \tab 0.1 \cr
    \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point (T_leaf) \tab umol/mol \tab NA \cr
@@ -117,19 +117,19 @@ make_constants
 
 If \code{use_tealeaves = TRUE}, additional parameters are:
 
-\bold{Constants:}\tabular{lllll}{
+\strong{Constants:}\tabular{lllll}{
    Symbol \tab R \tab Description \tab Units \tab Default \cr
    \eqn{c_p} \tab \code{c_p} \tab heat capacity of air \tab J / g / K \tab 1.01 \cr
    \eqn{R_\mathrm{air}} \tab \code{R_air} \tab specific gas constant for dry air \tab J / kg / K \tab 287 \cr
 }
 
 
-\bold{Baking (i.e. temperature response) parameters:}\tabular{lllll}{
+\strong{Baking (i.e. temperature response) parameters:}\tabular{lllll}{
    Symbol \tab R \tab Description \tab Units \tab Default \cr
 }
 
 
-\bold{Environment parameters:}\tabular{lllll}{
+\strong{Environment parameters:}\tabular{lllll}{
    Symbol \tab R \tab Description \tab Units \tab Default \cr
    \eqn{E_q} \tab \code{E_q} \tab energy per mole quanta \tab kJ / mol \tab 220 \cr
    \eqn{f_\mathrm{PAR}} \tab \code{f_par} \tab fraction of incoming shortwave radiation that is photosynthetically active radiation (PAR) \tab none \tab 0.5 \cr
@@ -139,7 +139,7 @@ If \code{use_tealeaves = TRUE}, additional parameters are:
 }
 
 
-\bold{Leaf parameters:}\tabular{lllll}{
+\strong{Leaf parameters:}\tabular{lllll}{
    Symbol \tab R \tab Description \tab Units \tab Default \cr
    \eqn{\alpha_\mathrm{l}} \tab \code{abs_l} \tab absorbtivity of longwave radiation (4 - 80 um) \tab none \tab 0.97 \cr
    \eqn{\alpha_\mathrm{s}} \tab \code{abs_s} \tab absorbtivity of shortwave radiation (0.3 - 4 um) \tab none \tab 0.5 \cr
@@ -149,7 +149,7 @@ If \code{use_tealeaves = TRUE}, additional parameters are:
 }
 
 
-\bold{Optional leaf parameters:}\tabular{lllll}{
+\strong{Optional leaf parameters:}\tabular{lllll}{
    Symbol \tab R \tab Description \tab Units \tab Default \cr
    \eqn{\delta_\mathrm{ias,lower}} \tab \code{delta_ias_lower} \tab effective distance through lower internal airspace \tab um \tab NA \cr
    \eqn{\delta_\mathrm{ias,upper}} \tab \code{delta_ias_upper} \tab effective distance through upper internal airspace \tab um \tab NA \cr

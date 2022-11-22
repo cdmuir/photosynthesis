@@ -1,6 +1,6 @@
 #' S3 class baked
 #' @name baked-class
-#' @description See \code{\link{bake}}
+#' @description See [bake()]
 
 NULL
 
@@ -15,30 +15,30 @@ NULL
 #' 
 #' @returns 
 #'
-#' Constructor function for \code{baked} class. This will also inherit class
-#' \code{\link{leaf_par}} and \code{\link{list}}. This function ensures that 
-#' temperature is "baked in" to leaf parameter calculations \code{T_leaf} using 
+#' Constructor function for `baked` class. This will also inherit class
+#' [leaf_par()] and [list()]. This function ensures that 
+#' temperature is "baked in" to leaf parameter calculations `T_leaf` using 
 #' temperature response functions detailed below.
 #'
 #' @details
 #'
-#' Several leaf parameters (\code{\link{leaf_par}}) are temperature sensitive.
+#' Several leaf parameters ([leaf_par()]) are temperature sensitive.
 #' Temperature-sensitive parameters are input at a reference temperature of 
-#' 25 °C. These parameters are provided as \code{par_name25} and then "baked"
+#' 25 °C. These parameters are provided as `par_name25` and then "baked"
 #' using the appropriate temperature response function and parameters in
-#' \code{\link{bake_par}}. The "baked" parameter will have the name without "25"
-#' appended (\code{par_name}). E.g. \code{V_cmax25} becomes \code{V_cmax}. \cr
+#' [bake_par()]. The "baked" parameter will have the name without "25"
+#' appended (`par_name`). E.g. `V_cmax25` becomes `V_cmax`. \cr
 #' \cr
 #' Temperature response functions following Buckley and  Diaz-Espejo (2015) \cr
 #' \cr
-#' Temperature response function 1 (\code{temp_response1}): \cr
+#' Temperature response function 1 (`temp_response1`): \cr
 #'
 #' \deqn{\mathrm{par}(T_\mathrm{leaf}) = \mathrm{par25}~\mathrm{exp}(E_\mathrm{a} / (R T_\mathrm{ref}) (T_\mathrm{leaf} - 25) / (T_\mathrm{leaf} + 273.15))}{par(T_leaf) = par25 exp(E_a / (R T_ref) (T_leaf - 25) / (T_leaf + 273.15))}
 #'
 #' \eqn{T_\mathrm{ref}}{T_ref} is the reference temperature in K \cr
 #' \eqn{T_\mathrm{leaf}}{T_leaf} is the leaf temperature in °C \cr
 #' \cr
-#' Temperature response function 2 (\code{temp_response2}) is the above equation multiplied by: \cr
+#' Temperature response function 2 (`temp_response2`) is the above equation multiplied by: \cr
 #'
 #' \deqn{(1 + \mathrm{exp}((D_\mathrm{s} / R - E_\mathrm{d} / (R T_\mathrm{ref})))) / (1 + \mathrm{exp}((D_\mathrm{s} / R) - (E_\mathrm{d} / (R (T_\mathrm{leaf} + 273.15)))))}{(1 + exp((D_s / R - E_d / (R T_ref)))) / (1 + exp((D_s / R) - (E_d / (R (T_leaf + 273.15)))))}
 #'
@@ -166,14 +166,14 @@ bake = function(
 #'
 #' @rdname bake
 #'
-#' @param par25 Parameter value at 25 °C of class \code{units}.
+#' @param par25 Parameter value at 25 °C of class `units`.
 #' @param E_a Empirical temperature response value in J/mol of class
-#' \code{units}.
-#' @param R Ideal gas constant in J / (mol K) of class \code{units}. See
-#' \code{\link{make_constants}}.
-#' @param T_leaf Leaf temperature in K of class \code{units}. Will be converted
+#' `units`.
+#' @param R Ideal gas constant in J / (mol K) of class `units`. See
+#' [make_constants()].
+#' @param T_leaf Leaf temperature in K of class `units`. Will be converted
 #' to °C.
-#' @param T_ref Reference temperature in K of class \code{units}.
+#' @param T_ref Reference temperature in K of class `units`.
 #'
 #' @export
 
@@ -203,9 +203,9 @@ temp_resp1 = function(par25, E_a, R, T_leaf, T_ref, unitless) {
 #'
 #' @inheritParams temp_resp1
 #' @param D_s Empirical temperature response value in J / (mol K) of class
-#' \code{units}.
+#' `units`.
 #' @param E_d Empirical temperature response value in J/mol of class
-#' \code{units}.
+#' `units`.
 #'
 #' @export
 

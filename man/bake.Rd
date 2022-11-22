@@ -30,7 +30,7 @@ temp_resp2(par25, D_s, E_a, E_d, R, T_leaf, T_ref, unitless)
 \code{units}.}
 
 \item{R}{Ideal gas constant in J / (mol K) of class \code{units}. See
-\code{\link{make_constants}}.}
+\code{\link[=make_constants]{make_constants()}}.}
 
 \item{T_leaf}{Leaf temperature in K of class \code{units}. Will be converted
 to °C.}
@@ -47,19 +47,19 @@ to °C.}
 }
 \value{
 Constructor function for \code{baked} class. This will also inherit class
-\code{\link{leaf_par}} and \code{\link{list}}. This function ensures that 
-temperature is "baked in" to leaf parameter calculations \code{T_leaf} using 
+\code{\link[=leaf_par]{leaf_par()}} and \code{\link[=list]{list()}}. This function ensures that
+temperature is "baked in" to leaf parameter calculations \code{T_leaf} using
 temperature response functions detailed below.
 }
 \description{
 'bake' leaf parameters using temperature response functions
 }
 \details{
-Several leaf parameters (\code{\link{leaf_par}}) are temperature sensitive.
-Temperature-sensitive parameters are input at a reference temperature of 
+Several leaf parameters (\code{\link[=leaf_par]{leaf_par()}}) are temperature sensitive.
+Temperature-sensitive parameters are input at a reference temperature of
 25 °C. These parameters are provided as \code{par_name25} and then "baked"
 using the appropriate temperature response function and parameters in
-\code{\link{bake_par}}. The "baked" parameter will have the name without "25"
+\code{\link[=bake_par]{bake_par()}}. The "baked" parameter will have the name without "25"
 appended (\code{par_name}). E.g. \code{V_cmax25} becomes \code{V_cmax}. \cr
 \cr
 Temperature response functions following Buckley and  Diaz-Espejo (2015) \cr
@@ -91,7 +91,7 @@ baked_leafpar$V_cmax25
 baked_leafpar$V_cmax
 }
 \references{
-Buckley TN, Diaz-Espejo A. 2015. Partitioning changes in photosynthetic rate 
+Buckley TN, Diaz-Espejo A. 2015. Partitioning changes in photosynthetic rate
 into contributions from different variables. Plant, Cell and Environment 38:
 1200-1211.
 }

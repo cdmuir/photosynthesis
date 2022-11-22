@@ -1,6 +1,6 @@
-#' Input parameters to simulate C3 photosynthesis using \code{\link{photosynthesis}}
+#' Input parameters to simulate C3 photosynthesis using [photosynthesis()]
 #'
-#' A table of input parameters used in \code{\link{photosynthesis}} 
+#' A table of input parameters used in [photosynthesis()] 
 #'
 #' @format ## `photo_parameters`
 #' A data frame with `r nrow(photo_parameters)` rows and `r ncol(photo_parameters)`  columns:

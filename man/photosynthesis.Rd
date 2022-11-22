@@ -42,7 +42,7 @@ photo(
 
 \item{constants}{A list of physical constants inheriting class \code{constants}. This can be generated using the \code{make_constants} function.}
 
-\item{use_tealeaves}{Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves:tleaves]{tleaf}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link{make_parameters}}.}
+\item{use_tealeaves}{Logical. Should leaf energy balance be used to calculate leaf temperature (T_leaf)? If TRUE, \code{\link[tealeaves:tleaves]{tleaf()}} calculates T_leaf. If FALSE, user-defined T_leaf is used. Additional parameters and constants are required, see \code{\link[=make_parameters]{make_parameters()}}.}
 
 \item{progress}{Logical. Should a progress bar be displayed?}
 
@@ -50,18 +50,18 @@ photo(
 
 \item{assert_units}{Logical. Should parameter \code{units} be checked? The function is faster when FALSE, but input must be in correct units or else results will be incorrect without any warning.}
 
-\item{check}{Logical. Should arguments checks be done? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}} Default is TRUE.}
+\item{check}{Logical. Should arguments checks be done? This is intended to be disabled when \code{\link[=photo]{photo()}} is called from \code{\link[=photosynthesis]{photosynthesis()}} Default is TRUE.}
 
-\item{parallel}{Logical. Should parallel processing be used via \code{\link[furrr]{future_map}}?}
+\item{parallel}{Logical. Should parallel processing be used via \code{\link[furrr:future_map]{furrr::future_map()}}?}
 
 \item{use_legacy_version}{Logical. Should legacy model (<2.1.0) be used? See \href{https://github.com/cdmuir/photosynthesis/blob/master/NEWS.md}{NEWS} for further information. Default is FALSE.}
 
-\item{prepare_for_tleaf}{Logical. Should arguments additional calculations for \code{\link[tealeaves:tleaves]{tleaf}}? This is intended to be disabled when \code{\link{photo}} is called from \code{\link{photosynthesis}}. Default is \code{use_tealeaves}.}
+\item{prepare_for_tleaf}{Logical. Should arguments additional calculations for \code{\link[tealeaves:tleaves]{tleaf()}}? This is intended to be disabled when \code{\link[=photo]{photo()}} is called from \code{\link[=photosynthesis]{photosynthesis()}}. Default is \code{use_tealeaves}.}
 }
 \value{
 A data.frame with the following \code{units} columns \cr
 
-\bold{Inputs:}\tabular{lllll}{
+\strong{Inputs:}\tabular{lllll}{
    Symbol \tab R \tab Description \tab Units \tab Default \cr
    \eqn{D_{\mathrm{c},0}} \tab \code{D_c0} \tab diffusion coefficient for CO2 in air at 0 °C \tab m\eqn{^2} / s \tab \eqn{1.29\times 10^{-5}} \cr
    \eqn{D_{\mathrm{h},0}} \tab \code{D_h0} \tab diffusion coefficient for heat in air at 0 °C \tab m\eqn{^2} / s \tab \eqn{1.90\times 10^{-5}} \cr
@@ -113,7 +113,7 @@ A data.frame with the following \code{units} columns \cr
    \eqn{\delta_\mathrm{ias,upper}} \tab \code{delta_ias_upper} \tab effective distance through upper internal airspace \tab um \tab NA \cr
    \eqn{A_\mathrm{mes} / A} \tab \code{A_mes_A} \tab mesophyll surface area per unit leaf area \tab none \tab NA \cr
    \eqn{g_\mathrm{liq,c,25}} \tab \code{g_liqc25} \tab liquid-phase conductance to CO2 (25 °C) \tab mol / m\eqn{^2} / s \tab NA \cr
-   \bold{Baked Inputs:} \tab  \tab  \tab  \tab  \cr
+   \strong{Baked Inputs:} \tab  \tab  \tab  \tab  \cr
    Symbol \tab R \tab Description \tab Units \tab Default \cr
    :---------------------------- \tab :------------------- \tab :------------------------------------------------------------------- \tab :-------------------- \tab :------- \cr
    \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point (T_leaf) \tab umol/mol \tab NA \cr
@@ -132,7 +132,7 @@ A data.frame with the following \code{units} columns \cr
 
 \tabular{ll}{
 
-\bold{Output:} \tab \cr
+\strong{Output:} \tab \cr
 \cr
 \code{A} \tab photosynthetic rate at \code{C_chl} (\eqn{\mu}mol CO2 / m\eqn{^2} / s) \cr
 \code{C_chl} \tab chloroplastic CO2 concentration where \code{A_supply} intersects \code{A_demand} (\eqn{mu}mol / mol) \cr
@@ -148,9 +148,9 @@ A data.frame with the following \code{units} columns \cr
 \code{photo}: simulate C3 photosynthesis over a single parameter set
 }
 \details{
-\code{photo}: This function takes simulates photosynthetic rate using the Farquhar-von Caemmerer-Berry (\code{\link{FvCB}}) model of C3 photosynthesis for single combined set of leaf parameters (\code{\link{leaf_par}}), environmental parameters (\code{\link{enviro_par}}), and physical constants (\code{\link{constants}}). Leaf parameters are provided at reference temperature (25 °C) and then "baked" to the appropriate leaf temperature using temperature response functions (see \code{\link{bake}}). \cr
+\code{photo}: This function takes simulates photosynthetic rate using the Farquhar-von Caemmerer-Berry (\code{\link[=FvCB]{FvCB()}}) model of C3 photosynthesis for single combined set of leaf parameters (\code{\link[=leaf_par]{leaf_par()}}), environmental parameters (\code{\link[=enviro_par]{enviro_par()}}), and physical constants (\code{\link[=constants]{constants()}}). Leaf parameters are provided at reference temperature (25 °C) and then "baked" to the appropriate leaf temperature using temperature response functions (see \code{\link[=bake]{bake()}}). \cr
 \cr
-\code{photosynthesis}: This function uses \code{photo} to simulate photosynthesis over multiple parameter sets that are generated using \code{\link[purrr:cross]{cross_df}}. \cr
+\code{photosynthesis}: This function uses \code{photo} to simulate photosynthesis over multiple parameter sets that are generated using \code{\link[purrr:cross]{cross_df()}}. \cr
 }
 \examples{
 # Single parameter set with 'photo'

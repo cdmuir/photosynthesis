@@ -102,7 +102,7 @@ the Arrhenius temperature response function.}
 
 \item{Ea_K_O}{Activation energy for K_O in J mol-2}
 
-\item{Oconc}{O2 concentration in %. Used with P to calculate
+\item{Oconc}{O2 concentration in \%. Used with P to calculate
 intracellular O2 when using K_C_K_O}
 
 \item{gamma_star_set}{Value of gamma_star to use (in ppm) if

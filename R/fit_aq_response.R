@@ -1,6 +1,6 @@
 #' Fit photosynthetic light-response curves
 #' 
-#' @description We recommend using \code{\link{fit_photosynthesis}} with argument `.photo_fun = "aq_response"` rather than calling this function directly.
+#' @description We recommend using [fit_photosynthesis()] with argument `.photo_fun = "aq_response"` rather than calling this function directly.
 #' 
 #' @inheritParams fit_photosynthesis
 #' @param usealpha_Q Flag. Should light intensity be multiplied by `alpha_Q` before fitting? Default is FALSE (i.e. assume that '.Q' is absorbed light).
@@ -8,8 +8,8 @@
 #' 
 #' @return 
 #' 
-#' * If `.method = 'ls'`: an \code{\link[stats]{nls}} object.
-#' * If `.method = 'brms'`: a \code{\link[brms]{brmsfit}} object.
+#' * If `.method = 'ls'`: an [stats::nls()] object.
+#' * If `.method = 'brms'`: a [brms::brmsfit()] object.
 #' 
 #' @note Rd fitted in this way is essentially the same as the Kok (1956) method, and 
 #' represents a respiration value in the light that may not be accurate. 
@@ -100,7 +100,7 @@ fit_aq_response2 = function(
   
 }
 
-#' Fit light response using \code{\link[minpack.lm]{nlsLM}}
+#' Fit light response using [minpack.lm::nlsLM()]
 #' @noRd
 fit_aq_response2_ls = function(.data, ...) {
   
@@ -121,7 +121,7 @@ fit_aq_response2_ls = function(.data, ...) {
   
 }
 
-#' Fit light response using \code{\link[brms]{brm}}
+#' Fit light response using [brms::brm()]
 #' @noRd
 fit_aq_response2_brms = function(.data, brm_options, ...) {
   

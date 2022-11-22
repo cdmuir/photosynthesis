@@ -1,17 +1,17 @@
 #' Fit photosynthetic models with gas-exchange data
 #' 
-#' @param .data A data frame containing plant ecophysiological data. See \code{\link{required_variables}} for the variables required for each model.
-#' @param .photo_fun A character string of **photosynthesis** function to call. One of: \code{`r paste0(get_function_types(), collapse = ', ')`}.
-#' @param .model A character string of model name to use. See \code{\link{get_all_models}}. 
-#' @param .vars A list to rename variables in .data. See \code{\link{required_variables}} for the accepted variable names.  
-#' @param .method A character string of the statistical method to use: 'ls' for least-squares and 'brms' for Bayesian model using \code{\link[brms]{brm}}. Default is 'ls'.
+#' @param .data A data frame containing plant ecophysiological data. See [required_variables()] for the variables required for each model.
+#' @param .photo_fun A character string of **photosynthesis** function to call. One of: ``r paste0(get_function_types(), collapse = ', ')``.
+#' @param .model A character string of model name to use. See [get_all_models()]. 
+#' @param .vars A list to rename variables in .data. See [required_variables()] for the accepted variable names.  
+#' @param .method A character string of the statistical method to use: 'ls' for least-squares and 'brms' for Bayesian model using [brms::brm()]. Default is 'ls'.
 #' @param ... Additional arguments passed to specific models. See specific help pages for each type of photosynthetic model:
 #' 
-#' * Light-response curves \code{\link{fit_aq_response2}}
-#' * Light respiration \code{\link{fit_r_light2}}
+#' * Light-response curves [fit_aq_response2()]
+#' * Light respiration [fit_r_light2()]
 #' 
 #' @param quiet Flag. Should messages be suppressed? Default is FALSE.
-#' @param brm_options A list of options passed to \code{\link[brms]{brm}} if `.method = "brms"`. Default is NULL.
+#' @param brm_options A list of options passed to [brms::brm()] if `.method = "brms"`. Default is NULL.
 #' 
 #' @return A fitted model object
 #' 
@@ -20,8 +20,8 @@
 #' 
 #' @note This function will fit models to data but several methods require post-processing to extract meaningful parameter estimates and confidence intervals. See vignettes for further explanation and examples.
 #'
-#' * Light-response curves: \code{vignette("light-response", package = "photosynthesis")}
-#' * Light respiration: \code{vignette("light-respiration", package = "photosynthesis")}
+#' * Light-response curves: `vignette("light-response", package = "photosynthesis")`
+#' * Light respiration: `vignette("light-respiration", package = "photosynthesis")`
 #' 
 #' @md
 #' @export

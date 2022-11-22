@@ -17,11 +17,11 @@ fit_r_light2(
 )
 }
 \arguments{
-\item{.data}{A data frame containing plant ecophysiological data. See \code{\link{required_variables}} for the variables required for each model.}
+\item{.data}{A data frame containing plant ecophysiological data. See \code{\link[=required_variables]{required_variables()}} for the variables required for each model.}
 
-\item{.model}{A character string of model name to use. See \code{\link{get_all_models}}.}
+\item{.model}{A character string of model name to use. See \code{\link[=get_all_models]{get_all_models()}}.}
 
-\item{.method}{A character string of the statistical method to use: 'ls' for least-squares and 'brms' for Bayesian model using \code{\link[brms]{brm}}. Default is 'ls'.}
+\item{.method}{A character string of the statistical method to use: 'ls' for least-squares and 'brms' for Bayesian model using \code{\link[brms:brm]{brms::brm()}}. Default is 'ls'.}
 
 \item{Q_lower}{Lower light intensity limit for estimating Rd using \code{kok_1956} and \code{yin_etal_2011} models.}
 
@@ -33,16 +33,16 @@ fit_r_light2(
 
 \item{quiet}{Flag. Should messages be suppressed? Default is FALSE.}
 
-\item{brm_options}{A list of options passed to \code{\link[brms]{brm}} if \code{.method = "brms"}. Default is NULL.}
+\item{brm_options}{A list of options passed to \code{\link[brms:brm]{brms::brm()}} if \code{.method = "brms"}. Default is NULL.}
 }
 \value{
 \itemize{
-\item If \code{.method = 'ls'}: an \code{\link[stats]{nls}} or \code{\link[stats]{lm}} object.
-\item If \code{.method = 'brms'}: a \code{\link[brms]{brmsfit}} object.
+\item If \code{.method = 'ls'}: an \code{\link[stats:nls]{stats::nls()}} or \code{\link[stats:lm]{stats::lm()}} object.
+\item If \code{.method = 'brms'}: a \code{\link[brms:brmsfit-class]{brms::brmsfit()}} object.
 }
 }
 \description{
-We recommend using \code{\link{fit_photosynthesis}} with argument \code{.photo_fun = "r_light"} rather than calling this function directly.
+We recommend using \code{\link[=fit_photosynthesis]{fit_photosynthesis()}} with argument \code{.photo_fun = "r_light"} rather than calling this function directly.
 }
 \note{
 Confusingly, \eqn{R_\mathrm{d}} typically denotes respiration in the light, but you might see \eqn{R_\mathrm{day}} or \eqn{R_\mathrm{light}}.

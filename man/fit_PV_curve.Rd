@@ -28,7 +28,7 @@ fit_PV_curve fits pressure-volume curve data to determine:
 SWC: saturated water content per leaf mass (g H2O g leaf dry mass ^ -1),
 PI_o: osmotic potential at full turgor (MPa), psi_TLP: leaf water
 potential at turgor loss point (TLP) (MPa), RWC_TLP: relative water
-content at TLP (%), eps: modulus of elasticity at full turgor (MPa),
+content at TLP (\%), eps: modulus of elasticity at full turgor (MPa),
 C_FT: relative capacitance at full turgor (MPa ^ -1), C_TLP: relative
 capacitance at TLP (MPa ^ -1), and C_FTStar: absolute capacitance per
 leaf area (g m ^ -2 MPa ^ -1). Element 1 of the output list contains

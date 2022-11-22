@@ -1,7 +1,7 @@
 #' S3 class bake_par
 #
 
-#' @param .x A list to be constructed into \strong{bake_par}.
+#' @param .x A list to be constructed into **bake_par**.
 #'
 #' @returns
 #'

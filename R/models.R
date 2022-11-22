@@ -6,7 +6,7 @@
 #' 
 #' `r lifecycle::badge("experimental")`
 #' 
-#' Get the name of the default model used for different plant ecophysiological data analysis methods implemented in \bold{photosynthesis}. Currently only used for \code{\link{fit_aq_response2}} and \code{\link{fit_r_light2}}.
+#' Get the name of the default model used for different plant ecophysiological data analysis methods implemented in **photosynthesis**. Currently only used for [fit_aq_response2()] and [fit_r_light2()].
 #' 
 #' @inheritParams fit_photosynthesis
 #' 

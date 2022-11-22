@@ -1,9 +1,9 @@
-#' \code{photosynthesis} package
+#' `photosynthesis` package
 #'
 #' Tools for Plant Ecophysiology & Modeling
 #'
 #' See the README on
-#' \href{https://github.com/cdmuir/photosynthesis}{GitHub}
+#' [GitHub](https://github.com/cdmuir/photosynthesis)
 #'
 #' @docType package
 #' @name photosynthesis-package
