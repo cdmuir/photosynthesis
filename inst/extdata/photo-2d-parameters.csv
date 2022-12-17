@@ -1,0 +1,42 @@
+symbol,R,description,units,default,type,temperature_response,lower,upper,note
+
+# spatial
+"n_{\mathrm{x}}",n_x,number of elements along the x-axis of the focal area,none,10,spatial,FALSE,2,Inf,NA
+"n_{\mathrm{y}}",n_y,number of elements along the y-axis of the focal area,none,10,spatial,FALSE,2,Inf,NA
+"l_{\mathrm{element}}",l_element,length of element,m,1e-6,spatial,FALSE,0,Inf,NA
+
+# biochemistry (goes under leaf to be consistent with photo())
+"k_\mathrm{c,25}",k_c25,Rubisco turnover rate (25 °C),1/s,3,leaf,FALSE,0,Inf,NA
+"k_\mathrm{c}",k_c,Rubisco turnover rate (T_leaf),1/s,NA,leaf,TRUE,0,Inf,NA
+"r_{\mathrm{d,25}}",r_d25,nonphotorespiratory CO2 release per volume (25 °C),mol / m^3 / s,0.066,leaf,FALSE,0,Inf,NA
+"\mathrm{rubisco}",rubisco,Rubisco concentration,mol/m^3,2.5,leaf,FALSE,0,Inf,NA
+"j_{\mathrm{max}}",j_max,potential electron transport per volume (T_leaf),mol / m^3 / s,200,leaf,FALSE,FALSE,0,Inf,NA
+
+# leaf anatomy
+"f_{\mathrm{palisade}}",f_palisade,palisade fraction of mesophyll,none,0.6,leaf_anatomy,0,1,"f_spongy is 1 - f_palisade"
+"\rho_{\mathrm{palisade}}",porosity_palisade,porosity of the palisade mesophyll,m^3/m^3,0.1,leaf_anatomy,0,1,NA
+"\rho_{\mathrm{palisade}}",porosity_palisade,porosity of the palisade mesophyll,m^3/m^3,0.1,leaf_anatomy,0,1,NA
+"\rho_{\mathrm{spongy}}",spongy_palisade,porosity of the spongy mesophyll,m^3/m^3,0.3,leaf,FALSE,0,1,NA
+"\tau",tortuosity,tortuosity of the mesophyll,m/m,2,leaf_anatomy,0,1,NA
+"S_{\mathrm{m,palisade}}",Sm_palisade,Mitochondrial surface area per unit of leaf area in the palisade meosphyll,m^2/m^2,40,leaf_anatomy,FALSE,0,1,NA
+"S_{\mathrm{m,spongy}}",Sm_spongy,Mitochondrial surface area per unit of leaf area in the spongy meosphyll,m^2/m^2,6.5,leaf_anatomy,FALSE,0,1,NA
+"V_{\mathrm{m}}",V_m,Mitochondrial volume per unit of mesophyll surface area,m^3/m^2,0.27e-7,leaf_anatomy,FALSE,0,Inf,NA
+"V_{\mathrm{s}}",V_s,Stroma volume per unit of mesophyll surface area,m^3/m^2,0.87e-6,leaf_anatomy,FALSE,0,Inf,NA
+
+# environment
+"C_\mathrm{s}",C_s,CO2 concentration in substomatal cavity,umol/mol,350,enviro,0,Inf,NA
+
+# constants
+"d_{\mathrm{kHc}}",dkHc,coefficient describing the temperature dependence of Henry's Law constant for the solubility of CO2 in water,K,2400,constants,0,Inf,NA
+"k_{\mathrm{Hc,25}}",kHc25,Henry's Law constant for the solubility of CO2 in water (25 °C),mol/m^3/Pa,3.3e-4,constants,0,Inf,NA
+
+# calculated
+"k_{\mathrm{Hc}}",kHc,Henry's Law constant for the solubility of CO2 in water (T_leaf),mol/m^3/Pa,NA,constants,0,Inf,NA
+
+"f_{\mathrm{spongy}}",f_spongy,spongy fraction of mesophyll,none,0.4,leaf_anatomy,0,1,NA
+
+"j_{\mathrm{d,palisade}}",r_d,nonphotorespiratory CO2 release per volume from the palisade mesophyll (T_leaf),mol / m^3 / s,NA,leaf,TRUE,0,Inf,NA
+"j_{\mathrm{d,spongy}}",r_d,nonphotorespiratory CO2 release per volume from the spongy mesophyll (T_leaf),mol / m^3 / s,NA,leaf,TRUE,0,Inf,NA
+
+"r_{\mathrm{d,palisade}}",r_d,nonphotorespiratory CO2 release per volume from the palisade mesophyll (T_leaf),mol / m^3 / s,NA,leaf,TRUE,0,Inf,NA
+"r_{\mathrm{d,spongy}}",r_d,nonphotorespiratory CO2 release per volume from the spongy mesophyll (T_leaf),mol / m^3 / s,NA,leaf,TRUE,0,Inf,NA

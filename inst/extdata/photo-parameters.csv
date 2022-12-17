@@ -35,8 +35,8 @@ R,R,ideal gas constant,J / mol / K,8.3144598,constants,FALSE,FALSE,0,Inf,NA
 "g_\mathrm{mc,25}",g_mc25,mesophyll conductance to CO2 (25 °C),mol / m^2 / s,0.4,leaf,FALSE,FALSE,0,Inf,NA
 "g_\mathrm{sc}",g_sc,stomatal conductance to CO2,mol / m^2 / s,0.4,leaf,FALSE,FALSE,0,Inf,NA
 "g_\mathrm{uc}",g_uc,cuticular conductance to CO2,mol / m^2 / s,0.01,leaf,FALSE,FALSE,0,Inf,NA
-"J_\mathrm{max,25}",J_max25,potential electron transport (25 °C),umol / m^2 / s,200,leaf,FALSE,FALSE,0,Inf,NA
-"J_\mathrm{max}",J_max,potential electron transport (T_leaf),umol / m^2 / s,NA,leaf,TRUE,FALSE,0,Inf,NA
+"J_\mathrm{max,25}",J_max25,potential electron transport per area (25 °C),umol / m^2 / s,200,leaf,FALSE,FALSE,0,Inf,NA
+"J_\mathrm{max}",J_max,potential electron transport per area (T_leaf),umol / m^2 / s,NA,leaf,TRUE,FALSE,0,Inf,NA
 "k_\mathrm{mc}",k_mc,partition of g_mc to lower mesophyll,none,1,leaf,FALSE,FALSE,0,Inf,NA
 "k_\mathrm{sc}",k_sc,partition of g_sc to lower surface,none,1,leaf,FALSE,FALSE,0,Inf,NA
 "k_\mathrm{uc}",k_uc,partition of g_uc to lower surface,none,1,leaf,FALSE,FALSE,0,Inf,NA
@@ -45,8 +45,8 @@ R,R,ideal gas constant,J / mol / K,8.3144598,constants,FALSE,FALSE,0,Inf,NA
 "K_\mathrm{O,25}",K_O25,Michaelis constant for oxygenation (25 °C),umol / mol,165084.2,leaf,FALSE,FALSE,0,Inf,NA
 "K_\mathrm{O}",K_O,Michaelis constant for oxygenation (T_leaf),umol / mol,NA,leaf,TRUE,FALSE,0,Inf,NA
 "\phi_J",phi_J,initial slope of the response of J to PPFD,none,0.331,leaf,FALSE,FALSE,0,Inf,NA
-"R_\mathrm{d,25}",R_d25,nonphotorespiratory CO2 release (25 °C),umol / m^2 / s,2,leaf,FALSE,FALSE,0,Inf,NA
-"R_\mathrm{d}",R_d,nonphotorespiratory CO2 release (T_leaf),umol / m^2 / s,NA,leaf,TRUE,FALSE,0,Inf,NA
+"R_\mathrm{d,25}",R_d25,nonphotorespiratory CO2 release per area (25 °C),umol / m^2 / s,2,leaf,FALSE,FALSE,0,Inf,NA
+"R_\mathrm{d}",R_d,nonphotorespiratory CO2 release per area (T_leaf),umol / m^2 / s,NA,leaf,TRUE,FALSE,0,Inf,NA
 "\theta_J",theta_J,curvature factor for light-response curve,none,0.825,leaf,FALSE,FALSE,0,Inf,NA
 "T_\mathrm{leaf}",T_leaf,leaf temperature,K,298.15,leaf,FALSE,FALSE,0,Inf,NA
 "V_\mathrm{c,max,25}",V_cmax25,maximum rate of carboxylation (25 °C),umol / m^2 / s,150,leaf,FALSE,FALSE,0,Inf,NA
