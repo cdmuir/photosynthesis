@@ -1,5 +1,6 @@
 # photosynthesis (development version)
 
+* Added evaporation (E) to `photo()` and `photosynthesis()` output when `use_tealeaves = TRUE`
 * Fixed issue with **lifecycle** badges
 * Added new function `simulate_error()` to simulate measurement error in gas exchange measurements.
 

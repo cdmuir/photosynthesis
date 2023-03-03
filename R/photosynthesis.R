@@ -336,6 +336,9 @@ photo = function(
   # Calculate T_leaf using energy balance ----
   if (use_tealeaves) {
     leaf_par %<>% add_Tleaf_photo(enviro_par, constants, prepare_for_tleaf)
+    # Hack to add E. Should do this better and for all tealeaves calculated
+    # values
+    E_out = leaf_par$E 
   }
   
   leaf_par %<>% bake(enviro_par, bake_par, constants, assert_units = FALSE)
@@ -377,6 +380,9 @@ photo = function(
   soln$g_tc %<>% set_units(mol / m^2 / s)
   soln$A %<>% set_units(umol / m^2 / s)
   soln$C_i = set_units(soln$C_air - soln$A / soln$g_sc, umol/mol)
+
+  # I should make this for all additional tealeaves calculated value
+  if (use_tealeaves) soln$E = E_out
   
   soln
   
@@ -445,7 +451,8 @@ add_Tleaf_photo = function(leaf_par, enviro_par, constants, prepare_for_tleaf) {
       tealeaves_value = "value"
     )
   leaf_par$T_leaf = tl$T_leaf
-
+  leaf_par$E = tl$E
+  
   leaf_par
   
 }
