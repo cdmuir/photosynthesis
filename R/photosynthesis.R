@@ -204,7 +204,7 @@ solve_for_photosynthesis = function(
       message(appendLF = FALSE)
   }
   
-  if (progress && !parallel) pb = dplyr::progress_estimated(nrow(pars))
+  if (progress && !parallel) pb = progress::progress_bar$new(total = nrow(pars))
   
   soln = if (parallel) {
     pars %>%
@@ -228,7 +228,7 @@ solve_for_photosynthesis = function(
           use_tealeaves = use_tealeaves,
           use_legacy_version = use_legacy_version
         )
-        if (progress) pb$tick()$print()
+        if (progress) pb$tick()
         ret
       })
     }
@@ -408,7 +408,7 @@ add_Tleaf_photo = function(leaf_par, enviro_par, constants, prepare_for_tleaf) {
       mol / m^2 / s
     )
     
-    leaf_par$logit_sr = if (is(leaf_par$k_sc, "units")) {
+    leaf_par1$logit_sr = if (is(leaf_par$k_sc, "units")) {
       stats::qlogis(leaf_par$k_sc / (set_units(1) + leaf_par$k_sc))
     } else {
       stats::qlogis(leaf_par$k_sc / (1 + leaf_par$k_sc))

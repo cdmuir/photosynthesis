@@ -1,5 +1,7 @@
 # photosynthesis (development version)
 
+* Replaced `dplyr::progress_estimated()` with `progress::progress_bar()`
+* Fixed error in `photo(..., use_tealeaves = TRUE)`. User-defined changes in stomatal conductance ratio were not being passed to **tealeaves**.
 * Added evaporation (E) to `photo()` and `photosynthesis()` output when `use_tealeaves = TRUE`
 * Fixed issue with **lifecycle** badges
 * Added new function `simulate_error()` to simulate measurement error in gas exchange measurements.
