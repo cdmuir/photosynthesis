@@ -1,5 +1,6 @@
-# photosynthesis (development version)
+# photosynthesis 2.1.2
 
+* Updated CITATION using `bibentry()` instead of `citEntry()`
 * Resolved **purrr** deprecations
 * removed `expect_no_condition()` from unit tests to resolved issue #12
 * Replaced `dplyr::progress_estimated()` with `progress::progress_bar()`
