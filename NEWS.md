@@ -1,3 +1,5 @@
+# photosynthesis (development version)
+
 # photosynthesis 2.1.2
 
 * Updated CITATION using `bibentry()` instead of `citEntry()`
