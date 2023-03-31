@@ -164,28 +164,36 @@ simulate_error = function(
     w_i = set_units((1000 * 0.61365 * exp(17.502 * T_leaf / (240.97 + T_leaf)) / P), mmol / mol)
   },
   # Calculate [H2O] in chamber based on RH
-  w_a = set_units(RH * w_i, mmol / mol),
+  w_a = set_units(.data$RH * w_i, mmol / mol),
   # Assume all g_tw = g_sw (i.e. g_uw = 0; g_bw = Inf
-  g_tw = g_sc * 1.6,
-  E_area = set_units(g_tw * (w_i - w_a), mmol / m^2 / s),
-  E = E_area * leaf_area, # [mmol / s]
-  w_0 = set_units(w_a - E * (set_units(1) - w_a) / flow, mmol / mol),
-  c_0 = set_units(leaf_area * A / flow + C_air * (set_units(1) - w_0) / (set_units(1) - w_a), umol / mol),
+  g_tw = .data$g_sc * 1.6,
+  E_area = set_units(.data$g_tw * (w_i - .data$w_a), mmol / m^2 / s),
+  E = .data$E_area * .data$leaf_area, # [mmol / s]
+  w_0 = set_units(.data$w_a - .data$E * (set_units(1) - .data$w_a) / .data$flow,
+                  mmol / mol),
+  c_0 = set_units(.data$leaf_area * .data$A / .data$flow + 
+                    .data$C_air * (set_units(1) - .data$w_0) / 
+                    (set_units(1) - .data$w_a), umol / mol),
   
   # Simulate measurements with error
-  H2O_s = w_a + set_units(rnorm(nrow(.), 0, sigma_H2O_s), mmol / mol),
-  H2O_r = w_0 + set_units(rnorm(nrow(.), 0, sigma_H2O_r), mmol / mol),
-  CO2_s = C_air + set_units(rnorm(nrow(.), 0, sigma_CO2_s), umol / mol),
-  CO2_r = c_0 + set_units(rnorm(nrow(.), 0, sigma_CO2_r), umol / mol),
+  H2O_s = .data$w_a + set_units(rnorm(nrow(.), 0, .data$sigma_H2O_s), 
+                                mmol / mol),
+  H2O_r = .data$w_0 + set_units(rnorm(nrow(.), 0, .data$sigma_H2O_r), 
+                                mmol / mol),
+  CO2_s = .data$C_air + set_units(rnorm(nrow(.), 0, .data$sigma_CO2_s), 
+                                  umol / mol),
+  CO2_r = .data$c_0 + set_units(rnorm(nrow(.), 0, .data$sigma_CO2_r), 
+                                umol / mol),
   
   # Derived estimates with error
-  E_meas = set_units(flow * (H2O_s - H2O_r) / (set_units(1) - H2O_s), mmol/s),
-  E_area_meas = set_units(E_meas / leaf_area, mmol / m^2 / s),
-  g_tw_meas = E_area_meas * (set_units(1) - (w_i + H2O_s) / 2) / (w_i - H2O_s),
-  g_sc_meas = g_tw_meas / 1.6, # this is only valid if cuticular conductance is 0 and boundary layer conductance is Inf
-  g_tc_meas = g_sc_meas, # valid above assumption is true and g_mc is Inf
-  A_meas = set_units(flow * (CO2_r - CO2_s * ((set_units(1) - H2O_r) / (set_units(1) - H2O_s))) / leaf_area, umol / m^2 / s),
-  C_i_meas = set_units(((g_tc_meas - E_area_meas / 2) * CO2_s - A_meas) / (g_tc_meas + E_area_meas / 2), umol/mol)
+  E_meas = set_units(.data$flow * (.data$H2O_s - .data$H2O_r) / 
+                       (set_units(1) - .data$H2O_s), mmol/s),
+  E_area_meas = set_units(.data$E_meas / .data$leaf_area, mmol / m^2 / s),
+  g_tw_meas = .data$E_area_meas * (set_units(1) - (.data$w_i + .data$H2O_s) / 2) / (.data$w_i - .data$H2O_s),
+  g_sc_meas = .data$g_tw_meas / 1.6, # this is only valid if cuticular conductance is 0 and boundary layer conductance is Inf
+  g_tc_meas = .data$g_sc_meas, # valid above assumption is true and g_mc is Inf
+  A_meas = set_units(.data$flow * (.data$CO2_r - .data$CO2_s * ((set_units(1) - .data$H2O_r) / (set_units(1) - .data$H2O_s))) / .data$leaf_area, umol / m^2 / s),
+  C_i_meas = set_units(((.data$g_tc_meas - .data$E_area_meas / 2) * .data$CO2_s - .data$A_meas) / (.data$g_tc_meas + .data$E_area_meas / 2), umol/mol)
   
     ) 
   

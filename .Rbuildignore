@@ -17,3 +17,4 @@ R/scratch.R
 \.github/*
 ^\.github$
 ^data-raw$
+^r/photosynthesis-2d\.R$

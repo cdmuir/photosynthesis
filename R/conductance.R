@@ -243,13 +243,16 @@ NULL
       gunit::gw2gc(D_c = pars$D_c0, D_w = pars$D_w0, unitless = unitless,
             a = ifelse(use_legacy_version, 1, 2/3)) |>
     # Convert to mol / m^2 / s
-    magrittr::multiply_by(pars$P) %>%
-    purrr::when(
-      # Divide 1e3 because conversion is from umol / kPa -> mol
-      # umol / m^2 / s / Pa * 1e3 Pa / kPa * mol / 1e6 umol
-      unitless ~ . / 1e3,
-      !unitless ~ set_units(., mol/m^2/s)
-    )
+    magrittr::multiply_by(pars$P)
+  
+  # Divide 1e3 because conversion is from umol / kPa -> mol
+  # umol / m^2 / s / Pa * 1e3 Pa / kPa * mol / 1e6 umol
+  if (unitless) {
+    ret = ret / 1e3
+  } else {
+    ret = set_units(ret, mol/m^2/s)
+  }
+  
   ret
   
 }

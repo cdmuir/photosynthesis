@@ -1,5 +1,6 @@
 # photosynthesis (development version)
 
+* Resolved **purrr** deprecations
 * removed `expect_no_condition()` from unit tests to resolved issue #12
 * Replaced `dplyr::progress_estimated()` with `progress::progress_bar()`
 * Fixed error in `photo(..., use_tealeaves = TRUE)`. User-defined changes in stomatal conductance ratio were not being passed to **tealeaves**.

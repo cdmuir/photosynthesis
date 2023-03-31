@@ -162,21 +162,20 @@ make_parameter_sets = function(
     constants
 ) {
   
-  ## cross_df() removes units
   pars = c(
     purrr::keep(leaf_par, ~ length(.x) > 0), 
     purrr::keep(enviro_par, ~ length(.x) > 0)
   ) |>
     purrr::map(~ {if (is.function(.x)) {list(.x)} else {.x}}) |>
-    purrr::cross_df()
+    expand.grid()
   
   ## Add units back
-  function_pars = apply(pars, 2, function(.x) any(sapply(.x, is.function)))
-  function_par_cols = pars[, function_pars]
-  pars = pars %>% 
-    set_parameter_units(.data$R %in% colnames(.)[!function_pars]) |>
-    tibble::as_tibble() |>
-    dplyr::bind_cols(function_par_cols)
+  # function_pars = apply(pars, 2, function(.x) any(sapply(.x, is.function)))
+  # function_par_cols = pars[, function_pars]
+  # pars = pars %>% 
+  #   set_parameter_units(.data$R %in% colnames(.)[!function_pars]) |>
+  #   tibble::as_tibble() |>
+  #   dplyr::bind_cols(function_par_cols)
   
   pars
   
