@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1.9003</span>
       </span>
     </div>
 
@@ -88,7 +88,19 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="2.1.1" id="photosynthesis-211">photosynthesis 2.1.1<a class="anchor" aria-label="anchor" href="#photosynthesis-211"></a></h2>
+<h2 class="page-header" data-toc-text="development version" id="photosynthesis-development-version">photosynthesis (development version)<a class="anchor" aria-label="anchor" href="#photosynthesis-development-version"></a></h2>
+<ul><li>Resolved <strong>purrr</strong> deprecations</li>
+<li>removed <code>expect_no_condition()</code> from unit tests to resolved issue <a href="https://github.com/cdmuir/photosynthesis/issues/12" class="external-link">#12</a></li>
+<li>Replaced <code><a href="https://dplyr.tidyverse.org/reference/progress_estimated.html" class="external-link">dplyr::progress_estimated()</a></code> with <code><a href="https://rdrr.io/pkg/progress/man/progress_bar.html" class="external-link">progress::progress_bar()</a></code>
+</li>
+<li>Fixed error in <code>photo(..., use_tealeaves = TRUE)</code>. User-defined changes in stomatal conductance ratio were not being passed to <strong>tealeaves</strong>.</li>
+<li>Added evaporation (E) to <code><a href="../reference/photosynthesis.html">photo()</a></code> and <code><a href="../reference/photosynthesis.html">photosynthesis()</a></code> output when <code>use_tealeaves = TRUE</code>
+</li>
+<li>Fixed issue with <strong>lifecycle</strong> badges</li>
+<li>Added new function <code><a href="../reference/simulate_error.html">simulate_error()</a></code> to simulate measurement error in gas exchange measurements.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="2.1.1" id="photosynthesis-211">photosynthesis 2.1.1<small>2022-11-19</small><a class="anchor" aria-label="anchor" href="#photosynthesis-211"></a></h2>
 <ul><li>Added Bayesian options to fit light-response and light respiration models via <code>fit_photosynthesis(..., .method = "brms")</code>
 </li>
 <li>Preferred method for fitting data to models is <code><a href="../reference/fit_photosynthesis.html">fit_photosynthesis()</a></code> which performs all checks and manipulations prior to passing arguments to various <code>fit_</code> functions.</li>
@@ -177,7 +189,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -20,7 +20,7 @@ TPU-limited assimilation rate"><meta property="og:image" content="/logo.png"><!-
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1.9003</span>
       </span>
     </div>
 
@@ -130,28 +130,22 @@ TPU-limited assimilation rate"><meta property="og:image" content="/logo.png"><!-
 <br></p>
 
 
-<p>- <code>W_carbox</code>: Rubisco-limited assimilation rate <br></p>
-
-
-<p>- <code>W_regen</code>: RuBP regeneration-limited assimilation rate <br></p>
-
-
-<p>- <code>W_tpu</code>: TPU-limited assimilation rate <br></p>
-
-
-<p>- <code>A</code>: minimum of W_carbox, W_regen, and W_tpu</p>
-    </div>
+<ul><li><p><code>W_carbox</code>: Rubisco-limited assimilation rate <br></p></li>
+<li><p><code>W_regen</code>: RuBP regeneration-limited assimilation rate <br></p></li>
+<li><p><code>W_tpu</code>: TPU-limited assimilation rate <br></p></li>
+<li><p><code>A</code>: minimum of W_carbox, W_regen, and W_tpu</p></li>
+</ul></div>
     <div id="details">
     <h2>Details</h2>
-    <p>Equations following Buckley and Diaz-Espejo (2015): <br><br><b>Rubisco-limited assimilation rate:</b> <br><br>
+    <p>Equations following Buckley and Diaz-Espejo (2015): <br><br><strong>Rubisco-limited assimilation rate:</strong> <br><br>
 $$W_\mathrm{carbox} = V_\mathrm{c,max} C_\mathrm{chl} / (C_\mathrm{chl} + K_\mathrm{m})$$</p>
 <p>where:</p>
 <p>$$K_\mathrm{m} = K_\mathrm{C} (1 + O / K_\mathrm{O})$$</p>
-<p><b>RuBP regeneration-limited assimilation rate:</b> <br><br>
+<p><strong>RuBP regeneration-limited assimilation rate:</strong> <br><br>
 $$W_\mathrm{regen} = J C_\mathrm{chl} / (4 C_\mathrm{chl} + 8 \Gamma*)$$</p>
 <p>where \(J\) is a function of PPFD, obtained by solving the equation:</p>
 <p>$$0 = \theta_J J ^ 2 - J (J_\mathrm{max} + \phi_J PPFD) + J_\mathrm{max} \phi_J PPFD$$</p>
-<p><b>TPU-limited assimilation rate:</b> <br></p>
+<p><strong>TPU-limited assimilation rate:</strong> <br></p>
 <p>$$W_\mathrm{tpu} = 3 V_\mathrm{tpu} C_\mathrm{chl} / (C_\mathrm{chl} - \Gamma*)$$
 <br></p><table class="table table"><tr><td><em>Symbol</em></td><td><em>R</em></td><td><em>Description</em></td><td><em>Units</em></td><td><em>Default</em></td></tr><tr><td>\(C_\mathrm{chl}\)</td><td><code>C_chl</code></td><td>chloroplastic CO2 concentration</td><td>Pa</td><td>input</td></tr><tr><td>\(\Gamma*\)</td><td><code>gamma_star</code></td><td>chloroplastic CO2 compensation point (T_leaf)</td><td>Pa</td><td><a href="bake.html">calculated</a></td></tr><tr><td>\(J_\mathrm{max}\)</td><td><code>J_max</code></td><td>potential electron transport (T_leaf)</td><td>\(\mu\)mol CO2 / (m\(^2\) s)</td><td><a href="bake.html">calculated</a></td></tr><tr><td>\(K_\mathrm{C}\)</td><td><code>K_C</code></td><td>Michaelis constant for carboxylation (T_leaf)</td><td>\(\mu\)mol / mol</td><td><a href="bake.html">calculated</a></td></tr><tr><td>\(K_\mathrm{O}\)</td><td><code>K_O</code></td><td>Michaelis constant for oxygenation (T_leaf)</td><td>\(\mu\)mol / mol</td><td><a href="bake.html">calculated</a></td></tr><tr><td>\(O\)</td><td><code>O</code></td><td>atmospheric O2 concentration</td><td>kPa</td><td>21.27565</td></tr><tr><td>\(\phi_J\)</td><td><code>phi_J</code></td><td>initial slope of the response of J to PPFD</td><td>none</td><td>0.331</td></tr><tr><td>PPFD</td><td><code>PPFD</code></td><td>photosynthetic photon flux density</td><td>umol quanta / (m^2 s)</td><td>1500</td></tr><tr><td>\(R_\mathrm{d}\)</td><td><code>R_d</code></td><td>nonphotorespiratory CO2 release (T_leaf)</td><td>\(\mu\)mol CO2 / (m\(^2\) s)</td><td><a href="bake.html">calculated</a></td></tr><tr><td>\(\theta_J\)</td><td><code>theta_J</code></td><td>curvature factor for light-response curve</td><td>none</td><td>0.825</td></tr><tr><td>\(V_\mathrm{c,max}\)</td><td><code>V_cmax</code></td><td>maximum rate of carboxylation (T_leaf)</td><td>\(\mu\)mol CO2 / (m\(^2\) s)</td><td><a href="bake.html">calculated</a></td></tr><tr><td>\(V_\mathrm{tpu}\)</td><td><code>V_tpu</code></td><td>rate of triose phosphate utilization (T_leaf)</td><td>\(\mu\)mol CO2 / (m\(^2\) s)</td><td><a href="bake.html">calculated</a></td></tr></table></div>
     <div id="references">
@@ -200,7 +194,7 @@ photosynthetic CO2 assimilation in leaves of C3 species. Planta 149: 78–90.</p
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1.9003</span>
       </span>
     </div>
 
@@ -108,7 +108,7 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
-<dd><p>A data frame containing plant ecophysiological data. See <code><a href="required_variables.html">required_variables</a></code> for the variables required for each model.</p></dd>
+<dd><p>A data frame containing plant ecophysiological data. See <code><a href="required_variables.html">required_variables()</a></code> for the variables required for each model.</p></dd>
 
 
 <dt>.photo_fun</dt>
@@ -116,20 +116,20 @@
 
 
 <dt>.model</dt>
-<dd><p>A character string of model name to use. See <code><a href="models.html">get_all_models</a></code>.</p></dd>
+<dd><p>A character string of model name to use. See <code><a href="models.html">get_all_models()</a></code>.</p></dd>
 
 
 <dt>.vars</dt>
-<dd><p>A list to rename variables in .data. See <code><a href="required_variables.html">required_variables</a></code> for the accepted variable names.</p></dd>
+<dd><p>A list to rename variables in .data. See <code><a href="required_variables.html">required_variables()</a></code> for the accepted variable names.</p></dd>
 
 
 <dt>.method</dt>
-<dd><p>A character string of the statistical method to use: 'ls' for least-squares and 'brms' for Bayesian model using <code><a href="https://rdrr.io/pkg/brms/man/brm.html" class="external-link">brm</a></code>. Default is 'ls'.</p></dd>
+<dd><p>A character string of the statistical method to use: 'ls' for least-squares and 'brms' for Bayesian model using <code><a href="https://rdrr.io/pkg/brms/man/brm.html" class="external-link">brms::brm()</a></code>. Default is 'ls'.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Additional arguments passed to specific models. See specific help pages for each type of photosynthetic model:</p><ul><li><p>Light-response curves <code><a href="fit_aq_response2.html">fit_aq_response2</a></code></p></li>
-<li><p>Light respiration <code><a href="fit_r_light2.html">fit_r_light2</a></code></p></li>
+<dd><p>Additional arguments passed to specific models. See specific help pages for each type of photosynthetic model:</p><ul><li><p>Light-response curves <code><a href="fit_aq_response2.html">fit_aq_response2()</a></code></p></li>
+<li><p>Light respiration <code><a href="fit_r_light2.html">fit_r_light2()</a></code></p></li>
 </ul></dd>
 
 
@@ -138,7 +138,7 @@
 
 
 <dt>brm_options</dt>
-<dd><p>A list of options passed to <code><a href="https://rdrr.io/pkg/brms/man/brm.html" class="external-link">brm</a></code> if <code>.method = "brms"</code>. Default is NULL.</p></dd>
+<dd><p>A list of options passed to <code><a href="https://rdrr.io/pkg/brms/man/brm.html" class="external-link">brms::brm()</a></code> if <code>.method = "brms"</code>. Default is NULL.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -166,7 +166,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
