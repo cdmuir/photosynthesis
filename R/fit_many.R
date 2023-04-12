@@ -68,6 +68,9 @@
 #'   list_element = 1
 #' )
 #' }
+#' 
+#' @md
+
 fit_many = function(
     data,
     funct,
