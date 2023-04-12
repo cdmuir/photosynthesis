@@ -1,5 +1,5 @@
 Package: photosynthesis
-Version: 2.1.2.9000
+Version: 2.1.2.9001
 Date: 2023-04-11
 Title: Tools for Plant Ecophysiology & Modeling
 Authors@R: c(
@@ -28,6 +28,7 @@ Imports: checkmate (>= 2.0.0),
          nlme (>= 3.1-147),
          progress (>= 1.2.0),
          purrr (>= 0.3.3),
+         readr (>= 2.0.0),
          rlang (>= 0.4.6),
          stats (>= 4.0.0),
          stringr (>= 1.4.0),

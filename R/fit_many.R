@@ -3,7 +3,7 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' We are no longer updating this function. Please use generic methods like \code{\link[purrr]{map()}} instead. See `vignette("light-response")` for an example.
+#' We are no longer updating this function. Please use generic methods like \code{\link[purrr]{map}} instead. See `vignette("light-response")` for an example.
 #' 
 #' @param data Dataframe
 #' @param funct Function to fit

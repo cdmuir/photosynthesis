@@ -3,7 +3,7 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' We are no longer updating this function. Please use \code{\link{read_licor()}} instead.
+#' We are no longer updating this function. Please use \code{\link{read_licor}} instead.
 #' 
 #' @param x File name
 #'
@@ -54,7 +54,7 @@ read_li6800 = function(x) {
 #' 
 #' @param file Path to a raw LI6800 file
 #' @param bluestem_version Character string of Bluestem software version number. By default, the function will try to pull the version number from file.
-#' @params ... Argument passed to \code{\link[readr]{read_lines}}
+#' @param ... Argument passed to \code{\link[readr]{read_lines}}
 #'
 #' @return Returns a \code{\link[tibble]{tibble}} from raw LI-COR LI6800 files. 
 #'
@@ -97,40 +97,22 @@ read_licor = function(
   # Extract data and convert to a tibble
   data_block = setdiff(all_lines, extract_licor_remarks(all_lines))
   data_start_line = stringr::str_detect(data_block, "\\[Data\\]")
-  var_names = readr::read_delim(
-    file, 
-    col_names = TRUE, 
-    skip = which(data_start_line) + 1L,
-    n_max = 0, 
-    delim = "\t", 
-    show_col_types = FALSE,
-    name_repair = "minimal"
+  var_names = stringr::str_split_1(data_block[which(data_start_line) + 2L],
+                                   pattern = "\t")
+  
+  utils::read.table(
+    text = data_block[(which(data_start_line) + 4L):length(data_block)]
   ) |>
-    colnames()
-  
-  data_block[(which(data_start_line) + 4L):length(data_block)] |>
-    tibble::as_tibble() |>
-    tidyr::separate(col = "value", into = var_names, sep = "\t") 
-  
-  # read.table(data_block, sep = "\t")
-  # readr::read_lines(data_block)
-  data_block = readr::read_delim(
-    file, 
-    col_names = FALSE, 
-    skip = which(data_start_line) + 3L,
-    delim = "\t", 
-    show_col_types = FALSE,
-    name_repair = "minimal"
-  )
-
-  NA
-  
+    magrittr::set_colnames(var_names) |>
+    magrittr::set_attr("remarks", remarks) |>
+    magrittr::set_attr("header", header)
+    
 }
 
 #' Get Bluestem version from LI6800 file
 #' 
 #' @inheritParams read_licor
-#' @params ... Argument passed to \code{\link[readr]{read_lines}}
+#' @param ... Argument passed to \code{\link[readr]{read_lines}}
 #' @noRd
 get_bluestem_version = function(file, ...) {
   x1 = readr::read_lines(file, ...)
