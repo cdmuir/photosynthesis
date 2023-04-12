@@ -1,5 +1,8 @@
 # photosynthesis (development version)
 
+* Soft-deprecated `read_li6800()` in favor of `read_licor()`
+* Soft-deprecated `fit_many()` in favor of generic methods like `purrr::map()`
+
 # photosynthesis 2.1.2
 
 * Updated CITATION using `bibentry()` instead of `citEntry()`
