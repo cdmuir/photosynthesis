@@ -16,9 +16,5 @@ for LI-COR LI-6800 files only.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-<<<<<<< HEAD
 We are no longer updating this function. Please use \code{\link{read_licor}} instead.
-=======
-We are no longer updating this function. Please use \code{\link{read_licor()}} instead.
->>>>>>> af6a4068706461acf45b5b2235df754b6f3d1462
 }

@@ -11,6 +11,7 @@
 #' for LI-COR LI-6800 files only. 
 #' @importFrom utils read.csv
 #'
+#' @md
 #' @export
 read_li6800 = function(x) {
   
