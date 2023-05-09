@@ -101,7 +101,8 @@ read_licor = function(
                                    pattern = "\t")
   
   utils::read.table(
-    text = data_block[(which(data_start_line) + 4L):length(data_block)]
+    text = data_block[(which(data_start_line) + 4L):length(data_block)],
+    sep = "\t"
   ) |>
     magrittr::set_colnames(var_names) |>
     magrittr::set_attr("remarks", remarks) |>
