@@ -1,4 +1,4 @@
-# photosynthesis (development version)
+# photosynthesis 2.1.3
 
 * Added example LI6800 data set (inst/extdata/li6800_example) for unit testing `read_licor()`
 * Soft-deprecated `read_li6800()` in favor of `read_licor()`
