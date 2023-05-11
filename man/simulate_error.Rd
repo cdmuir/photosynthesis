@@ -12,24 +12,11 @@ simulate_error(
 )
 }
 \arguments{
-\item{ph_out}{A data frame of output from \code{\link[=photo]{photo()}} or \code{\link[=photosynthesis]{photosynthesis()}}
+\item{ph_out}{A data frame of output from \code{photo()} or \code{photosynthesis()}
 with units.}
 
 \item{chamber_pars}{A data frame with a single row of chamber parameters.
-Required parameters are:
-\itemize{
-\item \code{flow} (\eqn{\mu}mol / s): chamber flow rate
-\item \code{leaf_area} [cm ^ 2]: leaf area in chamber
-\item \code{sigma_CO2_s} [\eqn{\mu}mol / mol]: standard deviation of sample [CO\eqn{_2}] measurement error
-\item \code{sigma_CO2_r} [\eqn{\mu}mol / mol]: standard deviation of reference [CO\eqn{_2}]
-\item \code{sigma_H2O_s} [mmol / mol]: standard deviation of sample [H\eqn{_2}O] measurement error
-\item \code{sigma_H2O_r} [mmol / mol]: standard deviation of sample [H\eqn{_2}O] measurement error
-}
-
-Units for \code{flow} and \code{leaf_area} should be provided; units are implied for
-sigma's but not necessary to specify because \code{rnorm()} drop units.
-
-[COMH260wU8gP6HgwdPNZbKLgfmPgIYKkXo-5-]: R:COMH260wU8gP6HgwdPNZbKLgfmPgIYKkXo-5-\%5C}
+See Note below for table of required parameters.}
 
 \item{n}{Integer. Number of replicated simulations per row of \code{ph_out}.}
 
@@ -78,9 +65,21 @@ measurement error:\tabular{lll}{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \note{
+The required parameters for the \code{chamber_pars} argument are:
+\itemize{
+\item \code{flow} [\eqn{\mu}mol / s]: chamber flow rate
+\item \code{leaf_area} [cm ^ 2]: leaf area in chamber
+\item \code{sigma_CO2_s} [\eqn{\mu}mol / mol]: standard deviation of sample [CO\eqn{_2}] measurement error
+\item \code{sigma_CO2_r} [\eqn{\mu}mol / mol]: standard deviation of reference [CO\eqn{_2}]
+\item \code{sigma_H2O_s} [mmol / mol]: standard deviation of sample [H\eqn{_2}O] measurement error
+\item \code{sigma_H2O_r} [mmol / mol]: standard deviation of sample [H\eqn{_2}O] measurement error
+}
+
+Units for \code{flow} and \code{leaf_area} should be provided; units are implied for sigma's but not necessary to specify because \code{rnorm()} drop units.
+
 To evaluate the accuracy and precision of parameter estimation methods, it
 may be useful to simulate data with realistic measurement error. This
-function takes output from from \code{\link[=photo]{photo()}} or \code{\link[=photosynthesis]{photosynthesis()}} models, adds
+function takes output from from \code{photo()} or \code{photosynthesis()} models, adds
 measurement error in CO\eqn{_2} and H\eqn{_2}O concentrations, and calculates
 parameter estimates with synthetic data. Currently, the function assumes a
 simplified 1-dimensional CO\eqn{_2} and H\eqn{_2}O conductance model: zero

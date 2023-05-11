@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.3</span>
       </span>
     </div>
 
@@ -110,15 +110,7 @@ with units.</p></dd>
 
 <dt>chamber_pars</dt>
 <dd><p>A data frame with a single row of chamber parameters.
-Required parameters are:</p><ul><li><p><code>flow</code> (\(\mu\)mol / s): chamber flow rate</p></li>
-<li><p><code>leaf_area</code> [cm ^ 2]: leaf area in chamber</p></li>
-<li><p><code>sigma_CO2_s</code> [\(\mu\)mol / mol]: standard deviation of sample [CO\(_2\)] measurement error</p></li>
-<li><p><code>sigma_CO2_r</code> [\(\mu\)mol / mol]: standard deviation of reference [CO\(_2\)]</p></li>
-<li><p><code>sigma_H2O_s</code> [mmol / mol]: standard deviation of sample [H\(_2\)O] measurement error</p></li>
-<li><p><code>sigma_H2O_r</code> [mmol / mol]: standard deviation of sample [H\(_2\)O] measurement error</p></li>
-</ul><p>Units for <code>flow</code> and <code>leaf_area</code> should be provided; units are implied for
-sigma's but not necessary to specify because <code><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm()</a></code> drop units.</p>
-<p>[COMH260wU8gP6HgwdPNZbKLgfmPgIYKkXo-5-]: R:COMH260wU8gP6HgwdPNZbKLgfmPgIYKkXo-5-%5C</p></dd>
+See Note below for table of required parameters.</p></dd>
 
 
 <dt>n</dt>
@@ -146,7 +138,14 @@ parameters and 'measured' values estimated from synthetic data with
 measurement error:</p><table class="table table"><tr><td>column name</td><td>assumed or derived?</td><td>description</td></tr><tr><td><code>flow</code></td><td>assumed</td><td>chamber flow rate</td></tr><tr><td><code>leaf_area</code></td><td>assumed</td><td>leaf area in chamber</td></tr><tr><td><code>sigma_CO2_r</code></td><td>assumed</td><td>standard deviation of measurement error in CO2_r</td></tr><tr><td><code>sigma_CO2_s</code></td><td>assumed</td><td>standard deviation of measurement error in CO2_s</td></tr><tr><td><code>sigma_H2O_r</code></td><td>assumed</td><td>standard deviation of measurement error in H2O_r</td></tr><tr><td><code>sigma_H2O_s</code></td><td>assumed</td><td>standard deviation of measurement error in H2O_s</td></tr><tr><td><code>c_0</code></td><td>derived</td><td>CO\(_2\) concentration before entering chamber [\(\mu\)mol / mol]</td></tr><tr><td><code>w_i</code></td><td>derived</td><td>Water vapor concentration within leaf [mmol / mol]</td></tr><tr><td><code>w_a</code></td><td>derived</td><td>Water vapor concentration in chamber [mmol / mol]</td></tr><tr><td><code>w_0</code></td><td>derived</td><td>Water vapor concentration before entering chamber [mmol / mol]</td></tr><tr><td><code>g_tw</code></td><td>derived</td><td>Leaf conductance to water vapor [mol/m\(^2\)/s]</td></tr><tr><td><code>E_area</code></td><td>derived</td><td>Evaporation rate per area [mmol/m\(^2\)/s]</td></tr><tr><td><code>E</code></td><td>derived</td><td>Total evaporation rate [mmol/s]</td></tr><tr><td><code>CO2_r</code></td><td>derived</td><td>CO\(_2\) concentration before entering chamber with measurement error [\(\mu\)mol / mol]</td></tr><tr><td><code>CO2_s</code></td><td>derived</td><td>CO\(_2\) concentration in chamber with measurement error [\(\mu\)mol / mol]</td></tr><tr><td><code>H2O_s</code></td><td>derived</td><td>Water vapor concentration in chamber with measurement error [mmol / mol]</td></tr><tr><td><code>H2O_r</code></td><td>derived</td><td>Water vapor concentration before entering chamber with measurement error [mmol / mol]</td></tr><tr><td><code>E_meas</code></td><td>derived</td><td>Total evaporation rate (measured) [mmol/s]</td></tr><tr><td><code>E_area_meas</code></td><td>derived</td><td>Evaporation rate per area (measured) [mmol/m\(^2\)/s]</td></tr><tr><td><code>g_tw_meas</code></td><td>derived</td><td>Leaf conductance to water vapor (measured) [mol/m\(^2\)/s]</td></tr><tr><td><code>g_sc_meas</code></td><td>derived</td><td>Stomatal conductance to CO\(_2\) (measured) [mol/m\(^2\)/s]</td></tr><tr><td><code>g_tc_meas</code></td><td>derived</td><td>Leaf conductance to CO\(_2\) (measured) [mol/m\(^2\)/s]</td></tr><tr><td><code>A_meas</code></td><td>derived</td><td>Net photosynthetic CO\(_2\) assimilation (measured) [\(\mu\)mol/m\(^2\)/s]</td></tr><tr><td><code>C_i</code></td><td>derived</td><td>Intercellular CO\(_2\) concentration (measured) [\(\mu\)mol/mol]</td></tr></table></div>
     <div id="note">
     <h2>Note</h2>
-    <p>To evaluate the accuracy and precision of parameter estimation methods, it
+    <p>The required parameters for the <code>chamber_pars</code> argument are:</p><ul><li><p><code>flow</code> [\(\mu\)mol / s]: chamber flow rate</p></li>
+<li><p><code>leaf_area</code> [cm ^ 2]: leaf area in chamber</p></li>
+<li><p><code>sigma_CO2_s</code> [\(\mu\)mol / mol]: standard deviation of sample [CO\(_2\)] measurement error</p></li>
+<li><p><code>sigma_CO2_r</code> [\(\mu\)mol / mol]: standard deviation of reference [CO\(_2\)]</p></li>
+<li><p><code>sigma_H2O_s</code> [mmol / mol]: standard deviation of sample [H\(_2\)O] measurement error</p></li>
+<li><p><code>sigma_H2O_r</code> [mmol / mol]: standard deviation of sample [H\(_2\)O] measurement error</p></li>
+</ul><p>Units for <code>flow</code> and <code>leaf_area</code> should be provided; units are implied for sigma's but not necessary to specify because <code><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm()</a></code> drop units.</p>
+<p>To evaluate the accuracy and precision of parameter estimation methods, it
 may be useful to simulate data with realistic measurement error. This
 function takes output from from <code><a href="photosynthesis.html">photo()</a></code> or <code><a href="photosynthesis.html">photosynthesis()</a></code> models, adds
 measurement error in CO\(_2\) and H\(_2\)O concentrations, and calculates

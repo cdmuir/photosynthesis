@@ -4,21 +4,10 @@
 #' 
 #' `r lifecycle::badge("experimental")`
 #' 
-#' @param ph_out A data frame of output from [photo()] or [photosynthesis()] 
+#' @param ph_out A data frame of output from `photo()` or `photosynthesis()` 
 #' with units.
 #' @param chamber_pars A data frame with a single row of chamber parameters. 
-#' Required parameters are:
-#' 
-#' * `flow` (\eqn{\mu}mol / s): chamber flow rate
-#' * `leaf_area` \[cm ^ 2\]: leaf area in chamber
-#' * `sigma_CO2_s` \[\eqn{\mu}mol / mol\]: standard deviation of sample \[CO\eqn{_2}\] measurement error
-#' * `sigma_CO2_r` \[\eqn{\mu}mol / mol\]: standard deviation of reference [CO\eqn{_2}\]
-#' * `sigma_H2O_s` \[mmol / mol\]: standard deviation of sample \[H\eqn{_2}O\] measurement error
-#' * `sigma_H2O_r` \[mmol / mol\]: standard deviation of sample \[H\eqn{_2}O\] measurement error
-#' 
-#' Units for `flow` and `leaf_area` should be provided; units are implied for
-#' sigma's but not necessary to specify because `rnorm()` drop units.
-#' 
+#' See Note below for table of required parameters. 
 #' @param n Integer. Number of replicated simulations per row of `ph_out`.
 #' @param use_tealeaves Flag. The **tealeaves** package uses a slightly 
 #' different equation to calculate the saturating water content of air as a 
@@ -62,10 +51,21 @@
 #' | `C_i`           | derived             | Intercellular CO\eqn{_2} concentration (measured) \[\eqn{\mu}mol/mol\] |
 #' 
 #' @note 
+#' The required parameters for the `chamber_pars` argument are:
+#' 
+#' * `flow` \[\eqn{\mu}mol / s\]: chamber flow rate
+#' * `leaf_area` \[cm ^ 2\]: leaf area in chamber
+#' * `sigma_CO2_s` \[\eqn{\mu}mol / mol\]: standard deviation of sample \[CO\eqn{_2}\] measurement error
+#' * `sigma_CO2_r` \[\eqn{\mu}mol / mol\]: standard deviation of reference [CO\eqn{_2}\]
+#' * `sigma_H2O_s` \[mmol / mol\]: standard deviation of sample \[H\eqn{_2}O\] measurement error
+#' * `sigma_H2O_r` \[mmol / mol\]: standard deviation of sample \[H\eqn{_2}O\] measurement error
+#' 
+#' Units for `flow` and `leaf_area` should be provided; units are implied for sigma's but not necessary to specify because `rnorm()` drop units.
+#' 
 #' To evaluate the accuracy and precision of parameter estimation methods, it 
 #' may be useful to simulate data with realistic measurement error. This 
-#' function takes output from from [photo()] or [photosynthesis()] models, adds 
-#' measurement error in CO\eqn{_2} and H\eqn{_2}O concentrations, and calculates 
+#' function takes output from from `photo()` or `photosynthesis()` models, adds 
+#' measurement error in CO\eqn{_2} and H\eqn{_2}O concentrations, and calculates
 #' parameter estimates with synthetic data. Currently, the function assumes a 
 #' simplified 1-dimensional CO\eqn{_2} and H\eqn{_2}O conductance model: zero 
 #' cuticular conductance, infinite boundary layer conductance, and infinite 
