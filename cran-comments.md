@@ -1,11 +1,9 @@
 ## Summary of new changes
 
-* Added example LI6800 data set (inst/extdata/li6800_example) for unit testing `read_licor()`
-* Soft-deprecated `read_li6800()` in favor of `read_licor()`
-* Soft-deprecated `fit_many()` in favor of generic methods like `purrr::map()`
+* `read_licor()` removes lines where parameter settings are changed between logging
 
 ## Test environments
-* local R installation, R 4.2.3
+* local R installation, R 4.3.1
 * ubuntu 22.04.2 (on Github actions), R 4.2.3
 * win-builder (release)
 * win-builder (devel)
