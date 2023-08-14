@@ -1,3 +1,7 @@
+# photosynthesis (development version)
+
+* `read_licor()` removes lines where parameter settings are changed between logging
+
 # photosynthesis 2.1.3
 
 * Added example LI6800 data set (inst/extdata/li6800_example) for unit testing `read_licor()`

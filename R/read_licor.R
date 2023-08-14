@@ -90,13 +90,24 @@ read_licor = function(
     purrr::map(`[`, -1L)
   
   # Extract remarks and convert to tibble
-  remarks = all_lines |>
-    extract_licor_remarks() |>
+  remarks = extract_licor_remarks(all_lines)
+  
+  df_remarks = remarks |>
     tibble::as_tibble() |>
     tidyr::separate(col = "value", into = c("time", "remark"), sep = "\t") 
   
+  # Extract parameter settings
+  # Most of these are in header, but this will also remove lines from data when 
+  # parameter settings are changed between logging
+  parameter_settings = names(header) %>%
+    magrittr::extract(stringr::str_detect(., "^.*:.*")) |>
+    stringr::str_c(collapse = "|") %>%
+    paste0("^(", ., ")\\t.*") %>%
+    stringr::str_extract(all_lines, .) |>
+    stats::na.omit()
+  
   # Extract data and convert to a tibble
-  data_block = setdiff(all_lines, extract_licor_remarks(all_lines))
+  data_block = setdiff(all_lines, c(remarks, parameter_settings))
   data_start_line = stringr::str_detect(data_block, "\\[Data\\]")
   var_names = stringr::str_split_1(data_block[which(data_start_line) + 2L],
                                    pattern = "\t")
@@ -106,7 +117,7 @@ read_licor = function(
     sep = "\t"
   ) |>
     magrittr::set_colnames(var_names) |>
-    magrittr::set_attr("remarks", remarks) |>
+    magrittr::set_attr("remarks", df_remarks) |>
     magrittr::set_attr("header", header)
     
 }
