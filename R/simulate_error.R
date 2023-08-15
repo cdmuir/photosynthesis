@@ -152,7 +152,7 @@ simulate_error = function(
       # Assume water vapour concentration is saturated within leaf, w_i [mmol/mol]
       w_i = if (use_tealeaves) {
     # Use tealeaves version for internal consistency
-    tealeaves:::.get_ps(T_leaf, P, FALSE) |>
+    .get_ps(T_leaf, P, FALSE) |>
       magrittr::divide_by(P) |>
       set_units(mmol/mol)
   } else {

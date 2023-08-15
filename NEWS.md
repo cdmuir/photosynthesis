@@ -1,5 +1,6 @@
-# photosynthesis (development version)
+# photosynthesis 2.1.4
 
+* Removed imports of unexported **tealeaves** functions using `:::` operator
 * `read_licor()` removes lines where parameter settings are changed between logging
 
 # photosynthesis 2.1.3

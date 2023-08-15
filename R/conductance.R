@@ -232,7 +232,7 @@ NULL
   # Should update tealeaves to harmonize variable and function names
   pars$sh_constant = pars$f_sh
   pars$nu_constant = pars$f_nu
-  ret = tealeaves:::.get_gbw(pars$T_leaf, surface, pars, unitless) |>
+  ret = .get_gbw(pars$T_leaf, surface, pars, unitless) |>
       set_units(m / s) |>
       gunit::convert_conductance(
         P = set_units(pars$P, kPa),

@@ -1,6 +1,6 @@
 Package: photosynthesis
-Version: 2.1.3.9000
-Date: 2023-08-14
+Version: 2.1.4
+Date: 2023-08-15
 Title: Tools for Plant Ecophysiology & Modeling
 Authors@R: c(
     person("Joseph", "Stinziano", email = "josephstinziano@gmail.com", role = "aut", comment = c(ORCID = "0000-0002-7628-4201")),
@@ -8,7 +8,7 @@ Authors@R: c(
     person("Demi", "Sargent", email = "d.sargent@westernsydney.edu.au", role = "aut"),
     person("Bridget", "Murphy", email = "bridget.murphy@mail.utoronto.ca", role = "aut"),
     person("Patrick", "Hudson", email = "hudson.patrick.j@gmail.com", role = c("aut", "dtc")), 
-    person("Chris", "Muir", email = "cdmuir@hawaii.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-2555-3878"))
+    person("Chris", "Muir", email = "cdmuir@wisc.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-2555-3878"))
     )
 Depends: R (>= 4.0.0),
          ggplot2 (>= 3.4.0),

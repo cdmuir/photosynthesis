@@ -1,12 +1,11 @@
 ## Summary of new changes
 
-* Added example LI6800 data set (inst/extdata/li6800_example) for unit testing `read_licor()`
-* Soft-deprecated `read_li6800()` in favor of `read_licor()`
-* Soft-deprecated `fit_many()` in favor of generic methods like `purrr::map()`
+* Removed imports of unexported **tealeaves** functions using `:::` operator
+* `read_licor()` removes lines where parameter settings are changed between logging
 
 ## Test environments
-* local R installation, R 4.2.3
-* ubuntu 22.04.2 (on Github actions), R 4.2.3
+* local R installation, R 4.3.1
+* ubuntu 22.04.3 (on Github actions), R 4.3.1
 * win-builder (release)
 * win-builder (devel)
 * win-builder (oldrelease)
@@ -16,6 +15,6 @@
 ## R CMD check results
 
 ❯ checking installed package size ... NOTE
-    installed size is  7.2Mb
+    installed size is  7.3Mb
     sub-directories of 1Mb or more:
       doc   6.1Mb

@@ -99,8 +99,7 @@ bake = function(
   }
   
   if (length(leaf_par$delta_ias_lower) != 0 & length(leaf_par$delta_ias_upper) != 0) {
-    D_c = tealeaves:::.get_Dx(pars$D_c0, pars$T_leaf, pars$eT, pars$P,
-                              unitless = TRUE)
+    D_c = .get_Dx(pars$D_c0, pars$T_leaf, pars$eT, pars$P, unitless = TRUE)
     leaf_par$g_iasc_lower = 1e9 * D_c / pars$delta_ias_lower * 
       pars$P / (pars$R * pars$T_leaf)
     leaf_par$g_iasc_upper = 1e9 * D_c / pars$delta_ias_upper * 

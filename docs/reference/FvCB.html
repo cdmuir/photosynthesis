@@ -20,7 +20,7 @@ TPU-limited assimilation rate"><meta property="og:image" content="/logo.png"><!-
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.4</span>
       </span>
     </div>
 
@@ -166,7 +166,7 @@ photosynthetic CO2 assimilation in leaves of C3 species. Planta 149: 78–90.</p
 <span class="r-in"><span><span class="va">leaf_par</span> <span class="op">=</span> <span class="fu"><a href="bake.html">bake</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">bake_par</span>, <span class="va">constants</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">pars</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">leaf_par</span>, <span class="va">enviro_par</span>, <span class="va">constants</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">C_chl</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/units/man/units.html" class="external-link">set_units</a></span><span class="op">(</span><span class="fl">246.0161</span>, <span class="va">umol</span> <span class="op">/</span> <span class="va">mol</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">C_chl</span> <span class="op">=</span> <span class="fu"><a href="https://r-quantities.github.io/units/reference/units.html" class="external-link">set_units</a></span><span class="op">(</span><span class="fl">246.0161</span>, <span class="va">umol</span> <span class="op">/</span> <span class="va">mol</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">FvCB</span><span class="op">(</span><span class="va">C_chl</span>, <span class="va">pars</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $W_carbox</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 43.12971 [umol/m^2/s]</span>

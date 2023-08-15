@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">photosynthesis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.4</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@
                         <h4 data-toc-skip class="author">Joseph R.
 Stinziano and Christopher D. Muir</h4>
             
-            <h4 data-toc-skip class="date">2023-05-11</h4>
+            <h4 data-toc-skip class="date">2023-08-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/cdmuir/photosynthesis/blob/HEAD/vignettes/light-response.Rmd" class="external-link"><code>vignettes/light-response.Rmd</code></a></small>
       <div class="hidden name"><code>light-response.Rmd</code></div>
@@ -183,7 +183,7 @@ response.</p>
 <code class="sourceCode R"><span><span class="co">## Estimated parameters:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       k_sat       phi_J     theta_J          Rd </span></span>
-<span><span class="co">## 21.17033712  0.06154347  0.77575157  0.66631983</span></span></code></pre>
+<span><span class="co">## 21.17033721  0.06154348  0.77575157  0.66631987</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## 95% confidence intervals:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></code></pre></div>
@@ -270,12 +270,12 @@ already pretty good.</p>
 <span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">as.data.frame</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">imap_dfr</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">.x</span>, CO2_s <span class="op">=</span> <span class="va">.y</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##        k_sat       phi_J   theta_J          Rd CO2_s</span></span>
-<span><span class="co">## 1 -0.1832198 0.004189778 0.2428476 -0.09209662    50</span></span>
+<span><span class="co">## 1 -0.1832198 0.004189779 0.2428476 -0.09209662    50</span></span>
 <span><span class="co">## 2  2.6370733 0.017295931 0.8858139  0.59492313   100</span></span>
-<span><span class="co">## 3  7.3481571 0.032255707 0.8376461  0.61479142   200</span></span>
+<span><span class="co">## 3  7.3481571 0.032255707 0.8376462  0.61479141   200</span></span>
 <span><span class="co">## 4 11.4687982 0.045046336 0.7898826  0.76746932   300</span></span>
 <span><span class="co">## 5 16.4505827 0.057537264 0.6997933  0.89736502   410</span></span>
-<span><span class="co">## 6 21.1703371 0.061543474 0.7757516  0.66631983   600</span></span>
+<span><span class="co">## 6 21.1703372 0.061543475 0.7757516  0.66631987   600</span></span>
 <span><span class="co">## 7 23.9305140 0.067744069 0.7514331  0.78493847   820</span></span>
 <span><span class="co">## 8 25.0686239 0.068975627 0.7632357  0.58529680  1200</span></span>
 <span><span class="co">## 9 25.6413999 0.071556328 0.7411443  0.45326420  1600</span></span></code></pre>

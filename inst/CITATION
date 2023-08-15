@@ -37,12 +37,12 @@ bibentry(
     person("Patrick J", "Hudson"),
     person("Christopher D", "Muir")
   ),
-  note     = "R package version 2.1.2",
+  note     = "R package version 2.1.4",
   year     = "2023",
   url      = "https://CRAN.R-project.org/package=photosynthesis",
   textVersion = paste("Stinziano JR, Roback C, Gamble D, Murphy B, Hudson P,
   Muir CD. (2023).",
-                 title = "photosynthesis: tools for plant ecophysiology & modeling. R package version 2.1.2.",
+                 title = "photosynthesis: tools for plant ecophysiology & modeling. R package version 2.1.4.",
                  "https://CRAN.R-project.org/package=photosynthesis."
 
   )

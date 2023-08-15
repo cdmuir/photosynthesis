@@ -25,3 +25,8 @@ utils::globalVariables(c(
   ".A", ".C", ".phiPSII", ".Q", ".Qabs", "degreeC", "g", "hPa", "J", "K", "kg", 
   "kJ", "kPa", "m", "mol", "mmol", "normal", "Pa", "PPFD", "s", "umol", "W"
 ))
+
+## quiets concerns of R CMD check about using ::: operator
+.get_Dx <- utils::getFromNamespace(".get_Dx", "tealeaves")
+.get_gbw <- utils::getFromNamespace(".get_gbw", "tealeaves")
+.get_ps <- utils::getFromNamespace(".get_ps", "tealeaves")
