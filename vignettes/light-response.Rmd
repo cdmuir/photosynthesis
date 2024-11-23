@@ -67,6 +67,8 @@ sum(resid(fit) ^ 2)
 The deprecated function `fit_aq_response()` generated a figure automatically, but it used `geom_smooth()` rather than plotting the model fit. We now prefer to use generic methods from the package [**ggplot2**](https://ggplot2.tidyverse.org/) and plot the fitted curve. This allows users the ability to more easily customize their figures.
 
 ```{r}
+#| fig.alt: >
+#|   Example of fitted light-response curve
 
 library(ggplot2)
 
@@ -137,6 +139,8 @@ summary(fit)
 ### Fit the light-response curve with photoinhibition using nonlinear least-squares (nls)
 
 ```{r, message = FALSE}
+#| fig.alt: >
+#|   Example of fitted light-response curve with photoinhibition
 
 library(broom)
 library(dplyr)

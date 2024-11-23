@@ -1,228 +1,65 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/articles/co2-response.html</loc>
-  </url>
-  <url>
-    <loc>/articles/hydraulic-vulnerability.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/light-respiration.html</loc>
-  </url>
-  <url>
-    <loc>/articles/light-response.html</loc>
-  </url>
-  <url>
-    <loc>/articles/mesophyll-conductance.html</loc>
-  </url>
-  <url>
-    <loc>/articles/modeling-recommemdations.html</loc>
-  </url>
-  <url>
-    <loc>/articles/modeling-recommendations.html</loc>
-  </url>
-  <url>
-    <loc>/articles/photosynthesis-curve-fitting-sensitivity-analyses.html</loc>
-  </url>
-  <url>
-    <loc>/articles/photosynthesis-introduction.html</loc>
-  </url>
-  <url>
-    <loc>/articles/pressure-volume.html</loc>
-  </url>
-  <url>
-    <loc>/articles/sensitivity-analysis.html</loc>
-  </url>
-  <url>
-    <loc>/articles/stomatal-conductance.html</loc>
-  </url>
-  <url>
-    <loc>/articles/temperature-response.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/A_supply.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CO2_conductance.html</loc>
-  </url>
-  <url>
-    <loc>/reference/FvCB.html</loc>
-  </url>
-  <url>
-    <loc>/reference/J.html</loc>
-  </url>
-  <url>
-    <loc>/reference/analyze_sensitivity.html</loc>
-  </url>
-  <url>
-    <loc>/reference/aq_response.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bake.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bake_par.html</loc>
-  </url>
-  <url>
-    <loc>/reference/baked-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculated-parameters.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_dependencies.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compile_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_sensitivity.html</loc>
-  </url>
-  <url>
-    <loc>/reference/constants.html</loc>
-  </url>
-  <url>
-    <loc>/reference/convert_conductance.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-get_Dx.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-get_Tv.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-get_gr.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-get_ps.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-get_re.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-get_sh.html</loc>
-  </url>
-  <url>
-    <loc>/reference/enviro_par.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fit_PV_curve.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fit_aci_response.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fit_aq_response.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fit_aq_response2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fit_g_mc_variableJ.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fit_gs_model.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fit_hydra_vuln_curve.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fit_many.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fit_photosynthesis.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fit_r_light.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fit_r_light2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fit_t_response.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gs_models.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gw2gc.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/j_calculations.html</loc>
-  </url>
-  <url>
-    <loc>/reference/leaf_par.html</loc>
-  </url>
-  <url>
-    <loc>/reference/make_parameters.html</loc>
-  </url>
-  <url>
-    <loc>/reference/models.html</loc>
-  </url>
-  <url>
-    <loc>/reference/parameter_names.html</loc>
-  </url>
-  <url>
-    <loc>/reference/photo_parameters.html</loc>
-  </url>
-  <url>
-    <loc>/reference/photosynthesis-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/photosynthesis.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ppm2pa.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print_graphs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/read_li6800.html</loc>
-  </url>
-  <url>
-    <loc>/reference/read_licor.html</loc>
-  </url>
-  <url>
-    <loc>/reference/read_licors.html</loc>
-  </url>
-  <url>
-    <loc>/reference/replace_defaults.html</loc>
-  </url>
-  <url>
-    <loc>/reference/required_variables.html</loc>
-  </url>
-  <url>
-    <loc>/reference/simulate_error.html</loc>
-  </url>
-  <url>
-    <loc>/reference/t_functions.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://github.com/cdmuir/photosynthesis/404.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/CONDUCT.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/LICENSE-text.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/LICENSE.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/articles/co2-response.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/articles/hydraulic-vulnerability.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/articles/index.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/articles/light-respiration.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/articles/light-response.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/articles/mesophyll-conductance.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/articles/modeling-recommendations.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/articles/photosynthesis-introduction.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/articles/pressure-volume.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/articles/sensitivity-analysis.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/articles/stomatal-conductance.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/articles/temperature-response.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/authors.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/index.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/news/index.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/A_supply.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/CO2_conductance.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/FvCB.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/J.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/analyze_sensitivity.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/aq_response.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/bake.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/bake_par.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/baked-class.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/calculated-parameters.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/compile_data.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/compute_sensitivity.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/constants.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/enviro_par.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/fit_PV_curve.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/fit_aci_response.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/fit_aq_response.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/fit_aq_response2.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/fit_g_mc_variableJ.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/fit_gs_model.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/fit_hydra_vuln_curve.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/fit_many.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/fit_photosynthesis.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/fit_r_light.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/fit_r_light2.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/fit_t_response.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/gs_models.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/index.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/j_calculations.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/leaf_par.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/make_parameters.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/models.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/parameter_names.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/photo_parameters.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/photosynthesis-package.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/photosynthesis.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/ppm2pa.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/print_graphs.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/read_li6800.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/read_licor.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/required_variables.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/simulate_error.html</loc></url>
+<url><loc>https://github.com/cdmuir/photosynthesis/reference/t_functions.html</loc></url>
 </urlset>
+

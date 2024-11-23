@@ -15,6 +15,8 @@ implement a full Gu-type method whereby mesophyll conductance, Km, and GammaStar
 could all be fit (Gu *et al.* 2010).
 
 ```{r, message = FALSE}
+#| fig.alt: >
+#|   Example of fitted A-Ci curve
 
 library(dplyr)
 library(photosynthesis)
