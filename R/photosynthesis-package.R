@@ -5,7 +5,6 @@
 #' See the README on
 #' [GitHub](https://github.com/cdmuir/photosynthesis)
 #'
-#' @docType _PACKAGE
 #' @name photosynthesis-package
 #' @importFrom ggplot2 ggplot
 #' @importFrom magrittr %>% %<>%
@@ -15,6 +14,8 @@
 #' @importFrom rlang .data
 #' @importFrom stats coef lm optim plogis resid rnorm
 #' @importFrom units as_units drop_units set_units
+#' @keywords internal
+"_PACKAGE"
 NULL
 
 ## quiets concerns of R CMD check re: the .'s that appear in pipelines

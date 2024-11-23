@@ -49,7 +49,7 @@ get_all_models = function(method) {
 #' @param k_sat Light saturated rate of process k
 #' @param phi_J Quantum efficiency of process k
 #' @param theta_J Curvature of the light response
-#' @param b_inb Inhibition parameter
+#' @param b_inh Inhibition parameter
 #' @md
 #' 
 #' @export

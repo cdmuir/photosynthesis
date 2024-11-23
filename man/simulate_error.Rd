@@ -95,7 +95,7 @@ specified in \code{chamber_pars}
 This function was designed with the LI-COR LI6800 instrument in mind, but in
 principle applies to any open path gas exchange system.
 
-[COPT1s9RQDGB1oBWZwTkjoHdaJZ25Uxgtn-5-]: R:COPT1s9RQDGB1oBWZwTkjoHdaJZ25Uxgtn-5-\%5C
+[COtuIs6zz0frWnkahnP1QdJpQKqkuJhmga-5-]: R:COtuIs6zz0frWnkahnP1QdJpQKqkuJhmga-5-\%5C
 }
 \examples{
 library(photosynthesis)

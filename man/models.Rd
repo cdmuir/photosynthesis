@@ -28,7 +28,7 @@ photoinhibition(Q_abs, k_sat, phi_J, theta_J, b_inh)
 
 \item{theta_J}{Curvature of the light response}
 
-\item{b_inb}{Inhibition parameter}
+\item{b_inh}{Inhibition parameter}
 }
 \value{
 A character string with name of model.
