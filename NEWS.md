@@ -1,6 +1,6 @@
 # photosynthesis 2.1.5
 
-* Added `photoinhibition()` to light response models. This allows users to estimate photoinhibitation at high light.
+* Added `photoinhibition()` to light response models. This allows users to estimate photoinhibition at high light.
 
 # photosynthesis 2.1.4
 

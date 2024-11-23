@@ -41,7 +41,7 @@ fit_aci_response(
 
 \item{varnames}{List of variable names. varnames = list(A_net = "A_net",
 T_leaf = "T_leaf", C_i = "C_i", PPFD = "PPFD", g_mc = "g_mc"), where A_net
-is net CO2 assimilation, T_leaf is leaf temperature in Celsius, C_i is
+is net CO2 assimilation, T_leaf is leaf temperature in Kelvin, C_i is
 intercellular CO2 concentration in umol/mol, PPFD is incident irradiance
 in umol m-2 s-1 (note that it is ASSUMED to be absorbed irradiance, so be
 sure to adjust according to light absorbance and PSI/PSII partitioning
