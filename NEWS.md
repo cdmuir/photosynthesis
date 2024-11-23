@@ -1,3 +1,7 @@
+# photosynthesis (development version)
+
+* Added `photoinhibition()` to light response models. This allows users to estimate photoinhibitation at high light.
+
 # photosynthesis 2.1.4
 
 * Removed imports of unexported **tealeaves** functions using `:::` operator

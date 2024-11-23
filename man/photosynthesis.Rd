@@ -113,9 +113,11 @@ A data.frame with the following \code{units} columns \cr
    \eqn{\delta_\mathrm{ias,upper}} \tab \code{delta_ias_upper} \tab effective distance through upper internal airspace \tab um \tab NA \cr
    \eqn{A_\mathrm{mes} / A} \tab \code{A_mes_A} \tab mesophyll surface area per unit leaf area \tab none \tab NA \cr
    \eqn{g_\mathrm{liq,c,25}} \tab \code{g_liqc25} \tab liquid-phase conductance to CO2 (25 °C) \tab mol / m\eqn{^2} / s \tab NA \cr
-   \strong{Baked Inputs:} \tab  \tab  \tab  \tab  \cr
+}
+
+
+\strong{Baked Inputs:}\tabular{lllll}{
    Symbol \tab R \tab Description \tab Units \tab Default \cr
-   :---------------------------- \tab :------------------- \tab :------------------------------------------------------------------- \tab :-------------------- \tab :------- \cr
    \eqn{\Gamma*} \tab \code{gamma_star} \tab chloroplastic CO2 compensation point (T_leaf) \tab umol/mol \tab NA \cr
    \eqn{g_\mathrm{mc}} \tab \code{g_mc} \tab mesophyll conductance to CO2 (T_leaf) \tab mol / m\eqn{^2} / s \tab NA \cr
    \eqn{J_\mathrm{max}} \tab \code{J_max} \tab potential electron transport (T_leaf) \tab umol / m\eqn{^2} / s \tab NA \cr

@@ -92,8 +92,8 @@ fit_aq_response2 = function(
   # Fit AQ response model
   fit = switch(
     .method,
-    ls = fit_aq_response2_ls(.data),
-    brms = fit_aq_response2_brms(.data, brm_options)
+    ls = fit_aq_response2_ls(.data, .model),
+    brms = fit_aq_response2_brms(.data, .model, brm_options)
   )
  
   fit 
@@ -101,13 +101,42 @@ fit_aq_response2 = function(
 }
 
 #' Fit light response using [minpack.lm::nlsLM()]
+#' @inheritParams fit_aq_response2
 #' @noRd
-fit_aq_response2_ls = function(.data, ...) {
+fit_aq_response2_ls = function(.data, .model, ...) {
   
   requireNamespace("minpack.lm") || stop("Package not loaded: minpack.lm")
   
+  do.call(
+    glue::glue("fit_aq_response2_{.model}_ls"),
+    args = list(.data = .data, ...)
+  )
+  
+}
+
+#' Fit light response using [brms::brm()]
+#' @noRd
+fit_aq_response2_brms = function(.data, .model, brm_options, ...) {
+  
+  requireNamespace("brms") || stop("Package not loaded: brms")
+  
+  lifecycle::signal_stage("experimental", what = "fit_aq_response2(.method = 'brms')")
+  
+  do.call(
+    glue::glue("fit_aq_response2_{.model}_brms"),
+    args = list(.data = .data, brm_options = brm_options, ...)
+  )
+  
+}
+
+#' Fit photosynthetic nonrectangular hyperbola light-response curves (Marshall & Biscore 1980) using least-squares methods
+#' @inheritParams fit_aq_response2
+#' @noRd
+
+fit_aq_response2_marshall_biscoe_1980_ls = function(.data, ...) {
+  
   minpack.lm::nlsLM(
-    data = .data, 
+    data = .data,
     .A ~ marshall_biscoe_1980(Q_abs = .data[[".Qabs"]], k_sat, phi_J, theta_J) - Rd,
     # Attempt to estimate starting parameters
     start = get_init_aq_response(.data),
@@ -121,13 +150,10 @@ fit_aq_response2_ls = function(.data, ...) {
   
 }
 
-#' Fit light response using [brms::brm()]
+#' Fit photosynthetic nonrectangular hyperbola light-response curves (Marshall & Biscore 1980) using Bayesian methods
+#' @inheritParams fit_aq_response2
 #' @noRd
-fit_aq_response2_brms = function(.data, brm_options, ...) {
-  
-  requireNamespace("brms") || stop("Package not loaded: brms")
-  
-  lifecycle::signal_stage("experimental", what = "fit_aq_response2(.method = 'brms')")
+fit_aq_response2_marshall_biscoe_1980_brms = function(.data, brm_options, ...) {
   
   do.call(
     brms::brm,
@@ -148,6 +174,63 @@ fit_aq_response2_brms = function(.data, brm_options, ...) {
         data = .data,
         prior = c(
           brms::prior(normal(20, 10), nlpar = "Asat", lb = 0),
+          brms::prior(normal(-2.5, 0.5), nlpar = "logitPhiJ"),
+          brms::prior(normal(2.5, 0.5), nlpar = "logitThetaJ"),
+          brms::prior(normal(2, 1), nlpar = "Rd", lb = 0)
+        )
+      )
+    )
+  )
+  
+}
+
+#' Fit photosynthetic nonrectangular hyperbola light-response curves (Marshall & Biscore 1980) and photoinhibition using least-squares methods
+#' @inheritParams fit_aq_response2
+#' @noRd
+
+fit_aq_response2_photoinhibition_ls = function(.data, ...) {
+  
+  minpack.lm::nlsLM(
+    data = .data,
+    .A ~ photoinhibition(Q_abs = .data[[".Qabs"]], k_sat, phi_J, theta_J, b_inh) - Rd,
+    # Attempt to estimate starting parameters
+    start = c(get_init_aq_response(.data), b_inh = 0),
+    # Set lower limits
+    lower = c(min(.data[[".A"]]), rep(0, 3), -0.1),
+    # set upper limits
+    upper = c(10 * max(abs(.data[[".A"]])), 0.5, 1, max(.data[[".A"]]), 0.1),
+    # set max iterations for curve fitting
+    control = nls.lm.control(maxiter = 100)
+  )
+  
+}
+
+#' Fit photosynthetic nonrectangular hyperbola light-response curves (Marshall & Biscore 1980) and photoinhibition using Bayesian methods
+#' @inheritParams fit_aq_response2
+#' @noRd
+fit_aq_response2_photoinhibition_brms = function(.data, brm_options, ...) {
+  
+  do.call(
+    brms::brm,
+    args = c(
+      brm_options,
+      list(
+        formula = brms::bf(
+          .A ~ ((Asat - bInh * .Qabs + inv_logit(logitPhiJ) * .Qabs) -
+                  sqrt((Asat + inv_logit(logitPhiJ) * .Qabs) ^ 2 -
+                         4 * Asat * inv_logit(logitPhiJ) * .Qabs * inv_logit(logitThetaJ))) /
+            (2 * inv_logit(logitThetaJ)) - Rd,
+          Asat ~ 1,
+          bInh ~ 1,
+          logitPhiJ ~ 1,
+          logitThetaJ ~ 1,
+          Rd ~ 1,
+          nl = TRUE
+        ), 
+        data = .data,
+        prior = c(
+          brms::prior(normal(20, 10), nlpar = "Asat", lb = 0),
+          brms::prior(normal(0, 0.1), nlpar = "bInh"),
           brms::prior(normal(-2.5, 0.5), nlpar = "logitPhiJ"),
           brms::prior(normal(2.5, 0.5), nlpar = "logitThetaJ"),
           brms::prior(normal(2, 1), nlpar = "Rd", lb = 0)

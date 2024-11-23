@@ -133,6 +133,88 @@ summary(fit)
 ```
 
 
+
+### Fit the light-response curve with photoinhibition using nonlinear least-squares (nls)
+
+```{r, message = FALSE}
+
+library(broom)
+library(dplyr)
+library(tibble)
+library(photosynthesis)
+
+# Simulate data
+set.seed(202411123)
+
+## Parameters 
+k_sat = 30
+phi_J = 0.05
+theta_J = 0.8
+Rd = 3
+b_inh = 0.003
+
+## Vector of light values
+Q = c(0, 25, 50, 75, 100, 125, 150, 200, 300, 400, 500, 600, 700, 800, 1000, 1200, 1400, 1600, 1800, 2000)
+
+dat = tibble(
+  Qabs = 0.84 * Q,
+  A = photoinhibition(Qabs, k_sat, phi_J, theta_J, b_inh) - Rd + rnorm(length(Qabs), 0, 0.1)
+)
+
+# Fit one light-response curve
+fit = fit_photosynthesis(
+  .data = dat,
+  .photo_fun = "aq_response",
+  .model = "photoinhibition",
+  .vars = list(.A = A, .Q = Qabs),
+)
+
+# The 'fit' object inherits class 'nls' and many methods can be used
+
+## Model summary:
+summary(fit)
+
+## Estimated parameters:
+coef(fit)
+
+## 95% confidence intervals:
+confint(fit)
+
+## Tidy summary table using 'broom::tidy()'
+tidy(fit, conf.int = TRUE, conf.level = 0.95)
+
+```
+
+## Plot model fit and raw data
+
+```{r}
+
+library(ggplot2)
+
+b = coef(fit)
+
+df_predict = data.frame(Qabs = seq(0, 0.84 * 2000, length.out = 100)) |>
+  mutate(
+    A = photoinhibition(
+      Q_abs = Qabs,
+      k_sat = b["k_sat"],
+      b["phi_J"],
+      b["theta_J"],
+      b["b_inh"]
+    ) - b["Rd"]
+  )
+
+ggplot(mapping = aes(Qabs, A)) +
+  geom_line(data = df_predict) +
+  geom_point(data = dat) +
+  labs(
+    x = expression("Irradiance (" * mu * mol ~ m^{-2} ~ s^{-1} * ")"),
+    y = expression(A[net] ~ "(" * mu * mol ~ m^{-2} ~ s^{-1} * ")")
+  ) +
+  theme_bw()
+
+```
+
 ## Deprecated version (**photosynthesis** <= 2.1.1)
 
 The `fit_aq_response()` function is the original version, but we are no longer updating it and may phase it out of future releases. Use `fit_photosynthesisi(..., .photo_fun = 'aq_response')` instead.

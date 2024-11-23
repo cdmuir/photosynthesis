@@ -4,6 +4,7 @@
 \alias{get_default_model}
 \alias{get_all_models}
 \alias{marshall_biscoe_1980}
+\alias{photoinhibition}
 \title{Get default model}
 \usage{
 get_default_model(.photo_fun)
@@ -11,6 +12,8 @@ get_default_model(.photo_fun)
 get_all_models(method)
 
 marshall_biscoe_1980(Q_abs, k_sat, phi_J, theta_J)
+
+photoinhibition(Q_abs, k_sat, phi_J, theta_J, b_inh)
 }
 \arguments{
 \item{.photo_fun}{A character string of \strong{photosynthesis} function to call. One of: \verb{aq_response, r_light}.}
@@ -24,6 +27,8 @@ marshall_biscoe_1980(Q_abs, k_sat, phi_J, theta_J)
 \item{phi_J}{Quantum efficiency of process k}
 
 \item{theta_J}{Curvature of the light response}
+
+\item{b_inb}{Inhibition parameter}
 }
 \value{
 A character string with name of model.
@@ -36,6 +41,7 @@ Get the name of the default model used for different plant ecophysiological data
 \strong{Light response models:}
 \itemize{
 \item \code{marshall_biscoe_1980()}: Non-rectangular hyperbolic model of light responses
+\item \code{photoinhibition()}: Non-rectangular hyperbolic model of light responses with photoinhibition of \code{k_sat} at increasing Q_abs
 }
 }
 \examples{

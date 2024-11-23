@@ -57,3 +57,28 @@ test_that(".vars argument renames variables", {
   expect_equal(coef(f3), coef(f4))
   
 })
+
+df1 = data.frame(
+  .A = c(10, 9.5, 8, 3.5, 2.5, 2.0, 1, 0.2),
+  .Q = c(1500, 750, 375, 125, 100, 75, 50, 25)
+)
+
+fit = fit_photosynthesis(
+  .data = df1,
+  .photo_fun = "aq_response",
+  .model = "marshall_biscoe_1980"
+)
+
+test_that("marshall_biscoe_1980 output", {
+  expect_is(object = fit, class = "nls")
+})
+
+fit = fit_photosynthesis(
+  .data = df1,
+  .photo_fun = "aq_response",
+  .model = "photoinhibition"
+)
+
+test_that("photoinhibition output", {
+  expect_is(object = fit, class = "nls")
+})

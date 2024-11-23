@@ -5,7 +5,7 @@
 #' See the README on
 #' [GitHub](https://github.com/cdmuir/photosynthesis)
 #'
-#' @docType package
+#' @docType _PACKAGE
 #' @name photosynthesis-package
 #' @importFrom ggplot2 ggplot
 #' @importFrom magrittr %>% %<>%

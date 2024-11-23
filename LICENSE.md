@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright (c) 2023 Joseph R. Stinziano, Cassaundra Roback, Demi Gamble, Bridget Murphy, Patrick Hudson, & Christopher D. Muir
+Copyright (c) 2024 Joseph R. Stinziano, Cassaundra Roback, Demi Gamble, Bridget Murphy, Patrick Hudson, & Christopher D. Muir
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

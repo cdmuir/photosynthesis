@@ -33,7 +33,7 @@ get_all_models = function(method) {
   match.arg(method, get_function_types())
   switch(
     method,
-    aq_response = "marshall_biscoe_1980",
+    aq_response = c("marshall_biscoe_1980", "photoinhibition"),
     r_light = c("kok_1956", "walker_ort_2015", "yin_etal_2011")
   )
 }
@@ -43,12 +43,13 @@ get_all_models = function(method) {
 #' **Light response models:**
 #' 
 #' * `marshall_biscoe_1980()`: Non-rectangular hyperbolic model of light responses
+#' * `photoinhibition()`: Non-rectangular hyperbolic model of light responses with photoinhibition of `k_sat` at increasing Q_abs
 #'
 #' @param Q_abs Absorbed light intensity (\eqn{\mu}mol m\eqn{^{-2}} s\eqn{^{-1}})
 #' @param k_sat Light saturated rate of process k
 #' @param phi_J Quantum efficiency of process k
 #' @param theta_J Curvature of the light response
-#' 
+#' @param b_inb Inhibition parameter
 #' @md
 #' 
 #' @export
@@ -58,6 +59,13 @@ marshall_biscoe_1980 = function(Q_abs, k_sat, phi_J, theta_J) {
      sqrt((k_sat + phi_J * Q_abs) ^ 2 - 4 * k_sat * phi_J * Q_abs * theta_J)) / 
   (2 * theta_J)
 
+}
+
+#' @rdname models
+#' @export
+photoinhibition = function(Q_abs, k_sat, phi_J, theta_J, b_inh) {
+  k_sat1 = k_sat - b_inh * Q_abs
+  marshall_biscoe_1980(Q_abs, k_sat1, phi_J, theta_J) 
 }
 
 #' Variables required for **photosynthesis** models
@@ -80,6 +88,7 @@ required_variables = function(.model, quiet) {
     .model,
     kok_1956 = all_vars[c(".A", ".Q")],
     marshall_biscoe_1980 = all_vars[c(".A", ".Q")],
+    photoinhibition = all_vars[c(".A", ".Q")],
     walker_ort_2015 = all_vars[c(".A", ".C", ".Q")],
     yin_etal_2011 = all_vars[c(".A", ".phiPSII", ".Q")]
   ) 
