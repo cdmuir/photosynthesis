@@ -1,5 +1,6 @@
 ## Summary of new changes
 
+* Fixed broken URL in NEWS.md
 * Added `photoinhibition()` to light response models. This allows users to estimate photoinhibition at high light.
 
 ## Test environments
