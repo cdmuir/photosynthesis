@@ -44,7 +44,7 @@ check_for_legacy_gunit = function(pars) {
   
   xx = pars |>
     purrr::map(units) |>
-    purrr::map_lgl(units::ud_are_convertible, y = "umol / m^2 / s / Pa") |>
+    purrr::map_lgl(units::ud_are_convertible, "umol / m^2 / s / Pa") |>
     any()
   
     if (xx) {
